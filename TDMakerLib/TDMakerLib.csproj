@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6023302C-5D3C-494A-B7D1-95A0BED8CA22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TDMakerLib</RootNamespace>
+    <AssemblyName>TDMakerLib</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MonoTorrent, Version=0.70.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\MonoTorrent.dll</HintPath>
+    </Reference>
+    <Reference Include="Starksoft.Net.Ftp, Version=1.0.140.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Starksoft.Net.Ftp.dll</HintPath>
+    </Reference>
+    <Reference Include="Starksoft.Net.Proxy, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Starksoft.Net.Proxy.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="taglib-sharp, Version=2.0.3.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\taglib-sharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Crypt.cs" />
+    <Compile Include="FileSystemHelper.cs" />
+    <Compile Include="Forms\ConfigWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConfigWizard.designer.cs">
+      <DependentUpon>ConfigWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MediaWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MediaWizard.Designer.cs">
+      <DependentUpon>MediaWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Global\Adapter.cs" />
+    <Compile Include="Helpers\FontDialogEditor.cs" />
+    <Compile Include="Helpers\ColorDialogEditor.cs" />
+    <Compile Include="Helpers\ExeFileNameEditor.cs" />
+    <Compile Include="Global\Enums.cs" />
+    <Compile Include="Helpers\AppSettings.cs" />
+    <Compile Include="Global\Extensions.cs" />
+    <Compile Include="Global\FileSystem.cs" />
+    <Compile Include="Helpers\AppInfo.cs" />
+    <Compile Include="Helpers\BbCode.cs" />
+    <Compile Include="Helpers\Options.cs" />
+    <Compile Include="Helpers\Structs.cs" />
+    <Compile Include="Helpers\TorrentPacket.cs" />
+    <Compile Include="Helpers\WorkerTask.cs" />
+    <Compile Include="Helpers\XMLSettings.cs" />
+    <Compile Include="Helpers\XMLSettingsMtnProfiles.cs" />
+    <Compile Include="Helpers\ImageFile.cs" />
+    <Compile Include="Kernel32Helper.cs" />
+    <Compile Include="Helpers\MediaHelper.cs" />
+    <Compile Include="MediaInfo\MediaFile.cs" />
+    <Compile Include="MediaInfo\MediaInfo2.cs" />
+    <Compile Include="MediaInfo\MediaInfoDLL.cs" />
+    <Compile Include="MediaInfo\NfoReport.cs" />
+    <Compile Include="MediaInfo\Screenshot.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="PtpImgUploader.cs" />
+    <Compile Include="Thumbnailers\MPlayerThumbnailer.cs" />
+    <Compile Include="Thumbnailers\MovieThumbNailer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\XMLSettingsScreenshot.cs" />
+    <Compile Include="Helpers\XMLSettingsCore.cs" />
+    <Compile Include="Helpers\TDMKeys.cs" />
+    <Compile Include="Templates\TemplateItem.cs" />
+    <Compile Include="Templates\MappingHelper.cs" />
+    <Compile Include="Templates\TemplateReader2.cs" />
+    <Compile Include="Thumbnailers\Thumbnailer.cs" />
+    <Compile Include="Torrents\TorrentInfoMgr.cs" />
+    <Compile Include="Torrents\HttpWebMultipartRequest.cs" />
+    <Compile Include="Torrents\TorrentInfo.cs" />
+    <Compile Include="Torrents\TorrentUploader.cs" />
+    <Compile Include="Torrents\Tracker.cs" />
+    <Compile Include="Torrents\TrackerManager.cs" />
+    <Compile Include="Torrents\XMLTorrentUpload.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\ConfigWizard.resx">
+      <DependentUpon>ConfigWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Default\Disc.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Default\DiscAudioInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Default\DiscVideoInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Default\File.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Default\FileAudioInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Default\FileVideoInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Default\GeneralInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Minimal\Disc.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Minimal\DiscAudioInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Minimal\DiscVideoInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Minimal\File.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Minimal\FileAudioInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Minimal\FileVideoInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\Minimal\GeneralInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\MTN\Disc.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\MTN\DiscAudioInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\MTN\DiscVideoInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\MTN\File.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\MTN\FileAudioInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\MTN\FileVideoInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Templates\MTN\GeneralInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Forms\MediaWizard.resx">
+      <DependentUpon>MediaWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VersionHistory.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Templates\MediaInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Users\Mike\Documents\GitHub\ShareX\HelpersLib\HelpersLib.csproj">
+      <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
+      <Name>HelpersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Users\Mike\Documents\GitHub\ShareX\UploadersLib\UploadersLib.csproj">
+      <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>
+      <Name>UploadersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\BDInfo\BDInfo\BDInfo.csproj">
+      <Project>{3209af1d-4762-4960-9de5-13e90e77ee96}</Project>
+      <Name>BDInfo</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

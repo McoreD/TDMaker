@@ -1,0 +1,161 @@
+Version 3.1 - 
+ 
+* Integrated BDInfo to provide media info on Blu-ray discs
+
+Version 3.0 - 2013-01-25
+
+* MediaInfo has a Quick Options toggle to show/hide Detailed View
+* Added support for PtpImg, Picasa and UploadScreenshot
+* Default description changed to MediaInfo
+* Core changes to add png support using MPlayer with options to combine multiple screenshots
+* Opening a file with TDMaker in Explorer will load the file [Issue 18]
+* Revised GUI with the latest UploadersLib.dll from ShareX
+
+Version 2.0 - 20100115
+
+2.00.2.0 Templates can use any MediaInfo field that is available for the analyzed media [tampad]
+2.00.1.1 MTN parameter t_TimeStampOff was working in reverse logic [tampad]
+2.00.1.0 Source input is not mandatory when the description is based on MediaInfo [tampad]
+2.00.0.1 Screenshots were not uploaded when location was set to Known Folder [Issue 8]
+2.00.0.0 Core changes to create TDMaker Command Line Interface
+1.21.0.0 Support for processing music audio album folders
+1.20.0.0 Create an XML file for upload pages on some trackers
+1.19.5.0 Option to include MediaInfo information in Publish instead of templates [notatoad]
+1.19.4.0 Support for %EncodedDate% and %Video_DisplayAspectRatio% syntax [coj]
+1.19.3.0 Source input is now mandatory [fopkins]
+1.19.2.0 Support for %EncodedApplication% and %Video_EncodedLibrarySettings% syntax [coj]
+1.19.1.0 Screenshots location is now customizable to save screenshots in the same folder as the media file
+1.19.0.0 Option to show Media Wizard to simplify tasks
+1.18.0.0 Portable mode when there is a "TDMaker" folder in the startup directory [Transmition]
+1.17.0.0 Support for media file collections to publish as a list [Lam3rD]
+1.16.1.0 Improved GUI in Screenshots and Publish tabs for processing multiple files and folders
+1.16.0.0 Added proxy support under Options tab
+1.15.0.0 Support for multiple MTN profiles
+1.14.0.0 Tracker Groups enable creation of multiple torrents of the same file for multiple trackers [issue 4]
+1.13.0.0 MTN Screenshot preview for multiple files under Screenshots tab
+1.12.1.0 Tweak 1.7.1.00 was removed due to API changes and in favor of other image uploaders
+1.12.0.0 Using ZScreen UploadersLib.dll to support ImageShack, TinyPic, ImageBin and Imgur hosting services
+1.11.0.0 Option to prefer known folders for Settings and Data [Issue 2]
+1.10.0.2 Fixed errors while uploading to TinyPic
+
+Version 1.10 - 20090216
+
+1.10.0.1 Options set in MTN tab were not remembered [Tegan, Chucky]
+1.10.0.0 Added experimental support to upload screenshots to xs.to
+1.09.2.0 Introduced a Menu System to perform tasks more effectively
+1.09.1.0 Two new radioButtons to enable/disable built-in template preview
+
+Version 1.9.0 - 20090126
+
+1.9.00.0 Revamped MTN Configuration supporting more options
+1.8.12.0 Included Logo support [Queo] TDMaker will load an existing logo.png in the application directory
+1.8.11.0 Added limited support for Unix via Mono: http://code.google.com/p/tdmaker/wiki/UsingMono#Getting_Started
+1.8.10.0 Automatically determine DVD-5 or DVD-9 if source is set to DVD
+1.8.09.0 Added ability to override Title for single media files [memories]
+
+Version 1.8.8 - 20090120
+
+1.8.8.0 Added %NewLine% syntax for creating a new line
+1.8.7.0 Support for quickly changing Templates without having to reupload screenshots
+1.8.6.2 Added missing %Audio_BitrateMode% for external templates [memories]
+1.8.6.1 Screenshots were not uploaded when screenshots were not saved to Pictures\MTN [memories]
+1.8.6.0 Support ImageShack (Legacy Method) for systems that failed uploading screenshots
+
+Version 1.8.5 - 20090119
+
+1.8.5.01 When -P was not used in MTN arguments, TDMaker waited indefinitely until mtn.exe terminated
+1.8.5.00 Extended support for using ImageShack Registration Code to store images in your own account
+1.8.4.00 Option to show MTN Window for debugging purposes. Remove argument -P to prevent mtn.exe from quitting
+1.8.3.02 Recommended writing publish info to file even for one file [memories]
+1.8.3.01 Value cannot be null error while adding screenshot to ListBox [Queo]
+1.8.3.00 Option to rewrite old copies of TDMaker created Templates
+1.8.2.02 Exposed missing syntax %Video_Codec% for external Templates [sleepyb]
+1.8.2.01 Crashed for Access Denied error when deleting temporary screenshots [sleepyb]
+1.8.2.00 Screenshots of multiple files or folders analyzed as part of a batch will be in the Screenshots ListBox
+1.8.1.03 Object reference not set to an instance of an object error when using Create Torrent button
+1.8.1.02 Source was not excluded for built-in template if Source was not selected
+1.8.1.01 Randomize Filename checkBox was not disabled if ImageShack is not selected [Lam3rD]
+1.8.1.00 Include percentage of progress next to Progress Bar
+
+Version 1.8 - 20090118
+
+1.8.0.00 Added debugging to File facilities
+1.7.2.00 Use of ListBox for multiple files instead of a TextBox
+1.7.1.02 Create torrents in a sequence to prevent HDD thrashing
+1.7.1.01 Object reference not set to an instance of an object error for Empty folders [tacoking]
+
+Version 1.7 - 20090117
+
+1.7.1.00 Option to Randomize File Name for screenshots uploaded to ImageShack [Tegan]
+1.7.0.00 Added support to upload screenshots to TinyPic. Need .NET Framework 3.5
+1.6.2.00 Faster uploading to ImageShack using updated version of ImageUploader.dll
+1.6.1.00 Support for new syntaxes: %ScreenshotFull% and %ScreenshotForums% [memories]
+
+Version 1.6 - 20090117
+
+1.6.0.00 Added Automatic Update Checker [tacoking]
+1.5.2.00 Take screenshots using MTN and save in local hard drive without having to upload [Vaare]
+1.5.1.00 Added shortcuts to Torrents and Screenshot folders in Context Menu
+1.5.0.07 Quick Publish checkBoxes always returned PublishString of built-in template [Protech]
+1.5.0.06 Use Full Picture instead of Thumbnail checkBox was not accessible if External Templates were used
+1.5.0.05 Removed file filter when browsing for video files to handle all files [Vaare]
+
+Version 1.5 - 20090114
+
+1.5.0.04 Fixed incorrect syntax %Audio_%Format% to %Audio_Format%
+1.5.0.03 Internal Template was used on the first run disregarding external template choice [sleepyb]
+1.5.0.02 Last used Template was not remembered [surround]
+1.5.0.01 Screenshot was not appended into Publish when used Templates [sleepyb]
+
+1.5.00.0 Added Template Support: http://code.google.com/p/tdmaker/wiki/Templates
+1.4.00.1 Torrent file name was the same for identical file names in the same folder but different file formats 
+1.4.00.0 Added support to select multiple files for batch creation [surround]
+1.3.02.2 Menu, Authoring and Extras information of a Disc did not inherit Font Styles
+1.3.02.1 The screenshot MTN created, was deleted regardless of the setting
+1.3.02.0 Added ability to process any media that MediaInfo supports
+1.3.01.2 Crashed when a particular media file extention was not handled [surround]
+
+Version 1.3 - 20090112
+
+1.3.01.1 TDMaker will no longer detect a folder with multiple VOB files as a DVD
+1.3.01.0 Extended Publish info to include Menu modes [Lam3rD]
+1.3.00.1 MTN.exe crashed sometimes while parsing last VOB file
+1.3.00.0 Option to Write Publish information of the Torrent to File [Lam3rD]
+1.2.04.0 Extended Publish info to include Authoring and Extras modes [Lam3rD]
+1.2.03.0 Publish info can be instantly modified according to Publish options [Protech]
+1.2.02.0 Support for publishing MediaInfo for each ripped movie file [Queo]
+
+Version 1.2 - 20090110
+
+1.2.01.2 Saving torrents to Custom folder setting still saved in default folder [tacoking] 
+1.2.01.1 TDMaker crashed with 32-bit MediaInfo.dll under Windows x64 [tacoking]
+1.2.01.0 Extended description to include Bits-(Pixel*Frame) [davidonato]
+1.2.00.0 Added support for creating Torrents using MonoTorrent
+1.1.13.0 Show Encoded_Library instead of Codec/ID for MKV files
+1.1.12.1 Accurate file size for DVDs browsed as a folder
+1.1.12.0 Extended description to include WebLink field in Media Properties
+1.1.11.0 Option to disable processing media immediately after loading file or folder
+1.1.10.0 Ability to browse for DVD folder with better accuracy for Duration and Subtitles
+1.1.09.2 Stream count for subtitles was incorrect
+
+Version 1.1 - 20090105
+
+1.1.09.1 Subtitles field value was sometimes blank for Music Video VOB files
+1.1.09.0 Publish info is now not user editable for minor changes [Protech]
+1.1.08.0 Option to disable keeping screenshots Pictures\MTN [Protech]
+1.1.07.0 Extended description to include Source [Protech]
+1.1.06.0 Added support for optionally using pre text and ability to change font sizes [MiXiT]
+1.1.05.3 General body did not have the font size set [Protech]
+1.1.05.2 Retrying uploading to ImageShack did not work as expected [Protech]
+1.1.05.1 Using unblairwitched-mtn2.45 to handle VOB files properly
+1.1.05.0 Media Info tab shows Media Info from Complete parameter
+1.1.04.0 Option to disable Align Center [Rodix]
+1.1.03.0 Option to disable ImageShack and choose between Full Image and Forum Thumbnail [nnnnnn]
+1.1.02.0 General, Video and Audio headings are in bold [cirrhosis]
+1.1.01.1 Missed pre tags to Movie Info
+1.1.01.0 Extended description to include Subtitles and Frame Rate info [cirrhosis]
+1.1.00.0 Added MediaInfo integration
+
+Version 1.0 - 20081231
+
+1.0.00.0 Initial Release to publish screenshots using MTN to ImageShack
