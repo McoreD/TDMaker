@@ -123,11 +123,11 @@
     <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Users\Mike\Documents\GitHub\ShareX\HelpersLib\HelpersLib.csproj">
+    <ProjectReference Include="..\..\ShareX\HelpersLib\HelpersLib.csproj">
       <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Users\Mike\Documents\GitHub\ShareX\UploadersLib\UploadersLib.csproj">
+    <ProjectReference Include="..\..\ShareX\UploadersLib\UploadersLib.csproj">
       <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>
       <Name>UploadersLib</Name>
     </ProjectReference>

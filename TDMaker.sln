@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDMakerCLI", "TDMakerCLI\TD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6BE683EA-1576-4D09-AF6A-25B67EC58112}"
 	ProjectSection(SolutionItems) = preProject
-		TDMaker Setup 2011.iss = TDMaker Setup 2011.iss
+		TDMaker Setup.iss = TDMaker Setup.iss
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9ABF3833-4B74-40C1-886D-9C1C0FF9ED4B}"
@@ -50,9 +50,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9ABF3833
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDInfo", "Lib\BDInfo\BDInfo\BDInfo.csproj", "{3209AF1D-4762-4960-9DE5-13E90E77EE96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLib", "..\..\..\Users\Mike\Documents\GitHub\ShareX\HelpersLib\HelpersLib.csproj", "{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpersLib", "..\..\..\Documents\GitHub\ShareX\HelpersLib\HelpersLib.csproj", "{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadersLib", "..\..\..\Users\Mike\Documents\GitHub\ShareX\UploadersLib\UploadersLib.csproj", "{E1C94415-3424-4517-A2A1-B2FDD1F59C67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadersLib", "..\..\..\Documents\GitHub\ShareX\UploadersLib\UploadersLib.csproj", "{E1C94415-3424-4517-A2A1-B2FDD1F59C67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
