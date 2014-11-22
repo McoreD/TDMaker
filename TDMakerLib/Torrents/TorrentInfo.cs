@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using UploadersLib;
 using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
-using UploadersLib.URLShorteners;
 
 namespace TDMakerLib
 {
@@ -207,11 +206,19 @@ namespace TDMakerLib
                                 Program.UploadersConfig.ImgurOAuth2Info = new OAuth2Info(APIKeys.ImgurClientID, APIKeys.ImgurClientSecret);
                             }
 
+                            string albumID = null;
+
+                            if (Program.UploadersConfig.ImgurUploadSelectedAlbum && Program.UploadersConfig.ImgurSelectedAlbum != null)
+                            {
+                                albumID = Program.UploadersConfig.ImgurSelectedAlbum.id;
+                            }
+
                             imageUploader = new Imgur_v3(Program.UploadersConfig.ImgurOAuth2Info)
                             {
                                 UploadMethod = Program.UploadersConfig.ImgurAccountType,
+                                DirectLink = Program.UploadersConfig.ImgurDirectLink,
                                 ThumbnailType = Program.UploadersConfig.ImgurThumbnailType,
-                                UploadAlbumID = Program.UploadersConfig.ImgurAlbumID
+                                UploadAlbumID = albumID
                             };
                             break;
 
@@ -229,35 +236,27 @@ namespace TDMakerLib
                                 AlbumID = Program.UploadersConfig.PicasaAlbumID
                             };
                             break;
-
-                        case ImageDestination.Twitpic:
-                            int indexTwitpic = Program.UploadersConfig.TwitterSelectedAccount;
-
-                            if (Program.UploadersConfig.TwitterOAuthInfoList != null && Program.UploadersConfig.TwitterOAuthInfoList.IsValidIndex(indexTwitpic))
-                            {
-                                imageUploader = new TwitPicUploader(APIKeys.TwitPicKey, Program.UploadersConfig.TwitterOAuthInfoList[indexTwitpic])
-                                {
-                                    TwitPicThumbnailMode = Program.UploadersConfig.TwitPicThumbnailMode,
-                                    ShowFull = Program.UploadersConfig.TwitPicShowFull
-                                };
-                            }
+                        case ImageDestination.Twitter:
+                            OAuthInfo twitterOAuth = Program.UploadersConfig.TwitterOAuthInfoList.ReturnIfValidIndex(Program.UploadersConfig.TwitterSelectedAccount);
+                            imageUploader = new Twitter(twitterOAuth);
                             break;
-
-                        case ImageDestination.Twitsnaps:
-                            int indexTwitsnaps = Program.UploadersConfig.TwitterSelectedAccount;
-
-                            if (Program.UploadersConfig.TwitterOAuthInfoList.IsValidIndex(indexTwitsnaps))
+                        case ImageDestination.Chevereto:
+                            imageUploader = new Chevereto(Program.UploadersConfig.CheveretoWebsite, Program.UploadersConfig.CheveretoAPIKey)
                             {
-                                imageUploader = new TwitSnapsUploader(APIKeys.TwitsnapsKey, Program.UploadersConfig.TwitterOAuthInfoList[indexTwitsnaps]);
-                            }
+                                DirectURL = Program.UploadersConfig.CheveretoDirectURL
+                            };
                             break;
-
-                        case ImageDestination.yFrog:
-                            YfrogOptions yFrogOptions = new YfrogOptions(APIKeys.ImageShackKey);
-                            yFrogOptions.Username = Program.UploadersConfig.YFrogUsername;
-                            yFrogOptions.Password = Program.UploadersConfig.YFrogPassword;
-                            yFrogOptions.Source = Application.ProductName;
-                            imageUploader = new YfrogUploader(yFrogOptions);
+                        case ImageDestination.HizliResim:
+                            imageUploader = new HizliResim()
+                            {
+                                DirectURL = true
+                            };
+                            break;
+                        case ImageDestination.CustomImageUploader:
+                            if (Program.UploadersConfig.CustomUploadersList.IsValidIndex(Program.UploadersConfig.CustomImageUploaderSelected))
+                            {
+                                imageUploader = new CustomImageUploader(Program.UploadersConfig.CustomUploadersList[Program.UploadersConfig.CustomImageUploaderSelected]);
+                            }
                             break;
                     }
                 }

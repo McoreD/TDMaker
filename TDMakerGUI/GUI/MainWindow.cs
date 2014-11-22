@@ -133,7 +133,7 @@ namespace TDMaker
                     }
                     else
                     {
-                        Helpers.OpenURL("http://code.google.com/p/mplayer-for-windows/downloads/list");
+                        URLHelpers.OpenURL("http://code.google.com/p/mplayer-for-windows/downloads/list");
                     }
                 }
             }

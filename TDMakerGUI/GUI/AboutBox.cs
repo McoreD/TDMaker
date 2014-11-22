@@ -123,18 +123,16 @@ namespace TDMaker
             CheckUpdate();
         }
 
-        public UpdateChecker CheckUpdate()
+        public static UpdateChecker CheckUpdate()
         {
-            UpdateChecker updateChecker = new GitHubUpdateChecker("ShareX", "ShareX");
-            updateChecker.CurrentVersion = ProgramUI.AssemblyVersion;
+            UpdateChecker updateChecker = new GitHubUpdateChecker("McoreD", "TDMaker");
             updateChecker.Proxy = ProxyInfo.Current.GetWebProxy();
             updateChecker.CheckUpdate();
 
             // Fallback if GitHub API fails
-            if (updateChecker.UpdateInfo == null || updateChecker.UpdateInfo.Status == UpdateStatus.UpdateCheckFailed)
+            if (updateChecker.Status == UpdateStatus.None || updateChecker.Status == UpdateStatus.UpdateCheckFailed)
             {
-                updateChecker = new XMLUpdateChecker("http://getsharex.com/Update.xml", "ShareX");
-                updateChecker.CurrentVersion = ProgramUI.AssemblyVersion;
+                updateChecker = new XMLUpdateChecker("https://raw.githubusercontent.com/McoreD/TDMaker/master/Update.xml", "TDMaker");
                 updateChecker.Proxy = ProxyInfo.Current.GetWebProxy();
                 updateChecker.CheckUpdate();
             }
