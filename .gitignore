@@ -201,6 +201,7 @@ develop-eggs/
 .installed.cfg
 
 # Installer logs
+Output
 pip-log.txt
 
 # Unit test / coverage reports
