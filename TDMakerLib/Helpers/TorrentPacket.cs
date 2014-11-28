@@ -83,7 +83,7 @@ namespace TDMakerLib
                         tc.Private = true;
                         tc.Comment = MediaHelper.GetMediaName(p);
                         tc.Path = p;
-                        tc.PublisherUrl = "http://code.google.com/p/tdmaker";
+                        tc.PublisherUrl = "https://github.com/McoreD/TDMaker";
                         tc.Publisher = Application.ProductName;
                         tc.StoreMD5 = true;
                         List<string> temp = new List<string>();
@@ -94,6 +94,7 @@ namespace TDMakerLib
                         this.SetTorrentFilePath(torrentFileName);
 
                         ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
+                        HelpersLib.Helpers.CreateDirectoryIfNotExist(this.TorrentFilePath);
                         tc.Create(this.TorrentFilePath);
                         ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Created {0}", this.TorrentFilePath));
                     }

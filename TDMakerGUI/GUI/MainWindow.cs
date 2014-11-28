@@ -125,7 +125,8 @@ namespace TDMaker
                 {
                     OpenFileDialog dlg = new OpenFileDialog();
                     dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                    dlg.Title = "Browse for mplayer.exe or download from http://code.google.com/p/mplayer-for-windows/downloads/list";
+                    string mplayer = "http://mplayerwin.sourceforge.net/downloads.html";
+                    dlg.Title = "Browse for mplayer.exe or download from " + mplayer;
                     dlg.Filter = "Applications (mplayer.exe)|mplayer.exe";
                     if (dlg.ShowDialog() == DialogResult.OK)
                     {
@@ -133,7 +134,7 @@ namespace TDMaker
                     }
                     else
                     {
-                        URLHelpers.OpenURL("http://code.google.com/p/mplayer-for-windows/downloads/list");
+                        URLHelpers.OpenURL(mplayer);
                     }
                 }
             }

@@ -11,7 +11,7 @@ namespace TDMaker
 {
     public partial class AboutBox : Form
     {
-        public const string URL_UPDATE = "http://tdmaker.googlecode.com/svn/trunk/Update.xml";
+        public const string URL_UPDATE = "https://raw.githubusercontent.com/McoreD/TDMaker/master/Update.xml";
 
         public AboutBox()
         {
@@ -134,7 +134,7 @@ namespace TDMaker
             // Fallback if GitHub API fails
             if (updateChecker.Status == UpdateStatus.None || updateChecker.Status == UpdateStatus.UpdateCheckFailed)
             {
-                updateChecker = new XMLUpdateChecker("https://raw.githubusercontent.com/McoreD/TDMaker/master/Update.xml", "TDMaker");
+                updateChecker = new XMLUpdateChecker(URL_UPDATE, "TDMaker");
                 updateChecker.Proxy = ProxyInfo.Current.GetWebProxy();
                 updateChecker.CheckUpdate();
             }
