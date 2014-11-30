@@ -1663,6 +1663,11 @@ namespace TDMaker
         private void lbTrackerGroups_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int sel = lbTrackerGroups.IndexFromPoint(e.X, e.Y);
+            UpdateTrackerGroup(sel);
+        }
+
+        private void UpdateTrackerGroup(int sel)
+        {
             TrackerGroup tg = lbTrackerGroups.Items[sel] as TrackerGroup;
             if (tg != null)
             {
@@ -1886,6 +1891,13 @@ namespace TDMaker
         private void cboImageFileUploader_SelectedIndexChanged(object sender, EventArgs e)
         {
             Program.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
+        }
+
+        private void btnUpdateGroup_Click(object sender, EventArgs e)
+        {
+            int sel = lbTrackerGroups.SelectedIndex;
+            if (sel > -1)
+                UpdateTrackerGroup(sel);
         }
     }
 }

@@ -113,7 +113,7 @@ namespace TDMaker
             this.tlpScreenshots = new System.Windows.Forms.TableLayoutPanel();
             this.lbScreenshots = new System.Windows.Forms.ListBox();
             this.tlpScreenshotProps = new System.Windows.Forms.TableLayoutPanel();
-            this.pbScreenshot = new MyPictureBox();
+            this.pbScreenshot = new HelpersLib.MyPictureBox();
             this.pgScreenshot = new System.Windows.Forms.PropertyGrid();
             this.tpPublish = new System.Windows.Forms.TabPage();
             this.tlpPublish = new System.Windows.Forms.TableLayoutPanel();
@@ -130,9 +130,10 @@ namespace TDMaker
             this.tcThumbnailers = new System.Windows.Forms.TabControl();
             this.tpThumbnailersGeneral = new System.Windows.Forms.TabPage();
             this.gbUploadScreenshots = new System.Windows.Forms.GroupBox();
-            this.chkScreenshotUpload = new System.Windows.Forms.CheckBox();
-            this.cboImageUploader = new System.Windows.Forms.ComboBox();
+            this.cboFileUploader = new System.Windows.Forms.ComboBox();
             this.btnUploadersConfig = new System.Windows.Forms.Button();
+            this.cboImageUploader = new System.Windows.Forms.ComboBox();
+            this.chkScreenshotUpload = new System.Windows.Forms.CheckBox();
             this.gbThumbnailer = new System.Windows.Forms.GroupBox();
             this.cboThumbnailer = new System.Windows.Forms.ComboBox();
             this.gbScreenshotsLoc = new System.Windows.Forms.GroupBox();
@@ -202,7 +203,7 @@ namespace TDMaker
             this.rtbDebugLog = new System.Windows.Forms.RichTextBox();
             this.tpAdvanced = new System.Windows.Forms.TabPage();
             this.pgApp = new System.Windows.Forms.PropertyGrid();
-            this.cboFileUploader = new System.Windows.Forms.ComboBox();
+            this.btnUpdateGroup = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.cmsApp.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -952,7 +953,7 @@ namespace TDMaker
             this.tlpMediaInfo.ColumnCount = 3;
             this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 102F));
+            this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 103F));
             this.tlpMediaInfo.Controls.Add(this.lbMediaInfo, 0, 0);
             this.tlpMediaInfo.Controls.Add(this.txtMediaInfo, 1, 0);
             this.tlpMediaInfo.Controls.Add(this.gbMediaInfoQuickOptions, 2, 0);
@@ -1069,6 +1070,7 @@ namespace TDMaker
             // 
             // pbScreenshot
             // 
+            this.pbScreenshot.BackColor = System.Drawing.Color.White;
             this.pbScreenshot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pbScreenshot.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pbScreenshot.Location = new System.Drawing.Point(3, 3);
@@ -1105,7 +1107,7 @@ namespace TDMaker
             this.tlpPublish.ColumnCount = 3;
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.00001F));
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.99999F));
-            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 147F));
+            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 148F));
             this.tlpPublish.Controls.Add(this.gbQuickPublish, 2, 0);
             this.tlpPublish.Controls.Add(this.txtPublish, 1, 0);
             this.tlpPublish.Controls.Add(this.lbPublish, 0, 0);
@@ -1121,9 +1123,9 @@ namespace TDMaker
             // 
             this.gbQuickPublish.Controls.Add(this.flpPublishConfig);
             this.gbQuickPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuickPublish.Location = new System.Drawing.Point(723, 3);
+            this.gbQuickPublish.Location = new System.Drawing.Point(722, 3);
             this.gbQuickPublish.Name = "gbQuickPublish";
-            this.gbQuickPublish.Size = new System.Drawing.Size(142, 474);
+            this.gbQuickPublish.Size = new System.Drawing.Size(143, 474);
             this.gbQuickPublish.TabIndex = 1;
             this.gbQuickPublish.TabStop = false;
             this.gbQuickPublish.Text = "Quick Options";
@@ -1139,7 +1141,7 @@ namespace TDMaker
             this.flpPublishConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpPublishConfig.Location = new System.Drawing.Point(3, 16);
             this.flpPublishConfig.Name = "flpPublishConfig";
-            this.flpPublishConfig.Size = new System.Drawing.Size(136, 455);
+            this.flpPublishConfig.Size = new System.Drawing.Size(137, 455);
             this.flpPublishConfig.TabIndex = 7;
             // 
             // chkQuickPre
@@ -1208,7 +1210,7 @@ namespace TDMaker
             this.txtPublish.Multiline = true;
             this.txtPublish.Name = "txtPublish";
             this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtPublish.Size = new System.Drawing.Size(570, 474);
+            this.txtPublish.Size = new System.Drawing.Size(569, 474);
             this.txtPublish.TabIndex = 0;
             this.txtPublish.WordWrap = false;
             this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
@@ -1272,6 +1274,36 @@ namespace TDMaker
             this.gbUploadScreenshots.TabStop = false;
             this.gbUploadScreenshots.Text = "Step 3 - Upload screenshots";
             // 
+            // cboFileUploader
+            // 
+            this.cboFileUploader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFileUploader.FormattingEnabled = true;
+            this.cboFileUploader.Location = new System.Drawing.Point(152, 48);
+            this.cboFileUploader.Name = "cboFileUploader";
+            this.cboFileUploader.Size = new System.Drawing.Size(222, 21);
+            this.cboFileUploader.TabIndex = 11;
+            this.cboFileUploader.SelectedIndexChanged += new System.EventHandler(this.cboImageFileUploader_SelectedIndexChanged);
+            // 
+            // btnUploadersConfig
+            // 
+            this.btnUploadersConfig.Location = new System.Drawing.Point(384, 24);
+            this.btnUploadersConfig.Name = "btnUploadersConfig";
+            this.btnUploadersConfig.Size = new System.Drawing.Size(160, 24);
+            this.btnUploadersConfig.TabIndex = 10;
+            this.btnUploadersConfig.Text = "Uploaders Configuration...";
+            this.btnUploadersConfig.UseVisualStyleBackColor = true;
+            this.btnUploadersConfig.Click += new System.EventHandler(this.btnUploadersConfig_Click);
+            // 
+            // cboImageUploader
+            // 
+            this.cboImageUploader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboImageUploader.FormattingEnabled = true;
+            this.cboImageUploader.Location = new System.Drawing.Point(152, 24);
+            this.cboImageUploader.Name = "cboImageUploader";
+            this.cboImageUploader.Size = new System.Drawing.Size(222, 21);
+            this.cboImageUploader.TabIndex = 2;
+            this.cboImageUploader.SelectedIndexChanged += new System.EventHandler(this.cboScreenshotDest_SelectedIndexChanged);
+            // 
             // chkScreenshotUpload
             // 
             this.chkScreenshotUpload.AutoSize = true;
@@ -1284,26 +1316,6 @@ namespace TDMaker
             this.chkScreenshotUpload.Text = "Upload Screenshot to";
             this.chkScreenshotUpload.UseVisualStyleBackColor = true;
             this.chkScreenshotUpload.CheckedChanged += new System.EventHandler(this.chkScreenshotUpload_CheckedChanged);
-            // 
-            // cboImageUploader
-            // 
-            this.cboImageUploader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboImageUploader.FormattingEnabled = true;
-            this.cboImageUploader.Location = new System.Drawing.Point(152, 24);
-            this.cboImageUploader.Name = "cboImageUploader";
-            this.cboImageUploader.Size = new System.Drawing.Size(222, 21);
-            this.cboImageUploader.TabIndex = 2;
-            this.cboImageUploader.SelectedIndexChanged += new System.EventHandler(this.cboScreenshotDest_SelectedIndexChanged);
-            // 
-            // btnUploadersConfig
-            // 
-            this.btnUploadersConfig.Location = new System.Drawing.Point(384, 24);
-            this.btnUploadersConfig.Name = "btnUploadersConfig";
-            this.btnUploadersConfig.Size = new System.Drawing.Size(160, 24);
-            this.btnUploadersConfig.TabIndex = 10;
-            this.btnUploadersConfig.Text = "Uploaders Configuration...";
-            this.btnUploadersConfig.UseVisualStyleBackColor = true;
-            this.btnUploadersConfig.Click += new System.EventHandler(this.btnUploadersConfig_Click);
             // 
             // gbThumbnailer
             // 
@@ -1921,9 +1933,11 @@ namespace TDMaker
             // 
             // btnAddTracker
             // 
+            this.btnAddTracker.AutoSize = true;
+            this.btnAddTracker.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAddTracker.Location = new System.Drawing.Point(3, 3);
             this.btnAddTracker.Name = "btnAddTracker";
-            this.btnAddTracker.Size = new System.Drawing.Size(75, 23);
+            this.btnAddTracker.Size = new System.Drawing.Size(36, 23);
             this.btnAddTracker.TabIndex = 0;
             this.btnAddTracker.Text = "Add";
             this.btnAddTracker.UseVisualStyleBackColor = true;
@@ -1931,9 +1945,11 @@ namespace TDMaker
             // 
             // btnRemoveTracker
             // 
-            this.btnRemoveTracker.Location = new System.Drawing.Point(84, 3);
+            this.btnRemoveTracker.AutoSize = true;
+            this.btnRemoveTracker.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnRemoveTracker.Location = new System.Drawing.Point(45, 3);
             this.btnRemoveTracker.Name = "btnRemoveTracker";
-            this.btnRemoveTracker.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveTracker.Size = new System.Drawing.Size(57, 23);
             this.btnRemoveTracker.TabIndex = 1;
             this.btnRemoveTracker.Text = "Remove";
             this.btnRemoveTracker.UseVisualStyleBackColor = true;
@@ -1954,6 +1970,7 @@ namespace TDMaker
             // 
             this.flpTrackerGroups.Controls.Add(this.btnAddTrackerGroup);
             this.flpTrackerGroups.Controls.Add(this.btnRemoveTrackerGroup);
+            this.flpTrackerGroups.Controls.Add(this.btnUpdateGroup);
             this.flpTrackerGroups.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpTrackerGroups.Location = new System.Drawing.Point(3, 188);
             this.flpTrackerGroups.Name = "flpTrackerGroups";
@@ -1962,9 +1979,11 @@ namespace TDMaker
             // 
             // btnAddTrackerGroup
             // 
+            this.btnAddTrackerGroup.AutoSize = true;
+            this.btnAddTrackerGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAddTrackerGroup.Location = new System.Drawing.Point(3, 3);
             this.btnAddTrackerGroup.Name = "btnAddTrackerGroup";
-            this.btnAddTrackerGroup.Size = new System.Drawing.Size(75, 23);
+            this.btnAddTrackerGroup.Size = new System.Drawing.Size(36, 23);
             this.btnAddTrackerGroup.TabIndex = 0;
             this.btnAddTrackerGroup.Text = "Add";
             this.btnAddTrackerGroup.UseVisualStyleBackColor = true;
@@ -1972,9 +1991,11 @@ namespace TDMaker
             // 
             // btnRemoveTrackerGroup
             // 
-            this.btnRemoveTrackerGroup.Location = new System.Drawing.Point(84, 3);
+            this.btnRemoveTrackerGroup.AutoSize = true;
+            this.btnRemoveTrackerGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnRemoveTrackerGroup.Location = new System.Drawing.Point(45, 3);
             this.btnRemoveTrackerGroup.Name = "btnRemoveTrackerGroup";
-            this.btnRemoveTrackerGroup.Size = new System.Drawing.Size(75, 23);
+            this.btnRemoveTrackerGroup.Size = new System.Drawing.Size(57, 23);
             this.btnRemoveTrackerGroup.TabIndex = 1;
             this.btnRemoveTrackerGroup.Text = "Remove";
             this.btnRemoveTrackerGroup.UseVisualStyleBackColor = true;
@@ -2122,15 +2143,17 @@ namespace TDMaker
             this.pgApp.TabIndex = 0;
             this.pgApp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgApp_PropertyValueChanged);
             // 
-            // cboImageFileUploader
+            // btnUpdateGroup
             // 
-            this.cboFileUploader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboFileUploader.FormattingEnabled = true;
-            this.cboFileUploader.Location = new System.Drawing.Point(152, 48);
-            this.cboFileUploader.Name = "cboImageFileUploader";
-            this.cboFileUploader.Size = new System.Drawing.Size(222, 21);
-            this.cboFileUploader.TabIndex = 11;
-            this.cboFileUploader.SelectedIndexChanged += new System.EventHandler(this.cboImageFileUploader_SelectedIndexChanged);
+            this.btnUpdateGroup.AutoSize = true;
+            this.btnUpdateGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnUpdateGroup.Location = new System.Drawing.Point(108, 3);
+            this.btnUpdateGroup.Name = "btnUpdateGroup";
+            this.btnUpdateGroup.Size = new System.Drawing.Size(52, 23);
+            this.btnUpdateGroup.TabIndex = 2;
+            this.btnUpdateGroup.Text = "Update";
+            this.btnUpdateGroup.UseVisualStyleBackColor = true;
+            this.btnUpdateGroup.Click += new System.EventHandler(this.btnUpdateGroup_Click);
             // 
             // MainWindow
             // 
@@ -2219,7 +2242,9 @@ namespace TDMaker
             this.gbTrackerMgr.ResumeLayout(false);
             this.tlpTrackers.ResumeLayout(false);
             this.flpTrackers.ResumeLayout(false);
+            this.flpTrackers.PerformLayout();
             this.flpTrackerGroups.ResumeLayout(false);
+            this.flpTrackerGroups.PerformLayout();
             this.gbTrackerGroups.ResumeLayout(false);
             this.gbTrackers.ResumeLayout(false);
             this.tpProxy.ResumeLayout(false);
@@ -2402,5 +2427,6 @@ namespace TDMaker
         private System.Windows.Forms.GroupBox gbMediaInfoQuickOptions;
         private System.Windows.Forms.CheckBox chkMediaInfoComplete;
         private System.Windows.Forms.ComboBox cboFileUploader;
+        private System.Windows.Forms.Button btnUpdateGroup;
     }
 }
