@@ -230,6 +230,8 @@ namespace TDMaker
                 cboSource.Text = "DVD";
             else if (source.Contains("HDTV"))
                 cboSource.Text = "HDTV";
+            else if (source.Contains("Blu"))
+                cboSource.Text = "Blu-ray";
             else if (source.Contains("TV"))
                 cboSource.Text = "TV";
         }
@@ -1503,7 +1505,6 @@ namespace TDMaker
         {
             // this.WindowState = FormWindowState.Minimized;
             SettingsWrite();
-            pbScreenshot.ImageLocation = null; // need this to successfully clear screenshots
             Program.ClearScreenshots();
         }
 
@@ -1739,20 +1740,29 @@ namespace TDMaker
             if (sel > -1)
             {
                 Screenshot ss = lbScreenshots.Items[sel] as Screenshot;
-                if (ss != null)
+                pbScreenshot.Tag = ss;
+                if (ss != null && File.Exists(ss.LocalPath))
                 {
-                    pbScreenshot.WaitOnLoad = true;
-                    pbScreenshot.ImageLocation = ss.LocalPath;
+                    pbScreenshot.LoadImageFromFileAsync(ss.LocalPath);
                     pgScreenshot.SelectedObject = ss;
+                }
+                else if (!string.IsNullOrEmpty(ss.FullImageLink))
+                {
+                    pbScreenshot.LoadImageFromURLAsync(ss.FullImageLink);
                 }
             }
         }
 
         private void pbScreenshot_MouseDown(object sender, MouseEventArgs e)
         {
-            if (File.Exists(pbScreenshot.ImageLocation))
+            Screenshot ss = pbScreenshot.Tag as Screenshot;
+            if (File.Exists(ss.LocalPath))
             {
-                Process.Start(pbScreenshot.ImageLocation);
+                Helpers.OpenFile(ss.LocalPath);
+            }
+            else if (!string.IsNullOrEmpty(ss.FullImageLink))
+            {
+                URLHelpers.OpenURL(ss.FullImageLink);
             }
         }
 

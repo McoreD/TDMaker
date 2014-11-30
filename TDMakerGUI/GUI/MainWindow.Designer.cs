@@ -1,4 +1,5 @@
-﻿using TDMakerLib;
+﻿using HelpersLib;
+using TDMakerLib;
 
 namespace TDMaker
 {
@@ -112,7 +113,7 @@ namespace TDMaker
             this.tlpScreenshots = new System.Windows.Forms.TableLayoutPanel();
             this.lbScreenshots = new System.Windows.Forms.ListBox();
             this.tlpScreenshotProps = new System.Windows.Forms.TableLayoutPanel();
-            this.pbScreenshot = new System.Windows.Forms.PictureBox();
+            this.pbScreenshot = new MyPictureBox();
             this.pgScreenshot = new System.Windows.Forms.PropertyGrid();
             this.tpPublish = new System.Windows.Forms.TabPage();
             this.tlpPublish = new System.Windows.Forms.TableLayoutPanel();
@@ -218,7 +219,6 @@ namespace TDMaker
             this.tpScreenshots.SuspendLayout();
             this.tlpScreenshots.SuspendLayout();
             this.tlpScreenshotProps.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbScreenshot)).BeginInit();
             this.tpPublish.SuspendLayout();
             this.tlpPublish.SuspendLayout();
             this.gbQuickPublish.SuspendLayout();
@@ -1074,7 +1074,6 @@ namespace TDMaker
             this.pbScreenshot.Location = new System.Drawing.Point(3, 3);
             this.pbScreenshot.Name = "pbScreenshot";
             this.pbScreenshot.Size = new System.Drawing.Size(602, 378);
-            this.pbScreenshot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbScreenshot.TabIndex = 1;
             this.pbScreenshot.TabStop = false;
             this.pbScreenshot.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbScreenshot_MouseDown);
@@ -2181,7 +2180,6 @@ namespace TDMaker
             this.tpScreenshots.ResumeLayout(false);
             this.tlpScreenshots.ResumeLayout(false);
             this.tlpScreenshotProps.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbScreenshot)).EndInit();
             this.tpPublish.ResumeLayout(false);
             this.tlpPublish.ResumeLayout(false);
             this.tlpPublish.PerformLayout();
@@ -2308,7 +2306,7 @@ namespace TDMaker
         private System.Windows.Forms.TableLayoutPanel tlpScreenshots;
         private System.Windows.Forms.ListBox lbScreenshots;
         private System.Windows.Forms.TableLayoutPanel tlpScreenshotProps;
-        private System.Windows.Forms.PictureBox pbScreenshot;
+        private MyPictureBox pbScreenshot;
         private System.Windows.Forms.PropertyGrid pgScreenshot;
         private System.Windows.Forms.TabPage tpPublish;
         private System.Windows.Forms.TableLayoutPanel tlpPublish;
