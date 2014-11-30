@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using UploadersLib;
+using UploadersLib.FileUploaders;
+using UploadersLib.GUI;
 using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
 
@@ -182,90 +184,11 @@ namespace TDMakerLib
 
         private UploadResult UploadScreenshot(string ssPath)
         {
-            ImageUploader imageUploader = null;
             UploadResult ur = null;
 
             if (File.Exists(ssPath))
             {
-                if (!string.IsNullOrEmpty(Program.Settings.PtpImgCode))
-                {
-                    imageUploader = new PtpImageUploader(Crypt.Decrypt(Program.Settings.PtpImgCode));
-                }
-                else
-                {
-                    switch ((ImageDestination)Program.Settings.ImageUploaderType)
-                    {
-                        case ImageDestination.TinyPic:
-                            imageUploader = new TinyPicUploader(ZKeys.TinyPicID, ZKeys.TinyPicKey, Program.UploadersConfig.TinyPicAccountType,
-                                Program.UploadersConfig.TinyPicRegistrationCode);
-                            break;
-
-                        case ImageDestination.Imgur:
-                            if (Program.UploadersConfig.ImgurOAuth2Info == null)
-                            {
-                                Program.UploadersConfig.ImgurOAuth2Info = new OAuth2Info(APIKeys.ImgurClientID, APIKeys.ImgurClientSecret);
-                            }
-
-                            string albumID = null;
-
-                            if (Program.UploadersConfig.ImgurUploadSelectedAlbum && Program.UploadersConfig.ImgurSelectedAlbum != null)
-                            {
-                                albumID = Program.UploadersConfig.ImgurSelectedAlbum.id;
-                            }
-
-                            imageUploader = new Imgur_v3(Program.UploadersConfig.ImgurOAuth2Info)
-                            {
-                                UploadMethod = Program.UploadersConfig.ImgurAccountType,
-                                DirectLink = Program.UploadersConfig.ImgurDirectLink,
-                                ThumbnailType = Program.UploadersConfig.ImgurThumbnailType,
-                                UploadAlbumID = albumID
-                            };
-                            break;
-
-                        case ImageDestination.Flickr:
-                            imageUploader = new FlickrUploader(APIKeys.FlickrKey, APIKeys.FlickrSecret, Program.UploadersConfig.FlickrAuthInfo, Program.UploadersConfig.FlickrSettings);
-                            break;
-
-                        case ImageDestination.Photobucket:
-                            imageUploader = new Photobucket(Program.UploadersConfig.PhotobucketOAuthInfo, Program.UploadersConfig.PhotobucketAccountInfo);
-                            break;
-
-                        case ImageDestination.Picasa:
-                            imageUploader = new Picasa(Program.UploadersConfig.PicasaOAuth2Info)
-                            {
-                                AlbumID = Program.UploadersConfig.PicasaAlbumID
-                            };
-                            break;
-                        case ImageDestination.Twitter:
-                            OAuthInfo twitterOAuth = Program.UploadersConfig.TwitterOAuthInfoList.ReturnIfValidIndex(Program.UploadersConfig.TwitterSelectedAccount);
-                            imageUploader = new Twitter(twitterOAuth);
-                            break;
-                        case ImageDestination.Chevereto:
-                            imageUploader = new Chevereto(Program.UploadersConfig.CheveretoWebsite, Program.UploadersConfig.CheveretoAPIKey)
-                            {
-                                DirectURL = Program.UploadersConfig.CheveretoDirectURL
-                            };
-                            break;
-                        case ImageDestination.HizliResim:
-                            imageUploader = new HizliResim()
-                            {
-                                DirectURL = true
-                            };
-                            break;
-                        case ImageDestination.CustomImageUploader:
-                            if (Program.UploadersConfig.CustomUploadersList.IsValidIndex(Program.UploadersConfig.CustomImageUploaderSelected))
-                            {
-                                imageUploader = new CustomImageUploader(Program.UploadersConfig.CustomUploadersList[Program.UploadersConfig.CustomImageUploaderSelected]);
-                            }
-                            break;
-                    }
-                }
-
-                if (imageUploader != null)
-                {
-                    ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0}.", Path.GetFileName(ssPath)));
-                    ur = imageUploader.Upload(ssPath);
-                }
+                ur = UploadImage(ssPath);
 
                 if (ur != null)
                 {
@@ -280,6 +203,266 @@ namespace TDMakerLib
                 }
             }
             return ur;
+        }
+
+        private UploadResult UploadImage(string ssPath)
+        {
+            ImageUploader imageUploader = null;
+
+            if (!string.IsNullOrEmpty(Program.Settings.PtpImgCode))
+            {
+                imageUploader = new PtpImageUploader(Crypt.Decrypt(Program.Settings.PtpImgCode));
+            }
+            else
+            {
+                switch ((ImageDestination)Program.Settings.ImageUploaderType)
+                {
+                    case ImageDestination.TinyPic:
+                        imageUploader = new TinyPicUploader(ZKeys.TinyPicID, ZKeys.TinyPicKey, Program.UploadersConfig.TinyPicAccountType,
+                            Program.UploadersConfig.TinyPicRegistrationCode);
+                        break;
+
+                    case ImageDestination.Imgur:
+                        if (Program.UploadersConfig.ImgurOAuth2Info == null)
+                        {
+                            Program.UploadersConfig.ImgurOAuth2Info = new OAuth2Info(APIKeys.ImgurClientID, APIKeys.ImgurClientSecret);
+                        }
+
+                        string albumID = null;
+
+                        if (Program.UploadersConfig.ImgurUploadSelectedAlbum && Program.UploadersConfig.ImgurSelectedAlbum != null)
+                        {
+                            albumID = Program.UploadersConfig.ImgurSelectedAlbum.id;
+                        }
+
+                        imageUploader = new Imgur_v3(Program.UploadersConfig.ImgurOAuth2Info)
+                        {
+                            UploadMethod = Program.UploadersConfig.ImgurAccountType,
+                            DirectLink = Program.UploadersConfig.ImgurDirectLink,
+                            ThumbnailType = Program.UploadersConfig.ImgurThumbnailType,
+                            UploadAlbumID = albumID
+                        };
+                        break;
+
+                    case ImageDestination.Flickr:
+                        imageUploader = new FlickrUploader(APIKeys.FlickrKey, APIKeys.FlickrSecret, Program.UploadersConfig.FlickrAuthInfo, Program.UploadersConfig.FlickrSettings);
+                        break;
+
+                    case ImageDestination.Photobucket:
+                        imageUploader = new Photobucket(Program.UploadersConfig.PhotobucketOAuthInfo, Program.UploadersConfig.PhotobucketAccountInfo);
+                        break;
+
+                    case ImageDestination.Picasa:
+                        imageUploader = new Picasa(Program.UploadersConfig.PicasaOAuth2Info)
+                        {
+                            AlbumID = Program.UploadersConfig.PicasaAlbumID
+                        };
+                        break;
+                    case ImageDestination.Twitter:
+                        OAuthInfo twitterOAuth = Program.UploadersConfig.TwitterOAuthInfoList.ReturnIfValidIndex(Program.UploadersConfig.TwitterSelectedAccount);
+                        imageUploader = new Twitter(twitterOAuth);
+                        break;
+                    case ImageDestination.Chevereto:
+                        imageUploader = new Chevereto(Program.UploadersConfig.CheveretoWebsite, Program.UploadersConfig.CheveretoAPIKey)
+                        {
+                            DirectURL = Program.UploadersConfig.CheveretoDirectURL
+                        };
+                        break;
+                    case ImageDestination.HizliResim:
+                        imageUploader = new HizliResim()
+                        {
+                            DirectURL = true
+                        };
+                        break;
+                    case ImageDestination.CustomImageUploader:
+                        if (Program.UploadersConfig.CustomUploadersList.IsValidIndex(Program.UploadersConfig.CustomImageUploaderSelected))
+                        {
+                            imageUploader = new CustomImageUploader(Program.UploadersConfig.CustomUploadersList[Program.UploadersConfig.CustomImageUploaderSelected]);
+                        }
+                        break;
+
+                    case ImageDestination.FileUploader:
+                        return UploadFile(ssPath);
+                }
+            }
+
+            if (imageUploader != null)
+            {
+                ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0}.", Path.GetFileName(ssPath)));
+                return imageUploader.Upload(ssPath);
+            }
+
+            return null;
+        }
+
+        private UploadResult UploadFile(string ssPath)
+        {
+            FileUploader fileUploader = null;
+
+            switch (Program.Settings.ImageFileUploaderType)
+            {
+                case FileDestination.Dropbox:
+                    fileUploader = new Dropbox(Program.UploadersConfig.DropboxOAuth2Info, Program.UploadersConfig.DropboxAccountInfo)
+                    {
+                        UploadPath = NameParser.Parse(NameParserType.URL, Dropbox.TidyUploadPath(Program.UploadersConfig.DropboxUploadPath)),
+                        AutoCreateShareableLink = Program.UploadersConfig.DropboxAutoCreateShareableLink,
+                        ShareURLType = Program.UploadersConfig.DropboxURLType
+                    };
+                    break;
+                case FileDestination.Copy:
+                    fileUploader = new Copy(Program.UploadersConfig.CopyOAuthInfo, Program.UploadersConfig.CopyAccountInfo)
+                    {
+                        UploadPath = NameParser.Parse(NameParserType.URL, Copy.TidyUploadPath(Program.UploadersConfig.CopyUploadPath)),
+                        URLType = Program.UploadersConfig.CopyURLType
+                    };
+                    break;
+                case FileDestination.GoogleDrive:
+                    fileUploader = new GoogleDrive(Program.UploadersConfig.GoogleDriveOAuth2Info)
+                    {
+                        IsPublic = Program.UploadersConfig.GoogleDriveIsPublic,
+                        FolderID = Program.UploadersConfig.GoogleDriveUseFolder ? Program.UploadersConfig.GoogleDriveFolderID : null
+                    };
+                    break;
+                case FileDestination.RapidShare:
+                    fileUploader = new RapidShare(Program.UploadersConfig.RapidShareUsername, Program.UploadersConfig.RapidSharePassword, Program.UploadersConfig.RapidShareFolderID);
+                    break;
+                case FileDestination.SendSpace:
+                    fileUploader = new SendSpace(APIKeys.SendSpaceKey);
+                    switch (Program.UploadersConfig.SendSpaceAccountType)
+                    {
+                        case AccountType.Anonymous:
+                            SendSpaceManager.PrepareUploadInfo(APIKeys.SendSpaceKey);
+                            break;
+                        case AccountType.User:
+                            SendSpaceManager.PrepareUploadInfo(APIKeys.SendSpaceKey, Program.UploadersConfig.SendSpaceUsername, Program.UploadersConfig.SendSpacePassword);
+                            break;
+                    }
+                    break;
+                case FileDestination.Minus:
+                    fileUploader = new Minus(Program.UploadersConfig.MinusConfig, Program.UploadersConfig.MinusOAuth2Info);
+                    break;
+                case FileDestination.Box:
+                    fileUploader = new Box(Program.UploadersConfig.BoxOAuth2Info)
+                    {
+                        FolderID = Program.UploadersConfig.BoxSelectedFolder.id,
+                        Share = Program.UploadersConfig.BoxShare
+                    };
+                    break;
+                case FileDestination.Gfycat:
+                    fileUploader = new GfycatUploader();
+                    break;
+                case FileDestination.Ge_tt:
+                    fileUploader = new Ge_tt(APIKeys.Ge_ttKey)
+                    {
+                        AccessToken = Program.UploadersConfig.Ge_ttLogin.AccessToken
+                    };
+                    break;
+                case FileDestination.Localhostr:
+                    fileUploader = new Hostr(Program.UploadersConfig.LocalhostrEmail, Program.UploadersConfig.LocalhostrPassword)
+                    {
+                        DirectURL = Program.UploadersConfig.LocalhostrDirectURL
+                    };
+                    break;
+                case FileDestination.CustomFileUploader:
+                    if (Program.UploadersConfig.CustomUploadersList.IsValidIndex(Program.UploadersConfig.CustomFileUploaderSelected))
+                    {
+                        fileUploader = new CustomFileUploader(Program.UploadersConfig.CustomUploadersList[Program.UploadersConfig.CustomFileUploaderSelected]);
+                    }
+                    break;
+                case FileDestination.FTP:
+                    FTPAccount account = Program.UploadersConfig.FTPAccountList.ReturnIfValidIndex(Program.UploadersConfig.FTPSelectedImage);
+
+                    if (account != null)
+                    {
+                        if (account.Protocol == FTPProtocol.FTP || account.Protocol == FTPProtocol.FTPS)
+                        {
+                            fileUploader = new FTP(account);
+                        }
+                        else if (account.Protocol == FTPProtocol.SFTP)
+                        {
+                            fileUploader = new SFTP(account);
+                        }
+                    }
+                    break;
+                case FileDestination.SharedFolder:
+                    int idLocalhost = Program.UploadersConfig.LocalhostSelectedImages;
+                    if (Program.UploadersConfig.LocalhostAccountList.IsValidIndex(idLocalhost))
+                    {
+                        fileUploader = new SharedFolderUploader(Program.UploadersConfig.LocalhostAccountList[idLocalhost]);
+                    }
+                    break;
+                case FileDestination.Email:
+                    using (EmailForm emailForm = new EmailForm(Program.UploadersConfig.EmailRememberLastTo ? Program.UploadersConfig.EmailLastTo : string.Empty,
+                        Program.UploadersConfig.EmailDefaultSubject, Program.UploadersConfig.EmailDefaultBody))
+                    {
+                        emailForm.Icon = ShareXResources.Icon;
+
+                        if (emailForm.ShowDialog() == DialogResult.OK)
+                        {
+                            if (Program.UploadersConfig.EmailRememberLastTo)
+                            {
+                                Program.UploadersConfig.EmailLastTo = emailForm.ToEmail;
+                            }
+
+                            fileUploader = new Email
+                            {
+                                SmtpServer = Program.UploadersConfig.EmailSmtpServer,
+                                SmtpPort = Program.UploadersConfig.EmailSmtpPort,
+                                FromEmail = Program.UploadersConfig.EmailFrom,
+                                Password = Program.UploadersConfig.EmailPassword,
+                                ToEmail = emailForm.ToEmail,
+                                Subject = emailForm.Subject,
+                                Body = emailForm.Body
+                            };
+                        }
+                    }
+                    break;
+                case FileDestination.Jira:
+                    fileUploader = new Jira(Program.UploadersConfig.JiraHost, Program.UploadersConfig.JiraOAuthInfo, Program.UploadersConfig.JiraIssuePrefix);
+                    break;
+                case FileDestination.Mega:
+                    fileUploader = new Mega(Program.UploadersConfig.MegaAuthInfos, Program.UploadersConfig.MegaParentNodeId);
+                    break;
+                case FileDestination.AmazonS3:
+                    fileUploader = new AmazonS3(Program.UploadersConfig.AmazonS3Settings);
+                    break;
+                case FileDestination.OwnCloud:
+                    fileUploader = new OwnCloud(Program.UploadersConfig.OwnCloudHost, Program.UploadersConfig.OwnCloudUsername, Program.UploadersConfig.OwnCloudPassword)
+                    {
+                        Path = Program.UploadersConfig.OwnCloudPath,
+                        CreateShare = Program.UploadersConfig.OwnCloudCreateShare,
+                        DirectLink = Program.UploadersConfig.OwnCloudDirectLink,
+                        IgnoreInvalidCert = Program.UploadersConfig.OwnCloudIgnoreInvalidCert
+                    };
+                    break;
+                case FileDestination.Pushbullet:
+                    fileUploader = new Pushbullet(Program.UploadersConfig.PushbulletSettings);
+                    break;
+                case FileDestination.MediaCrush:
+                    fileUploader = new MediaCrushUploader()
+                    {
+                        DirectLink = Program.UploadersConfig.MediaCrushDirectLink
+                    };
+                    break;
+                case FileDestination.MediaFire:
+                    fileUploader = new MediaFire(APIKeys.MediaFireAppId, APIKeys.MediaFireApiKey, Program.UploadersConfig.MediaFireUsername, Program.UploadersConfig.MediaFirePassword)
+                    {
+                        UploadPath = NameParser.Parse(NameParserType.URL, Program.UploadersConfig.MediaFirePath),
+                        UseLongLink = Program.UploadersConfig.MediaFireUseLongLink
+                    };
+                    break;
+                case FileDestination.Pomf:
+                    fileUploader = new Pomf();
+                    break;
+            }
+
+            if (fileUploader != null)
+            {
+                ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0}.", Path.GetFileName(ssPath)));
+                return fileUploader.Upload(ssPath);
+            }
+
+            return null;
         }
 
         /// <summary>

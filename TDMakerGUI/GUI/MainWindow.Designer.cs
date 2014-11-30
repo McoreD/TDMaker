@@ -129,9 +129,8 @@ namespace TDMaker
             this.tcThumbnailers = new System.Windows.Forms.TabControl();
             this.tpThumbnailersGeneral = new System.Windows.Forms.TabPage();
             this.gbUploadScreenshots = new System.Windows.Forms.GroupBox();
-            this.flpScreenshots = new System.Windows.Forms.FlowLayoutPanel();
             this.chkScreenshotUpload = new System.Windows.Forms.CheckBox();
-            this.cboScreenshotDest = new System.Windows.Forms.ComboBox();
+            this.cboImageUploader = new System.Windows.Forms.ComboBox();
             this.btnUploadersConfig = new System.Windows.Forms.Button();
             this.gbThumbnailer = new System.Windows.Forms.GroupBox();
             this.cboThumbnailer = new System.Windows.Forms.ComboBox();
@@ -202,6 +201,7 @@ namespace TDMaker
             this.rtbDebugLog = new System.Windows.Forms.RichTextBox();
             this.tpAdvanced = new System.Windows.Forms.TabPage();
             this.pgApp = new System.Windows.Forms.PropertyGrid();
+            this.cboFileUploader = new System.Windows.Forms.ComboBox();
             this.statusStrip1.SuspendLayout();
             this.cmsApp.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -227,7 +227,6 @@ namespace TDMaker
             this.tcThumbnailers.SuspendLayout();
             this.tpThumbnailersGeneral.SuspendLayout();
             this.gbUploadScreenshots.SuspendLayout();
-            this.flpScreenshots.SuspendLayout();
             this.gbThumbnailer.SuspendLayout();
             this.gbScreenshotsLoc.SuspendLayout();
             this.tpMtn.SuspendLayout();
@@ -1263,32 +1262,23 @@ namespace TDMaker
             // 
             // gbUploadScreenshots
             // 
-            this.gbUploadScreenshots.Controls.Add(this.flpScreenshots);
+            this.gbUploadScreenshots.Controls.Add(this.cboFileUploader);
+            this.gbUploadScreenshots.Controls.Add(this.btnUploadersConfig);
+            this.gbUploadScreenshots.Controls.Add(this.cboImageUploader);
+            this.gbUploadScreenshots.Controls.Add(this.chkScreenshotUpload);
             this.gbUploadScreenshots.Location = new System.Drawing.Point(16, 208);
             this.gbUploadScreenshots.Name = "gbUploadScreenshots";
-            this.gbUploadScreenshots.Size = new System.Drawing.Size(784, 72);
+            this.gbUploadScreenshots.Size = new System.Drawing.Size(784, 80);
             this.gbUploadScreenshots.TabIndex = 10;
             this.gbUploadScreenshots.TabStop = false;
             this.gbUploadScreenshots.Text = "Step 3 - Upload screenshots";
-            // 
-            // flpScreenshots
-            // 
-            this.flpScreenshots.AutoSize = true;
-            this.flpScreenshots.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flpScreenshots.Controls.Add(this.chkScreenshotUpload);
-            this.flpScreenshots.Controls.Add(this.cboScreenshotDest);
-            this.flpScreenshots.Controls.Add(this.btnUploadersConfig);
-            this.flpScreenshots.Location = new System.Drawing.Point(8, 24);
-            this.flpScreenshots.Name = "flpScreenshots";
-            this.flpScreenshots.Size = new System.Drawing.Size(529, 30);
-            this.flpScreenshots.TabIndex = 0;
             // 
             // chkScreenshotUpload
             // 
             this.chkScreenshotUpload.AutoSize = true;
             this.chkScreenshotUpload.Checked = true;
             this.chkScreenshotUpload.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkScreenshotUpload.Location = new System.Drawing.Point(3, 3);
+            this.chkScreenshotUpload.Location = new System.Drawing.Point(16, 24);
             this.chkScreenshotUpload.Name = "chkScreenshotUpload";
             this.chkScreenshotUpload.Size = new System.Drawing.Size(129, 17);
             this.chkScreenshotUpload.TabIndex = 0;
@@ -1296,19 +1286,19 @@ namespace TDMaker
             this.chkScreenshotUpload.UseVisualStyleBackColor = true;
             this.chkScreenshotUpload.CheckedChanged += new System.EventHandler(this.chkScreenshotUpload_CheckedChanged);
             // 
-            // cboScreenshotDest
+            // cboImageUploader
             // 
-            this.cboScreenshotDest.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboScreenshotDest.FormattingEnabled = true;
-            this.cboScreenshotDest.Location = new System.Drawing.Point(138, 3);
-            this.cboScreenshotDest.Name = "cboScreenshotDest";
-            this.cboScreenshotDest.Size = new System.Drawing.Size(222, 21);
-            this.cboScreenshotDest.TabIndex = 2;
-            this.cboScreenshotDest.SelectedIndexChanged += new System.EventHandler(this.cboScreenshotDest_SelectedIndexChanged);
+            this.cboImageUploader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboImageUploader.FormattingEnabled = true;
+            this.cboImageUploader.Location = new System.Drawing.Point(152, 24);
+            this.cboImageUploader.Name = "cboImageUploader";
+            this.cboImageUploader.Size = new System.Drawing.Size(222, 21);
+            this.cboImageUploader.TabIndex = 2;
+            this.cboImageUploader.SelectedIndexChanged += new System.EventHandler(this.cboScreenshotDest_SelectedIndexChanged);
             // 
             // btnUploadersConfig
             // 
-            this.btnUploadersConfig.Location = new System.Drawing.Point(366, 3);
+            this.btnUploadersConfig.Location = new System.Drawing.Point(384, 24);
             this.btnUploadersConfig.Name = "btnUploadersConfig";
             this.btnUploadersConfig.Size = new System.Drawing.Size(160, 24);
             this.btnUploadersConfig.TabIndex = 10;
@@ -2133,6 +2123,16 @@ namespace TDMaker
             this.pgApp.TabIndex = 0;
             this.pgApp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgApp_PropertyValueChanged);
             // 
+            // cboImageFileUploader
+            // 
+            this.cboFileUploader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboFileUploader.FormattingEnabled = true;
+            this.cboFileUploader.Location = new System.Drawing.Point(152, 48);
+            this.cboFileUploader.Name = "cboImageFileUploader";
+            this.cboFileUploader.Size = new System.Drawing.Size(222, 21);
+            this.cboFileUploader.TabIndex = 11;
+            this.cboFileUploader.SelectedIndexChanged += new System.EventHandler(this.cboImageFileUploader_SelectedIndexChanged);
+            // 
             // MainWindow
             // 
             this.AcceptButton = this.btnBrowse;
@@ -2193,8 +2193,6 @@ namespace TDMaker
             this.tpThumbnailersGeneral.ResumeLayout(false);
             this.gbUploadScreenshots.ResumeLayout(false);
             this.gbUploadScreenshots.PerformLayout();
-            this.flpScreenshots.ResumeLayout(false);
-            this.flpScreenshots.PerformLayout();
             this.gbThumbnailer.ResumeLayout(false);
             this.gbScreenshotsLoc.ResumeLayout(false);
             this.gbScreenshotsLoc.PerformLayout();
@@ -2341,9 +2339,8 @@ namespace TDMaker
         private System.Windows.Forms.ComboBox cboScreenshotsLoc;
         private System.Windows.Forms.TextBox txtScreenshotsLoc;
         private System.Windows.Forms.Button btnScreenshotsLocBrowse;
-        private System.Windows.Forms.FlowLayoutPanel flpScreenshots;
         private System.Windows.Forms.CheckBox chkScreenshotUpload;
-        private System.Windows.Forms.ComboBox cboScreenshotDest;
+        private System.Windows.Forms.ComboBox cboImageUploader;
         private System.Windows.Forms.TabPage tpPublishOptions;
         private System.Windows.Forms.ComboBox cboPublishType;
         private System.Windows.Forms.Button btnTemplatesRewrite;
@@ -2406,5 +2403,6 @@ namespace TDMaker
         private System.Windows.Forms.PropertyGrid pgMPlayerOptions;
         private System.Windows.Forms.GroupBox gbMediaInfoQuickOptions;
         private System.Windows.Forms.CheckBox chkMediaInfoComplete;
+        private System.Windows.Forms.ComboBox cboFileUploader;
     }
 }

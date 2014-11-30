@@ -163,6 +163,7 @@ namespace TDMakerLib
 
         // Tab 4.3 - Options - Image Hosting
         public ImageDestination ImageUploaderType = ImageDestination.Imgur;
+        public FileDestination ImageFileUploaderType = FileDestination.Pomf;
 
         [Category("Thumbnailers / Image Uploaders"), DefaultValue(""), Description("PtpImg registration code")]
         public string PtpImgCode { get; set; }

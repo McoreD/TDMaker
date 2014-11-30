@@ -468,7 +468,8 @@ namespace TDMaker
 
             Program.Settings.TorrentLocationChoice = (LocationType)cboTorrentLoc.SelectedIndex;
 
-            Program.Settings.ImageUploaderType = (ImageDestination)cboScreenshotDest.SelectedIndex;
+            Program.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
+            Program.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
 
             Program.Settings.Write();
             Program.UploadersConfig.Save(Program.UploadersConfigPath);
@@ -512,12 +513,19 @@ namespace TDMaker
             SettingsReadScreenshots();
             SettingsReadOptions();
 
-            cboScreenshotDest.Items.Clear();
-            foreach (ImageDestination sdt in Enum.GetValues(typeof(ImageDestination)))
+            cboImageUploader.Items.Clear();
+            foreach (ImageDestination dest in Enum.GetValues(typeof(ImageDestination)))
             {
-                cboScreenshotDest.Items.Add(sdt.GetDescription());
+                cboImageUploader.Items.Add(dest.GetDescription());
             }
-            cboScreenshotDest.SelectedIndex = (int)Program.Settings.ImageUploaderType;
+            cboImageUploader.SelectedIndex = (int)Program.Settings.ImageUploaderType;
+
+            cboFileUploader.Items.Clear();
+            foreach (FileDestination dest in Enum.GetValues(typeof(FileDestination)))
+            {
+                cboFileUploader.Items.Add(dest.GetDescription());
+            }
+            cboFileUploader.SelectedIndex = (int)Program.Settings.ImageFileUploaderType;
 
             if (string.IsNullOrEmpty(Program.Settings.MTNPath))
             {
@@ -608,7 +616,7 @@ namespace TDMaker
         {
             chkScreenshotUpload.Checked = Program.Settings.ScreenshotsUpload;
 
-            btnUploadersConfig.Visible = cboScreenshotDest.Visible = string.IsNullOrEmpty(Program.Settings.PtpImgCode);
+            btnUploadersConfig.Visible = cboFileUploader.Visible = cboImageUploader.Visible = string.IsNullOrEmpty(Program.Settings.PtpImgCode);
 
             if (!string.IsNullOrEmpty(Program.Settings.PtpImgCode))
                 chkScreenshotUpload.Text = "Upload screenshots to ptpimg.me";
@@ -1211,7 +1219,8 @@ namespace TDMaker
 
         private void cboScreenshotDest_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageUploaderType = (ImageDestination)cboScreenshotDest.SelectedIndex;
+            Program.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
+            cboFileUploader.Enabled = Program.Settings.ImageUploaderType == ImageDestination.FileUploader;
         }
 
         private void tsmLogsDir_Click(object sender, EventArgs e)
@@ -1862,6 +1871,11 @@ namespace TDMaker
         private void chkMediaInfoComplete_CheckedChanged(object sender, EventArgs e)
         {
             OnLbMediaInfoSelectedIndexChanged();
+        }
+
+        private void cboImageFileUploader_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Program.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
         }
     }
 }
