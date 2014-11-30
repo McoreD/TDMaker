@@ -504,7 +504,7 @@ namespace TDMaker
             cboScreenshotDest.Items.Clear();
             foreach (ImageDestination sdt in Enum.GetValues(typeof(ImageDestination)))
             {
-                cboScreenshotDest.Items.Add(sdt.ToDescriptionString());
+                cboScreenshotDest.Items.Add(sdt.GetDescription());
             }
             cboScreenshotDest.SelectedIndex = (int)Program.Settings.ImageUploaderType;
 
@@ -597,8 +597,7 @@ namespace TDMaker
         {
             chkScreenshotUpload.Checked = Program.Settings.ScreenshotsUpload;
 
-            gbDVD.Visible = gbSourceProp.Visible = btnUploadersConfig.Visible = cboScreenshotDest.Visible =
-                string.IsNullOrEmpty(Program.Settings.PtpImgCode);
+            btnUploadersConfig.Visible = cboScreenshotDest.Visible = string.IsNullOrEmpty(Program.Settings.PtpImgCode);
 
             gbQuickPublish.Enabled = string.IsNullOrEmpty(Program.Settings.PtpImgCode);
 

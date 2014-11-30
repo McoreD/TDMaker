@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v2)
 
+using HelpersLib;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -49,7 +50,7 @@ namespace TDMakerLib
             this.RootFolder = rootDir;
             foreach (ImageDestination sdt in Enum.GetValues(typeof(ImageDestination)))
             {
-                cboScreenshotDest.Items.Add(sdt.ToDescriptionString());
+                cboScreenshotDest.Items.Add(sdt.GetDescription());
             }
             cboScreenshotDest.SelectedIndex = (int)ImageDestination.ImageShack;
         }
