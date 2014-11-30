@@ -1,4 +1,10 @@
-Version 3.1 - 2014-11-29
+Version 3.1.1 - 2014-11-29
+
+* Latest MediaInfo.dll
+* Fixed Update
+* Latest HelpersLib compatibility fix 
+
+TDMaker 3.1.0 - 2013-01-29
  
 * Integrated BDInfo to provide media info on Blu-ray discs
 
