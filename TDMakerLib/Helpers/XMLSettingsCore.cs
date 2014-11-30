@@ -17,7 +17,7 @@ namespace TDMakerLib
     [XmlRoot("Settings")]
     public class XMLSettingsCore : XMLSettings
     {
-        public static string XMLFileName = string.Format("{0}-{1}-Settings.xml", Application.ProductName, Application.ProductVersion);
+        public static string XMLFileName = string.Format("{0}Settings.xml", Application.ProductName);
 
         public XMLSettingsCore()
         {

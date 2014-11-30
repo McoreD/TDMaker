@@ -50,9 +50,7 @@ namespace TDMakerLib
         private static string[] AppDirs;
 
         public static XMLSettingsCore Settings { get; set; }
-
         public static XMLSettingsMtnProfiles mtnProfileMgr { get; set; }
-
         public static UploadersConfig UploadersConfig { get; set; }
 
         public static bool DetectUnix()
@@ -172,11 +170,6 @@ namespace TDMakerLib
             }
 
             return text;
-        }
-
-        public static string GetFileSizeString(double size)
-        {
-            return string.Format("{0} MiB", (size / 1024.0 / 1024.0).ToString("0.00"));
         }
 
         /// <summary>

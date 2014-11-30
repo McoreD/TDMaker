@@ -11,15 +11,11 @@ namespace TDMakerLib
     public class AppSettings
     {
         public readonly static string AppSettingsFile = Path.Combine(Program.zLocalAppDataFolder, "AppSettings.xml");
-
         public string RootDir { get; set; }
-
         public string XMLSettingsFile { get; set; }
-
         public string UploadersConfigPath { get; set; }
 
         public ImageDestination ImageUploaderType { get; set; }
-
         public string PtpImgCode { get; set; }
 
         [Category("Options / General"), DefaultValue(false), Description("Prefer System Folders for all the data created by ZScreen")]
