@@ -189,6 +189,7 @@ namespace TDMaker
             if (1 == ps.Length)
             {
                 txtTitle.Text = MediaHelper.GetMediaName(ps[0]);
+                GuessSource(txtTitle.Text);
             }
 
             if (!Program.Settings.WritePublish && ps.Length > 1)
@@ -221,6 +222,16 @@ namespace TDMaker
                 wt.FileOrDirPaths = new List<string>(ps);
                 AnalyzeMedia(wt);
             }
+        }
+
+        private void GuessSource(string source)
+        {
+            if (source.Contains("DVD"))
+                cboSource.Text = "DVD";
+            else if (source.Contains("HDTV"))
+                cboSource.Text = "HDTV";
+            else if (source.Contains("TV"))
+                cboSource.Text = "TV";
         }
 
         private void AnalyzeMedia(WorkerTask wt)
@@ -598,8 +609,6 @@ namespace TDMaker
             chkScreenshotUpload.Checked = Program.Settings.ScreenshotsUpload;
 
             btnUploadersConfig.Visible = cboScreenshotDest.Visible = string.IsNullOrEmpty(Program.Settings.PtpImgCode);
-
-            gbQuickPublish.Enabled = string.IsNullOrEmpty(Program.Settings.PtpImgCode);
 
             if (!string.IsNullOrEmpty(Program.Settings.PtpImgCode))
                 chkScreenshotUpload.Text = "Upload screenshots to ptpimg.me";
