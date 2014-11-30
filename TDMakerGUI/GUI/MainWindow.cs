@@ -883,7 +883,7 @@ namespace TDMaker
 
         private void tmrStatus_Tick(object sender, EventArgs e)
         {
-            tssPerc.Text = (bwApp.IsBusy ? string.Format("{0}%", (100.0 * (double)pBar.Value / (double)pBar.Maximum).ToString("0.0")) : "");
+            tssPerc.Text = (bwApp.IsBusy ? string.Format("{0}%", (100.0 * (double)pBar.Value / (double)pBar.Maximum).ToString("0")) : "");
             btnAnalyze.Text = "Create &Description" + (lbFiles.SelectedItems.Count > 1 ? "s" : "");
             btnCreateTorrent.Text = "Create &Torrent" + (lbPublish.SelectedItems.Count > 1 ? "s" : "");
             btnBrowse.Enabled = !bwApp.IsBusy;
@@ -928,6 +928,12 @@ namespace TDMaker
                         pBar.Style = ProgressBarStyle.Continuous;
                         pBar.Increment(1);
                         sBar.Text = msg;
+                        break;
+
+                    case ProgressType.UPDATE_PROGRESSBAR_CUMULATIVE:
+                        pBar.Style = ProgressBarStyle.Continuous;
+                        pBar.Maximum = 100;
+                        pBar.Value = Convert.ToInt16(e.UserState);
                         break;
 
                     case ProgressType.REPORT_MEDIAINFO_SUMMARY:

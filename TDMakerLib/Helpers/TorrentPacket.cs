@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MonoTorrent.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -85,7 +86,7 @@ namespace TDMakerLib
                         tc.Path = p;
                         tc.PublisherUrl = "https://github.com/McoreD/TDMaker";
                         tc.Publisher = Application.ProductName;
-                        tc.StoreMD5 = true;
+                        tc.StoreMD5 = false; // delays torrent creation
                         List<string> temp = new List<string>();
                         temp.Add(myTracker.AnnounceURL);
                         tc.Announces.Add(temp);
@@ -94,6 +95,12 @@ namespace TDMakerLib
                         this.SetTorrentFilePath(torrentFileName);
 
                         ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
+
+                        tc.Hashed += delegate(object o, TorrentCreatorEventArgs e)
+                        {
+                            ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_CUMULATIVE, e.OverallCompletion);
+                        };
+
                         HelpersLib.Helpers.CreateDirectoryIfNotExist(this.TorrentFilePath);
                         tc.Create(this.TorrentFilePath);
                         ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Created {0}", this.TorrentFilePath));
