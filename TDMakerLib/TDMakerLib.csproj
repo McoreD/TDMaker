@@ -132,7 +132,7 @@
     <Compile Include="MediaInfo\MediaInfo2.cs" />
     <Compile Include="MediaInfo\MediaInfoDLL.cs" />
     <Compile Include="MediaInfo\NfoReport.cs" />
-    <Compile Include="MediaInfo\Screenshot.cs" />
+    <Compile Include="MediaInfo\ScreenshotInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="PtpImgUploader.cs" />
     <Compile Include="Thumbnailers\MPlayerThumbnailer.cs" />

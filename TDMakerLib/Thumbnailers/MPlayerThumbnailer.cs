@@ -35,8 +35,7 @@ namespace TDMakerLib
                 File.Delete(tempFp);
             }
 
-            List<string> fpPaths = new List<string>();
-            List<Screenshot> tempSS = new List<Screenshot>();
+            List<ScreenshotInfo> tempSS = new List<ScreenshotInfo>();
 
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {
@@ -59,20 +58,24 @@ namespace TDMakerLib
                 if (File.Exists(tempFp))
                 {
                     File.Move(tempFp, temp_fp);
-                    fpPaths.Add(temp_fp);
-                    tempSS.Add(new Screenshot(temp_fp) { Args = arg });
+                    ScreenshotInfo screenshotInfo = new ScreenshotInfo(temp_fp)
+                    {
+                        Args = arg,
+                        Timestamp = TimeSpan.FromSeconds(time_slice_elapsed)
+                    };
+                    tempSS.Add(screenshotInfo);
                 }
             }
 
-            if (fpPaths.Count > 0)
+            if (tempSS.Count > 0)
             {
                 if (Options.CombineScreenshots)
                 {
-                    using (Image img = Render(fpPaths.ToArray()))
+                    using (Image img = Render(tempSS))
                     {
                         string temp_fp = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + "_s.png");
                         img.Save(temp_fp, ImageFormat.Png);
-                        Screenshots.Add(new Screenshot(temp_fp) { Args = tempSS[0].Args });
+                        Screenshots.Add(new ScreenshotInfo(temp_fp) { Args = tempSS[0].Args });
                     }
                 }
                 else
@@ -82,7 +85,7 @@ namespace TDMakerLib
             }
         }
 
-        private Image Render(string[] files)
+        private Image Render(List<ScreenshotInfo> screenshots)
         {
             List<Image> images = new List<Image>();
             Image finalImage = null;
@@ -98,9 +101,9 @@ namespace TDMakerLib
                     infoStringHeight = 90;
                 }
 
-                foreach (string file in files)
+                foreach (ScreenshotInfo screenshot in screenshots)
                 {
-                    Image img = Image.FromFile(file);
+                    Image img = Image.FromFile(screenshot.LocalPath);
                     images.Add(img);
                 }
 
@@ -144,7 +147,20 @@ namespace TDMakerLib
 
                         for (int x = 0; x < columnCount; x++)
                         {
-                            g.DrawImage(images[i++], new Rectangle(offsetX, offsetY, thumbWidth, thumbHeight));
+                            g.DrawImage(images[i], new Rectangle(offsetX, offsetY, thumbWidth, thumbHeight));
+
+                            if (Options.AddTimestamp)
+                            {
+                                int timeInfoOffset = 10;
+
+                                using (Font font = new Font("Arial", 12))
+                                {
+                                    ImageHelpers.DrawTextWithShadow(g, screenshots[i].Timestamp.ToString(),
+                                        new Point(offsetX + timeInfoOffset, offsetY + timeInfoOffset), font, Color.White, Color.Black);
+                                }
+                            }
+
+                            i++;
 
                             if (i >= images.Count)
                             {
@@ -202,8 +218,8 @@ namespace TDMakerLib
         [Category("Combine screenshots"), DefaultValue(10), Description("Space between screenshots as pixel")]
         public int Spacing { get; set; }
 
-        [Category("Combine screenshots"), DefaultValue(false), Description("Write timestamp of screenshot at corner of image")]
-        public bool WriteTimeInfo { get; set; }
+        [Category("Combine screenshots"), DefaultValue(false), Description("Add timestamp of screenshot at corner of image")]
+        public bool AddTimestamp { get; set; }
 
         public MPlayerThumbnailerOptions()
         {

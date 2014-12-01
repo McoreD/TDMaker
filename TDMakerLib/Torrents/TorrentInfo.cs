@@ -159,7 +159,7 @@ namespace TDMakerLib
         {
             if (Media.UploadScreenshots)
             {
-                foreach (Screenshot ss in mf.Thumbnailer.Screenshots)
+                foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
                 {
                     if (ss != null)
                     {
@@ -561,7 +561,7 @@ namespace TDMakerLib
                         break;
 
                     case ProgressType.UPDATE_SCREENSHOTS_LIST:
-                        Screenshot ss = userState as Screenshot;
+                        ScreenshotInfo ss = userState as ScreenshotInfo;
                         Console.WriteLine("Screenshot: " + ss.FullImageLink);
                         break;
                 }

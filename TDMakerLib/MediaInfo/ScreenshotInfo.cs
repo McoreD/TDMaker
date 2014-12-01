@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 
 namespace TDMakerLib
@@ -6,7 +7,7 @@ namespace TDMakerLib
     /// <summary>
     /// Class for Screnshot information. Belongs to MediaInfo2.cs
     /// </summary>
-    public class Screenshot
+    public class ScreenshotInfo
     {
         /// <summary>
         /// Argument
@@ -32,7 +33,9 @@ namespace TDMakerLib
         [Category("Screenshots"), Description("Local file path")]
         public string LocalPath { get; set; }
 
-        public Screenshot(string fp)
+        public TimeSpan Timestamp { get; set; }
+
+        public ScreenshotInfo(string fp)
         {
             LocalPath = fp;
         }

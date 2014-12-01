@@ -6,7 +6,7 @@ namespace TDMakerLib
     {
         protected MediaFile MediaFile { get; set; }
         protected string ScreenshotDir { get; set; }
-        public List<Screenshot> Screenshots = new List<Screenshot>();
+        public List<ScreenshotInfo> Screenshots = new List<ScreenshotInfo>();
 
         public string MediaSummary { get; protected set; }
 

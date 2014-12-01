@@ -982,7 +982,7 @@ namespace TDMaker
                         break;
 
                     case ProgressType.UPDATE_SCREENSHOTS_LIST:
-                        Screenshot sp = (Screenshot)e.UserState;
+                        ScreenshotInfo sp = (ScreenshotInfo)e.UserState;
                         if (sp != null && !string.IsNullOrEmpty(sp.LocalPath))
                         {
                             lbScreenshots.Items.Add(sp);
@@ -1743,7 +1743,7 @@ namespace TDMaker
             int sel = lbScreenshots.SelectedIndex;
             if (sel > -1)
             {
-                Screenshot ss = lbScreenshots.Items[sel] as Screenshot;
+                ScreenshotInfo ss = lbScreenshots.Items[sel] as ScreenshotInfo;
                 pbScreenshot.Tag = ss;
                 if (ss != null && File.Exists(ss.LocalPath))
                 {
@@ -1759,7 +1759,7 @@ namespace TDMaker
 
         private void pbScreenshot_MouseDown(object sender, MouseEventArgs e)
         {
-            Screenshot ss = pbScreenshot.Tag as Screenshot;
+            ScreenshotInfo ss = pbScreenshot.Tag as ScreenshotInfo;
             if (File.Exists(ss.LocalPath))
             {
                 Helpers.OpenFile(ss.LocalPath);

@@ -118,7 +118,7 @@ namespace TDMakerLib
             StringBuilder sbLinksFull = new StringBuilder();
             StringBuilder sbLinksThumbs = new StringBuilder();
 
-            foreach (Screenshot ss in mf.Thumbnailer.Screenshots)
+            foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
             {
                 if (!string.IsNullOrEmpty(ss.FullImageLink))
                 {

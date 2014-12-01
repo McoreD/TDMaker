@@ -481,7 +481,7 @@ namespace TDMakerLib
         {
             StringBuilder sbPublish = new StringBuilder();
 
-            foreach (Screenshot ss in this.Thumbnailer.Screenshots)
+            foreach (ScreenshotInfo ss in this.Thumbnailer.Screenshots)
             {
                 if (!string.IsNullOrEmpty(ss.FullImageLink) && pop.FullPicture)
                 {
