@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
 using System.IO;
-using System.Text;
-using TDMakerLib;
 
 namespace TDMakerLib
 {

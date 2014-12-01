@@ -1,6 +1,4 @@
-﻿using UploadersLib;
-
-namespace TDMakerLib
+﻿namespace TDMakerLib
 {
     public static class ZKeys
     {

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
-using System.Diagnostics;
 
 namespace TDMakerLib
 {
@@ -17,7 +15,7 @@ namespace TDMakerLib
         /// </summary>
         public string TorrentFilePath { get; set; }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         //public string Type { get; set; }
         //public string IMDBID { get; set; }
@@ -31,7 +29,7 @@ namespace TDMakerLib
         /// </summary>
         public string Resolution { get; set; }
         public string Width { get; set; }
-        public string Height{ get; set; }
+        public string Height { get; set; }
         /// <summary>
         /// Source: CAM, TS, HD-DVD etc.
         /// </summary>
@@ -121,6 +119,6 @@ namespace TDMakerLib
             return new XMLTorrentUpload();
         }
 
-        #endregion
+        #endregion I/O Methods
     }
 }

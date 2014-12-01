@@ -1,13 +1,11 @@
 ﻿using BDInfo;
 using HelpersLib;
-using MediaInfoLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
-using TDMakerLib;
-using System.Diagnostics;
 
 namespace TDMakerLib
 {
-   public class TrackerManager
+    public class TrackerManager
     {
         public List<Tracker> Trackers { get; set; }
 
@@ -39,13 +38,12 @@ namespace TDMakerLib
                     }
 
                     Debug.WriteLine("Done reading trackers.xml");
-
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine("Failed to deserialize. Reason: " + e.Message);
                 }
-            }            
+            }
         }
 
         public void Write()
@@ -68,11 +66,8 @@ namespace TDMakerLib
             }
             finally
             {
-               // fs.Close();
+                // fs.Close();
             }
-          
-            
         }
-
     }
 }

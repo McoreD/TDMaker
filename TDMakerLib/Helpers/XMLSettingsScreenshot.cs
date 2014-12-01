@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using System.Xml.Serialization;
-using System.IO;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
 
@@ -13,45 +8,45 @@ namespace TDMakerLib
     [Serializable]
     public class XMLSettingsScreenshot : XMLSettings
     {
-    	public const bool a_AspectRatio_default = false;
-    	public const double b_SkipBlank_default = 0.80; 
-    	public const int B_OmitBegin_default = 0; 
-    	public const int c_Columns_default = 1;
-    	public const int C_CutMovie_default = -1; 
-    	public const int D_EdgeDetection_default = 12; 
-    	public const int E_OmitEnd_default = 0; 
-    	public const string f_FontFile_default = "tahomabd.ttf";
-    	public const string F_FontColor_default = "RRGGBB"; 
-    	public const int g_GapBetweenShots_default = 0; 
-    	public const int h_MinHeight_default = 150; 
-    	public const bool i_InfoOff_default = false;
-    	public const bool I_IndivScreens_default = false;
-    	public const int j_JpgQuality_default = 90; 
-    	public const string k_ColorBackground_default = "RRGGBB"; 
-    	public const int L_LocInfo_default = 4; 
-    	public const bool n_Priority_default = false;
-    	public const string N_InfoSuffix_default = "";
-    	public const string o_OutputSuffix_default = "_s.png";
-    	public const string O_OutputDir_default = "";
-    	public const bool p_PauseBeforeExit_default = false;
-    	public const bool P_QuitAfterDone_default = false;
-    	public const int r_Rows_default = 3; 
-    	public const int s_TimeStep_default = 120; 
-    	public const bool t_TimeStampOff_default = false;
-    	public const bool T_Text_default = false;
-    	public const bool v_Verbose_default = false;
-    	public const int w_Width_default = 1024;
-    	public const bool W_Update_default = false;
-    	public const bool z_Seek_default = false;
-    	public const bool Z_NonSeek_default = false;
-    	
+        public const bool a_AspectRatio_default = false;
+        public const double b_SkipBlank_default = 0.80;
+        public const int B_OmitBegin_default = 0;
+        public const int c_Columns_default = 1;
+        public const int C_CutMovie_default = -1;
+        public const int D_EdgeDetection_default = 12;
+        public const int E_OmitEnd_default = 0;
+        public const string f_FontFile_default = "tahomabd.ttf";
+        public const string F_FontColor_default = "RRGGBB";
+        public const int g_GapBetweenShots_default = 0;
+        public const int h_MinHeight_default = 150;
+        public const bool i_InfoOff_default = false;
+        public const bool I_IndivScreens_default = false;
+        public const int j_JpgQuality_default = 90;
+        public const string k_ColorBackground_default = "RRGGBB";
+        public const int L_LocInfo_default = 4;
+        public const bool n_Priority_default = false;
+        public const string N_InfoSuffix_default = "";
+        public const string o_OutputSuffix_default = "_s.png";
+        public const string O_OutputDir_default = "";
+        public const bool p_PauseBeforeExit_default = false;
+        public const bool P_QuitAfterDone_default = false;
+        public const int r_Rows_default = 3;
+        public const int s_TimeStep_default = 120;
+        public const bool t_TimeStampOff_default = false;
+        public const bool T_Text_default = false;
+        public const bool v_Verbose_default = false;
+        public const int w_Width_default = 1024;
+        public const bool W_Update_default = false;
+        public const bool z_Seek_default = false;
+        public const bool Z_NonSeek_default = false;
+
         [Category("MTN / General"), DefaultValue("New Profile"), Description("descriptive name for the MTN Profile")]
         public string ProfileName { get; set; }
-        
+
         [Category("MTN / Optional"), DefaultValue(a_AspectRatio_default), Description("override input file's display aspect ratio")]
         public bool a_AspectRatio { get; set; }
         [Category("MTN / Optional"), DefaultValue(1.3333), Description("forced aspect ratio e.g. 1.3333")]
-        public double a_AspectRatioValue { get; set; }        
+        public double a_AspectRatioValue { get; set; }
         [Category("MTN / Optional"), DefaultValue(b_SkipBlank_default), Description("skip if % blank is higher; 0:skip all 1:skip really blank >1:off")]
         public double b_SkipBlank { get; set; }
         [Category("MTN / Optional"), DefaultValue(B_OmitBegin_default), Description("omit this number of seconds from the beginning")]
@@ -121,21 +116,21 @@ namespace TDMakerLib
         public bool z_AlwaysSeek { get; set; }
         [Category("MTN / Optional"), DefaultValue(Z_NonSeek_default), Description("always use non-seek mode -- slower but more accurate timing")]
         public bool Z_AlwaysNonSeek { get; set; }
-       
+
         public XMLSettingsScreenshot()
         {
             ApplyDefaultValues(this);
         }
-        
+
         public XMLSettingsScreenshot(string profileName)
-        	:this()
+            : this()
         {
-        	this.ProfileName = profileName;
+            this.ProfileName = profileName;
         }
-        
-		public override string ToString()
-		{
-			return this.ProfileName;		 
-		}        
+
+        public override string ToString()
+        {
+            return this.ProfileName;
+        }
     }
 }

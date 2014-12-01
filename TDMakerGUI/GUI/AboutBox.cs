@@ -1,11 +1,9 @@
 ﻿using HelpersLib;
-using MediaInfoLib;
 using System;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using TDMakerLib;
-using UploadersLib;
 
 namespace TDMaker
 {

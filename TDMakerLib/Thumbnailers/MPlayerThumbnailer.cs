@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace TDMakerLib
 {
@@ -23,9 +20,9 @@ namespace TDMakerLib
 
         public MPlayerThumbnailer(MediaFile mf, string ssDir, MPlayerThumbnailerOptions options)
         {
-            this.MediaFile = mf;
-            this.ScreenshotDir = ssDir;
-            this.Options = options;
+            MediaFile = mf;
+            ScreenshotDir = ssDir;
+            Options = options;
         }
 
         public override void TakeScreenshot()
@@ -44,9 +41,8 @@ namespace TDMakerLib
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {
                 int time_slice_elapsed = time_slice * (i + 1);
-                string arg = string.Format("-nosound -ss {0} -zoom -vf screenshot -frames 1 -vo png:z=9:outdir=\\\"{1}\\\" \"{2}\"", time_slice_elapsed,
-                                                                                                                                 ScreenshotDir,
-                                                                                                                                 MediaFile.FilePath);
+                string arg = string.Format("-nosound -ss {0} -zoom -vf screenshot -frames 1 -vo png:z=9:outdir=\\\"{1}\\\" \"{2}\"",
+                    time_slice_elapsed, ScreenshotDir, MediaFile.FilePath);
                 ProcessStartInfo psi = new ProcessStartInfo(Program.Settings.MPlayerPath);
                 psi.WindowStyle = ProcessWindowStyle.Minimized;
                 psi.Arguments = arg;

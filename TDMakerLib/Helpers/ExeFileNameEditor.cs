@@ -4,7 +4,7 @@ using System.Windows.Forms.Design;
 
 namespace TDMakerLib
 {
-    class ExeFileNameEditor : FileNameEditor
+    internal class ExeFileNameEditor : FileNameEditor
     {
         public override object EditValue(System.ComponentModel.ITypeDescriptorContext context, IServiceProvider provider, object value)
         {

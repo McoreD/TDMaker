@@ -4,8 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using TDMakerLib;
-using UploadersLib;
-using UploadersLib.HelperClasses;
 
 namespace TDMaker
 {

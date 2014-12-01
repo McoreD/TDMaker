@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 
 namespace TDMakerLib
@@ -8,10 +7,12 @@ namespace TDMakerLib
     [Serializable]
     public class TrackerGroup
     {
-        public TrackerGroup() { }
+        public TrackerGroup()
+        {
+        }
 
         public TrackerGroup(string name)
-        {            
+        {
             this.Name = name;
         }
 
@@ -33,7 +34,9 @@ namespace TDMakerLib
         [Category("Settings"), Description("Announce URL usually shown in the upload page")]
         public string AnnounceURL { get; set; }
 
-        public Tracker() { }
+        public Tracker()
+        {
+        }
 
         public Tracker(string name, string url)
         {

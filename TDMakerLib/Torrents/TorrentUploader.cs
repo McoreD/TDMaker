@@ -1,12 +1,11 @@
-﻿using System.Text;
+﻿using System.IO;
 using System.Net;
-using System.IO;
+using System.Text;
 
 namespace TDMakerLib.Torrents
 {
     public class TorrentUploader
     {
-
         public string UserName { get; set; }
         public string Password { get; set; }
         public string HomePageURL { get; set; }
@@ -34,18 +33,16 @@ namespace TDMakerLib.Torrents
             /// <summary>
             /// File Path of the NFO file
             /// </summary>
-            public string NFO { get; set; }            
+            public string NFO { get; set; }
             public string Type { get; set; }
             /// <summary>
             /// URL of the Release
             /// </summary>
             public string URL { get; set; }
-
         }
 
         private void UploadTorrent(RequestInfo ri)
         {
-
             this.Status = "Status: Retrieving user cookie";
 
             this.userCookie = this.RetrieveUserCookie();
@@ -113,7 +110,6 @@ namespace TDMakerLib.Torrents
             writeStream.Close();
         }
 
-
         public CookieContainer RetrieveUserCookie()
         {
             CookieContainer container = new CookieContainer();
@@ -141,6 +137,5 @@ namespace TDMakerLib.Torrents
             }
             return container;
         }
-
     }
 }

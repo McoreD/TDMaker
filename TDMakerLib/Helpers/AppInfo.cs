@@ -1,4 +1,5 @@
 ﻿#region License Information (GPL v2)
+
 /*
     ZScreen - A program that allows you to upload screenshots in one keystroke.
     Copyright (C) 2008-2009 McoreD
@@ -16,10 +17,11 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-    
+
     Optionally you can also view the license at <http://www.gnu.org/licenses/>.
 */
-#endregion
+
+#endregion License Information (GPL v2)
 
 using System;
 using System.Diagnostics;
@@ -47,10 +49,10 @@ namespace McoreSystem
         public SoftwareCycle ApplicationState
         {
             get { return mSoftwareState; }
-
         }
 
         #region "Enumerations"
+
         public enum VersionDepth
         {
             Major = 1,
@@ -72,10 +74,14 @@ namespace McoreSystem
             Beta,
             Final
         }
-        #endregion
+
+        #endregion "Enumerations"
 
         #region "Constructors"
-        public AppInfo() { }
+
+        public AppInfo()
+        {
+        }
 
         public AppInfo(string ProductName, string Version)
         {
@@ -95,7 +101,7 @@ namespace McoreSystem
             this.mShowFinalState = showFinal;
         }
 
-        #endregion
+        #endregion "Constructors"
 
         public int GetNumberOfInstances()
         {
@@ -139,7 +145,6 @@ namespace McoreSystem
 
         public String GetApplicationTitle(string ProductName, string ProductVersion)
         {
-
             // Default Format: ApplicationTitle 1.0
 
             String[] version = ProductVersion.Split('.');
@@ -172,7 +177,6 @@ namespace McoreSystem
 
         public string GetVersion(string ProductVersion, VersionDepth Depth)
         {
-
             string title = "";
             int i;
             int d = Convert.ToInt32(Depth);
@@ -190,7 +194,6 @@ namespace McoreSystem
             title += version[i];
 
             return title;
-
         }
 
         public string GetLocalVersion()

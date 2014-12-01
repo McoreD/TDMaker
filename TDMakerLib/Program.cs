@@ -1,11 +1,9 @@
 ﻿using HelpersLib;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using UploadersLib;
-using UploadersLib.HelperClasses;
 
 namespace TDMakerLib
 {

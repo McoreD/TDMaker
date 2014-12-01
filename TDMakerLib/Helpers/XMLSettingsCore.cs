@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Xml.Serialization;
 using UploadersLib;
-using UploadersLib.HelperClasses;
 
 namespace TDMakerLib
 {

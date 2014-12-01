@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace TDMakerLib.MediaInfo
 {
-    class NfoReport
+    internal class NfoReport
     {
         private StringBuilder msbAudio = new StringBuilder();
         private StringBuilder msbAlbumInfo = new StringBuilder();
@@ -36,17 +36,14 @@ namespace TDMakerLib.MediaInfo
 
         public string FileName
         {
-
             get
             {
                 return mFileName.ToString();
             }
-
         }
 
         public string TrackList(List<string> lstAudioFiles)
         {
-
             StringBuilder msbAudio = new StringBuilder();
 
             TagLib.File f = TagLib.File.Create(lstAudioFiles[0]);
@@ -81,13 +78,11 @@ namespace TDMakerLib.MediaInfo
 
                 if (mBwApp != null)
                     mBwApp.ReportProgress(1);
-
             }
 
             this.TotalBitrate = totalBitrate;
 
             return msbAudio.ToString();
-
         }
 
         private string ExtraFilesList(List<string> lstExtraFiles)
@@ -112,7 +107,6 @@ namespace TDMakerLib.MediaInfo
             }
 
             return sbExtraFiles.ToString();
-
         }
 
         private void sMakeNfo()
@@ -142,7 +136,6 @@ namespace TDMakerLib.MediaInfo
 
             if (lstAudioFiles.Count > 0)
             {
-
                 TagLib.File f = TagLib.File.Create(lstAudioFiles[0]);
 
                 mFileName.Append(f.Tag.FirstAlbumArtist);
@@ -169,16 +162,13 @@ namespace TDMakerLib.MediaInfo
                 msbAlbumInfo.AppendLine(string.Format("Tracks:          {0}", lstAudioFiles.Count));
                 msbAlbumInfo.AppendLine(string.Format("Size:            {0} MiB", fGetFolderSize(lstTotalFiles).ToString("0.00")));
 
-
                 if (lstExtraFiles.Count > 0)
                 {
                     msbExtraFiles.AppendLine("\t\t\t\t{:.. Included Files ..:}     ");
                     msbExtraFiles.AppendLine(Environment.NewLine);
                     msbExtraFiles.Append(ExtraFilesList(lstExtraFiles));
                 }
-
             }
-
         }
 
         private string fGetPadding(string longestName, string name)
@@ -190,7 +180,6 @@ namespace TDMakerLib.MediaInfo
             }
             return sb.ToString();
         }
-
 
         private string fGetText(string p)
         {
@@ -216,19 +205,14 @@ namespace TDMakerLib.MediaInfo
             return (sz / 1024 * 8 / dur.TotalSeconds);
         }
 
-
         public string fGetHMS(double sec)
         {
-
             double[] hms = fGetDurationInHoursMS(sec);
             return string.Format("{0}:{1}:{2}", hms[0].ToString("00"), hms[1].ToString("00"), hms[2].ToString("00"));
-
         }
-
 
         public double[] fGetDurationInHoursMS(double seconds)
         {
-
             double[] arrayHoursMinutesSeconds = new double[4];
             double SecondsLeft = seconds;
             int hours = 0;
@@ -238,14 +222,12 @@ namespace TDMakerLib.MediaInfo
             {
                 SecondsLeft -= 3600;
                 hours += 1;
-
             }
 
             arrayHoursMinutesSeconds[0] = hours;
 
             while (SecondsLeft >= 60)
             {
-
                 SecondsLeft -= 60;
                 minutes += 1;
             }
@@ -254,7 +236,6 @@ namespace TDMakerLib.MediaInfo
             arrayHoursMinutesSeconds[2] = SecondsLeft;
 
             return arrayHoursMinutesSeconds;
-
         }
 
         public override string ToString()
@@ -288,8 +269,6 @@ namespace TDMakerLib.MediaInfo
             }
 
             return sb.ToString();
-
         }
-
     }
 }
