@@ -83,7 +83,8 @@ namespace TDMaker
 
             sBar.Text = string.Format("Ready.");
 
-            this.Text = Program.GetProductName();
+            Text = Program.GetProductName();
+            Icon = Resources.GenuineAdvIcon;
 
             UpdateGuiControls();
         }

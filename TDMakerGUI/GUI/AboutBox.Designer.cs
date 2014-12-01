@@ -41,7 +41,7 @@ namespace TDMaker
             // 
             // logoPictureBox
             // 
-            this.logoPictureBox.Image = global::TDMakerGUI.Properties.Resources.GenuineAdv;
+            this.logoPictureBox.Image = global::TDMakerGUI.Properties.Resources.GenuineAdvLogo;
             this.logoPictureBox.Location = new System.Drawing.Point(11, 10);
             this.logoPictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.logoPictureBox.Name = "logoPictureBox";

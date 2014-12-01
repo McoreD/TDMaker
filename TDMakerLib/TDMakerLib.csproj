@@ -136,7 +136,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="PtpImgUploader.cs" />
     <Compile Include="Thumbnailers\MPlayerThumbnailer.cs" />
-    <Compile Include="Thumbnailers\MovieThumbNailer.cs" />
+    <Compile Include="Thumbnailers\MovieThumbnailer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\XMLSettingsScreenshot.cs" />
     <Compile Include="Helpers\XMLSettingsCore.cs" />

@@ -7,13 +7,13 @@ using System.Text;
 
 namespace TDMakerLib
 {
-    public class MovieThumbNailer : Thumbnailer
+    public class MovieThumbnailer : Thumbnailer
     {
-        private MovieThumbNailer()
+        private MovieThumbnailer()
         {
         }
 
-        public MovieThumbNailer(MediaFile mf, string ssDir)
+        public MovieThumbnailer(MediaFile mf, string ssDir)
         {
             this.MediaFile = mf;
             this.ScreenshotDir = ssDir;
