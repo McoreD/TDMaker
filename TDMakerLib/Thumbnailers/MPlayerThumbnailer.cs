@@ -95,7 +95,7 @@ namespace TDMakerLib
                 if (Options.AddMovieInfo)
                 {
                     infoString = MediaFile.GetMTNString();
-                    infoStringHeight = 100;
+                    infoStringHeight = 90;
                 }
 
                 foreach (string file in files)
@@ -104,22 +104,22 @@ namespace TDMakerLib
                     images.Add(img);
                 }
 
-                int rowCount = Options.ColumnCount;
+                int columnCount = Options.ColumnCount;
 
                 int thumbWidth = images[0].Width;
 
                 int width = Options.Padding * 2 +
-                    thumbWidth * rowCount +
-                    (rowCount - 1) * Options.Spacing;
+                    thumbWidth * columnCount +
+                    (columnCount - 1) * Options.Spacing;
 
-                int columnCount = (int)Math.Floor(images.Count / (float)rowCount);
+                int rowCount = (int)Math.Ceiling(images.Count / (float)columnCount);
 
                 int thumbHeight = images[0].Height;
 
                 int height = Options.Padding * 2 +
                     infoStringHeight +
-                    thumbHeight * columnCount +
-                    columnCount * Options.Spacing;
+                    thumbHeight * rowCount +
+                    rowCount * Options.Spacing;
 
                 finalImage = new Bitmap(width, height);
 
@@ -145,6 +145,11 @@ namespace TDMakerLib
                         for (int x = 0; x < columnCount; x++)
                         {
                             g.DrawImage(images[i++], new Rectangle(offsetX, offsetY, thumbWidth, thumbHeight));
+
+                            if (i >= images.Count)
+                            {
+                                return finalImage;
+                            }
 
                             offsetX += thumbWidth + Options.Spacing;
                         }
