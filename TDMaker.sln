@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{515B3AAB-EB9E-47A4-80AD-0AE6E2FF17FD}"
 	ProjectSection(SolutionItems) = preProject
@@ -71,9 +71,7 @@ Global
 		{6023302C-5D3C-494A-B7D1-95A0BED8CA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6023302C-5D3C-494A-B7D1-95A0BED8CA22}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6AD6352-B867-43D4-85F5-BA7FE78ADFBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6AD6352-B867-43D4-85F5-BA7FE78ADFBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6AD6352-B867-43D4-85F5-BA7FE78ADFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6AD6352-B867-43D4-85F5-BA7FE78ADFBB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3209AF1D-4762-4960-9DE5-13E90E77EE96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3209AF1D-4762-4960-9DE5-13E90E77EE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3209AF1D-4762-4960-9DE5-13E90E77EE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
