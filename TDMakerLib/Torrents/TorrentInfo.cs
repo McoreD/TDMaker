@@ -66,14 +66,14 @@ namespace TDMakerLib
             Debug.WriteLine("Taking Screenshot for " + Path.GetFileName(mediaFilePath));
             ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Taking Screenshot for " + Path.GetFileName(mediaFilePath));
 
-            switch (Program.Settings.ThumbnailerType)
+            switch (App.Settings.ThumbnailerType)
             {
                 case ThumbnailerType.MovieThumbnailer:
                     mf.Thumbnailer = new MovieThumbnailer(mf, ssDir);
                     break;
 
                 case ThumbnailerType.MPlayer:
-                    mf.Thumbnailer = new MPlayerThumbnailer(mf, ssDir, Program.Settings.MPlayerOptions);
+                    mf.Thumbnailer = new MPlayerThumbnailer(mf, ssDir, App.Settings.MPlayerOptions);
                     break;
             }
 
@@ -88,7 +88,7 @@ namespace TDMakerLib
                 ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, ex.Message + " for " + Path.GetFileName(mediaFilePath));
             }
 
-            if (Program.IsUNIX)
+            if (App.IsUNIX)
             {
                 // Save _s.txt to MediaInfo2.Overall object
                 if (string.IsNullOrEmpty(Media.Overall.Summary))
@@ -207,63 +207,63 @@ namespace TDMakerLib
         {
             ImageUploader imageUploader = null;
 
-            if (!string.IsNullOrEmpty(Program.Settings.PtpImgCode))
+            if (!string.IsNullOrEmpty(App.Settings.PtpImgCode))
             {
-                imageUploader = new PtpImageUploader(Crypt.Decrypt(Program.Settings.PtpImgCode));
+                imageUploader = new PtpImageUploader(Crypt.Decrypt(App.Settings.PtpImgCode));
             }
             else
             {
-                switch ((ImageDestination)Program.Settings.ImageUploaderType)
+                switch ((ImageDestination)App.Settings.ImageUploaderType)
                 {
                     case ImageDestination.TinyPic:
-                        imageUploader = new TinyPicUploader(ZKeys.TinyPicID, ZKeys.TinyPicKey, Program.UploadersConfig.TinyPicAccountType,
-                            Program.UploadersConfig.TinyPicRegistrationCode);
+                        imageUploader = new TinyPicUploader(ZKeys.TinyPicID, ZKeys.TinyPicKey, App.UploadersConfig.TinyPicAccountType,
+                            App.UploadersConfig.TinyPicRegistrationCode);
                         break;
 
                     case ImageDestination.Imgur:
-                        if (Program.UploadersConfig.ImgurOAuth2Info == null)
+                        if (App.UploadersConfig.ImgurOAuth2Info == null)
                         {
-                            Program.UploadersConfig.ImgurOAuth2Info = new OAuth2Info(APIKeys.ImgurClientID, APIKeys.ImgurClientSecret);
+                            App.UploadersConfig.ImgurOAuth2Info = new OAuth2Info(APIKeys.ImgurClientID, APIKeys.ImgurClientSecret);
                         }
 
                         string albumID = null;
 
-                        if (Program.UploadersConfig.ImgurUploadSelectedAlbum && Program.UploadersConfig.ImgurSelectedAlbum != null)
+                        if (App.UploadersConfig.ImgurUploadSelectedAlbum && App.UploadersConfig.ImgurSelectedAlbum != null)
                         {
-                            albumID = Program.UploadersConfig.ImgurSelectedAlbum.id;
+                            albumID = App.UploadersConfig.ImgurSelectedAlbum.id;
                         }
 
-                        imageUploader = new Imgur_v3(Program.UploadersConfig.ImgurOAuth2Info)
+                        imageUploader = new Imgur_v3(App.UploadersConfig.ImgurOAuth2Info)
                         {
-                            UploadMethod = Program.UploadersConfig.ImgurAccountType,
-                            DirectLink = Program.UploadersConfig.ImgurDirectLink,
-                            ThumbnailType = Program.UploadersConfig.ImgurThumbnailType,
+                            UploadMethod = App.UploadersConfig.ImgurAccountType,
+                            DirectLink = App.UploadersConfig.ImgurDirectLink,
+                            ThumbnailType = App.UploadersConfig.ImgurThumbnailType,
                             UploadAlbumID = albumID
                         };
                         break;
 
                     case ImageDestination.Flickr:
-                        imageUploader = new FlickrUploader(APIKeys.FlickrKey, APIKeys.FlickrSecret, Program.UploadersConfig.FlickrAuthInfo, Program.UploadersConfig.FlickrSettings);
+                        imageUploader = new FlickrUploader(APIKeys.FlickrKey, APIKeys.FlickrSecret, App.UploadersConfig.FlickrAuthInfo, App.UploadersConfig.FlickrSettings);
                         break;
 
                     case ImageDestination.Photobucket:
-                        imageUploader = new Photobucket(Program.UploadersConfig.PhotobucketOAuthInfo, Program.UploadersConfig.PhotobucketAccountInfo);
+                        imageUploader = new Photobucket(App.UploadersConfig.PhotobucketOAuthInfo, App.UploadersConfig.PhotobucketAccountInfo);
                         break;
 
                     case ImageDestination.Picasa:
-                        imageUploader = new Picasa(Program.UploadersConfig.PicasaOAuth2Info)
+                        imageUploader = new Picasa(App.UploadersConfig.PicasaOAuth2Info)
                         {
-                            AlbumID = Program.UploadersConfig.PicasaAlbumID
+                            AlbumID = App.UploadersConfig.PicasaAlbumID
                         };
                         break;
                     case ImageDestination.Twitter:
-                        OAuthInfo twitterOAuth = Program.UploadersConfig.TwitterOAuthInfoList.ReturnIfValidIndex(Program.UploadersConfig.TwitterSelectedAccount);
+                        OAuthInfo twitterOAuth = App.UploadersConfig.TwitterOAuthInfoList.ReturnIfValidIndex(App.UploadersConfig.TwitterSelectedAccount);
                         imageUploader = new Twitter(twitterOAuth);
                         break;
                     case ImageDestination.Chevereto:
-                        imageUploader = new Chevereto(Program.UploadersConfig.CheveretoWebsite, Program.UploadersConfig.CheveretoAPIKey)
+                        imageUploader = new Chevereto(App.UploadersConfig.CheveretoWebsite, App.UploadersConfig.CheveretoAPIKey)
                         {
-                            DirectURL = Program.UploadersConfig.CheveretoDirectURL
+                            DirectURL = App.UploadersConfig.CheveretoDirectURL
                         };
                         break;
                     case ImageDestination.HizliResim:
@@ -273,9 +273,9 @@ namespace TDMakerLib
                         };
                         break;
                     case ImageDestination.CustomImageUploader:
-                        if (Program.UploadersConfig.CustomUploadersList.IsValidIndex(Program.UploadersConfig.CustomImageUploaderSelected))
+                        if (App.UploadersConfig.CustomUploadersList.IsValidIndex(App.UploadersConfig.CustomImageUploaderSelected))
                         {
-                            imageUploader = new CustomImageUploader(Program.UploadersConfig.CustomUploadersList[Program.UploadersConfig.CustomImageUploaderSelected]);
+                            imageUploader = new CustomImageUploader(App.UploadersConfig.CustomUploadersList[App.UploadersConfig.CustomImageUploaderSelected]);
                         }
                         break;
 
@@ -297,53 +297,53 @@ namespace TDMakerLib
         {
             FileUploader fileUploader = null;
 
-            switch (Program.Settings.ImageFileUploaderType)
+            switch (App.Settings.ImageFileUploaderType)
             {
                 case FileDestination.Dropbox:
-                    fileUploader = new Dropbox(Program.UploadersConfig.DropboxOAuth2Info, Program.UploadersConfig.DropboxAccountInfo)
+                    fileUploader = new Dropbox(App.UploadersConfig.DropboxOAuth2Info, App.UploadersConfig.DropboxAccountInfo)
                     {
-                        UploadPath = NameParser.Parse(NameParserType.URL, Dropbox.TidyUploadPath(Program.UploadersConfig.DropboxUploadPath)),
-                        AutoCreateShareableLink = Program.UploadersConfig.DropboxAutoCreateShareableLink,
-                        ShareURLType = Program.UploadersConfig.DropboxURLType
+                        UploadPath = NameParser.Parse(NameParserType.URL, Dropbox.TidyUploadPath(App.UploadersConfig.DropboxUploadPath)),
+                        AutoCreateShareableLink = App.UploadersConfig.DropboxAutoCreateShareableLink,
+                        ShareURLType = App.UploadersConfig.DropboxURLType
                     };
                     break;
                 case FileDestination.Copy:
-                    fileUploader = new Copy(Program.UploadersConfig.CopyOAuthInfo, Program.UploadersConfig.CopyAccountInfo)
+                    fileUploader = new Copy(App.UploadersConfig.CopyOAuthInfo, App.UploadersConfig.CopyAccountInfo)
                     {
-                        UploadPath = NameParser.Parse(NameParserType.URL, Copy.TidyUploadPath(Program.UploadersConfig.CopyUploadPath)),
-                        URLType = Program.UploadersConfig.CopyURLType
+                        UploadPath = NameParser.Parse(NameParserType.URL, Copy.TidyUploadPath(App.UploadersConfig.CopyUploadPath)),
+                        URLType = App.UploadersConfig.CopyURLType
                     };
                     break;
                 case FileDestination.GoogleDrive:
-                    fileUploader = new GoogleDrive(Program.UploadersConfig.GoogleDriveOAuth2Info)
+                    fileUploader = new GoogleDrive(App.UploadersConfig.GoogleDriveOAuth2Info)
                     {
-                        IsPublic = Program.UploadersConfig.GoogleDriveIsPublic,
-                        FolderID = Program.UploadersConfig.GoogleDriveUseFolder ? Program.UploadersConfig.GoogleDriveFolderID : null
+                        IsPublic = App.UploadersConfig.GoogleDriveIsPublic,
+                        FolderID = App.UploadersConfig.GoogleDriveUseFolder ? App.UploadersConfig.GoogleDriveFolderID : null
                     };
                     break;
                 case FileDestination.RapidShare:
-                    fileUploader = new RapidShare(Program.UploadersConfig.RapidShareUsername, Program.UploadersConfig.RapidSharePassword, Program.UploadersConfig.RapidShareFolderID);
+                    fileUploader = new RapidShare(App.UploadersConfig.RapidShareUsername, App.UploadersConfig.RapidSharePassword, App.UploadersConfig.RapidShareFolderID);
                     break;
                 case FileDestination.SendSpace:
                     fileUploader = new SendSpace(APIKeys.SendSpaceKey);
-                    switch (Program.UploadersConfig.SendSpaceAccountType)
+                    switch (App.UploadersConfig.SendSpaceAccountType)
                     {
                         case AccountType.Anonymous:
                             SendSpaceManager.PrepareUploadInfo(APIKeys.SendSpaceKey);
                             break;
                         case AccountType.User:
-                            SendSpaceManager.PrepareUploadInfo(APIKeys.SendSpaceKey, Program.UploadersConfig.SendSpaceUsername, Program.UploadersConfig.SendSpacePassword);
+                            SendSpaceManager.PrepareUploadInfo(APIKeys.SendSpaceKey, App.UploadersConfig.SendSpaceUsername, App.UploadersConfig.SendSpacePassword);
                             break;
                     }
                     break;
                 case FileDestination.Minus:
-                    fileUploader = new Minus(Program.UploadersConfig.MinusConfig, Program.UploadersConfig.MinusOAuth2Info);
+                    fileUploader = new Minus(App.UploadersConfig.MinusConfig, App.UploadersConfig.MinusOAuth2Info);
                     break;
                 case FileDestination.Box:
-                    fileUploader = new Box(Program.UploadersConfig.BoxOAuth2Info)
+                    fileUploader = new Box(App.UploadersConfig.BoxOAuth2Info)
                     {
-                        FolderID = Program.UploadersConfig.BoxSelectedFolder.id,
-                        Share = Program.UploadersConfig.BoxShare
+                        FolderID = App.UploadersConfig.BoxSelectedFolder.id,
+                        Share = App.UploadersConfig.BoxShare
                     };
                     break;
                 case FileDestination.Gfycat:
@@ -352,23 +352,23 @@ namespace TDMakerLib
                 case FileDestination.Ge_tt:
                     fileUploader = new Ge_tt(APIKeys.Ge_ttKey)
                     {
-                        AccessToken = Program.UploadersConfig.Ge_ttLogin.AccessToken
+                        AccessToken = App.UploadersConfig.Ge_ttLogin.AccessToken
                     };
                     break;
                 case FileDestination.Localhostr:
-                    fileUploader = new Hostr(Program.UploadersConfig.LocalhostrEmail, Program.UploadersConfig.LocalhostrPassword)
+                    fileUploader = new Hostr(App.UploadersConfig.LocalhostrEmail, App.UploadersConfig.LocalhostrPassword)
                     {
-                        DirectURL = Program.UploadersConfig.LocalhostrDirectURL
+                        DirectURL = App.UploadersConfig.LocalhostrDirectURL
                     };
                     break;
                 case FileDestination.CustomFileUploader:
-                    if (Program.UploadersConfig.CustomUploadersList.IsValidIndex(Program.UploadersConfig.CustomFileUploaderSelected))
+                    if (App.UploadersConfig.CustomUploadersList.IsValidIndex(App.UploadersConfig.CustomFileUploaderSelected))
                     {
-                        fileUploader = new CustomFileUploader(Program.UploadersConfig.CustomUploadersList[Program.UploadersConfig.CustomFileUploaderSelected]);
+                        fileUploader = new CustomFileUploader(App.UploadersConfig.CustomUploadersList[App.UploadersConfig.CustomFileUploaderSelected]);
                     }
                     break;
                 case FileDestination.FTP:
-                    FTPAccount account = Program.UploadersConfig.FTPAccountList.ReturnIfValidIndex(Program.UploadersConfig.FTPSelectedImage);
+                    FTPAccount account = App.UploadersConfig.FTPAccountList.ReturnIfValidIndex(App.UploadersConfig.FTPSelectedImage);
 
                     if (account != null)
                     {
@@ -383,31 +383,31 @@ namespace TDMakerLib
                     }
                     break;
                 case FileDestination.SharedFolder:
-                    int idLocalhost = Program.UploadersConfig.LocalhostSelectedImages;
-                    if (Program.UploadersConfig.LocalhostAccountList.IsValidIndex(idLocalhost))
+                    int idLocalhost = App.UploadersConfig.LocalhostSelectedImages;
+                    if (App.UploadersConfig.LocalhostAccountList.IsValidIndex(idLocalhost))
                     {
-                        fileUploader = new SharedFolderUploader(Program.UploadersConfig.LocalhostAccountList[idLocalhost]);
+                        fileUploader = new SharedFolderUploader(App.UploadersConfig.LocalhostAccountList[idLocalhost]);
                     }
                     break;
                 case FileDestination.Email:
-                    using (EmailForm emailForm = new EmailForm(Program.UploadersConfig.EmailRememberLastTo ? Program.UploadersConfig.EmailLastTo : string.Empty,
-                        Program.UploadersConfig.EmailDefaultSubject, Program.UploadersConfig.EmailDefaultBody))
+                    using (EmailForm emailForm = new EmailForm(App.UploadersConfig.EmailRememberLastTo ? App.UploadersConfig.EmailLastTo : string.Empty,
+                        App.UploadersConfig.EmailDefaultSubject, App.UploadersConfig.EmailDefaultBody))
                     {
                         emailForm.Icon = ShareXResources.Icon;
 
                         if (emailForm.ShowDialog() == DialogResult.OK)
                         {
-                            if (Program.UploadersConfig.EmailRememberLastTo)
+                            if (App.UploadersConfig.EmailRememberLastTo)
                             {
-                                Program.UploadersConfig.EmailLastTo = emailForm.ToEmail;
+                                App.UploadersConfig.EmailLastTo = emailForm.ToEmail;
                             }
 
                             fileUploader = new Email
                             {
-                                SmtpServer = Program.UploadersConfig.EmailSmtpServer,
-                                SmtpPort = Program.UploadersConfig.EmailSmtpPort,
-                                FromEmail = Program.UploadersConfig.EmailFrom,
-                                Password = Program.UploadersConfig.EmailPassword,
+                                SmtpServer = App.UploadersConfig.EmailSmtpServer,
+                                SmtpPort = App.UploadersConfig.EmailSmtpPort,
+                                FromEmail = App.UploadersConfig.EmailFrom,
+                                Password = App.UploadersConfig.EmailPassword,
                                 ToEmail = emailForm.ToEmail,
                                 Subject = emailForm.Subject,
                                 Body = emailForm.Body
@@ -416,37 +416,37 @@ namespace TDMakerLib
                     }
                     break;
                 case FileDestination.Jira:
-                    fileUploader = new Jira(Program.UploadersConfig.JiraHost, Program.UploadersConfig.JiraOAuthInfo, Program.UploadersConfig.JiraIssuePrefix);
+                    fileUploader = new Jira(App.UploadersConfig.JiraHost, App.UploadersConfig.JiraOAuthInfo, App.UploadersConfig.JiraIssuePrefix);
                     break;
                 case FileDestination.Mega:
-                    fileUploader = new Mega(Program.UploadersConfig.MegaAuthInfos, Program.UploadersConfig.MegaParentNodeId);
+                    fileUploader = new Mega(App.UploadersConfig.MegaAuthInfos, App.UploadersConfig.MegaParentNodeId);
                     break;
                 case FileDestination.AmazonS3:
-                    fileUploader = new AmazonS3(Program.UploadersConfig.AmazonS3Settings);
+                    fileUploader = new AmazonS3(App.UploadersConfig.AmazonS3Settings);
                     break;
                 case FileDestination.OwnCloud:
-                    fileUploader = new OwnCloud(Program.UploadersConfig.OwnCloudHost, Program.UploadersConfig.OwnCloudUsername, Program.UploadersConfig.OwnCloudPassword)
+                    fileUploader = new OwnCloud(App.UploadersConfig.OwnCloudHost, App.UploadersConfig.OwnCloudUsername, App.UploadersConfig.OwnCloudPassword)
                     {
-                        Path = Program.UploadersConfig.OwnCloudPath,
-                        CreateShare = Program.UploadersConfig.OwnCloudCreateShare,
-                        DirectLink = Program.UploadersConfig.OwnCloudDirectLink,
-                        IgnoreInvalidCert = Program.UploadersConfig.OwnCloudIgnoreInvalidCert
+                        Path = App.UploadersConfig.OwnCloudPath,
+                        CreateShare = App.UploadersConfig.OwnCloudCreateShare,
+                        DirectLink = App.UploadersConfig.OwnCloudDirectLink,
+                        IgnoreInvalidCert = App.UploadersConfig.OwnCloudIgnoreInvalidCert
                     };
                     break;
                 case FileDestination.Pushbullet:
-                    fileUploader = new Pushbullet(Program.UploadersConfig.PushbulletSettings);
+                    fileUploader = new Pushbullet(App.UploadersConfig.PushbulletSettings);
                     break;
                 case FileDestination.MediaCrush:
                     fileUploader = new MediaCrushUploader()
                     {
-                        DirectLink = Program.UploadersConfig.MediaCrushDirectLink
+                        DirectLink = App.UploadersConfig.MediaCrushDirectLink
                     };
                     break;
                 case FileDestination.MediaFire:
-                    fileUploader = new MediaFire(APIKeys.MediaFireAppId, APIKeys.MediaFireApiKey, Program.UploadersConfig.MediaFireUsername, Program.UploadersConfig.MediaFirePassword)
+                    fileUploader = new MediaFire(APIKeys.MediaFireAppId, APIKeys.MediaFireApiKey, App.UploadersConfig.MediaFireUsername, App.UploadersConfig.MediaFirePassword)
                     {
-                        UploadPath = NameParser.Parse(NameParserType.URL, Program.UploadersConfig.MediaFirePath),
-                        UseLongLink = Program.UploadersConfig.MediaFireUseLongLink
+                        UploadPath = NameParser.Parse(NameParserType.URL, App.UploadersConfig.MediaFirePath),
+                        UseLongLink = App.UploadersConfig.MediaFireUseLongLink
                     };
                     break;
                 case FileDestination.Pomf:

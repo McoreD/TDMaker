@@ -54,12 +54,12 @@ namespace TDMakerLib
 
         public void Write()
         {
-            Write(Program.AppConf.GetSettingsFilePath(XMLFileName));
+            Write(App.AppConf.GetSettingsFilePath(XMLFileName));
         }
 
         public static XMLSettingsMtnProfiles Read()
         {
-            string settingsFile = Program.AppConf.GetSettingsFilePath(XMLFileName);
+            string settingsFile = App.AppConf.GetSettingsFilePath(XMLFileName);
             return Read(settingsFile);
         }
 

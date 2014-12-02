@@ -10,7 +10,7 @@ namespace TDMakerLib
     [Serializable]
     public class AppSettings
     {
-        public readonly static string AppSettingsFile = Path.Combine(Program.zLocalAppDataFolder, "AppSettings.xml");
+        public readonly static string AppSettingsFile = Path.Combine(App.zLocalAppDataFolder, "AppSettings.xml");
         public string RootDir { get; set; }
         public string XMLSettingsFile { get; set; }
         public string UploadersConfigPath { get; set; }
@@ -33,12 +33,12 @@ namespace TDMakerLib
 
         public string GetSettingsFilePath()
         {
-            return Path.Combine(Program.SettingsDir, XMLSettingsCore.XMLFileName);
+            return Path.Combine(App.SettingsDir, XMLSettingsCore.XMLFileName);
         }
 
         public string GetSettingsFilePath(string fileName)
         {
-            return Path.Combine(Program.SettingsDir, fileName);
+            return Path.Combine(App.SettingsDir, fileName);
         }
 
         public static AppSettings Read(string filePath)

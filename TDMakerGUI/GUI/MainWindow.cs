@@ -53,13 +53,13 @@ namespace TDMaker
             string logo1 = Path.Combine(Application.StartupPath, "logo1.png");
             if (!File.Exists(logo1))
             {
-                logo1 = Path.Combine(Program.SettingsDir, "logo1.png");
+                logo1 = Path.Combine(App.SettingsDir, "logo1.png");
             }
 
             string logo2 = Path.Combine(Application.StartupPath, "logo.png");
             if (!File.Exists(logo2))
             {
-                logo2 = Path.Combine(Program.SettingsDir, "logo.png");
+                logo2 = Path.Combine(App.SettingsDir, "logo.png");
             }
 
             if (File.Exists(logo1))
@@ -81,7 +81,7 @@ namespace TDMaker
 
             sBar.Text = string.Format("Ready.");
 
-            Text = Program.GetProductName();
+            Text = App.GetProductName();
             Icon = Resources.GenuineAdvIcon;
 
             UpdateGuiControls();
@@ -92,21 +92,21 @@ namespace TDMaker
             rtbDebugLog.Text = FileSystem.DebugLog.ToString();
             FileSystem.DebugLogChanged += new FileSystem.DebugLogEventHandler(FileSystem_DebugLogChanged);
 
-            string mtnExe = (Program.IsUNIX ? "mtn" : "mtn.exe");
+            string mtnExe = (App.IsUNIX ? "mtn" : "mtn.exe");
 
-            if (Program.Settings.ThumbnailerType == ThumbnailerType.MovieThumbnailer)
+            if (App.Settings.ThumbnailerType == ThumbnailerType.MovieThumbnailer)
             {
-                if (!File.Exists(Program.Settings.MTNPath))
+                if (!File.Exists(App.Settings.MTNPath))
                 {
-                    Program.Settings.MTNPath = Path.Combine(Application.StartupPath, mtnExe);
+                    App.Settings.MTNPath = Path.Combine(Application.StartupPath, mtnExe);
                 }
 
-                if (!File.Exists(Program.Settings.MTNPath))
+                if (!File.Exists(App.Settings.MTNPath))
                 {
-                    Program.Settings.MTNPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), Application.ProductName), mtnExe);
+                    App.Settings.MTNPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), Application.ProductName), mtnExe);
                 }
 
-                if (!File.Exists(Program.Settings.MTNPath))
+                if (!File.Exists(App.Settings.MTNPath))
                 {
                     OpenFileDialog dlg = new OpenFileDialog();
                     dlg.InitialDirectory = Application.StartupPath;
@@ -114,13 +114,13 @@ namespace TDMaker
                     dlg.Filter = "Applications (*.exe)|*.exe";
                     if (dlg.ShowDialog() == DialogResult.OK)
                     {
-                        Program.Settings.MTNPath = dlg.FileName;
+                        App.Settings.MTNPath = dlg.FileName;
                     }
                 }
             }
-            else if (Program.Settings.ThumbnailerType == ThumbnailerType.MPlayer)
+            else if (App.Settings.ThumbnailerType == ThumbnailerType.MPlayer)
             {
-                if (!File.Exists(Program.Settings.MPlayerPath))
+                if (!File.Exists(App.Settings.MPlayerPath))
                 {
                     OpenFileDialog dlg = new OpenFileDialog();
                     dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
@@ -129,7 +129,7 @@ namespace TDMaker
                     dlg.Filter = "Applications (mplayer.exe)|mplayer.exe";
                     if (dlg.ShowDialog() == DialogResult.OK)
                     {
-                        Program.Settings.MPlayerPath = dlg.FileName;
+                        App.Settings.MPlayerPath = dlg.FileName;
                     }
                     else
                     {
@@ -152,7 +152,7 @@ namespace TDMaker
             StringBuilder sbExt = new StringBuilder();
             sbExt.Append("Media Files (");
             StringBuilder sbExtDesc = new StringBuilder();
-            foreach (string ext in Program.Settings.SupportedFileExtVideo)
+            foreach (string ext in App.Settings.SupportedFileExtVideo)
             {
                 sbExtDesc.Append("*");
                 sbExtDesc.Append(ext);
@@ -160,7 +160,7 @@ namespace TDMaker
             }
             sbExt.Append(sbExtDesc.ToString().TrimEnd().TrimEnd(';'));
             sbExt.Append(")|");
-            foreach (string ext in Program.Settings.SupportedFileExtVideo)
+            foreach (string ext in App.Settings.SupportedFileExtVideo)
             {
                 sbExt.Append("*");
                 sbExt.Append(ext);
@@ -191,11 +191,11 @@ namespace TDMaker
                 GuessSource(txtTitle.Text);
             }
 
-            if (!Program.Settings.WritePublish && ps.Length > 1)
+            if (!App.Settings.WritePublish && ps.Length > 1)
             {
                 if (MessageBox.Show("Writing Publish info to File is recommended when analysing multiple files or folders. \n\nWould you like to turn this feature on?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    Program.Settings.WritePublish = true;
+                    App.Settings.WritePublish = true;
                 }
             }
 
@@ -215,7 +215,7 @@ namespace TDMaker
                 }
             }
 
-            if (Program.Settings.AnalyzeAuto)
+            if (App.Settings.AnalyzeAuto)
             {
                 WorkerTask wt = new WorkerTask(bwApp, TaskType.ANALYZE_MEDIA);
                 wt.FileOrDirPaths = new List<string>(ps);
@@ -254,11 +254,11 @@ namespace TDMaker
             else
             {
                 // fill previous settings
-                wt.TorrentCreateAuto = Program.Settings.TorrentCreateAuto;
-                wt.UploadScreenshot = Program.Settings.ScreenshotsUpload;
+                wt.TorrentCreateAuto = App.Settings.TorrentCreateAuto;
+                wt.UploadScreenshot = App.Settings.ScreenshotsUpload;
             }
 
-            if (!mwo.PromptShown && Program.Settings.ShowMediaWizardAlways)
+            if (!mwo.PromptShown && App.Settings.ShowMediaWizardAlways)
             {
                 MediaWizard mw = new MediaWizard(wt);
                 dlgResult = mw.ShowDialog();
@@ -309,7 +309,7 @@ namespace TDMaker
                                 mi.SetTitle(txtTitle.Text);
 
                                 // if it is a DVD, set the title to be name of the folder.
-                                this.Text = string.Format("{0} - {1}", Program.GetProductName(), MediaHelper.GetMediaName(mi.Location));
+                                this.Text = string.Format("{0} - {1}", App.GetProductName(), MediaHelper.GetMediaName(mi.Location));
                             }
                             miList.Add(mi);
                         }
@@ -374,7 +374,7 @@ namespace TDMaker
             StringBuilder sbMsg = new StringBuilder();
 
             // checks
-            if (string.IsNullOrEmpty(cboSource.Text) && Program.Settings.PublishInfoTypeChoice != PublishInfoType.MediaInfo)
+            if (string.IsNullOrEmpty(cboSource.Text) && App.Settings.PublishInfoTypeChoice != PublishInfoType.MediaInfo)
             {
                 sbMsg.AppendLine("Source information is mandatory. Use the Source drop down menu to select the correct source type.");
             }
@@ -429,9 +429,9 @@ namespace TDMaker
             mi.WebLink = txtWebLink.Text;
             mi.TorrentCreateInfoMy = new TorrentCreateInfo(GetTracker(), p);
 
-            if (Program.Settings.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate)
+            if (App.Settings.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate)
             {
-                mi.TemplateLocation = Path.Combine(Program.TemplatesDir, cboTemplate.Text);
+                mi.TemplateLocation = Path.Combine(App.TemplatesDir, cboTemplate.Text);
             }
 
             return mi;
@@ -464,27 +464,27 @@ namespace TDMaker
 
         private void SettingsWrite()
         {
-            Program.Settings.TrackerGroupActive = cboTrackerGroupActive.SelectedIndex;
-            Program.Settings.TemplateIndex = cboTemplate.SelectedIndex;
+            App.Settings.TrackerGroupActive = cboTrackerGroupActive.SelectedIndex;
+            App.Settings.TemplateIndex = cboTemplate.SelectedIndex;
 
-            Program.Settings.TorrentLocationChoice = (LocationType)cboTorrentLoc.SelectedIndex;
+            App.Settings.TorrentLocationChoice = (LocationType)cboTorrentLoc.SelectedIndex;
 
-            Program.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
-            Program.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
+            App.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
+            App.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
 
-            Program.Settings.Write();
-            Program.UploadersConfig.Save(Program.UploadersConfigPath);
-            Program.mtnProfileMgr.Write();
+            App.Settings.Write();
+            App.UploadersConfig.Save(App.UploadersConfigPath);
+            App.mtnProfileMgr.Write();
         }
 
         private void ConfigureDirs()
         {
-            Program.WriteTemplates(false);
+            App.WriteTemplates(false);
 
             // Read Templates to GUI
-            if (Directory.Exists(Program.TemplatesDir))
+            if (Directory.Exists(App.TemplatesDir))
             {
-                string[] dirs = Directory.GetDirectories(Program.TemplatesDir);
+                string[] dirs = Directory.GetDirectories(App.TemplatesDir);
                 string[] templateNames = new string[dirs.Length];
                 for (int i = 0; i < templateNames.Length; i++)
                 {
@@ -497,8 +497,8 @@ namespace TDMaker
             }
             if (cboTemplate.Items.Count > 0)
             {
-                cboTemplate.SelectedIndex = Math.Max(Program.Settings.TemplateIndex, 0);
-                cboQuickTemplate.SelectedIndex = Math.Max(Program.Settings.TemplateIndex, 0);
+                cboTemplate.SelectedIndex = Math.Max(App.Settings.TemplateIndex, 0);
+                cboQuickTemplate.SelectedIndex = Math.Max(App.Settings.TemplateIndex, 0);
             }
 
             mTrackerManager = new TrackerManager();
@@ -506,7 +506,7 @@ namespace TDMaker
 
         private void SettingsRead()
         {
-            tsmiPreferKnownFolders.Checked = Program.AppConf.PreferSystemFolders;
+            tsmiPreferKnownFolders.Checked = App.AppConf.PreferSystemFolders;
 
             SettingsReadInput();
             SettingsReadMedia();
@@ -519,80 +519,80 @@ namespace TDMaker
             {
                 cboImageUploader.Items.Add(dest.GetDescription());
             }
-            cboImageUploader.SelectedIndex = (int)Program.Settings.ImageUploaderType;
+            cboImageUploader.SelectedIndex = (int)App.Settings.ImageUploaderType;
 
             cboFileUploader.Items.Clear();
             foreach (FileDestination dest in Enum.GetValues(typeof(FileDestination)))
             {
                 cboFileUploader.Items.Add(dest.GetDescription());
             }
-            cboFileUploader.SelectedIndex = (int)Program.Settings.ImageFileUploaderType;
+            cboFileUploader.SelectedIndex = (int)App.Settings.ImageFileUploaderType;
 
-            if (string.IsNullOrEmpty(Program.Settings.MTNPath))
+            if (string.IsNullOrEmpty(App.Settings.MTNPath))
             {
                 string mtnPath = Path.Combine(Application.StartupPath, "mtn.exe");
                 if (File.Exists(mtnPath))
-                    Program.Settings.MTNPath = mtnPath;
+                    App.Settings.MTNPath = mtnPath;
             }
 
-            if (string.IsNullOrEmpty(Program.Settings.CustomMediaInfoDllDir))
+            if (string.IsNullOrEmpty(App.Settings.CustomMediaInfoDllDir))
             {
-                Program.Settings.CustomMediaInfoDllDir = Application.StartupPath;
+                App.Settings.CustomMediaInfoDllDir = Application.StartupPath;
             }
-            Kernel32Helper.SetDllDirectory(Program.Settings.CustomMediaInfoDllDir);
+            Kernel32Helper.SetDllDirectory(App.Settings.CustomMediaInfoDllDir);
 
-            pgApp.SelectedObject = Program.Settings;
+            pgApp.SelectedObject = App.Settings;
         }
 
         private void SettingsReadInput()
         {
-            if (Program.Settings.MediaSources.Count == 0)
+            if (App.Settings.MediaSources.Count == 0)
             {
-                Program.Settings.MediaSources.AddRange(new string[] { "CAM", "TC", "TS", "R5", "DVD-Screener",
+                App.Settings.MediaSources.AddRange(new string[] { "CAM", "TC", "TS", "R5", "DVD-Screener",
                                                             "DVD", "TV", "HDTV", "Blu-ray", "HD-DVD",
                                                             "Laser Disc", "VHS", "Unknown" });
             }
-            if (Program.Settings.Extras.Count == 0)
+            if (App.Settings.Extras.Count == 0)
             {
-                Program.Settings.Extras.AddRange(new string[] { "Intact", "Shrunk", "Removed", "None on Source" });
+                App.Settings.Extras.AddRange(new string[] { "Intact", "Shrunk", "Removed", "None on Source" });
             }
-            if (Program.Settings.AuthoringModes.Count == 0)
+            if (App.Settings.AuthoringModes.Count == 0)
             {
-                Program.Settings.AuthoringModes.AddRange(new string[] { "Untouched", "Shrunk" });
+                App.Settings.AuthoringModes.AddRange(new string[] { "Untouched", "Shrunk" });
             }
-            if (Program.Settings.DiscMenus.Count == 0)
+            if (App.Settings.DiscMenus.Count == 0)
             {
-                Program.Settings.DiscMenus.AddRange(new string[] { "Intact", "Removed", "Shrunk" });
+                App.Settings.DiscMenus.AddRange(new string[] { "Intact", "Removed", "Shrunk" });
             }
-            if (Program.Settings.SupportedFileExtVideo.Count == 0)
+            if (App.Settings.SupportedFileExtVideo.Count == 0)
             {
-                Program.Settings.SupportedFileExtVideo.AddRange(new string[] { ".3g2", ".3gp", ".3gp2", ".3gpp", ".amr", ".asf", ".asx", ".avi", ".d2v", ".dat", ".divx", ".drc", ".dsa", ".dsm", ".dss", ".dsv", ".flc", ".fli", ".flic", ".flv", ".hdmov", ".ivf", ".m1v", ".m2ts", ".m2v", ".m4v", ".mkv", ".mov", ".mp2v", ".mp4", ".mpcpl", ".mpe", ".mpeg", ".mpg", ".mpv", ".mpv2", ".ogm", ".qt", ".ram", ".ratdvd", ".rm", ".rmvb", ".roq", ".rp", ".rpm", ".rt", ".swf", ".ts", ".vob", ".vp6", ".wm", ".wmp", ".wmv", ".wmx", ".wvx" });
+                App.Settings.SupportedFileExtVideo.AddRange(new string[] { ".3g2", ".3gp", ".3gp2", ".3gpp", ".amr", ".asf", ".asx", ".avi", ".d2v", ".dat", ".divx", ".drc", ".dsa", ".dsm", ".dss", ".dsv", ".flc", ".fli", ".flic", ".flv", ".hdmov", ".ivf", ".m1v", ".m2ts", ".m2v", ".m4v", ".mkv", ".mov", ".mp2v", ".mp4", ".mpcpl", ".mpe", ".mpeg", ".mpg", ".mpv", ".mpv2", ".ogm", ".qt", ".ram", ".ratdvd", ".rm", ".rmvb", ".roq", ".rp", ".rpm", ".rt", ".swf", ".ts", ".vob", ".vp6", ".wm", ".wmp", ".wmv", ".wmx", ".wvx" });
             }
-            if (Program.Settings.SupportedFileExtAudio.Count == 0)
+            if (App.Settings.SupportedFileExtAudio.Count == 0)
             {
-                Program.Settings.SupportedFileExtAudio.AddRange(new string[] { ".aac", ".aiff", ".ape", ".flac", ".m4a", ".mp3", ".mpc", ".ogg", ".mp4", ".wma" });
+                App.Settings.SupportedFileExtAudio.AddRange(new string[] { ".aac", ".aiff", ".ape", ".flac", ".m4a", ".mp3", ".mpc", ".ogg", ".mp4", ".wma" });
             }
 
             cboSource.Items.Clear();
-            foreach (string src in Program.Settings.MediaSources)
+            foreach (string src in App.Settings.MediaSources)
             {
                 cboSource.Items.Add(src);
             }
 
             cboAuthoring.Items.Clear();
-            foreach (string ed in Program.Settings.AuthoringModes)
+            foreach (string ed in App.Settings.AuthoringModes)
             {
                 cboAuthoring.Items.Add(ed);
             }
 
             cboDiscMenu.Items.Clear();
-            foreach (string ex in Program.Settings.DiscMenus)
+            foreach (string ex in App.Settings.DiscMenus)
             {
                 cboDiscMenu.Items.Add(ex);
             }
 
             cboExtras.Items.Clear();
-            foreach (string ex in Program.Settings.Extras)
+            foreach (string ex in App.Settings.Extras)
             {
                 cboExtras.Items.Add(ex);
             }
@@ -600,26 +600,26 @@ namespace TDMaker
 
         private void SettingsReadMedia()
         {
-            chkAuthoring.Checked = Program.Settings.bAuthoring;
-            cboAuthoring.Text = Program.Settings.AuthoringMode;
+            chkAuthoring.Checked = App.Settings.bAuthoring;
+            cboAuthoring.Text = App.Settings.AuthoringMode;
 
-            chkDiscMenu.Checked = Program.Settings.bDiscMenu;
-            cboDiscMenu.Text = Program.Settings.DiscMenu;
+            chkDiscMenu.Checked = App.Settings.bDiscMenu;
+            cboDiscMenu.Text = App.Settings.DiscMenu;
 
-            chkExtras.Checked = Program.Settings.bExtras;
-            cboExtras.Text = Program.Settings.Extra;
+            chkExtras.Checked = App.Settings.bExtras;
+            cboExtras.Text = App.Settings.Extra;
 
-            chkTitle.Checked = Program.Settings.bTitle;
-            chkWebLink.Checked = Program.Settings.bWebLink;
+            chkTitle.Checked = App.Settings.bTitle;
+            chkWebLink.Checked = App.Settings.bWebLink;
         }
 
         private void SettingsReadScreenshots()
         {
-            chkScreenshotUpload.Checked = Program.Settings.ScreenshotsUpload;
+            chkScreenshotUpload.Checked = App.Settings.ScreenshotsUpload;
 
-            btnUploadersConfig.Visible = cboFileUploader.Visible = cboImageUploader.Visible = string.IsNullOrEmpty(Program.Settings.PtpImgCode);
+            btnUploadersConfig.Visible = cboFileUploader.Visible = cboImageUploader.Visible = string.IsNullOrEmpty(App.Settings.PtpImgCode);
 
-            if (!string.IsNullOrEmpty(Program.Settings.PtpImgCode))
+            if (!string.IsNullOrEmpty(App.Settings.PtpImgCode))
                 chkScreenshotUpload.Text = "Upload screenshots to ptpimg.me";
         }
 
@@ -630,44 +630,44 @@ namespace TDMaker
                 cboQuickPublishType.Items.AddRange(Enum.GetNames(typeof(PublishInfoType)));
                 cboPublishType.Items.AddRange(Enum.GetNames(typeof(PublishInfoType)));
             }
-            cboPublishType.SelectedIndex = (int)Program.Settings.PublishInfoTypeChoice;
-            cboQuickPublishType.SelectedIndex = (int)Program.Settings.PublishInfoTypeChoice;
+            cboPublishType.SelectedIndex = (int)App.Settings.PublishInfoTypeChoice;
+            cboQuickPublishType.SelectedIndex = (int)App.Settings.PublishInfoTypeChoice;
         }
 
         private void SettingsReadOptions()
         {
-            cboTemplate.SelectedIndex = Program.Settings.TemplateIndex;
-            chkUploadFullScreenshot.Checked = Program.Settings.UseFullPicture;
+            cboTemplate.SelectedIndex = App.Settings.TemplateIndex;
+            chkUploadFullScreenshot.Checked = App.Settings.UseFullPicture;
 
-            chkAlignCenter.Checked = Program.Settings.AlignCenter;
-            chkPre.Checked = Program.Settings.PreText;
-            chkPreIncreaseFontSize.Checked = Program.Settings.LargerPreText;
+            chkAlignCenter.Checked = App.Settings.AlignCenter;
+            chkPre.Checked = App.Settings.PreText;
+            chkPreIncreaseFontSize.Checked = App.Settings.LargerPreText;
 
-            nudFontSizeIncr.Value = (decimal)Program.Settings.FontSizeIncr;
-            nudHeading1Size.Value = (decimal)Program.Settings.FontSizeHeading1;
-            nudHeading2Size.Value = (decimal)Program.Settings.FontSizeHeading2;
-            nudHeading3Size.Value = (decimal)Program.Settings.FontSizeHeading3;
-            nudBodySize.Value = (decimal)Program.Settings.FontSizeBody;
+            nudFontSizeIncr.Value = (decimal)App.Settings.FontSizeIncr;
+            nudHeading1Size.Value = (decimal)App.Settings.FontSizeHeading1;
+            nudHeading2Size.Value = (decimal)App.Settings.FontSizeHeading2;
+            nudHeading3Size.Value = (decimal)App.Settings.FontSizeHeading3;
+            nudBodySize.Value = (decimal)App.Settings.FontSizeBody;
 
-            chkProxyEnable.Checked = Program.Settings.ProxyEnabled;
-            pgProxy.SelectedObject = Program.Settings.ProxySettings;
+            chkProxyEnable.Checked = App.Settings.ProxyEnabled;
+            pgProxy.SelectedObject = App.Settings.ProxySettings;
 
             if (cboScreenshotsLoc.Items.Count == 0)
             {
                 cboScreenshotsLoc.Items.AddRange(Enum.GetNames(typeof(LocationType)));
             }
-            cboScreenshotsLoc.SelectedIndex = (int)Program.Settings.ScreenshotsLoc;
-            txtScreenshotsLoc.Text = Program.Settings.CustomScreenshotsDir;
+            cboScreenshotsLoc.SelectedIndex = (int)App.Settings.ScreenshotsLoc;
+            txtScreenshotsLoc.Text = App.Settings.CustomScreenshotsDir;
 
-            cboThumbnailer.SelectedIndex = (int)Program.Settings.ThumbnailerType;
-            pgMPlayerOptions.SelectedObject = Program.Settings.MPlayerOptions;
+            cboThumbnailer.SelectedIndex = (int)App.Settings.ThumbnailerType;
+            pgMPlayerOptions.SelectedObject = App.Settings.MPlayerOptions;
             SettingsReadOptionsMTN();
             SettingsReadOptionsTorrents();
         }
 
         private void SettingsReadOptionsMTN()
         {
-            if (Program.mtnProfileMgr.MtnProfiles.Count == 0)
+            if (App.mtnProfileMgr.MtnProfiles.Count == 0)
             {
                 XMLSettingsScreenshot mtnDefault1 = new XMLSettingsScreenshot("Movies (Auto Width)")
                 {
@@ -681,7 +681,7 @@ namespace TDMaker
                     j_JpgQuality = 97,
                     N_InfoSuffix = ""
                 };
-                Program.mtnProfileMgr.MtnProfiles.Add(mtnDefault1);
+                App.mtnProfileMgr.MtnProfiles.Add(mtnDefault1);
 
                 XMLSettingsScreenshot mtnDefault2 = new XMLSettingsScreenshot("Movies (Fixed Width)")
                 {
@@ -696,7 +696,7 @@ namespace TDMaker
                     w_Width = 800,
                     N_InfoSuffix = ""
                 };
-                Program.mtnProfileMgr.MtnProfiles.Add(mtnDefault2);
+                App.mtnProfileMgr.MtnProfiles.Add(mtnDefault2);
 
                 XMLSettingsScreenshot mtnDefault3 = new XMLSettingsScreenshot("Protech (4x3)")
                 {
@@ -715,26 +715,26 @@ namespace TDMaker
                     w_Width = 1024,
                     N_InfoSuffix = ""
                 };
-                Program.mtnProfileMgr.MtnProfiles.Add(mtnDefault3);
+                App.mtnProfileMgr.MtnProfiles.Add(mtnDefault3);
             }
 
             if (lbMtnProfiles.Items.Count == 0)
             {
-                foreach (XMLSettingsScreenshot mtnProfile in Program.mtnProfileMgr.MtnProfiles)
+                foreach (XMLSettingsScreenshot mtnProfile in App.mtnProfileMgr.MtnProfiles)
                 {
                     lbMtnProfiles.Items.Add(mtnProfile);
                 }
-                lbMtnProfiles.SelectedIndex = Math.Min(Program.mtnProfileMgr.MtnProfiles.Count - 1, Program.mtnProfileMgr.MtnProfileActive);
+                lbMtnProfiles.SelectedIndex = Math.Min(App.mtnProfileMgr.MtnProfiles.Count - 1, App.mtnProfileMgr.MtnProfileActive);
             }
 
-            this.chkCreateTorrent.Checked = Program.Settings.TorrentCreateAuto;
-            this.chkTorrentOrganize.Checked = Program.Settings.TorrentsOrganize;
+            this.chkCreateTorrent.Checked = App.Settings.TorrentCreateAuto;
+            this.chkTorrentOrganize.Checked = App.Settings.TorrentsOrganize;
         }
 
         private void SettingsReadOptionsTorrents()
         {
             lbTrackerGroups.Items.Clear();
-            foreach (TrackerGroup tg in Program.Settings.TrackerGroups)
+            foreach (TrackerGroup tg in App.Settings.TrackerGroups)
             {
                 lbTrackerGroups.Items.Add(tg);
                 lbTrackers.Items.Clear();
@@ -753,29 +753,29 @@ namespace TDMaker
             }
 
             FillTrackersComboBox();
-            if (cboTrackerGroupActive.Items.Count > 0 && Program.Settings.TrackerGroupActive < cboTrackerGroupActive.Items.Count)
+            if (cboTrackerGroupActive.Items.Count > 0 && App.Settings.TrackerGroupActive < cboTrackerGroupActive.Items.Count)
             {
-                cboTrackerGroupActive.SelectedIndex = Program.Settings.TrackerGroupActive;
+                cboTrackerGroupActive.SelectedIndex = App.Settings.TrackerGroupActive;
             }
 
             if (cboTorrentLoc.Items.Count == 0)
             {
                 cboTorrentLoc.Items.AddRange(Enum.GetNames(typeof(LocationType)));
             }
-            cboTorrentLoc.SelectedIndex = (int)Program.Settings.TorrentLocationChoice;
-            chkWritePublish.Checked = Program.Settings.WritePublish;
-            chkTorrentOrganize.Checked = Program.Settings.TorrentsOrganize;
+            cboTorrentLoc.SelectedIndex = (int)App.Settings.TorrentLocationChoice;
+            chkWritePublish.Checked = App.Settings.WritePublish;
+            chkTorrentOrganize.Checked = App.Settings.TorrentsOrganize;
 
-            txtTorrentCustomFolder.Text = Program.Settings.CustomTorrentsDir;
+            txtTorrentCustomFolder.Text = App.Settings.CustomTorrentsDir;
         }
 
         private string CreatePublishInitial(TorrentInfo ti)
         {
             PublishOptionsPacket pop = new PublishOptionsPacket();
-            pop.AlignCenter = Program.Settings.AlignCenter;
-            pop.FullPicture = ti.Media.UploadScreenshots && Program.Settings.UseFullPicture;
-            pop.PreformattedText = Program.Settings.PreText;
-            pop.PublishInfoTypeChoice = Program.Settings.PublishInfoTypeChoice;
+            pop.AlignCenter = App.Settings.AlignCenter;
+            pop.FullPicture = ti.Media.UploadScreenshots && App.Settings.UseFullPicture;
+            pop.PreformattedText = App.Settings.PreText;
+            pop.PublishInfoTypeChoice = App.Settings.PublishInfoTypeChoice;
             ti.PublishOptions = pop;
 
             return Adapter.CreatePublish(ti, pop);
@@ -783,7 +783,7 @@ namespace TDMaker
 
         private List<TorrentInfo> WorkerAnalyzeMedia(WorkerTask wt)
         {
-            Program.LoadProxySettings();
+            App.LoadProxySettings();
 
             List<TorrentInfo> tiListTemp = wt.MediaList;
 
@@ -811,7 +811,7 @@ namespace TDMaker
                 ti.PublishString = CreatePublishInitial(ti);
                 bwApp.ReportProgress((int)ProgressType.REPORT_TORRENTINFO, ti);
 
-                if (Program.Settings.WritePublish)
+                if (App.Settings.WritePublish)
                 {
                     // create textFiles of MediaInfo
                     string txtPath = Path.Combine(mi.TorrentCreateInfoMy.TorrentFolder, mi.Overall.FileName) + ".txt";
@@ -832,7 +832,7 @@ namespace TDMaker
                     mi.TorrentCreateInfoMy.CreateTorrent(bwApp);
                 }
 
-                if (Program.Settings.XMLTorrentUploadCreate)
+                if (App.Settings.XMLTorrentUploadCreate)
                 {
                     string fp = Path.Combine(mi.TorrentCreateInfoMy.TorrentFolder, MediaHelper.GetMediaName(mi.TorrentCreateInfoMy.MediaLocation)) + ".xml";
                     FileSystem.GetXMLTorrentUpload(mi).Write2(fp);
@@ -852,7 +852,7 @@ namespace TDMaker
                 {
                     TorrentCreateInfo tci = ti.Media.TorrentCreateInfoMy;
                     tci.CreateTorrent(wt.MyWorker);
-                    if (Program.Settings.XMLTorrentUploadCreate)
+                    if (App.Settings.XMLTorrentUploadCreate)
                     {
                         string fp = Path.Combine(tci.TorrentFolder, MediaHelper.GetMediaName(tci.MediaLocation)) + ".xml";
                         FileSystem.GetXMLTorrentUpload(ti.Media).Write(fp);
@@ -874,12 +874,12 @@ namespace TDMaker
 
             btnPublish.Enabled = !bwApp.IsBusy && !string.IsNullOrEmpty(txtPublish.Text);
 
-            txtTorrentCustomFolder.Enabled = Program.Settings.TorrentLocationChoice == LocationType.CustomFolder;
-            btnBrowseTorrentCustomFolder.Enabled = Program.Settings.TorrentLocationChoice == LocationType.CustomFolder;
-            chkTorrentOrganize.Enabled = Program.Settings.TorrentLocationChoice == LocationType.CustomFolder;
+            txtTorrentCustomFolder.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
+            btnBrowseTorrentCustomFolder.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
+            chkTorrentOrganize.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
 
-            txtScreenshotsLoc.Enabled = Program.Settings.ScreenshotsLoc == LocationType.CustomFolder;
-            btnScreenshotsLocBrowse.Enabled = Program.Settings.ScreenshotsLoc == LocationType.CustomFolder;
+            txtScreenshotsLoc.Enabled = App.Settings.ScreenshotsLoc == LocationType.CustomFolder;
+            btnScreenshotsLocBrowse.Enabled = App.Settings.ScreenshotsLoc == LocationType.CustomFolder;
 
             gbTemplatesInternal.Enabled = !chkTemplatesMode.Checked;
         }
@@ -969,9 +969,9 @@ namespace TDMaker
                         lbPublish.Items.Add(ti);
 
                         // initialize quick publish checkboxes
-                        chkQuickFullPicture.Checked = Program.Settings.UseFullPicture;
-                        chkQuickAlignCenter.Checked = Program.Settings.AlignCenter;
-                        chkQuickPre.Checked = Program.Settings.PreText;
+                        chkQuickFullPicture.Checked = App.Settings.UseFullPicture;
+                        chkQuickAlignCenter.Checked = App.Settings.AlignCenter;
+                        chkQuickPre.Checked = App.Settings.PreText;
                         cboQuickPublishType.SelectedIndex = cboPublishType.SelectedIndex;
                         cboQuickTemplate.SelectedIndex = cboTemplate.SelectedIndex;
                         break;
@@ -1002,7 +1002,7 @@ namespace TDMaker
         private void chkScreenshotUpload_CheckedChanged(object sender, EventArgs e)
         {
             chkUploadFullScreenshot.Enabled = chkScreenshotUpload.Checked;
-            Program.Settings.ScreenshotsUpload = chkScreenshotUpload.Checked;
+            App.Settings.ScreenshotsUpload = chkScreenshotUpload.Checked;
         }
 
         private void btnAnalyze_Click(object sender, EventArgs e)
@@ -1049,12 +1049,12 @@ namespace TDMaker
         {
             TrackerGroup t = null;
 
-            if (Program.Settings.TrackerGroupActive < 0)
-                Program.Settings.TrackerGroupActive = 0;
+            if (App.Settings.TrackerGroupActive < 0)
+                App.Settings.TrackerGroupActive = 0;
 
-            if (cboTrackerGroupActive.Items.Count > Program.Settings.TrackerGroupActive)
+            if (cboTrackerGroupActive.Items.Count > App.Settings.TrackerGroupActive)
             {
-                t = cboTrackerGroupActive.Items[Program.Settings.TrackerGroupActive] as TrackerGroup;
+                t = cboTrackerGroupActive.Items[App.Settings.TrackerGroupActive] as TrackerGroup;
             }
             return t;
         }
@@ -1088,7 +1088,7 @@ namespace TDMaker
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 txtTorrentCustomFolder.Text = dlg.SelectedPath;
-                Program.Settings.CustomTorrentsDir = txtTorrentCustomFolder.Text;
+                App.Settings.CustomTorrentsDir = txtTorrentCustomFolder.Text;
             }
         }
 
@@ -1103,7 +1103,7 @@ namespace TDMaker
 
         private void cboAnnounceURL_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.TrackerGroupActive = cboTrackerGroupActive.SelectedIndex;
+            App.Settings.TrackerGroupActive = cboTrackerGroupActive.SelectedIndex;
         }
 
         private TorrentInfo GetTorrentInfo()
@@ -1129,7 +1129,7 @@ namespace TDMaker
                     pop.PreformattedText = chkQuickPre.Checked;
 
                     pop.PublishInfoTypeChoice = (PublishInfoType)cboQuickPublishType.SelectedIndex;
-                    pop.TemplateLocation = Path.Combine(Program.TemplatesDir, cboQuickTemplate.Text);
+                    pop.TemplateLocation = Path.Combine(App.TemplatesDir, cboQuickTemplate.Text);
 
                     txtPublish.Text = Adapter.CreatePublish(ti, pop);
 
@@ -1215,13 +1215,13 @@ namespace TDMaker
 
         private void cboTemplate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.TemplateIndex = cboTemplate.SelectedIndex;
+            App.Settings.TemplateIndex = cboTemplate.SelectedIndex;
         }
 
         private void cboScreenshotDest_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
-            cboFileUploader.Enabled = Program.Settings.ImageUploaderType == ImageDestination.FileUploader;
+            App.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
+            cboFileUploader.Enabled = App.Settings.ImageUploaderType == ImageDestination.FileUploader;
         }
 
         private void tsmLogsDir_Click(object sender, EventArgs e)
@@ -1233,7 +1233,7 @@ namespace TDMaker
         {
             if (MessageBox.Show("This will rewrite old copies of TDMaker created Templates. Your own templates will not be affected. \n\nAre you sure?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Program.WriteTemplates(true);
+                App.WriteTemplates(true);
             }
         }
 
@@ -1249,7 +1249,7 @@ namespace TDMaker
 
         private void OpenVersionHistory()
         {
-            string h = Program.GetText("VersionHistory.txt");
+            string h = App.GetText("VersionHistory.txt");
 
             if (h != string.Empty)
             {
@@ -1437,7 +1437,7 @@ namespace TDMaker
 
         private void chkCreateTorrent_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.TorrentCreateAuto = chkCreateTorrent.Checked;
+            App.Settings.TorrentCreateAuto = chkCreateTorrent.Checked;
         }
 
         private void pgApp_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -1447,32 +1447,32 @@ namespace TDMaker
 
         private void cboAuthoring_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.AuthoringMode = cboAuthoring.Text;
+            App.Settings.AuthoringMode = cboAuthoring.Text;
         }
 
         private void chkSourceEdit_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.bAuthoring = chkAuthoring.Checked;
+            App.Settings.bAuthoring = chkAuthoring.Checked;
         }
 
         private void cboExtras_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.Extra = cboExtras.Text;
+            App.Settings.Extra = cboExtras.Text;
         }
 
         private void chkExtras_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.bExtras = chkExtras.Checked;
+            App.Settings.bExtras = chkExtras.Checked;
         }
 
         private void cboDiscMenu_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.DiscMenu = cboDiscMenu.Text;
+            App.Settings.DiscMenu = cboDiscMenu.Text;
         }
 
         private void chkDiscMenu_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.bDiscMenu = chkDiscMenu.Checked;
+            App.Settings.bDiscMenu = chkDiscMenu.Checked;
         }
 
         private void chkSource_CheckedChanged(object sender, EventArgs e)
@@ -1482,7 +1482,7 @@ namespace TDMaker
 
         private void chkTitle_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.bTitle = chkTitle.Checked;
+            App.Settings.bTitle = chkTitle.Checked;
         }
 
         private void txtTitle_TextChanged(object sender, EventArgs e)
@@ -1492,7 +1492,7 @@ namespace TDMaker
 
         private void chkWebLink_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.bWebLink = chkWebLink.Checked;
+            App.Settings.bWebLink = chkWebLink.Checked;
         }
 
         private void txtWebLink_TextChanged(object sender, EventArgs e)
@@ -1504,52 +1504,52 @@ namespace TDMaker
         {
             // this.WindowState = FormWindowState.Minimized;
             SettingsWrite();
-            Program.ClearScreenshots();
+            App.ClearScreenshots();
         }
 
         private void chkUploadFullScreenshot_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.UseFullPicture = chkUploadFullScreenshot.Checked;
+            App.Settings.UseFullPicture = chkUploadFullScreenshot.Checked;
         }
 
         private void chkAlignCenter_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.AlignCenter = chkAlignCenter.Checked;
+            App.Settings.AlignCenter = chkAlignCenter.Checked;
         }
 
         private void chkPre_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.PreText = chkPre.Checked;
+            App.Settings.PreText = chkPre.Checked;
         }
 
         private void chkPreIncreaseFontSize_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.LargerPreText = chkPreIncreaseFontSize.Checked;
+            App.Settings.LargerPreText = chkPreIncreaseFontSize.Checked;
         }
 
         private void nudFontSizeIncr_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.FontSizeIncr = (int)nudFontSizeIncr.Value;
+            App.Settings.FontSizeIncr = (int)nudFontSizeIncr.Value;
         }
 
         private void nudFontSizeHeading1_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.FontSizeHeading1 = (int)nudHeading1Size.Value;
+            App.Settings.FontSizeHeading1 = (int)nudHeading1Size.Value;
         }
 
         private void nudHeading2Size_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.FontSizeHeading2 = (int)nudHeading2Size.Value;
+            App.Settings.FontSizeHeading2 = (int)nudHeading2Size.Value;
         }
 
         private void nudHeading3Size_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.FontSizeHeading3 = (int)nudHeading3Size.Value;
+            App.Settings.FontSizeHeading3 = (int)nudHeading3Size.Value;
         }
 
         private void nudBodyText_ValueChanged(object sender, EventArgs e)
         {
-            Program.Settings.FontSizeBody = (int)nudBodySize.Value;
+            App.Settings.FontSizeBody = (int)nudBodySize.Value;
         }
 
         private void lbTrackers_SelectedIndexChanged(object sender, EventArgs e)
@@ -1590,7 +1590,7 @@ namespace TDMaker
                 Tracker t = new Tracker("Ubuntu", "http://torrent.ubuntu.com:6969");
                 tg.Trackers.Add(t);
 
-                Program.Settings.TrackerGroups.Add(tg);
+                App.Settings.TrackerGroups.Add(tg);
                 lbTrackerGroups.Items.Add(tg);
                 lbTrackerGroups.SelectedIndex = lbTrackerGroups.Items.Count - 1;
 
@@ -1604,7 +1604,7 @@ namespace TDMaker
             {
                 int sel = lbTrackerGroups.SelectedIndex;
                 lbTrackerGroups.Items.RemoveAt(sel);
-                Program.Settings.TrackerGroups.RemoveAt(sel);
+                App.Settings.TrackerGroups.RemoveAt(sel);
                 lbTrackers.Items.Clear();
                 pgTracker.Enabled = false;
             }
@@ -1616,18 +1616,18 @@ namespace TDMaker
             {
                 int sel = lbTrackers.SelectedIndex;
                 lbTrackers.Items.RemoveAt(sel);
-                Program.Settings.TrackerGroups[lbTrackerGroups.SelectedIndex].Trackers.RemoveAt(sel);
+                App.Settings.TrackerGroups[lbTrackerGroups.SelectedIndex].Trackers.RemoveAt(sel);
             }
         }
 
         private void chkTorrentOrganize_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.TorrentsOrganize = chkTorrentOrganize.Checked;
+            App.Settings.TorrentsOrganize = chkTorrentOrganize.Checked;
         }
 
         private void chkWritePublish_CheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.WritePublish = chkWritePublish.Checked;
+            App.Settings.WritePublish = chkWritePublish.Checked;
         }
 
         private void txtTorrentCustomFolder_TextChanged(object sender, EventArgs e)
@@ -1655,7 +1655,7 @@ namespace TDMaker
             {
                 int sel = lbTrackers.SelectedIndex;
                 lbTrackers.Items[sel] = (Tracker)pgTracker.SelectedObject;
-                Program.Settings.TrackerGroups[lbTrackerGroups.SelectedIndex].Trackers[lbTrackers.SelectedIndex] = (Tracker)pgTracker.SelectedObject;
+                App.Settings.TrackerGroups[lbTrackerGroups.SelectedIndex].Trackers[lbTrackers.SelectedIndex] = (Tracker)pgTracker.SelectedObject;
             }
         }
 
@@ -1677,17 +1677,17 @@ namespace TDMaker
                 {
                     tg.Name = ib.InputText;
                     lbTrackerGroups.Items[sel] = tg;
-                    Program.Settings.TrackerGroups[sel] = tg;
+                    App.Settings.TrackerGroups[sel] = tg;
                 }
             }
         }
 
         private void PgMtnPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            txtMtnArgs.Text = Adapter.GetMtnArg(Program.mtnProfileMgr.GetMtnProfileActive());
+            txtMtnArgs.Text = Adapter.GetMtnArg(App.mtnProfileMgr.GetMtnProfileActive());
             if (lbMtnProfiles.SelectedIndex > -1)
             {
-                lbMtnProfiles.Items[lbMtnProfiles.SelectedIndex] = Program.mtnProfileMgr.GetMtnProfileActive();
+                lbMtnProfiles.Items[lbMtnProfiles.SelectedIndex] = App.mtnProfileMgr.GetMtnProfileActive();
             }
         }
 
@@ -1697,7 +1697,7 @@ namespace TDMaker
             if (ib.ShowDialog() == DialogResult.OK)
             {
                 XMLSettingsScreenshot mtnProfile = new XMLSettingsScreenshot(ib.InputText);
-                Program.mtnProfileMgr.MtnProfiles.Add(mtnProfile);
+                App.mtnProfileMgr.MtnProfiles.Add(mtnProfile);
                 lbMtnProfiles.Items.Add(mtnProfile);
                 lbMtnProfiles.SelectedIndex = lbMtnProfiles.Items.Count - 1;
             }
@@ -1709,7 +1709,7 @@ namespace TDMaker
             {
                 XMLSettingsScreenshot mtnProfile = lbMtnProfiles.Items[lbMtnProfiles.SelectedIndex] as XMLSettingsScreenshot;
                 pgMtn.SelectedObject = mtnProfile;
-                Program.mtnProfileMgr.MtnProfileActive = lbMtnProfiles.SelectedIndex;
+                App.mtnProfileMgr.MtnProfileActive = lbMtnProfiles.SelectedIndex;
                 txtMtnArgs.Text = Adapter.GetMtnArg(mtnProfile);
             }
         }
@@ -1720,7 +1720,7 @@ namespace TDMaker
             if (sel >= 0)
             {
                 lbMtnProfiles.Items.RemoveAt(sel);
-                Program.mtnProfileMgr.MtnProfiles.RemoveAt(sel);
+                App.mtnProfileMgr.MtnProfiles.RemoveAt(sel);
                 sel = sel - 1;
                 if (sel < 0)
                 {
@@ -1735,7 +1735,7 @@ namespace TDMaker
 
         private void ChkProxyEnableCheckedChanged(object sender, EventArgs e)
         {
-            Program.Settings.ProxyEnabled = chkProxyEnable.Checked;
+            App.Settings.ProxyEnabled = chkProxyEnable.Checked;
         }
 
         private void lbScreenshots_SelectedIndexChanged(object sender, EventArgs e)
@@ -1801,13 +1801,13 @@ namespace TDMaker
 
         private void cboTorrentLoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.TorrentLocationChoice = (LocationType)cboTorrentLoc.SelectedIndex;
+            App.Settings.TorrentLocationChoice = (LocationType)cboTorrentLoc.SelectedIndex;
             UpdateGuiControls();
         }
 
         private void cboScreenshotsLoc_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.ScreenshotsLoc = (LocationType)cboScreenshotsLoc.SelectedIndex;
+            App.Settings.ScreenshotsLoc = (LocationType)cboScreenshotsLoc.SelectedIndex;
             UpdateGuiControls();
         }
 
@@ -1817,7 +1817,7 @@ namespace TDMaker
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 txtScreenshotsLoc.Text = dlg.SelectedPath;
-                Program.Settings.CustomScreenshotsDir = txtScreenshotsLoc.Text;
+                App.Settings.CustomScreenshotsDir = txtScreenshotsLoc.Text;
             }
         }
 
@@ -1839,19 +1839,19 @@ namespace TDMaker
 
         private void cboPublishType_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            Program.Settings.PublishInfoTypeChoice = (PublishInfoType)cboPublishType.SelectedIndex;
-            cboTemplate.Enabled = Program.Settings.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate;
-            gbTemplatesInternal.Enabled = Program.Settings.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
-            gbFonts.Enabled = Program.Settings.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
+            App.Settings.PublishInfoTypeChoice = (PublishInfoType)cboPublishType.SelectedIndex;
+            cboTemplate.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate;
+            gbTemplatesInternal.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
+            gbFonts.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
         }
 
         private void tsmiPreferKnownFolders_Click(object sender, EventArgs e)
         {
-            ConfigWizard cw = new ConfigWizard(Program.RootAppFolder);
+            ConfigWizard cw = new ConfigWizard(App.RootAppFolder);
             if (cw.ShowDialog() == DialogResult.OK)
             {
                 tsmiPreferKnownFolders.Checked = cw.PreferSystemFolders;
-                Program.InitializeDefaultFolderPaths();
+                App.InitializeDefaultFolderPaths();
             }
         }
 
@@ -1873,13 +1873,13 @@ namespace TDMaker
 
         private void btnUploadersConfig_Click(object sender, EventArgs e)
         {
-            UploadersConfigForm form = new UploadersConfigForm(Program.UploadersConfig);
+            UploadersConfigForm form = new UploadersConfigForm(App.UploadersConfig);
             form.Show();
         }
 
         private void cboThumbnailer_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.ThumbnailerType = (ThumbnailerType)cboThumbnailer.SelectedIndex;
+            App.Settings.ThumbnailerType = (ThumbnailerType)cboThumbnailer.SelectedIndex;
         }
 
         private void chkMediaInfoComplete_CheckedChanged(object sender, EventArgs e)
@@ -1889,7 +1889,7 @@ namespace TDMaker
 
         private void cboImageFileUploader_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Program.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
+            App.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
         }
 
         private void btnUpdateGroup_Click(object sender, EventArgs e)

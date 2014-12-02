@@ -1,11 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{515B3AAB-EB9E-47A4-80AD-0AE6E2FF17FD}"
 	ProjectSection(SolutionItems) = preProject
-		Lib\DavuxLib.dll = Lib\DavuxLib.dll
 		Lib\HelpersLib.XmlSerializers.dll = Lib\HelpersLib.XmlSerializers.dll
 		Lib\Microsoft.WindowsAPICodePack.dll = Lib\Microsoft.WindowsAPICodePack.dll
 		Lib\Microsoft.WindowsAPICodePack.Shell.dll = Lib\Microsoft.WindowsAPICodePack.Shell.dll

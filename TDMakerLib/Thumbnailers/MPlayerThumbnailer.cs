@@ -42,7 +42,7 @@ namespace TDMakerLib
                 int time_slice_elapsed = time_slice * (i + 1);
                 string arg = string.Format("-nosound -ss {0} -zoom -vf screenshot -frames 1 -vo png:z=9:outdir=\\\"{1}\\\" \"{2}\"",
                     time_slice_elapsed, ScreenshotDir, MediaFile.FilePath);
-                ProcessStartInfo psi = new ProcessStartInfo(Program.Settings.MPlayerPath);
+                ProcessStartInfo psi = new ProcessStartInfo(App.Settings.MPlayerPath);
                 psi.WindowStyle = ProcessWindowStyle.Minimized;
                 psi.Arguments = arg;
 

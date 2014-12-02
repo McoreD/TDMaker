@@ -961,7 +961,7 @@ namespace TDMaker
             this.tlpMediaInfo.ColumnCount = 3;
             this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 104F));
+            this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.tlpMediaInfo.Controls.Add(this.lbMediaInfo, 0, 0);
             this.tlpMediaInfo.Controls.Add(this.txtMediaInfo, 1, 0);
             this.tlpMediaInfo.Controls.Add(this.gbMediaInfoQuickOptions, 2, 0);
@@ -994,18 +994,18 @@ namespace TDMaker
             this.txtMediaInfo.Name = "txtMediaInfo";
             this.txtMediaInfo.ReadOnly = true;
             this.txtMediaInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtMediaInfo.Size = new System.Drawing.Size(608, 511);
+            this.txtMediaInfo.Size = new System.Drawing.Size(607, 511);
             this.txtMediaInfo.TabIndex = 1;
             // 
             // gbMediaInfoQuickOptions
             // 
             this.gbMediaInfoQuickOptions.Controls.Add(this.chkMediaInfoComplete);
             this.gbMediaInfoQuickOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbMediaInfoQuickOptions.Location = new System.Drawing.Point(769, 2);
+            this.gbMediaInfoQuickOptions.Location = new System.Drawing.Point(768, 2);
             this.gbMediaInfoQuickOptions.Margin = new System.Windows.Forms.Padding(2);
             this.gbMediaInfoQuickOptions.Name = "gbMediaInfoQuickOptions";
             this.gbMediaInfoQuickOptions.Padding = new System.Windows.Forms.Padding(2);
-            this.gbMediaInfoQuickOptions.Size = new System.Drawing.Size(101, 513);
+            this.gbMediaInfoQuickOptions.Size = new System.Drawing.Size(102, 513);
             this.gbMediaInfoQuickOptions.TabIndex = 2;
             this.gbMediaInfoQuickOptions.TabStop = false;
             this.gbMediaInfoQuickOptions.Text = "Quick Options";
@@ -1115,7 +1115,7 @@ namespace TDMaker
             this.tlpPublish.ColumnCount = 3;
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.00001F));
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.99999F));
-            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 151F));
             this.tlpPublish.Controls.Add(this.gbQuickPublish, 2, 0);
             this.tlpPublish.Controls.Add(this.txtPublish, 1, 0);
             this.tlpPublish.Controls.Add(this.lbPublish, 0, 0);
@@ -1131,9 +1131,9 @@ namespace TDMaker
             // 
             this.gbQuickPublish.Controls.Add(this.flpPublishConfig);
             this.gbQuickPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuickPublish.Location = new System.Drawing.Point(724, 3);
+            this.gbQuickPublish.Location = new System.Drawing.Point(723, 3);
             this.gbQuickPublish.Name = "gbQuickPublish";
-            this.gbQuickPublish.Size = new System.Drawing.Size(145, 511);
+            this.gbQuickPublish.Size = new System.Drawing.Size(146, 511);
             this.gbQuickPublish.TabIndex = 1;
             this.gbQuickPublish.TabStop = false;
             this.gbQuickPublish.Text = "Quick Options";
@@ -1149,7 +1149,7 @@ namespace TDMaker
             this.flpPublishConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpPublishConfig.Location = new System.Drawing.Point(3, 16);
             this.flpPublishConfig.Name = "flpPublishConfig";
-            this.flpPublishConfig.Size = new System.Drawing.Size(139, 492);
+            this.flpPublishConfig.Size = new System.Drawing.Size(140, 492);
             this.flpPublishConfig.TabIndex = 7;
             // 
             // chkQuickPre
@@ -1218,7 +1218,7 @@ namespace TDMaker
             this.txtPublish.Multiline = true;
             this.txtPublish.Name = "txtPublish";
             this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtPublish.Size = new System.Drawing.Size(571, 511);
+            this.txtPublish.Size = new System.Drawing.Size(570, 511);
             this.txtPublish.TabIndex = 0;
             this.txtPublish.WordWrap = false;
             this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
@@ -1715,10 +1715,10 @@ namespace TDMaker
             this.gbScreenshotsLoc.Controls.Add(this.btnScreenshotsLocBrowse);
             this.gbScreenshotsLoc.Location = new System.Drawing.Point(16, 88);
             this.gbScreenshotsLoc.Name = "gbScreenshotsLoc";
-            this.gbScreenshotsLoc.Size = new System.Drawing.Size(768, 96);
+            this.gbScreenshotsLoc.Size = new System.Drawing.Size(784, 96);
             this.gbScreenshotsLoc.TabIndex = 9;
             this.gbScreenshotsLoc.TabStop = false;
-            this.gbScreenshotsLoc.Text = "Step 2 - Save thumbnais to";
+            this.gbScreenshotsLoc.Text = "Step 2 - Save thumbnails to";
             // 
             // label2
             // 
@@ -1745,13 +1745,13 @@ namespace TDMaker
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtScreenshotsLoc.Location = new System.Drawing.Point(112, 52);
             this.txtScreenshotsLoc.Name = "txtScreenshotsLoc";
-            this.txtScreenshotsLoc.Size = new System.Drawing.Size(528, 20);
+            this.txtScreenshotsLoc.Size = new System.Drawing.Size(544, 20);
             this.txtScreenshotsLoc.TabIndex = 8;
             // 
             // btnScreenshotsLocBrowse
             // 
             this.btnScreenshotsLocBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnScreenshotsLocBrowse.Location = new System.Drawing.Point(648, 51);
+            this.btnScreenshotsLocBrowse.Location = new System.Drawing.Point(664, 51);
             this.btnScreenshotsLocBrowse.Name = "btnScreenshotsLocBrowse";
             this.btnScreenshotsLocBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnScreenshotsLocBrowse.TabIndex = 9;

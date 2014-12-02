@@ -243,13 +243,13 @@ namespace TDMakerLib
 
         public void Write()
         {
-            Write(Program.AppConf.XMLSettingsFile);
+            Write(App.AppConf.XMLSettingsFile);
         }
 
         public static XMLSettingsCore Read()
         {
-            Program.AppConf.XMLSettingsFile = Program.AppConf.GetSettingsFilePath();
-            return Read(Program.AppConf.XMLSettingsFile);
+            App.AppConf.XMLSettingsFile = App.AppConf.GetSettingsFilePath();
+            return Read(App.AppConf.XMLSettingsFile);
         }
 
         public static XMLSettingsCore Read(string filePath)

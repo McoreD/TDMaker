@@ -292,17 +292,17 @@ namespace TDMakerLib
 
         private string GetStyles(string pattern)
         {
-            int fontSizeHeading1 = (int)(Program.Settings.PreText && Program.Settings.LargerPreText == true ?
-                Program.Settings.FontSizeHeading1 + Program.Settings.FontSizeIncr : Program.Settings.FontSizeHeading1);
+            int fontSizeHeading1 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
+                App.Settings.FontSizeHeading1 + App.Settings.FontSizeIncr : App.Settings.FontSizeHeading1);
 
-            int fontSizeHeading2 = (int)(Program.Settings.PreText && Program.Settings.LargerPreText == true ?
-                Program.Settings.FontSizeHeading2 + Program.Settings.FontSizeIncr : Program.Settings.FontSizeHeading2);
+            int fontSizeHeading2 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
+                App.Settings.FontSizeHeading2 + App.Settings.FontSizeIncr : App.Settings.FontSizeHeading2);
 
-            int fontSizeHeading3 = (int)(Program.Settings.PreText && Program.Settings.LargerPreText == true ?
-                Program.Settings.FontSizeHeading3 + Program.Settings.FontSizeIncr : Program.Settings.FontSizeHeading3);
+            int fontSizeHeading3 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
+                App.Settings.FontSizeHeading3 + App.Settings.FontSizeIncr : App.Settings.FontSizeHeading3);
 
-            int fontSizeBody = (int)(Program.Settings.PreText && Program.Settings.LargerPreText == true ?
-                Program.Settings.FontSizeBody + Program.Settings.FontSizeIncr : Program.Settings.FontSizeBody);
+            int fontSizeBody = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
+                App.Settings.FontSizeBody + App.Settings.FontSizeIncr : App.Settings.FontSizeBody);
 
             pattern = Regex.Replace(pattern, "%FontSize_Body%", fontSizeBody.ToString(), RegexOptions.IgnoreCase);
             pattern = Regex.Replace(pattern, "%FontSize_Heading1%", fontSizeHeading1.ToString(), RegexOptions.IgnoreCase);

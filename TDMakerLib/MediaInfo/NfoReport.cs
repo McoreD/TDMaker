@@ -119,7 +119,7 @@ namespace TDMakerLib.MediaInfo
             lstTotalFiles.AddRange(Directory.GetFiles(mFolderPath, "*.*", SearchOption.TopDirectoryOnly));
             lstExtraFiles.AddRange(lstTotalFiles);
 
-            foreach (string ext in Program.Settings.SupportedFileExtAudio)
+            foreach (string ext in App.Settings.SupportedFileExtAudio)
             {
                 foreach (string f in lstTotalFiles)
                 {

@@ -13,7 +13,7 @@ namespace TDMakerLib
         public static event DebugLogEventHandler DebugLogChanged;
 
         public static StringBuilder DebugLog = new StringBuilder();
-        public static string DebugLogFilePath = Path.Combine(Program.LogsDir, string.Format("{0}-{1}-debug.txt", Application.ProductName, DateTime.Now.ToString("yyyyMMdd")));
+        public static string DebugLogFilePath = Path.Combine(App.LogsDir, string.Format("{0}-{1}-debug.txt", Application.ProductName, DateTime.Now.ToString("yyyyMMdd")));
 
         private static void OnDebugLogChanged(string line)
         {
@@ -42,9 +42,9 @@ namespace TDMakerLib
 
         public static void OpenDirTorrents()
         {
-            if (Directory.Exists(Program.TorrentsDir))
+            if (Directory.Exists(App.TorrentsDir))
             {
-                Process.Start(Program.TorrentsDir);
+                Process.Start(App.TorrentsDir);
             }
         }
 
@@ -58,25 +58,25 @@ namespace TDMakerLib
 
         public static void OpenDirTemplates()
         {
-            if (Directory.Exists(Program.TemplatesDir))
+            if (Directory.Exists(App.TemplatesDir))
             {
-                Process.Start(Program.TemplatesDir);
+                Process.Start(App.TemplatesDir);
             }
         }
 
         public static void OpenDirLogs()
         {
-            if (Directory.Exists(Program.LogsDir))
+            if (Directory.Exists(App.LogsDir))
             {
-                Process.Start(Program.LogsDir);
+                Process.Start(App.LogsDir);
             }
         }
 
         public static void OpenDirSettings()
         {
-            if (Directory.Exists(Program.SettingsDir))
+            if (Directory.Exists(App.SettingsDir))
             {
-                Process.Start(Program.SettingsDir);
+                Process.Start(App.SettingsDir);
             }
         }
 
@@ -90,16 +90,16 @@ namespace TDMakerLib
 
         public static void WriteDebugFile()
         {
-            if (!string.IsNullOrEmpty(Program.LogsDir))
+            if (!string.IsNullOrEmpty(App.LogsDir))
             {
-                string dir = Program.LogsDir;
-                if (Program.Portable)
+                string dir = App.LogsDir;
+                if (App.Portable)
                 {
-                    dir = Path.Combine(Application.StartupPath, Program.LogsDir);
+                    dir = Path.Combine(Application.StartupPath, App.LogsDir);
                 }
                 string fpDebug = Path.Combine(dir, string.Format("{0}-{1}-debug.txt", Application.ProductName, DateTime.Now.ToString("yyyyMMdd")));
                 AppendDebug("Writing Debug file: " + fpDebug);
-                if (Program.Settings.WriteDebugFile)
+                if (App.Settings.WriteDebugFile)
                 {
                     if (DebugLog.Length > 0)
                     {
@@ -124,20 +124,20 @@ namespace TDMakerLib
 
         public static string GetScreenShotsDir(string mediaFilePath)
         {
-            switch (Program.Settings.ScreenshotsLoc)
+            switch (App.Settings.ScreenshotsLoc)
             {
                 case LocationType.CustomFolder:
-                    return Directory.Exists(Program.Settings.CustomScreenshotsDir) ? Program.Settings.CustomScreenshotsDir : Program.PicturesDir;
+                    return Directory.Exists(App.Settings.CustomScreenshotsDir) ? App.Settings.CustomScreenshotsDir : App.PicturesDir;
                 case LocationType.ParentFolder:
                     if (string.IsNullOrEmpty(mediaFilePath))
                     {
-                        if (Program.Settings.ScreenshotsLoc == LocationType.CustomFolder && Directory.Exists(Program.Settings.CustomScreenshotsDir))
+                        if (App.Settings.ScreenshotsLoc == LocationType.CustomFolder && Directory.Exists(App.Settings.CustomScreenshotsDir))
                         {
-                            return Program.Settings.CustomScreenshotsDir;
+                            return App.Settings.CustomScreenshotsDir;
                         }
                         else
                         {
-                            return Program.PicturesDir;
+                            return App.PicturesDir;
                         }
                     }
                     else
@@ -146,7 +146,7 @@ namespace TDMakerLib
                     }
                 case LocationType.KnownFolder:
                 default:
-                    return Program.Settings.KeepScreenshots ? Program.PicturesDir : Program.zTempDir;
+                    return App.Settings.KeepScreenshots ? App.PicturesDir : App.zTempDir;
             }
         }
 

@@ -1,8 +1,7 @@
 Version 3.1.1 - 2014-11-29
 
-* Latest MediaInfo.dll
-* Fixed Update
-* Latest HelpersLib compatibility fix 
+* Latest MediaInfo.dll v7.71
+* TDMaker has a new home https://github.com/McoreD/TDMaker
 
 TDMaker 3.1.0 - 2013-01-29
  

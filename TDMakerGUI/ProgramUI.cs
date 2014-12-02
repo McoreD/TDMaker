@@ -38,11 +38,11 @@ namespace TDMaker
                 }
             }
 
-            if (Program.TurnOn())
+            if (App.TurnOn())
             {
-                Program.LoadSettings();
+                App.LoadSettings();
                 Application.Run(new MainWindow());
-                Program.TurnOff();
+                App.TurnOff();
             }
         }
     }

@@ -148,7 +148,7 @@ namespace TDMakerLib
                     MI.Option("Complete", "1");
                     this.SummaryComplete = MI.Inform();
 
-                    if (Program.IsUNIX)
+                    if (App.IsUNIX)
                     {
                         Debug.WriteLine(string.Format("MediaInfo Summary Length: {0}", this.Summary.Length.ToString()));
                         Debug.WriteLine(string.Format("MediaInfo Summary: {0}", this.Summary));
@@ -332,13 +332,13 @@ namespace TDMakerLib
         /// <returns></returns>
         public string ToStringPublish(PublishOptionsPacket pop)
         {
-            int fontSizeHeading3 = (int)(Program.Settings.PreText && Program.Settings.LargerPreText == true ?
-           Program.Settings.FontSizeHeading3 + Program.Settings.FontSizeIncr :
-           Program.Settings.FontSizeHeading3);
+            int fontSizeHeading3 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
+           App.Settings.FontSizeHeading3 + App.Settings.FontSizeIncr :
+           App.Settings.FontSizeHeading3);
 
-            int fontSizeBody = (int)(Program.Settings.PreText && Program.Settings.LargerPreText == true ?
-                Program.Settings.FontSizeBody + Program.Settings.FontSizeIncr :
-                Program.Settings.FontSizeBody);
+            int fontSizeBody = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
+                App.Settings.FontSizeBody + App.Settings.FontSizeIncr :
+                App.Settings.FontSizeBody);
 
             StringBuilder sbBody = new StringBuilder();
 

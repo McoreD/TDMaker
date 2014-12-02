@@ -28,21 +28,21 @@ namespace TDMakerLib
         {
             string dir = "";
 
-            switch (Program.Settings.TorrentLocationChoice)
+            switch (App.Settings.TorrentLocationChoice)
             {
                 case LocationType.CustomFolder:
-                    if (Directory.Exists(Program.Settings.CustomTorrentsDir) && Program.Settings.TorrentsOrganize)
+                    if (Directory.Exists(App.Settings.CustomTorrentsDir) && App.Settings.TorrentsOrganize)
                     {
-                        dir = Path.Combine(Program.Settings.CustomTorrentsDir, this.TrackerGroupActive.Name);
+                        dir = Path.Combine(App.Settings.CustomTorrentsDir, this.TrackerGroupActive.Name);
                     }
                     else
                     {
-                        dir = Program.Settings.CustomTorrentsDir;
+                        dir = App.Settings.CustomTorrentsDir;
                     }
                     break;
 
                 case LocationType.KnownFolder:
-                    dir = Program.TorrentsDir;
+                    dir = App.TorrentsDir;
                     break;
 
                 case LocationType.ParentFolder:

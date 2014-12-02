@@ -78,19 +78,19 @@ namespace TDMakerCLI
 
             if (!File.Exists(mSettingsFile))
             {
-                Program.AppConf = AppSettings.Read();
-                mSettingsFile = Program.AppConf.XMLSettingsFile;
+                App.AppConf = AppSettings.Read();
+                mSettingsFile = App.AppConf.XMLSettingsFile;
             }
 
             if (File.Exists(mSettingsFile))
             {
-                Program.conf = XMLSettingsCore.Read(mSettingsFile);
+                App.Settings = XMLSettingsCore.Read(mSettingsFile);
             }
 
-            if (Program.conf != null)
+            if (App.AppConf != null)
             {
-                Program.InitializeDefaultFolderPaths();
-                Program.mtnProfileMgr = XMLSettingsMtnProfiles.Read();
+                App.InitializeDefaultFolderPaths();
+                App.mtnProfileMgr = XMLSettingsMtnProfiles.Read();
 
                 Console.WriteLine("Media location:");
                 Console.WriteLine(mMediaLoc);
@@ -101,7 +101,7 @@ namespace TDMakerCLI
                 Console.WriteLine();
 
                 Console.WriteLine("MTN Path:");
-                Console.WriteLine(Program.conf.MTNPath);
+                Console.WriteLine(App.Settings.MTNPath);
                 Console.WriteLine();
 
                 List<string> listFileOrDir = new List<string>() { mMediaLoc };
@@ -158,11 +158,11 @@ namespace TDMakerCLI
         {
             PublishOptionsPacket pop = new PublishOptionsPacket()
             {
-                AlignCenter = Program.conf.AlignCenter,
-                FullPicture = Program.conf.UseFullPicture,
-                PreformattedText = Program.conf.PreText,
-                PublishInfoTypeChoice = Program.conf.PublishInfoTypeChoice,
-                TemplateLocation = Path.Combine(Program.TemplatesDir, "Default")
+                AlignCenter = App.Settings.AlignCenter,
+                FullPicture = App.Settings.UseFullPicture,
+                PreformattedText = App.Settings.PreText,
+                PublishInfoTypeChoice = App.Settings.PublishInfoTypeChoice,
+                TemplateLocation = Path.Combine(App.TemplatesDir, "Default")
             };
             ti.PublishString = Adapter.CreatePublish(ti, pop);
 
@@ -178,7 +178,7 @@ namespace TDMakerCLI
             // create a torrent
             if (mTorrentCreate || Directory.Exists(mTorrentsDir))
             {
-                ti.Media.TorrentCreateInfoMy = new TorrentCreateInfo(Program.conf.TrackerGroups[Program.conf.TrackerGroupActive], mMediaLoc);
+                ti.Media.TorrentCreateInfoMy = new TorrentCreateInfo(App.Settings.TrackerGroups[App.Settings.TrackerGroupActive], mMediaLoc);
                 if (Directory.Exists(mTorrentsDir))
                 {
                     ti.Media.TorrentCreateInfoMy.TorrentFolder = mTorrentsDir;
