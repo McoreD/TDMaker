@@ -98,12 +98,19 @@ namespace TDMakerLib
                 if (Options.AddMovieInfo)
                 {
                     infoString = MediaFile.GetMTNString();
-                    infoStringHeight = 90;
+                    infoStringHeight = 80;
                 }
 
                 foreach (ScreenshotInfo screenshot in screenshots)
                 {
                     Image img = Image.FromFile(screenshot.LocalPath);
+
+                    if (Options.MaxThumbnailWidth > 0 && img.Width > Options.MaxThumbnailWidth)
+                    {
+                        int maxThumbnailHeight = (int)((float)Options.MaxThumbnailWidth / img.Width * img.Height);
+                        img = ImageHelpers.ResizeImage(img, Options.MaxThumbnailWidth, maxThumbnailHeight);
+                    }
+
                     images.Add(img);
                 }
 
@@ -119,10 +126,10 @@ namespace TDMakerLib
 
                 int thumbHeight = images[0].Height;
 
-                int height = Options.Padding * 2 +
+                int height = Options.Padding * 3 +
                     infoStringHeight +
                     thumbHeight * rowCount +
-                    rowCount * Options.Spacing;
+                    (rowCount - 1) * Options.Spacing;
 
                 finalImage = new Bitmap(width, height);
 
@@ -132,14 +139,14 @@ namespace TDMakerLib
 
                     if (!string.IsNullOrEmpty(infoString))
                     {
-                        using (Font font = new Font("Arial", 12, FontStyle.Bold))
+                        using (Font font = new Font("Arial", 14))
                         {
                             g.DrawString(infoString, font, Brushes.Black, Options.Padding, Options.Padding);
                         }
                     }
 
                     int i = 0;
-                    int offsetY = Options.Padding + infoStringHeight + Options.Spacing;
+                    int offsetY = Options.Padding * 2 + infoStringHeight;
 
                     for (int y = 0; y < rowCount; y++)
                     {
@@ -147,16 +154,26 @@ namespace TDMakerLib
 
                         for (int x = 0; x < columnCount; x++)
                         {
-                            g.DrawImage(images[i], new Rectangle(offsetX, offsetY, thumbWidth, thumbHeight));
+                            if (Options.DrawShadow)
+                            {
+                                int shadowOffset = 3;
+
+                                using (Brush shadowBrush = new SolidBrush(Color.FromArgb(50, Color.Black)))
+                                {
+                                    g.FillRectangle(shadowBrush, offsetX + shadowOffset, offsetY + shadowOffset, thumbWidth, thumbHeight);
+                                }
+                            }
+
+                            g.DrawImage(images[i], offsetX, offsetY, thumbWidth, thumbHeight);
 
                             if (Options.AddTimestamp)
                             {
-                                int timeInfoOffset = 10;
+                                int timestampOffset = 10;
 
                                 using (Font font = new Font("Arial", 12))
                                 {
                                     ImageHelpers.DrawTextWithShadow(g, screenshots[i].Timestamp.ToString(),
-                                        new Point(offsetX + timeInfoOffset, offsetY + timeInfoOffset), font, Color.White, Color.Black);
+                                        new Point(offsetX + timestampOffset, offsetY + timestampOffset), font, Color.White, Color.Black);
                                 }
                             }
 
@@ -206,20 +223,26 @@ namespace TDMakerLib
         [Category("Combine screenshots"), DefaultValue(false), Description("Combine all screenshots to one large screenshot")]
         public bool CombineScreenshots { get; set; }
 
+        [Category("Combine screenshots"), DefaultValue(0), Description("Maximum thumbnail width size, 0 means don't resize")]
+        public int MaxThumbnailWidth { get; set; }
+
         [Category("Combine screenshots"), DefaultValue(20), Description("Space between border and content as pixel")]
         public int Padding { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(true), Description("Add movie information to the combined screenshot")]
-        public bool AddMovieInfo { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(1), Description("Number of screenshots per row")]
-        public int ColumnCount { get; set; }
 
         [Category("Combine screenshots"), DefaultValue(10), Description("Space between screenshots as pixel")]
         public int Spacing { get; set; }
 
-        [Category("Combine screenshots"), DefaultValue(false), Description("Add timestamp of screenshot at corner of image")]
+        [Category("Combine screenshots"), DefaultValue(1), Description("Number of screenshots per row")]
+        public int ColumnCount { get; set; }
+
+        [Category("Combine screenshots"), DefaultValue(true), Description("Add movie information to the combined screenshot")]
+        public bool AddMovieInfo { get; set; }
+
+        [Category("Combine screenshots"), DefaultValue(true), Description("Add timestamp of screenshot at corner of image")]
         public bool AddTimestamp { get; set; }
+
+        [Category("Combine screenshots"), DefaultValue(true), Description("Draw rectangle shadow behind thumbnails")]
+        public bool DrawShadow { get; set; }
 
         public MPlayerThumbnailerOptions()
         {
