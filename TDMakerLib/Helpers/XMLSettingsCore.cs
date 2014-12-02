@@ -147,11 +147,15 @@ namespace TDMakerLib
         [Category("Thumbnailers"), DefaultValue(ThumbnailerType.MPlayer), Description("Chooser thumbnailer application to take screenshots.")]
         public ThumbnailerType ThumbnailerType { get; set; }
 
+        [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
+        [Category("Thumbnailers / FFmpeg"), Description("FFmpeg path")]
+        public string FFmpegPath { get; set; }
+
         [Category("Thumbnailers / MTN"), DefaultValue(false), Description("Show MTN during file creation")]
         public bool ShowMTNWindow { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
-        [Category("Thumbnailers / MTN"), Description("MTN Argument")]
+        [Category("Thumbnailers / MTN"), Description("MTN path")]
         public string MTNPath { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]

@@ -80,10 +80,11 @@ namespace TDMakerLib
 
     public enum ThumbnailerType
     {
+        [Description("FFmpeg")]
+        FFmpeg,
+        [Description("MPlayer")]
+        MPlayer,
         [Description("MTN")]
         MovieThumbnailer,
-
-        [Description("MPlayer")]
-        MPlayer
     }
 }

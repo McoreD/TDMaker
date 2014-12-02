@@ -1,5 +1,6 @@
 ﻿using BDInfo;
 using HelpersLib;
+using ScreenCaptureLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -472,6 +473,8 @@ namespace TDMaker
             App.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
             App.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
 
+            App.Settings.FFmpegPath = txtFFmpegPath.Text;
+
             App.Settings.Write();
             App.UploadersConfig.Save(App.UploadersConfigPath);
             App.mtnProfileMgr.Write();
@@ -661,6 +664,9 @@ namespace TDMaker
 
             cboThumbnailer.SelectedIndex = (int)App.Settings.ThumbnailerType;
             pgMPlayerOptions.SelectedObject = App.Settings.MPlayerOptions;
+
+            txtFFmpegPath.Text = App.Settings.FFmpegPath;
+
             SettingsReadOptionsMTN();
             SettingsReadOptionsTorrents();
         }
@@ -1897,6 +1903,36 @@ namespace TDMaker
             int sel = lbTrackerGroups.SelectedIndex;
             if (sel > -1)
                 UpdateTrackerGroup(sel);
+        }
+
+        private void btnDownload_Click(object sender, EventArgs e)
+        {
+            FFmpegHelper.DownloadFFmpeg(true, DownloaderForm_InstallRequested);
+        }
+
+        private void DownloaderForm_InstallRequested(string filePath)
+        {
+            string extractPath = Path.Combine(App.DefaultRootAppFolder, "ffmpeg.exe");
+            bool result = FFmpegHelper.ExtractFFmpeg(filePath, extractPath);
+
+            if (result)
+            {
+                this.InvokeSafe(() =>
+                {
+                    txtFFmpegPath.Text = extractPath;
+                });
+
+                MessageBox.Show("Successfully downloaded FFmpeg.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Failed to download FFmpeg.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnFFmpegBrowse_Click(object sender, EventArgs e)
+        {
+            Helpers.BrowseFile("Browse for FFmpeg.exe", txtFFmpegPath, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
         }
     }
 }

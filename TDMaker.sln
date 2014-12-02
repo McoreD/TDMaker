@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadersLib", "..\ShareX\U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenshotImageEditor", "..\ShareX\GreenshotImageEditor\GreenshotImageEditor.csproj", "{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScreenCaptureLib", "..\ShareX\ScreenCaptureLib\ScreenCaptureLib.csproj", "{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBDB0DAA-B3AE-4CC4-A8C2-20550B7F32E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

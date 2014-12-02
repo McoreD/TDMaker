@@ -126,6 +126,10 @@ namespace TDMaker
             this.cboQuickTemplate = new System.Windows.Forms.ComboBox();
             this.txtPublish = new System.Windows.Forms.TextBox();
             this.lbPublish = new System.Windows.Forms.ListBox();
+            this.tpDebug = new System.Windows.Forms.TabPage();
+            this.rtbDebugLog = new System.Windows.Forms.RichTextBox();
+            this.tpSettings = new System.Windows.Forms.TabPage();
+            this.tcSettings = new System.Windows.Forms.TabControl();
             this.tpTorrentCreator = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -150,10 +154,6 @@ namespace TDMaker
             this.lbTrackers = new System.Windows.Forms.ListBox();
             this.cboTrackerGroupActive = new System.Windows.Forms.ComboBox();
             this.chkCreateTorrent = new System.Windows.Forms.CheckBox();
-            this.tpDebug = new System.Windows.Forms.TabPage();
-            this.rtbDebugLog = new System.Windows.Forms.RichTextBox();
-            this.tpSettings = new System.Windows.Forms.TabPage();
-            this.tcSettings = new System.Windows.Forms.TabControl();
             this.tpSettingsGeneral = new System.Windows.Forms.TabPage();
             this.pgApp = new System.Windows.Forms.PropertyGrid();
             this.tpSettingsThumbnailers = new System.Windows.Forms.TabPage();
@@ -207,6 +207,11 @@ namespace TDMaker
             this.chkProxyEnable = new System.Windows.Forms.CheckBox();
             this.pgProxy = new System.Windows.Forms.PropertyGrid();
             this.tscMain = new System.Windows.Forms.ToolStripContainer();
+            this.tpFFmpeg = new System.Windows.Forms.TabPage();
+            this.gbFFmpegExe = new System.Windows.Forms.GroupBox();
+            this.btnDownload = new System.Windows.Forms.Button();
+            this.btnFFmpegBrowse = new System.Windows.Forms.Button();
+            this.txtFFmpegPath = new System.Windows.Forms.TextBox();
             this.ssMain.SuspendLayout();
             this.cmsApp.SuspendLayout();
             this.msMain.SuspendLayout();
@@ -227,6 +232,9 @@ namespace TDMaker
             this.tlpPublish.SuspendLayout();
             this.gbQuickPublish.SuspendLayout();
             this.flpPublishConfig.SuspendLayout();
+            this.tpDebug.SuspendLayout();
+            this.tpSettings.SuspendLayout();
+            this.tcSettings.SuspendLayout();
             this.tpTorrentCreator.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.gbTrackerMgr.SuspendLayout();
@@ -235,9 +243,6 @@ namespace TDMaker
             this.flpTrackerGroups.SuspendLayout();
             this.gbTrackerGroups.SuspendLayout();
             this.gbTrackers.SuspendLayout();
-            this.tpDebug.SuspendLayout();
-            this.tpSettings.SuspendLayout();
-            this.tcSettings.SuspendLayout();
             this.tpSettingsGeneral.SuspendLayout();
             this.tpSettingsThumbnailers.SuspendLayout();
             this.tcThumbnailers.SuspendLayout();
@@ -264,6 +269,8 @@ namespace TDMaker
             this.tscMain.ContentPanel.SuspendLayout();
             this.tscMain.TopToolStripPanel.SuspendLayout();
             this.tscMain.SuspendLayout();
+            this.tpFFmpeg.SuspendLayout();
+            this.gbFFmpegExe.SuspendLayout();
             this.SuspendLayout();
             // 
             // bwApp
@@ -405,7 +412,7 @@ namespace TDMaker
             // btnRefreshTrackers
             // 
             this.btnRefreshTrackers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefreshTrackers.Location = new System.Drawing.Point(767, 10);
+            this.btnRefreshTrackers.Location = new System.Drawing.Point(753, 10);
             this.btnRefreshTrackers.Name = "btnRefreshTrackers";
             this.btnRefreshTrackers.Size = new System.Drawing.Size(75, 23);
             this.btnRefreshTrackers.TabIndex = 5;
@@ -628,9 +635,9 @@ namespace TDMaker
             // 
             // btnPublish
             // 
-            this.btnPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPublish.Enabled = false;
-            this.btnPublish.Location = new System.Drawing.Point(264, 488);
+            this.btnPublish.Location = new System.Drawing.Point(272, 560);
             this.btnPublish.Name = "btnPublish";
             this.btnPublish.Size = new System.Drawing.Size(120, 23);
             this.btnPublish.TabIndex = 5;
@@ -643,7 +650,7 @@ namespace TDMaker
             this.btnAnalyze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAnalyze.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAnalyze.Enabled = false;
-            this.btnAnalyze.Location = new System.Drawing.Point(8, 488);
+            this.btnAnalyze.Location = new System.Drawing.Point(16, 560);
             this.btnAnalyze.Name = "btnAnalyze";
             this.btnAnalyze.Size = new System.Drawing.Size(120, 24);
             this.btnAnalyze.TabIndex = 9;
@@ -655,7 +662,7 @@ namespace TDMaker
             // 
             this.btnCreateTorrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCreateTorrent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnCreateTorrent.Location = new System.Drawing.Point(136, 488);
+            this.btnCreateTorrent.Location = new System.Drawing.Point(144, 560);
             this.btnCreateTorrent.Name = "btnCreateTorrent";
             this.btnCreateTorrent.Size = new System.Drawing.Size(120, 23);
             this.btnCreateTorrent.TabIndex = 10;
@@ -665,14 +672,15 @@ namespace TDMaker
             // 
             // tcMain
             // 
+            this.tcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tcMain.Controls.Add(this.tpMedia);
             this.tcMain.Controls.Add(this.tpMediaInfo);
             this.tcMain.Controls.Add(this.tpScreenshots);
             this.tcMain.Controls.Add(this.tpPublish);
-            this.tcMain.Controls.Add(this.tpTorrentCreator);
             this.tcMain.Controls.Add(this.tpDebug);
             this.tcMain.Controls.Add(this.tpSettings);
-            this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcMain.Location = new System.Drawing.Point(3, 3);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
@@ -682,9 +690,6 @@ namespace TDMaker
             // 
             // tpMedia
             // 
-            this.tpMedia.Controls.Add(this.btnAnalyze);
-            this.tpMedia.Controls.Add(this.btnPublish);
-            this.tpMedia.Controls.Add(this.btnCreateTorrent);
             this.tpMedia.Controls.Add(this.groupBox10);
             this.tpMedia.Controls.Add(this.gbSourceProp);
             this.tpMedia.Controls.Add(this.gbDVD);
@@ -705,7 +710,7 @@ namespace TDMaker
             this.groupBox10.Location = new System.Drawing.Point(8, 288);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox10.Size = new System.Drawing.Size(860, 195);
+            this.groupBox10.Size = new System.Drawing.Size(860, 224);
             this.groupBox10.TabIndex = 13;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Progress";
@@ -721,7 +726,7 @@ namespace TDMaker
             this.lbStatus.Location = new System.Drawing.Point(5, 18);
             this.lbStatus.Name = "lbStatus";
             this.lbStatus.ScrollAlwaysVisible = true;
-            this.lbStatus.Size = new System.Drawing.Size(850, 172);
+            this.lbStatus.Size = new System.Drawing.Size(850, 201);
             this.lbStatus.TabIndex = 11;
             // 
             // gbSourceProp
@@ -951,7 +956,7 @@ namespace TDMaker
             this.tpMediaInfo.Location = new System.Drawing.Point(4, 22);
             this.tpMediaInfo.Name = "tpMediaInfo";
             this.tpMediaInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tpMediaInfo.Size = new System.Drawing.Size(878, 523);
+            this.tpMediaInfo.Size = new System.Drawing.Size(878, 498);
             this.tpMediaInfo.TabIndex = 0;
             this.tpMediaInfo.Text = "Media info";
             this.tpMediaInfo.UseVisualStyleBackColor = true;
@@ -961,7 +966,7 @@ namespace TDMaker
             this.tlpMediaInfo.ColumnCount = 3;
             this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
+            this.tlpMediaInfo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 106F));
             this.tlpMediaInfo.Controls.Add(this.lbMediaInfo, 0, 0);
             this.tlpMediaInfo.Controls.Add(this.txtMediaInfo, 1, 0);
             this.tlpMediaInfo.Controls.Add(this.gbMediaInfoQuickOptions, 2, 0);
@@ -970,7 +975,7 @@ namespace TDMaker
             this.tlpMediaInfo.Name = "tlpMediaInfo";
             this.tlpMediaInfo.RowCount = 1;
             this.tlpMediaInfo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpMediaInfo.Size = new System.Drawing.Size(872, 517);
+            this.tlpMediaInfo.Size = new System.Drawing.Size(872, 492);
             this.tlpMediaInfo.TabIndex = 0;
             // 
             // lbMediaInfo
@@ -981,7 +986,7 @@ namespace TDMaker
             this.lbMediaInfo.IntegralHeight = false;
             this.lbMediaInfo.Location = new System.Drawing.Point(3, 3);
             this.lbMediaInfo.Name = "lbMediaInfo";
-            this.lbMediaInfo.Size = new System.Drawing.Size(147, 511);
+            this.lbMediaInfo.Size = new System.Drawing.Size(147, 486);
             this.lbMediaInfo.TabIndex = 0;
             this.lbMediaInfo.SelectedIndexChanged += new System.EventHandler(this.LbMediaInfoSelectedIndexChanged);
             // 
@@ -994,18 +999,18 @@ namespace TDMaker
             this.txtMediaInfo.Name = "txtMediaInfo";
             this.txtMediaInfo.ReadOnly = true;
             this.txtMediaInfo.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtMediaInfo.Size = new System.Drawing.Size(607, 511);
+            this.txtMediaInfo.Size = new System.Drawing.Size(606, 486);
             this.txtMediaInfo.TabIndex = 1;
             // 
             // gbMediaInfoQuickOptions
             // 
             this.gbMediaInfoQuickOptions.Controls.Add(this.chkMediaInfoComplete);
             this.gbMediaInfoQuickOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbMediaInfoQuickOptions.Location = new System.Drawing.Point(768, 2);
+            this.gbMediaInfoQuickOptions.Location = new System.Drawing.Point(767, 2);
             this.gbMediaInfoQuickOptions.Margin = new System.Windows.Forms.Padding(2);
             this.gbMediaInfoQuickOptions.Name = "gbMediaInfoQuickOptions";
             this.gbMediaInfoQuickOptions.Padding = new System.Windows.Forms.Padding(2);
-            this.gbMediaInfoQuickOptions.Size = new System.Drawing.Size(102, 513);
+            this.gbMediaInfoQuickOptions.Size = new System.Drawing.Size(103, 488);
             this.gbMediaInfoQuickOptions.TabIndex = 2;
             this.gbMediaInfoQuickOptions.TabStop = false;
             this.gbMediaInfoQuickOptions.Text = "Quick Options";
@@ -1115,7 +1120,7 @@ namespace TDMaker
             this.tlpPublish.ColumnCount = 3;
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.00001F));
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.99999F));
-            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 151F));
+            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 152F));
             this.tlpPublish.Controls.Add(this.gbQuickPublish, 2, 0);
             this.tlpPublish.Controls.Add(this.txtPublish, 1, 0);
             this.tlpPublish.Controls.Add(this.lbPublish, 0, 0);
@@ -1131,9 +1136,9 @@ namespace TDMaker
             // 
             this.gbQuickPublish.Controls.Add(this.flpPublishConfig);
             this.gbQuickPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuickPublish.Location = new System.Drawing.Point(723, 3);
+            this.gbQuickPublish.Location = new System.Drawing.Point(722, 3);
             this.gbQuickPublish.Name = "gbQuickPublish";
-            this.gbQuickPublish.Size = new System.Drawing.Size(146, 511);
+            this.gbQuickPublish.Size = new System.Drawing.Size(147, 511);
             this.gbQuickPublish.TabIndex = 1;
             this.gbQuickPublish.TabStop = false;
             this.gbQuickPublish.Text = "Quick Options";
@@ -1149,7 +1154,7 @@ namespace TDMaker
             this.flpPublishConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpPublishConfig.Location = new System.Drawing.Point(3, 16);
             this.flpPublishConfig.Name = "flpPublishConfig";
-            this.flpPublishConfig.Size = new System.Drawing.Size(140, 492);
+            this.flpPublishConfig.Size = new System.Drawing.Size(141, 492);
             this.flpPublishConfig.TabIndex = 7;
             // 
             // chkQuickPre
@@ -1218,7 +1223,7 @@ namespace TDMaker
             this.txtPublish.Multiline = true;
             this.txtPublish.Name = "txtPublish";
             this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtPublish.Size = new System.Drawing.Size(570, 511);
+            this.txtPublish.Size = new System.Drawing.Size(569, 511);
             this.txtPublish.TabIndex = 0;
             this.txtPublish.WordWrap = false;
             this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
@@ -1234,6 +1239,56 @@ namespace TDMaker
             this.lbPublish.TabIndex = 2;
             this.lbPublish.SelectedIndexChanged += new System.EventHandler(this.LbPublishSelectedIndexChanged);
             // 
+            // tpDebug
+            // 
+            this.tpDebug.Controls.Add(this.rtbDebugLog);
+            this.tpDebug.Location = new System.Drawing.Point(4, 22);
+            this.tpDebug.Name = "tpDebug";
+            this.tpDebug.Padding = new System.Windows.Forms.Padding(3);
+            this.tpDebug.Size = new System.Drawing.Size(878, 523);
+            this.tpDebug.TabIndex = 5;
+            this.tpDebug.Text = "Debug";
+            this.tpDebug.UseVisualStyleBackColor = true;
+            // 
+            // rtbDebugLog
+            // 
+            this.rtbDebugLog.BackColor = System.Drawing.Color.White;
+            this.rtbDebugLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.rtbDebugLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbDebugLog.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.rtbDebugLog.Location = new System.Drawing.Point(3, 3);
+            this.rtbDebugLog.Name = "rtbDebugLog";
+            this.rtbDebugLog.ReadOnly = true;
+            this.rtbDebugLog.Size = new System.Drawing.Size(872, 517);
+            this.rtbDebugLog.TabIndex = 1;
+            this.rtbDebugLog.Text = "";
+            this.rtbDebugLog.WordWrap = false;
+            // 
+            // tpSettings
+            // 
+            this.tpSettings.Controls.Add(this.tcSettings);
+            this.tpSettings.Location = new System.Drawing.Point(4, 22);
+            this.tpSettings.Name = "tpSettings";
+            this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSettings.Size = new System.Drawing.Size(878, 523);
+            this.tpSettings.TabIndex = 3;
+            this.tpSettings.Text = "Settings";
+            this.tpSettings.UseVisualStyleBackColor = true;
+            // 
+            // tcSettings
+            // 
+            this.tcSettings.Controls.Add(this.tpSettingsGeneral);
+            this.tcSettings.Controls.Add(this.tpSettingsPublishTemplates);
+            this.tcSettings.Controls.Add(this.tpSettingsThumbnailers);
+            this.tcSettings.Controls.Add(this.tpTorrentCreator);
+            this.tcSettings.Controls.Add(this.tpSettingsProxy);
+            this.tcSettings.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcSettings.Location = new System.Drawing.Point(3, 3);
+            this.tcSettings.Name = "tcSettings";
+            this.tcSettings.SelectedIndex = 0;
+            this.tcSettings.Size = new System.Drawing.Size(872, 517);
+            this.tcSettings.TabIndex = 1;
+            // 
             // tpTorrentCreator
             // 
             this.tpTorrentCreator.Controls.Add(this.btnRefreshTrackers);
@@ -1244,7 +1299,7 @@ namespace TDMaker
             this.tpTorrentCreator.Location = new System.Drawing.Point(4, 22);
             this.tpTorrentCreator.Name = "tpTorrentCreator";
             this.tpTorrentCreator.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTorrentCreator.Size = new System.Drawing.Size(878, 523);
+            this.tpTorrentCreator.Size = new System.Drawing.Size(864, 491);
             this.tpTorrentCreator.TabIndex = 1;
             this.tpTorrentCreator.Text = "Torrent creator";
             this.tpTorrentCreator.UseVisualStyleBackColor = true;
@@ -1261,7 +1316,7 @@ namespace TDMaker
             this.groupBox8.Controls.Add(this.txtTorrentCustomFolder);
             this.groupBox8.Location = new System.Drawing.Point(17, 288);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(831, 122);
+            this.groupBox8.Size = new System.Drawing.Size(817, 122);
             this.groupBox8.TabIndex = 4;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Save Location";
@@ -1312,7 +1367,7 @@ namespace TDMaker
             // btnBrowseTorrentCustomFolder
             // 
             this.btnBrowseTorrentCustomFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowseTorrentCustomFolder.Location = new System.Drawing.Point(726, 43);
+            this.btnBrowseTorrentCustomFolder.Location = new System.Drawing.Point(712, 43);
             this.btnBrowseTorrentCustomFolder.Name = "btnBrowseTorrentCustomFolder";
             this.btnBrowseTorrentCustomFolder.Size = new System.Drawing.Size(75, 23);
             this.btnBrowseTorrentCustomFolder.TabIndex = 3;
@@ -1326,7 +1381,7 @@ namespace TDMaker
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTorrentCustomFolder.Location = new System.Drawing.Point(112, 44);
             this.txtTorrentCustomFolder.Name = "txtTorrentCustomFolder";
-            this.txtTorrentCustomFolder.Size = new System.Drawing.Size(606, 20);
+            this.txtTorrentCustomFolder.Size = new System.Drawing.Size(592, 20);
             this.txtTorrentCustomFolder.TabIndex = 2;
             this.txtTorrentCustomFolder.TextChanged += new System.EventHandler(this.txtTorrentCustomFolder_TextChanged);
             // 
@@ -1337,7 +1392,7 @@ namespace TDMaker
             this.gbTrackerMgr.Controls.Add(this.tlpTrackers);
             this.gbTrackerMgr.Location = new System.Drawing.Point(17, 40);
             this.gbTrackerMgr.Name = "gbTrackerMgr";
-            this.gbTrackerMgr.Size = new System.Drawing.Size(831, 240);
+            this.gbTrackerMgr.Size = new System.Drawing.Size(817, 240);
             this.gbTrackerMgr.TabIndex = 3;
             this.gbTrackerMgr.TabStop = false;
             this.gbTrackerMgr.Text = "Tracker Manager";
@@ -1359,7 +1414,7 @@ namespace TDMaker
             this.tlpTrackers.RowCount = 2;
             this.tlpTrackers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpTrackers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tlpTrackers.Size = new System.Drawing.Size(825, 221);
+            this.tlpTrackers.Size = new System.Drawing.Size(811, 221);
             this.tlpTrackers.TabIndex = 0;
             // 
             // flpTrackers
@@ -1367,9 +1422,9 @@ namespace TDMaker
             this.flpTrackers.Controls.Add(this.btnAddTracker);
             this.flpTrackers.Controls.Add(this.btnRemoveTracker);
             this.flpTrackers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpTrackers.Location = new System.Drawing.Point(209, 188);
+            this.flpTrackers.Location = new System.Drawing.Point(205, 188);
             this.flpTrackers.Name = "flpTrackers";
-            this.flpTrackers.Size = new System.Drawing.Size(200, 30);
+            this.flpTrackers.Size = new System.Drawing.Size(196, 30);
             this.flpTrackers.TabIndex = 4;
             // 
             // btnAddTracker
@@ -1399,10 +1454,10 @@ namespace TDMaker
             // pgTracker
             // 
             this.pgTracker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgTracker.Location = new System.Drawing.Point(415, 3);
+            this.pgTracker.Location = new System.Drawing.Point(407, 3);
             this.pgTracker.Name = "pgTracker";
             this.pgTracker.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgTracker.Size = new System.Drawing.Size(407, 179);
+            this.pgTracker.Size = new System.Drawing.Size(401, 179);
             this.pgTracker.TabIndex = 1;
             this.pgTracker.ToolbarVisible = false;
             this.pgTracker.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PgTrackerPropertyValueChanged);
@@ -1415,7 +1470,7 @@ namespace TDMaker
             this.flpTrackerGroups.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpTrackerGroups.Location = new System.Drawing.Point(3, 188);
             this.flpTrackerGroups.Name = "flpTrackerGroups";
-            this.flpTrackerGroups.Size = new System.Drawing.Size(200, 30);
+            this.flpTrackerGroups.Size = new System.Drawing.Size(196, 30);
             this.flpTrackerGroups.TabIndex = 3;
             // 
             // btnAddTrackerGroup
@@ -1460,7 +1515,7 @@ namespace TDMaker
             this.gbTrackerGroups.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbTrackerGroups.Location = new System.Drawing.Point(3, 3);
             this.gbTrackerGroups.Name = "gbTrackerGroups";
-            this.gbTrackerGroups.Size = new System.Drawing.Size(200, 179);
+            this.gbTrackerGroups.Size = new System.Drawing.Size(196, 179);
             this.gbTrackerGroups.TabIndex = 5;
             this.gbTrackerGroups.TabStop = false;
             this.gbTrackerGroups.Text = "Groups";
@@ -1471,7 +1526,7 @@ namespace TDMaker
             this.lbTrackerGroups.FormattingEnabled = true;
             this.lbTrackerGroups.Location = new System.Drawing.Point(3, 16);
             this.lbTrackerGroups.Name = "lbTrackerGroups";
-            this.lbTrackerGroups.Size = new System.Drawing.Size(194, 160);
+            this.lbTrackerGroups.Size = new System.Drawing.Size(190, 160);
             this.lbTrackerGroups.TabIndex = 2;
             this.lbTrackerGroups.SelectedIndexChanged += new System.EventHandler(this.lbTrackerGroups_SelectedIndexChanged);
             this.lbTrackerGroups.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbTrackerGroups_MouseDoubleClick);
@@ -1480,9 +1535,9 @@ namespace TDMaker
             // 
             this.gbTrackers.Controls.Add(this.lbTrackers);
             this.gbTrackers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbTrackers.Location = new System.Drawing.Point(209, 3);
+            this.gbTrackers.Location = new System.Drawing.Point(205, 3);
             this.gbTrackers.Name = "gbTrackers";
-            this.gbTrackers.Size = new System.Drawing.Size(200, 179);
+            this.gbTrackers.Size = new System.Drawing.Size(196, 179);
             this.gbTrackers.TabIndex = 6;
             this.gbTrackers.TabStop = false;
             this.gbTrackers.Text = "Trackers";
@@ -1493,7 +1548,7 @@ namespace TDMaker
             this.lbTrackers.FormattingEnabled = true;
             this.lbTrackers.Location = new System.Drawing.Point(3, 16);
             this.lbTrackers.Name = "lbTrackers";
-            this.lbTrackers.Size = new System.Drawing.Size(194, 160);
+            this.lbTrackers.Size = new System.Drawing.Size(190, 160);
             this.lbTrackers.TabIndex = 0;
             this.lbTrackers.SelectedIndexChanged += new System.EventHandler(this.lbTrackers_SelectedIndexChanged);
             // 
@@ -1505,7 +1560,7 @@ namespace TDMaker
             this.cboTrackerGroupActive.FormattingEnabled = true;
             this.cboTrackerGroupActive.Location = new System.Drawing.Point(209, 12);
             this.cboTrackerGroupActive.Name = "cboTrackerGroupActive";
-            this.cboTrackerGroupActive.Size = new System.Drawing.Size(552, 21);
+            this.cboTrackerGroupActive.Size = new System.Drawing.Size(538, 21);
             this.cboTrackerGroupActive.TabIndex = 2;
             this.cboTrackerGroupActive.SelectedIndexChanged += new System.EventHandler(this.cboAnnounceURL_SelectedIndexChanged);
             // 
@@ -1519,55 +1574,6 @@ namespace TDMaker
             this.chkCreateTorrent.Text = "Automatically create &torrent using";
             this.chkCreateTorrent.UseVisualStyleBackColor = true;
             this.chkCreateTorrent.CheckedChanged += new System.EventHandler(this.chkCreateTorrent_CheckedChanged);
-            // 
-            // tpDebug
-            // 
-            this.tpDebug.Controls.Add(this.rtbDebugLog);
-            this.tpDebug.Location = new System.Drawing.Point(4, 22);
-            this.tpDebug.Name = "tpDebug";
-            this.tpDebug.Padding = new System.Windows.Forms.Padding(3);
-            this.tpDebug.Size = new System.Drawing.Size(878, 523);
-            this.tpDebug.TabIndex = 5;
-            this.tpDebug.Text = "Debug";
-            this.tpDebug.UseVisualStyleBackColor = true;
-            // 
-            // rtbDebugLog
-            // 
-            this.rtbDebugLog.BackColor = System.Drawing.Color.White;
-            this.rtbDebugLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.rtbDebugLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rtbDebugLog.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.rtbDebugLog.Location = new System.Drawing.Point(3, 3);
-            this.rtbDebugLog.Name = "rtbDebugLog";
-            this.rtbDebugLog.ReadOnly = true;
-            this.rtbDebugLog.Size = new System.Drawing.Size(872, 517);
-            this.rtbDebugLog.TabIndex = 1;
-            this.rtbDebugLog.Text = "";
-            this.rtbDebugLog.WordWrap = false;
-            // 
-            // tpSettings
-            // 
-            this.tpSettings.Controls.Add(this.tcSettings);
-            this.tpSettings.Location = new System.Drawing.Point(4, 22);
-            this.tpSettings.Name = "tpSettings";
-            this.tpSettings.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettings.Size = new System.Drawing.Size(878, 523);
-            this.tpSettings.TabIndex = 3;
-            this.tpSettings.Text = "Settings";
-            this.tpSettings.UseVisualStyleBackColor = true;
-            // 
-            // tcSettings
-            // 
-            this.tcSettings.Controls.Add(this.tpSettingsGeneral);
-            this.tcSettings.Controls.Add(this.tpSettingsThumbnailers);
-            this.tcSettings.Controls.Add(this.tpSettingsPublishTemplates);
-            this.tcSettings.Controls.Add(this.tpSettingsProxy);
-            this.tcSettings.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tcSettings.Location = new System.Drawing.Point(3, 3);
-            this.tcSettings.Name = "tcSettings";
-            this.tcSettings.SelectedIndex = 0;
-            this.tcSettings.Size = new System.Drawing.Size(872, 517);
-            this.tcSettings.TabIndex = 1;
             // 
             // tpSettingsGeneral
             // 
@@ -1604,8 +1610,9 @@ namespace TDMaker
             // tcThumbnailers
             // 
             this.tcThumbnailers.Controls.Add(this.tpThumbnailersGeneral);
-            this.tcThumbnailers.Controls.Add(this.tpMtn);
+            this.tcThumbnailers.Controls.Add(this.tpFFmpeg);
             this.tcThumbnailers.Controls.Add(this.tpMPlayer);
+            this.tcThumbnailers.Controls.Add(this.tpMtn);
             this.tcThumbnailers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcThumbnailers.Location = new System.Drawing.Point(3, 3);
             this.tcThumbnailers.Name = "tcThumbnailers";
@@ -2199,13 +2206,16 @@ namespace TDMaker
             // 
             // tscMain.ContentPanel
             // 
+            this.tscMain.ContentPanel.Controls.Add(this.btnAnalyze);
+            this.tscMain.ContentPanel.Controls.Add(this.btnPublish);
             this.tscMain.ContentPanel.Controls.Add(this.tcMain);
+            this.tscMain.ContentPanel.Controls.Add(this.btnCreateTorrent);
             this.tscMain.ContentPanel.Padding = new System.Windows.Forms.Padding(3);
-            this.tscMain.ContentPanel.Size = new System.Drawing.Size(892, 555);
+            this.tscMain.ContentPanel.Size = new System.Drawing.Size(892, 591);
             this.tscMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tscMain.Location = new System.Drawing.Point(0, 0);
             this.tscMain.Name = "tscMain";
-            this.tscMain.Size = new System.Drawing.Size(892, 601);
+            this.tscMain.Size = new System.Drawing.Size(892, 637);
             this.tscMain.TabIndex = 13;
             this.tscMain.Text = "toolStripContainer1";
             // 
@@ -2213,13 +2223,65 @@ namespace TDMaker
             // 
             this.tscMain.TopToolStripPanel.Controls.Add(this.msMain);
             // 
+            // tpFFmpeg
+            // 
+            this.tpFFmpeg.Controls.Add(this.gbFFmpegExe);
+            this.tpFFmpeg.Location = new System.Drawing.Point(4, 22);
+            this.tpFFmpeg.Name = "tpFFmpeg";
+            this.tpFFmpeg.Padding = new System.Windows.Forms.Padding(3);
+            this.tpFFmpeg.Size = new System.Drawing.Size(850, 459);
+            this.tpFFmpeg.TabIndex = 6;
+            this.tpFFmpeg.Text = "FFmpeg";
+            this.tpFFmpeg.UseVisualStyleBackColor = true;
+            // 
+            // gbFFmpegExe
+            // 
+            this.gbFFmpegExe.Controls.Add(this.btnDownload);
+            this.gbFFmpegExe.Controls.Add(this.btnFFmpegBrowse);
+            this.gbFFmpegExe.Controls.Add(this.txtFFmpegPath);
+            this.gbFFmpegExe.Location = new System.Drawing.Point(8, 8);
+            this.gbFFmpegExe.Name = "gbFFmpegExe";
+            this.gbFFmpegExe.Size = new System.Drawing.Size(648, 56);
+            this.gbFFmpegExe.TabIndex = 1;
+            this.gbFFmpegExe.TabStop = false;
+            this.gbFFmpegExe.Text = "ffmpeg.exe";
+            // 
+            // btnDownload
+            // 
+            this.btnDownload.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnDownload.Location = new System.Drawing.Point(552, 22);
+            this.btnDownload.Name = "btnDownload";
+            this.btnDownload.Size = new System.Drawing.Size(88, 24);
+            this.btnDownload.TabIndex = 2;
+            this.btnDownload.Text = "Download";
+            this.btnDownload.UseVisualStyleBackColor = true;
+            this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
+            // 
+            // btnFFmpegBrowse
+            // 
+            this.btnFFmpegBrowse.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnFFmpegBrowse.Location = new System.Drawing.Point(504, 22);
+            this.btnFFmpegBrowse.Name = "btnFFmpegBrowse";
+            this.btnFFmpegBrowse.Size = new System.Drawing.Size(40, 24);
+            this.btnFFmpegBrowse.TabIndex = 1;
+            this.btnFFmpegBrowse.Text = "...";
+            this.btnFFmpegBrowse.UseVisualStyleBackColor = true;
+            this.btnFFmpegBrowse.Click += new System.EventHandler(this.btnFFmpegBrowse_Click);
+            // 
+            // txtFFmpegPath
+            // 
+            this.txtFFmpegPath.Location = new System.Drawing.Point(8, 24);
+            this.txtFFmpegPath.Name = "txtFFmpegPath";
+            this.txtFFmpegPath.Size = new System.Drawing.Size(488, 20);
+            this.txtFFmpegPath.TabIndex = 0;
+            // 
             // MainWindow
             // 
             this.AcceptButton = this.btnBrowse;
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(892, 601);
+            this.ClientSize = new System.Drawing.Size(892, 637);
             this.ContextMenuStrip = this.cmsApp;
             this.Controls.Add(this.tscMain);
             this.MainMenuStrip = this.msMain;
@@ -2262,6 +2324,9 @@ namespace TDMaker
             this.gbQuickPublish.ResumeLayout(false);
             this.flpPublishConfig.ResumeLayout(false);
             this.flpPublishConfig.PerformLayout();
+            this.tpDebug.ResumeLayout(false);
+            this.tpSettings.ResumeLayout(false);
+            this.tcSettings.ResumeLayout(false);
             this.tpTorrentCreator.ResumeLayout(false);
             this.tpTorrentCreator.PerformLayout();
             this.groupBox8.ResumeLayout(false);
@@ -2274,9 +2339,6 @@ namespace TDMaker
             this.flpTrackerGroups.PerformLayout();
             this.gbTrackerGroups.ResumeLayout(false);
             this.gbTrackers.ResumeLayout(false);
-            this.tpDebug.ResumeLayout(false);
-            this.tpSettings.ResumeLayout(false);
-            this.tcSettings.ResumeLayout(false);
             this.tpSettingsGeneral.ResumeLayout(false);
             this.tpSettingsThumbnailers.ResumeLayout(false);
             this.tcThumbnailers.ResumeLayout(false);
@@ -2313,6 +2375,9 @@ namespace TDMaker
             this.tscMain.TopToolStripPanel.PerformLayout();
             this.tscMain.ResumeLayout(false);
             this.tscMain.PerformLayout();
+            this.tpFFmpeg.ResumeLayout(false);
+            this.gbFFmpegExe.ResumeLayout(false);
+            this.gbFFmpegExe.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2493,5 +2558,10 @@ namespace TDMaker
         private System.Windows.Forms.CheckBox chkProxyEnable;
         private System.Windows.Forms.PropertyGrid pgProxy;
         private System.Windows.Forms.ToolStripContainer tscMain;
+        private System.Windows.Forms.TabPage tpFFmpeg;
+        private System.Windows.Forms.GroupBox gbFFmpegExe;
+        private System.Windows.Forms.Button btnDownload;
+        private System.Windows.Forms.Button btnFFmpegBrowse;
+        private System.Windows.Forms.TextBox txtFFmpegPath;
     }
 }
