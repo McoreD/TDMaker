@@ -159,10 +159,10 @@ namespace TDMakerLib
         public string MTNPath { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
-        [Category("Thumbnailers / MPlayer"), Description("MTN Argument")]
+        [Category("Thumbnailers / MPlayer"), Description("MPlayer path")]
         public string MPlayerPath { get; set; }
 
-        public MPlayerThumbnailerOptions MPlayerOptions = new MPlayerThumbnailerOptions();
+        public ThumbnailerOptions ThumbnailerOptions = new ThumbnailerOptions();
 
         // Tab 4.3 - Options - Image Hosting
         public ImageDestination ImageUploaderType = ImageDestination.Imgur;

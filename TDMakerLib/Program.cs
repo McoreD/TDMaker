@@ -12,7 +12,7 @@ namespace TDMakerLib
         private static string mProductName = "TDMaker"; // NOT Application.ProductName because both CLI and GUI needs common access
         private static readonly string PortableRootFolder = mProductName; // using relative paths
 
-        public static McoreSystem.AppInfo mAppInfo = new McoreSystem.AppInfo(mProductName, Application.ProductVersion, McoreSystem.AppInfo.SoftwareCycle.Final, false);
+        public static McoreSystem.AppInfo mAppInfo = new McoreSystem.AppInfo(mProductName, Application.ProductVersion, McoreSystem.AppInfo.SoftwareCycle.Beta, false);
         public static bool Portable = Directory.Exists(Path.Combine(Application.StartupPath, PortableRootFolder));
 
         public static bool MultipleInstance { get; private set; }

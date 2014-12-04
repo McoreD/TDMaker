@@ -7,7 +7,7 @@
 #dim Version[4]
 #expr ParseVersion(MyAppPath, Version[0], Version[1], Version[2], Version[3])
 #define MyAppVersion Str(Version[0]) + "." + Str(Version[1]) + "." + Str(Version[2])
-#define MyAppPublisher "TDMaker Developers"
+#define MyAppPublisher "ShareX Developers"
 #define MyAppURL "http://code.google.com/p/TDMaker"
 #define MyAppMyAppName "TDMaker.exe"
 

@@ -655,15 +655,12 @@ namespace TDMaker
             chkProxyEnable.Checked = App.Settings.ProxyEnabled;
             pgProxy.SelectedObject = App.Settings.ProxySettings;
 
-            if (cboScreenshotsLoc.Items.Count == 0)
+            if (cboThumbnailer.Items.Count == 0)
             {
-                cboScreenshotsLoc.Items.AddRange(Enum.GetNames(typeof(LocationType)));
+                cboThumbnailer.Items.AddRange(Enum.GetNames(typeof(ThumbnailerType)));
             }
-            cboScreenshotsLoc.SelectedIndex = (int)App.Settings.ScreenshotsLoc;
-            txtScreenshotsLoc.Text = App.Settings.CustomScreenshotsDir;
-
             cboThumbnailer.SelectedIndex = (int)App.Settings.ThumbnailerType;
-            pgMPlayerOptions.SelectedObject = App.Settings.MPlayerOptions;
+            pgThumbnailerOptions.SelectedObject = App.Settings.ThumbnailerOptions;
 
             txtFFmpegPath.Text = App.Settings.FFmpegPath;
 
@@ -883,9 +880,6 @@ namespace TDMaker
             txtTorrentCustomFolder.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
             btnBrowseTorrentCustomFolder.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
             chkTorrentOrganize.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
-
-            txtScreenshotsLoc.Enabled = App.Settings.ScreenshotsLoc == LocationType.CustomFolder;
-            btnScreenshotsLocBrowse.Enabled = App.Settings.ScreenshotsLoc == LocationType.CustomFolder;
 
             gbTemplatesInternal.Enabled = !chkTemplatesMode.Checked;
         }
@@ -1809,22 +1803,6 @@ namespace TDMaker
         {
             App.Settings.TorrentLocationChoice = (LocationType)cboTorrentLoc.SelectedIndex;
             UpdateGuiControls();
-        }
-
-        private void cboScreenshotsLoc_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            App.Settings.ScreenshotsLoc = (LocationType)cboScreenshotsLoc.SelectedIndex;
-            UpdateGuiControls();
-        }
-
-        private void btnScreenshotsLocBrowse_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                txtScreenshotsLoc.Text = dlg.SelectedPath;
-                App.Settings.CustomScreenshotsDir = txtScreenshotsLoc.Text;
-            }
         }
 
         private void btnBrowseDir_Click(object sender, EventArgs e)
