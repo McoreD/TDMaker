@@ -21,6 +21,7 @@ namespace TDMakerLib
 
         protected List<ScreenshotInfo> TempScreenshots = new List<ScreenshotInfo>();
         public List<ScreenshotInfo> Screenshots = new List<ScreenshotInfo>();
+        protected int TimeSlice;
 
         public string MediaSummary { get; protected set; }
 
@@ -33,6 +34,8 @@ namespace TDMakerLib
             MediaFile = mf;
             ScreenshotDir = ssDir;
             Options = options;
+
+            TimeSlice = GetTimeSlice(Options.ScreenshotCount);
         }
 
         public virtual void TakeScreenshot()
@@ -45,16 +48,11 @@ namespace TDMakerLib
                     ThumbnailerPath = App.Settings.MPlayerPath;
                     if (File.Exists(MPlayerTempFp)) File.Delete(MPlayerTempFp);
                     break;
-                case ThumbnailerType.FFmpeg:
-                    ThumbnailerPath = App.Settings.FFmpegPath;
-                    break;
             }
-
-            int time_slice = GetTimeSlice(Options.ScreenshotCount);
 
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {
-                int timeSliceElapsed = time_slice * (i + 1);
+                int timeSliceElapsed = TimeSlice * (i + 1);
                 string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.png", Path.GetFileNameWithoutExtension(MediaFile.FilePath), timeSliceElapsed));
 
                 ProcessStartInfo psi = new ProcessStartInfo(ThumbnailerPath);
@@ -65,9 +63,6 @@ namespace TDMakerLib
                     case ThumbnailerType.MPlayer:
                         psi.Arguments = string.Format("-nosound -ss {0} -zoom -vf screenshot -frames 1 -vo png:z=9:outdir=\\\"{1}\\\" \"{2}\"",
                                timeSliceElapsed, ScreenshotDir, MediaFile.FilePath);
-                        break;
-                    case ThumbnailerType.FFmpeg:
-                        psi.Arguments = string.Format("-i \"{0}\" -ss {1} -f image2 -vframes 1 \"{2}\"", MediaFile.FilePath, timeSliceElapsed, tempScreenshotPath);
                         break;
                 }
 
@@ -99,6 +94,11 @@ namespace TDMakerLib
                 }
             } // for loop
 
+            Finish();
+        }
+
+        public void Finish()
+        {
             if (TempScreenshots.Count > 0)
             {
                 if (Options.CombineScreenshots)
@@ -117,9 +117,9 @@ namespace TDMakerLib
             }
         }
 
-        public int GetTimeSlice(int NumScreenshots)
+        public int GetTimeSlice(int numScreenshots)
         {
-            return (int)(MediaFile.SegmentDuration / ((NumScreenshots + 1) * 1000));
+            return (int)(MediaFile.SegmentDuration / ((numScreenshots + 1) * 1000));
         }
 
         private Image CombineScreenshots(List<ScreenshotInfo> screenshots)
@@ -249,41 +249,6 @@ namespace TDMakerLib
                     }
                 }
             }
-        }
-    }
-
-    public class ThumbnailerOptions
-    {
-        [Category("Options"), DefaultValue(3), Description("Number of screenshots to take")]
-        public int ScreenshotCount { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(false), Description("Combine all screenshots to one large screenshot")]
-        public bool CombineScreenshots { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(0), Description("Maximum thumbnail width size, 0 means don't resize")]
-        public int MaxThumbnailWidth { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(20), Description("Space between border and content as pixel")]
-        public int Padding { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(10), Description("Space between screenshots as pixel")]
-        public int Spacing { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(1), Description("Number of screenshots per row")]
-        public int ColumnCount { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(true), Description("Add movie information to the combined screenshot")]
-        public bool AddMovieInfo { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(true), Description("Add timestamp of screenshot at corner of image")]
-        public bool AddTimestamp { get; set; }
-
-        [Category("Combine screenshots"), DefaultValue(true), Description("Draw rectangle shadow behind thumbnails")]
-        public bool DrawShadow { get; set; }
-
-        public ThumbnailerOptions()
-        {
-            this.ApplyDefaultPropertyValues();
         }
     }
 }
