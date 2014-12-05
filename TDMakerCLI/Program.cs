@@ -90,7 +90,6 @@ namespace TDMakerCLI
             if (App.Config != null)
             {
                 App.InitializeDefaultFolderPaths();
-                App.MtnProfiles = SettingsMtnProfiles.Read();
 
                 Console.WriteLine("Media location:");
                 Console.WriteLine(mMediaLoc);
@@ -98,10 +97,6 @@ namespace TDMakerCLI
 
                 Console.WriteLine("Settings file");
                 Console.WriteLine(mSettingsFile);
-                Console.WriteLine();
-
-                Console.WriteLine("MTN Path:");
-                Console.WriteLine(App.Settings.MTNPath);
                 Console.WriteLine();
 
                 List<string> listFileOrDir = new List<string>() { mMediaLoc };
