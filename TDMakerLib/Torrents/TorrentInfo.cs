@@ -49,7 +49,7 @@ namespace TDMakerLib
         /// </summary>
         public void CreateUploadScreenshots()
         {
-            TakeScreenshots();
+            CreateScreenshots();
             UploadScreenshots();
         }
 
@@ -120,20 +120,33 @@ namespace TDMakerLib
             }
         }
 
-        public void TakeScreenshots()
+        public void CreateScreenshots()
         {
             switch (Media.MediaTypeChoice)
             {
                 case MediaType.MediaDisc:
-                    TakeScreenshot(this.Media.Overall, FileSystem.GetScreenShotsDir(this.Media.Overall.FilePath));
+                    if (TakeScreenshot(this.Media.Overall, FileSystem.GetScreenShotsDir(this.Media.Overall.FilePath)))
+                        AddScreenshot(this.Media.Overall);
                     break;
 
                 default:
                     foreach (MediaFile mf in this.Media.MediaFiles)
                     {
-                        TakeScreenshot(mf, FileSystem.GetScreenShotsDir(mf.FilePath));
+                        if (TakeScreenshot(mf, FileSystem.GetScreenShotsDir(mf.FilePath)))
+                            AddScreenshot(mf);
                     }
                     break;
+            }
+        }
+
+        private void AddScreenshot(MediaFile mf)
+        {
+            foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
+            {
+                if (ss != null)
+                {
+                    ReportProgress(ProgressType.UPDATE_SCREENSHOTS_LIST, ss);
+                }
             }
         }
 
@@ -165,8 +178,6 @@ namespace TDMakerLib
                 {
                     if (ss != null)
                     {
-                        ReportProgress(ProgressType.UPDATE_SCREENSHOTS_LIST, ss);
-
                         UploadResult ur = UploadScreenshot(ss.LocalPath);
 
                         if (ur != null)

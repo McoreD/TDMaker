@@ -45,7 +45,7 @@ namespace TDMakerLib
         {
             InitializeComponent();
             this.Text = string.Format("TDMaker {0} - Configuration Wizard", Application.ProductVersion);
-            chkPreferSystemFolders.Checked = App.AppConf.PreferSystemFolders;
+            chkPreferSystemFolders.Checked = App.Config.PreferSystemFolders;
             txtRootFolder.Text = rootDir;
             this.RootFolder = rootDir;
             foreach (ImageDestination sdt in Enum.GetValues(typeof(ImageDestination)))
@@ -58,13 +58,13 @@ namespace TDMakerLib
         private void btnOK_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-            App.AppConf.RootDir = this.RootFolder;
-            App.AppConf.PreferSystemFolders = this.PreferSystemFolders;
-            App.AppConf.ImageUploaderType = this.ImageDestinationType;
-            App.AppConf.PtpImgCode = this.txtPtpImgCode.Text;
+            App.Config.RootDir = this.RootFolder;
+            App.Config.PreferSystemFolders = this.PreferSystemFolders;
+            App.Config.ImageUploaderType = this.ImageDestinationType;
+            App.Config.PtpImgCode = this.txtPtpImgCode.Text;
 
             App.InitializeDefaultFolderPaths();
-            Debug.WriteLine(App.AppConf.XMLSettingsFile);
+            Debug.WriteLine(App.Config.SettingsFilePath);
             this.Close();
         }
 

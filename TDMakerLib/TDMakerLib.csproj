@@ -123,7 +123,6 @@
     <Compile Include="Helpers\Structs.cs" />
     <Compile Include="Helpers\TorrentPacket.cs" />
     <Compile Include="Helpers\WorkerTask.cs" />
-    <Compile Include="Helpers\XMLSettings.cs" />
     <Compile Include="Helpers\XMLSettingsMtnProfiles.cs" />
     <Compile Include="Helpers\ImageFile.cs" />
     <Compile Include="Kernel32Helper.cs" />

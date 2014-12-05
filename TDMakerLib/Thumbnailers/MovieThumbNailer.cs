@@ -28,7 +28,7 @@ namespace TDMakerLib
                     App.Settings.MTNPath = assemblyMTN;
                 }
 
-                string args = string.Format("{0} \"{1}\"", Adapter.GetMtnArg(ScreenshotDir, App.mtnProfileMgr.GetMtnProfileActive()), MediaFile.FilePath);
+                string args = string.Format("{0} \"{1}\"", Adapter.GetMtnArg(ScreenshotDir, App.MtnProfiles.GetMtnProfileActive()), MediaFile.FilePath);
 
                 Process p = new Process();
                 ProcessStartInfo psi = new ProcessStartInfo(assemblyMTN);
@@ -49,7 +49,7 @@ namespace TDMakerLib
                 p.Start();
                 p.WaitForExit(1000 * 30);
 
-                string ssPath = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + App.mtnProfileMgr.GetMtnProfileActive().o_OutputSuffix);
+                string ssPath = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + App.MtnProfiles.GetMtnProfileActive().o_OutputSuffix);
                 Screenshots.Add(new ScreenshotInfo(ssPath)
                 {
                     Args = args
@@ -57,7 +57,7 @@ namespace TDMakerLib
 
                 if (App.IsUNIX)
                 {
-                    string info = Path.Combine(FileSystem.GetScreenShotsDir(MediaFile.FilePath), Path.GetFileNameWithoutExtension(MediaFile.FilePath) + App.mtnProfileMgr.GetMtnProfileActive().N_InfoSuffix);
+                    string info = Path.Combine(FileSystem.GetScreenShotsDir(MediaFile.FilePath), Path.GetFileNameWithoutExtension(MediaFile.FilePath) + App.MtnProfiles.GetMtnProfileActive().N_InfoSuffix);
 
                     using (StreamReader sr = new StreamReader(info))
                     {

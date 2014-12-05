@@ -78,19 +78,19 @@ namespace TDMakerCLI
 
             if (!File.Exists(mSettingsFile))
             {
-                App.AppConf = AppSettings.Read();
-                mSettingsFile = App.AppConf.XMLSettingsFile;
+                App.Config = AppSettings.Load(AppSettings.AppConfigFilePath);
+                mSettingsFile = App.Config.SettingsFilePath;
             }
 
             if (File.Exists(mSettingsFile))
             {
-                App.Settings = XMLSettingsCore.Read(mSettingsFile);
+                App.Settings = Settings.Load(mSettingsFile);
             }
 
-            if (App.AppConf != null)
+            if (App.Config != null)
             {
                 App.InitializeDefaultFolderPaths();
-                App.mtnProfileMgr = XMLSettingsMtnProfiles.Read();
+                App.MtnProfiles = SettingsMtnProfiles.Read();
 
                 Console.WriteLine("Media location:");
                 Console.WriteLine(mMediaLoc);

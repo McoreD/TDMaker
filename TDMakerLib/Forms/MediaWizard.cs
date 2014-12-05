@@ -92,7 +92,8 @@ namespace TDMakerLib
             }
 
             chkCreateTorrent.Checked = App.Settings.TorrentCreateAuto;
-            chkScreenshotsCreate.Checked = App.Settings.ScreenshotsUpload;
+            chkScreenshotsCreate.Checked = App.Settings.CreateScreenshots;
+            chkScreenshotsUpload.Checked = App.Settings.UploadScreenshots;
             gbQuestion.Enabled = this.Options.MediaTypeChoice != MediaType.MediaDisc;
         }
 
@@ -114,7 +115,7 @@ namespace TDMakerLib
 
         private void chkScreenshotsInclude_CheckedChanged(object sender, System.EventArgs e)
         {
-            this.Options.ScreenshotsInclude = chkScreenshotsCreate.Checked;
+            this.Options.CreateScreenshots = chkScreenshotsCreate.Checked;
         }
 
         private void chkCreateTorrent_CheckedChanged(object sender, System.EventArgs e)
@@ -131,11 +132,18 @@ namespace TDMakerLib
         {
             this.Options.DialogResultMy = this.DialogResult;
         }
+
+        private void chkScreenshotsUpload_CheckedChanged(object sender, System.EventArgs e)
+        {
+            this.Options.UploadScreenshots = chkScreenshotsUpload.Checked;
+        }
     }
 
     public class MediaWizardOptions
     {
-        public bool ScreenshotsInclude { get; set; }
+        public bool CreateScreenshots { get; set; }
+
+        public bool UploadScreenshots { get; set; }
 
         public bool CreateTorrent { get; set; }
 

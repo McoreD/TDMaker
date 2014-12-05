@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelpersLib;
+using System;
 using System.ComponentModel;
 using System.Drawing.Design;
 using System.Windows.Forms.Design;
@@ -6,7 +7,7 @@ using System.Windows.Forms.Design;
 namespace TDMakerLib
 {
     [Serializable]
-    public class XMLSettingsScreenshot : XMLSettings
+    public class XMLSettingsScreenshot
     {
         public const bool a_AspectRatio_default = false;
         public const double b_SkipBlank_default = 0.80;
@@ -119,7 +120,7 @@ namespace TDMakerLib
 
         public XMLSettingsScreenshot()
         {
-            ApplyDefaultValues(this);
+            this.ApplyDefaultPropertyValues();
         }
 
         public XMLSettingsScreenshot(string profileName)

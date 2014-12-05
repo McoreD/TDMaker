@@ -249,14 +249,16 @@ namespace TDMaker
             if (mwo.PromptShown)
             {
                 wt.TorrentCreateAuto = mwo.CreateTorrent;
-                wt.UploadScreenshot = mwo.ScreenshotsInclude;
+                wt.CreateScreenshots = mwo.CreateScreenshots;
+                wt.UploadScreenshots = mwo.UploadScreenshots;
                 dlgResult = mwo.DialogResultMy;
             }
             else
             {
                 // fill previous settings
                 wt.TorrentCreateAuto = App.Settings.TorrentCreateAuto;
-                wt.UploadScreenshot = App.Settings.ScreenshotsUpload;
+                wt.CreateScreenshots = App.Settings.CreateScreenshots;
+                wt.UploadScreenshots = App.Settings.UploadScreenshots;
             }
 
             if (!mwo.PromptShown && App.Settings.ShowMediaWizardAlways)
@@ -266,7 +268,8 @@ namespace TDMaker
                 if (dlgResult == DialogResult.OK)
                 {
                     wt.TorrentCreateAuto = mw.Options.CreateTorrent;
-                    wt.UploadScreenshot = mw.Options.ScreenshotsInclude;
+                    wt.CreateScreenshots = App.Settings.CreateScreenshots;
+                    wt.UploadScreenshots = mw.Options.UploadScreenshots;
                     wt.MediaTypeChoice = mw.Options.MediaTypeChoice;
                 }
             }
@@ -475,9 +478,9 @@ namespace TDMaker
 
             App.Settings.FFmpegPath = txtFFmpegPath.Text;
 
-            App.Settings.Write();
+            App.Settings.Save(App.Config.SettingsFilePath);
             App.UploadersConfig.Save(App.UploadersConfigPath);
-            App.mtnProfileMgr.Write();
+            App.MtnProfiles.Save(App.MtnProfilesPath);
         }
 
         private void ConfigureDirs()
@@ -509,7 +512,7 @@ namespace TDMaker
 
         private void SettingsRead()
         {
-            tsmiPreferKnownFolders.Checked = App.AppConf.PreferSystemFolders;
+            tsmiPreferKnownFolders.Checked = App.Config.PreferSystemFolders;
 
             SettingsReadInput();
             SettingsReadMedia();
@@ -618,7 +621,7 @@ namespace TDMaker
 
         private void SettingsReadScreenshots()
         {
-            chkScreenshotUpload.Checked = App.Settings.ScreenshotsUpload;
+            chkScreenshotUpload.Checked = App.Settings.CreateScreenshots;
 
             btnUploadersConfig.Visible = cboFileUploader.Visible = cboImageUploader.Visible = string.IsNullOrEmpty(App.Settings.PtpImgCode);
 
@@ -670,7 +673,7 @@ namespace TDMaker
 
         private void SettingsReadOptionsMTN()
         {
-            if (App.mtnProfileMgr.MtnProfiles.Count == 0)
+            if (App.MtnProfiles.MtnProfiles.Count == 0)
             {
                 XMLSettingsScreenshot mtnDefault1 = new XMLSettingsScreenshot("Movies (Auto Width)")
                 {
@@ -684,7 +687,7 @@ namespace TDMaker
                     j_JpgQuality = 97,
                     N_InfoSuffix = ""
                 };
-                App.mtnProfileMgr.MtnProfiles.Add(mtnDefault1);
+                App.MtnProfiles.MtnProfiles.Add(mtnDefault1);
 
                 XMLSettingsScreenshot mtnDefault2 = new XMLSettingsScreenshot("Movies (Fixed Width)")
                 {
@@ -699,7 +702,7 @@ namespace TDMaker
                     w_Width = 800,
                     N_InfoSuffix = ""
                 };
-                App.mtnProfileMgr.MtnProfiles.Add(mtnDefault2);
+                App.MtnProfiles.MtnProfiles.Add(mtnDefault2);
 
                 XMLSettingsScreenshot mtnDefault3 = new XMLSettingsScreenshot("Protech (4x3)")
                 {
@@ -718,16 +721,16 @@ namespace TDMaker
                     w_Width = 1024,
                     N_InfoSuffix = ""
                 };
-                App.mtnProfileMgr.MtnProfiles.Add(mtnDefault3);
+                App.MtnProfiles.MtnProfiles.Add(mtnDefault3);
             }
 
             if (lbMtnProfiles.Items.Count == 0)
             {
-                foreach (XMLSettingsScreenshot mtnProfile in App.mtnProfileMgr.MtnProfiles)
+                foreach (XMLSettingsScreenshot mtnProfile in App.MtnProfiles.MtnProfiles)
                 {
                     lbMtnProfiles.Items.Add(mtnProfile);
                 }
-                lbMtnProfiles.SelectedIndex = Math.Min(App.mtnProfileMgr.MtnProfiles.Count - 1, App.mtnProfileMgr.MtnProfileActive);
+                lbMtnProfiles.SelectedIndex = Math.Min(App.MtnProfiles.MtnProfiles.Count - 1, App.MtnProfiles.MtnProfileActive);
             }
 
             this.chkCreateTorrent.Checked = App.Settings.TorrentCreateAuto;
@@ -805,10 +808,14 @@ namespace TDMaker
                 }
 
                 // creates screenshot
-                mi.UploadScreenshots = wt.UploadScreenshot;
-                if (wt.UploadScreenshot)
+                mi.UploadScreenshots = wt.UploadScreenshots;
+                if (wt.UploadScreenshots)
                 {
                     ti.CreateUploadScreenshots();
+                }
+                else if (wt.CreateScreenshots)
+                {
+                    ti.CreateScreenshots();
                 }
 
                 ti.PublishString = CreatePublishInitial(ti);
@@ -1002,7 +1009,7 @@ namespace TDMaker
         private void chkScreenshotUpload_CheckedChanged(object sender, EventArgs e)
         {
             chkUploadFullScreenshot.Enabled = chkScreenshotUpload.Checked;
-            App.Settings.ScreenshotsUpload = chkScreenshotUpload.Checked;
+            App.Settings.CreateScreenshots = chkScreenshotUpload.Checked;
         }
 
         private void btnAnalyze_Click(object sender, EventArgs e)
@@ -1684,10 +1691,10 @@ namespace TDMaker
 
         private void PgMtnPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            txtMtnArgs.Text = Adapter.GetMtnArg(App.mtnProfileMgr.GetMtnProfileActive());
+            txtMtnArgs.Text = Adapter.GetMtnArg(App.MtnProfiles.GetMtnProfileActive());
             if (lbMtnProfiles.SelectedIndex > -1)
             {
-                lbMtnProfiles.Items[lbMtnProfiles.SelectedIndex] = App.mtnProfileMgr.GetMtnProfileActive();
+                lbMtnProfiles.Items[lbMtnProfiles.SelectedIndex] = App.MtnProfiles.GetMtnProfileActive();
             }
         }
 
@@ -1697,7 +1704,7 @@ namespace TDMaker
             if (ib.ShowDialog() == DialogResult.OK)
             {
                 XMLSettingsScreenshot mtnProfile = new XMLSettingsScreenshot(ib.InputText);
-                App.mtnProfileMgr.MtnProfiles.Add(mtnProfile);
+                App.MtnProfiles.MtnProfiles.Add(mtnProfile);
                 lbMtnProfiles.Items.Add(mtnProfile);
                 lbMtnProfiles.SelectedIndex = lbMtnProfiles.Items.Count - 1;
             }
@@ -1709,7 +1716,7 @@ namespace TDMaker
             {
                 XMLSettingsScreenshot mtnProfile = lbMtnProfiles.Items[lbMtnProfiles.SelectedIndex] as XMLSettingsScreenshot;
                 pgMtn.SelectedObject = mtnProfile;
-                App.mtnProfileMgr.MtnProfileActive = lbMtnProfiles.SelectedIndex;
+                App.MtnProfiles.MtnProfileActive = lbMtnProfiles.SelectedIndex;
                 txtMtnArgs.Text = Adapter.GetMtnArg(mtnProfile);
             }
         }
@@ -1720,7 +1727,7 @@ namespace TDMaker
             if (sel >= 0)
             {
                 lbMtnProfiles.Items.RemoveAt(sel);
-                App.mtnProfileMgr.MtnProfiles.RemoveAt(sel);
+                App.MtnProfiles.MtnProfiles.RemoveAt(sel);
                 sel = sel - 1;
                 if (sel < 0)
                 {

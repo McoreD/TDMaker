@@ -46,151 +46,151 @@ namespace TDMakerLib
             // Fill Screenshot object : coded parameters in alphabetical order except for columns, rows and width
 
             StringBuilder sbMTNArgs = new StringBuilder();
-            sbMTNArgs.Append(string.Format("-c {0} ", App.mtnProfileMgr.GetMtnProfileActive().c_Columns));
-            sbMTNArgs.Append(string.Format("-r {0} ", App.mtnProfileMgr.GetMtnProfileActive().r_Rows));
+            sbMTNArgs.Append(string.Format("-c {0} ", App.MtnProfiles.GetMtnProfileActive().c_Columns));
+            sbMTNArgs.Append(string.Format("-r {0} ", App.MtnProfiles.GetMtnProfileActive().r_Rows));
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().w_Width != XMLSettingsScreenshot.w_Width_default)
+            if (App.MtnProfiles.GetMtnProfileActive().w_Width != XMLSettingsScreenshot.w_Width_default)
             {
-                sbMTNArgs.Append(string.Format("-w {0} ", App.mtnProfileMgr.GetMtnProfileActive().w_Width));
+                sbMTNArgs.Append(string.Format("-w {0} ", App.MtnProfiles.GetMtnProfileActive().w_Width));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().a_AspectRatio != XMLSettingsScreenshot.a_AspectRatio_default)
+            if (App.MtnProfiles.GetMtnProfileActive().a_AspectRatio != XMLSettingsScreenshot.a_AspectRatio_default)
             {
-                sbMTNArgs.Append(string.Format("-a {0} ", App.mtnProfileMgr.GetMtnProfileActive().a_AspectRatioValue));
+                sbMTNArgs.Append(string.Format("-a {0} ", App.MtnProfiles.GetMtnProfileActive().a_AspectRatioValue));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().b_SkipBlank != XMLSettingsScreenshot.b_SkipBlank_default)
+            if (App.MtnProfiles.GetMtnProfileActive().b_SkipBlank != XMLSettingsScreenshot.b_SkipBlank_default)
             {
-                sbMTNArgs.Append(string.Format("-b {0} ", App.mtnProfileMgr.GetMtnProfileActive().b_SkipBlank));
+                sbMTNArgs.Append(string.Format("-b {0} ", App.MtnProfiles.GetMtnProfileActive().b_SkipBlank));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().B_OmitBegin != XMLSettingsScreenshot.B_OmitBegin_default)
+            if (App.MtnProfiles.GetMtnProfileActive().B_OmitBegin != XMLSettingsScreenshot.B_OmitBegin_default)
             {
-                sbMTNArgs.Append(string.Format("-B {0} ", App.mtnProfileMgr.GetMtnProfileActive().B_OmitBegin));
+                sbMTNArgs.Append(string.Format("-B {0} ", App.MtnProfiles.GetMtnProfileActive().B_OmitBegin));
             }
 
             // c is added earlier
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().C_CutMovie != XMLSettingsScreenshot.C_CutMovie_default)
+            if (App.MtnProfiles.GetMtnProfileActive().C_CutMovie != XMLSettingsScreenshot.C_CutMovie_default)
             {
-                sbMTNArgs.Append(string.Format("-C {0} ", App.mtnProfileMgr.GetMtnProfileActive().C_CutMovie));
+                sbMTNArgs.Append(string.Format("-C {0} ", App.MtnProfiles.GetMtnProfileActive().C_CutMovie));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().D_EdgeDetection != XMLSettingsScreenshot.D_EdgeDetection_default)
+            if (App.MtnProfiles.GetMtnProfileActive().D_EdgeDetection != XMLSettingsScreenshot.D_EdgeDetection_default)
             {
-                sbMTNArgs.Append(string.Format("-D {0} ", App.mtnProfileMgr.GetMtnProfileActive().D_EdgeDetection));
+                sbMTNArgs.Append(string.Format("-D {0} ", App.MtnProfiles.GetMtnProfileActive().D_EdgeDetection));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().E_OmitEnd != XMLSettingsScreenshot.E_OmitEnd_default)
+            if (App.MtnProfiles.GetMtnProfileActive().E_OmitEnd != XMLSettingsScreenshot.E_OmitEnd_default)
             {
-                sbMTNArgs.Append(string.Format("-E {0} ", App.mtnProfileMgr.GetMtnProfileActive().E_OmitEnd));
+                sbMTNArgs.Append(string.Format("-E {0} ", App.MtnProfiles.GetMtnProfileActive().E_OmitEnd));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().i_InfoOff || App.IsUNIX)
+            if (App.MtnProfiles.GetMtnProfileActive().i_InfoOff || App.IsUNIX)
             {
                 sbMTNArgs.Append("-i ");
             }
             else if (!App.IsUNIX)
             {
-                if (App.mtnProfileMgr.GetMtnProfileActive().f_FontFile != XMLSettingsScreenshot.f_FontFile_default)
+                if (App.MtnProfiles.GetMtnProfileActive().f_FontFile != XMLSettingsScreenshot.f_FontFile_default)
                 {
-                    sbMTNArgs.Append(string.Format("-f {0} ", App.mtnProfileMgr.GetMtnProfileActive().f_FontFile));
+                    sbMTNArgs.Append(string.Format("-f {0} ", App.MtnProfiles.GetMtnProfileActive().f_FontFile));
                 }
-                if (App.mtnProfileMgr.GetMtnProfileActive().F_FontColor != XMLSettingsScreenshot.F_FontColor_default)
+                if (App.MtnProfiles.GetMtnProfileActive().F_FontColor != XMLSettingsScreenshot.F_FontColor_default)
                 {
-                    sbMTNArgs.Append(string.Format("-F {0}:{1} ", App.mtnProfileMgr.GetMtnProfileActive().F_FontColor, App.mtnProfileMgr.GetMtnProfileActive().F_FontSize));
+                    sbMTNArgs.Append(string.Format("-F {0}:{1} ", App.MtnProfiles.GetMtnProfileActive().F_FontColor, App.MtnProfiles.GetMtnProfileActive().F_FontSize));
                 }
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().g_GapBetweenShots != XMLSettingsScreenshot.g_GapBetweenShots_default)
+            if (App.MtnProfiles.GetMtnProfileActive().g_GapBetweenShots != XMLSettingsScreenshot.g_GapBetweenShots_default)
             {
-                sbMTNArgs.Append(string.Format("-g {0} ", App.mtnProfileMgr.GetMtnProfileActive().g_GapBetweenShots));
+                sbMTNArgs.Append(string.Format("-g {0} ", App.MtnProfiles.GetMtnProfileActive().g_GapBetweenShots));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().h_MinHeight != XMLSettingsScreenshot.h_MinHeight_default)
+            if (App.MtnProfiles.GetMtnProfileActive().h_MinHeight != XMLSettingsScreenshot.h_MinHeight_default)
             {
-                sbMTNArgs.Append(string.Format("-h {0} ", App.mtnProfileMgr.GetMtnProfileActive().h_MinHeight));
+                sbMTNArgs.Append(string.Format("-h {0} ", App.MtnProfiles.GetMtnProfileActive().h_MinHeight));
             }
 
             // i is added earlier
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().I_IndivScreens)
+            if (App.MtnProfiles.GetMtnProfileActive().I_IndivScreens)
             {
                 sbMTNArgs.Append("-I ");
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().j_JpgQuality != XMLSettingsScreenshot.g_GapBetweenShots_default)
+            if (App.MtnProfiles.GetMtnProfileActive().j_JpgQuality != XMLSettingsScreenshot.g_GapBetweenShots_default)
             {
-                sbMTNArgs.Append(string.Format("-j {0} ", App.mtnProfileMgr.GetMtnProfileActive().j_JpgQuality));
+                sbMTNArgs.Append(string.Format("-j {0} ", App.MtnProfiles.GetMtnProfileActive().j_JpgQuality));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().k_ColorBackground != XMLSettingsScreenshot.k_ColorBackground_default)
+            if (App.MtnProfiles.GetMtnProfileActive().k_ColorBackground != XMLSettingsScreenshot.k_ColorBackground_default)
             {
-                sbMTNArgs.Append(string.Format("-k {0} ", App.mtnProfileMgr.GetMtnProfileActive().k_ColorBackground));
+                sbMTNArgs.Append(string.Format("-k {0} ", App.MtnProfiles.GetMtnProfileActive().k_ColorBackground));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().t_TimeStampOff || App.IsUNIX)
+            if (App.MtnProfiles.GetMtnProfileActive().t_TimeStampOff || App.IsUNIX)
             {
                 sbMTNArgs.Append("-t ");
             }
             else if (!App.IsUNIX)
             {
-                if (App.mtnProfileMgr.GetMtnProfileActive().L_LocInfo != XMLSettingsScreenshot.L_LocInfo_default || App.mtnProfileMgr.GetMtnProfileActive().L_LocTimestamp != XMLSettingsScreenshot.L_LocInfo_default)
+                if (App.MtnProfiles.GetMtnProfileActive().L_LocInfo != XMLSettingsScreenshot.L_LocInfo_default || App.MtnProfiles.GetMtnProfileActive().L_LocTimestamp != XMLSettingsScreenshot.L_LocInfo_default)
                 {
-                    sbMTNArgs.Append(string.Format("-L {0}:{1} ", App.mtnProfileMgr.GetMtnProfileActive().L_LocInfo, App.mtnProfileMgr.GetMtnProfileActive().L_LocTimestamp));
+                    sbMTNArgs.Append(string.Format("-L {0}:{1} ", App.MtnProfiles.GetMtnProfileActive().L_LocInfo, App.MtnProfiles.GetMtnProfileActive().L_LocTimestamp));
                 }
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().N_InfoSuffix != XMLSettingsScreenshot.N_InfoSuffix_default || App.IsUNIX)
+            if (App.MtnProfiles.GetMtnProfileActive().N_InfoSuffix != XMLSettingsScreenshot.N_InfoSuffix_default || App.IsUNIX)
             {
-                sbMTNArgs.Append(string.Format("-N {0} ", App.mtnProfileMgr.GetMtnProfileActive().N_InfoSuffix));
+                sbMTNArgs.Append(string.Format("-N {0} ", App.MtnProfiles.GetMtnProfileActive().N_InfoSuffix));
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().o_OutputSuffix != XMLSettingsScreenshot.o_OutputSuffix_default)
+            if (App.MtnProfiles.GetMtnProfileActive().o_OutputSuffix != XMLSettingsScreenshot.o_OutputSuffix_default)
             {
-                sbMTNArgs.Append(string.Format("-o {0} ", App.mtnProfileMgr.GetMtnProfileActive().o_OutputSuffix));
+                sbMTNArgs.Append(string.Format("-o {0} ", App.MtnProfiles.GetMtnProfileActive().o_OutputSuffix));
             }
 
             sbMTNArgs.Append(string.Format("-O \"{0}\" ", screenshotDir));
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().P_QuitAfterDone)
+            if (App.MtnProfiles.GetMtnProfileActive().P_QuitAfterDone)
             {
                 sbMTNArgs.Append("-P ");
             }
-            else if (App.mtnProfileMgr.GetMtnProfileActive().p_PauseBeforeExit)
+            else if (App.MtnProfiles.GetMtnProfileActive().p_PauseBeforeExit)
             {
                 sbMTNArgs.Append("-p ");
             }
 
             // r is added earlier
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().s_TimeStep != XMLSettingsScreenshot.s_TimeStep_default)
+            if (App.MtnProfiles.GetMtnProfileActive().s_TimeStep != XMLSettingsScreenshot.s_TimeStep_default)
             {
-                sbMTNArgs.Append(string.Format("-s {0} ", App.mtnProfileMgr.GetMtnProfileActive().s_TimeStep));
+                sbMTNArgs.Append(string.Format("-s {0} ", App.MtnProfiles.GetMtnProfileActive().s_TimeStep));
             }
 
             // t is added earlier
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().T_TitleTextAdd)
+            if (App.MtnProfiles.GetMtnProfileActive().T_TitleTextAdd)
             {
-                if (App.mtnProfileMgr.GetMtnProfileActive().T_TitleText == "%Title%")
+                if (App.MtnProfiles.GetMtnProfileActive().T_TitleText == "%Title%")
                 {
                     sbMTNArgs.Append(string.Format("-T \"{0}\" ", App.Settings.txtMTN_T_Title));
                 }
             }
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().v_Verbose)
+            if (App.MtnProfiles.GetMtnProfileActive().v_Verbose)
             {
                 sbMTNArgs.Append("-v ");
             }
 
             // w is added earlier
 
-            if (App.mtnProfileMgr.GetMtnProfileActive().z_AlwaysSeek)
+            if (App.MtnProfiles.GetMtnProfileActive().z_AlwaysSeek)
             {
                 sbMTNArgs.Append("-z ");
             }
-            else if (App.mtnProfileMgr.GetMtnProfileActive().Z_AlwaysNonSeek)
+            else if (App.MtnProfiles.GetMtnProfileActive().Z_AlwaysNonSeek)
             {
                 sbMTNArgs.Append("-Z ");
             }

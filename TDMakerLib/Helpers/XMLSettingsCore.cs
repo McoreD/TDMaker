@@ -1,4 +1,5 @@
 ﻿using HelpersLib;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -13,14 +14,13 @@ using UploadersLib;
 
 namespace TDMakerLib
 {
-    [XmlRoot("Settings")]
-    public class XMLSettingsCore : XMLSettings
+    public class Settings : SettingsBase<Settings>
     {
-        public static string XMLFileName = string.Format("{0}Settings.xml", Application.ProductName);
+        public static string FileName = string.Format("{0}Settings.json", Application.ProductName);
 
-        public XMLSettingsCore()
+        public Settings()
         {
-            ApplyDefaultValues(this);
+            this.ApplyDefaultPropertyValues();
             AuthoringModes = new StringCollection();
             DiscMenus = new StringCollection();
             Extras = new StringCollection();
@@ -80,14 +80,17 @@ namespace TDMakerLib
          */
 
         // Tab 3 - Publish
-        [Category("Screenshots"), DefaultValue(true), Description("Create screenshots using thumbnailer and upload")]
-        public bool ScreenshotsUpload { get; set; }
+        [Category("Screenshots"), DefaultValue(true), Description("Create screenshots using thumbnailer")]
+        public bool CreateScreenshots { get; set; }
+
+        [Category("Screenshots"), DefaultValue(true), Description("Upload screenshots")]
+        public bool UploadScreenshots { get; set; }
 
         [Category("Screenshots"), DefaultValue(true), Description("Use full image URL in the torrent description.")]
         public bool UseFullPicture { get; set; }
 
         [Category("Screenshots"), DefaultValue(LocationType.KnownFolder), Description("Create screenshots in the same folders as the media file, default torrent folder or in a custom folder")]
-        public LocationType ScreenshotsLoc { get; set; }
+        public LocationType ScreenshotsLocation { get; set; }
 
         [Category("Screenshots"), DefaultValue(true), Description("Keep or delete screenshots after processing files")]
         public bool KeepScreenshots { get; set; }
@@ -231,7 +234,7 @@ namespace TDMakerLib
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
                 //Write XML file
-                XmlSerializer serial = new XmlSerializer(typeof(XMLSettingsCore));
+                XmlSerializer serial = new XmlSerializer(typeof(Settings));
                 FileStream fs = new FileStream(filePath, FileMode.Create);
                 serial.Serialize(fs, this);
                 fs.Close();
@@ -247,18 +250,12 @@ namespace TDMakerLib
 
         public void Write()
         {
-            Write(App.AppConf.XMLSettingsFile);
+            Write(App.Config.SettingsFilePath);
         }
 
-        public static XMLSettingsCore Read()
+        public static Settings Read(string filePath)
         {
-            App.AppConf.XMLSettingsFile = App.AppConf.GetSettingsFilePath();
-            return Read(App.AppConf.XMLSettingsFile);
-        }
-
-        public static XMLSettingsCore Read(string filePath)
-        {
-            return SettingsHelper.Load<XMLSettingsCore>(filePath, SerializationType.Xml);
+            return SettingsHelper.Load<Settings>(filePath, SerializationType.Xml);
         }
 
         #endregion I/O Methods

@@ -15,8 +15,10 @@ namespace TDMakerLib
         public List<string> FileOrDirPaths { get; set; }
         [Category("Torrent Creator"), DefaultValue(false), Description("Create Torrent")]
         public bool TorrentCreateAuto { get; set; }
+        [Category("Screenshots"), DefaultValue(true), Description("Create screenshot.")]
+        public bool CreateScreenshots { get; set; }
         [Category("Screenshots"), DefaultValue(true), Description("Upload screenshot.")]
-        public bool UploadScreenshot { get; set; }
+        public bool UploadScreenshots { get; set; }
         public MediaType MediaTypeChoice { get; set; }
 
         public WorkerTask(BackgroundWorker worker, TaskType task)

@@ -206,6 +206,7 @@ namespace TDMaker
             this.chkProxyEnable = new System.Windows.Forms.CheckBox();
             this.pgProxy = new System.Windows.Forms.PropertyGrid();
             this.tscMain = new System.Windows.Forms.ToolStripContainer();
+            this.flpButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.ssMain.SuspendLayout();
             this.cmsApp.SuspendLayout();
             this.msMain.SuspendLayout();
@@ -263,6 +264,7 @@ namespace TDMaker
             this.tscMain.ContentPanel.SuspendLayout();
             this.tscMain.TopToolStripPanel.SuspendLayout();
             this.tscMain.SuspendLayout();
+            this.flpButtons.SuspendLayout();
             this.SuspendLayout();
             // 
             // bwApp
@@ -629,7 +631,7 @@ namespace TDMaker
             // 
             this.btnPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPublish.Enabled = false;
-            this.btnPublish.Location = new System.Drawing.Point(272, 560);
+            this.btnPublish.Location = new System.Drawing.Point(255, 4);
             this.btnPublish.Name = "btnPublish";
             this.btnPublish.Size = new System.Drawing.Size(120, 23);
             this.btnPublish.TabIndex = 5;
@@ -642,7 +644,7 @@ namespace TDMaker
             this.btnAnalyze.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAnalyze.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnAnalyze.Enabled = false;
-            this.btnAnalyze.Location = new System.Drawing.Point(16, 560);
+            this.btnAnalyze.Location = new System.Drawing.Point(3, 3);
             this.btnAnalyze.Name = "btnAnalyze";
             this.btnAnalyze.Size = new System.Drawing.Size(120, 24);
             this.btnAnalyze.TabIndex = 9;
@@ -654,7 +656,7 @@ namespace TDMaker
             // 
             this.btnCreateTorrent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCreateTorrent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnCreateTorrent.Location = new System.Drawing.Point(144, 560);
+            this.btnCreateTorrent.Location = new System.Drawing.Point(129, 4);
             this.btnCreateTorrent.Name = "btnCreateTorrent";
             this.btnCreateTorrent.Size = new System.Drawing.Size(120, 23);
             this.btnCreateTorrent.TabIndex = 10;
@@ -1112,7 +1114,7 @@ namespace TDMaker
             this.tlpPublish.ColumnCount = 3;
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.00001F));
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.99999F));
-            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 154F));
+            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 156F));
             this.tlpPublish.Controls.Add(this.gbQuickPublish, 2, 0);
             this.tlpPublish.Controls.Add(this.txtPublish, 1, 0);
             this.tlpPublish.Controls.Add(this.lbPublish, 0, 0);
@@ -1128,9 +1130,9 @@ namespace TDMaker
             // 
             this.gbQuickPublish.Controls.Add(this.flpPublishConfig);
             this.gbQuickPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuickPublish.Location = new System.Drawing.Point(720, 3);
+            this.gbQuickPublish.Location = new System.Drawing.Point(718, 3);
             this.gbQuickPublish.Name = "gbQuickPublish";
-            this.gbQuickPublish.Size = new System.Drawing.Size(149, 511);
+            this.gbQuickPublish.Size = new System.Drawing.Size(151, 511);
             this.gbQuickPublish.TabIndex = 1;
             this.gbQuickPublish.TabStop = false;
             this.gbQuickPublish.Text = "Quick Options";
@@ -1146,7 +1148,7 @@ namespace TDMaker
             this.flpPublishConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpPublishConfig.Location = new System.Drawing.Point(3, 16);
             this.flpPublishConfig.Name = "flpPublishConfig";
-            this.flpPublishConfig.Size = new System.Drawing.Size(143, 492);
+            this.flpPublishConfig.Size = new System.Drawing.Size(145, 492);
             this.flpPublishConfig.TabIndex = 7;
             // 
             // chkQuickPre
@@ -1215,7 +1217,7 @@ namespace TDMaker
             this.txtPublish.Multiline = true;
             this.txtPublish.Name = "txtPublish";
             this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtPublish.Size = new System.Drawing.Size(568, 511);
+            this.txtPublish.Size = new System.Drawing.Size(566, 511);
             this.txtPublish.TabIndex = 0;
             this.txtPublish.WordWrap = false;
             this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
@@ -2183,10 +2185,8 @@ namespace TDMaker
             // 
             // tscMain.ContentPanel
             // 
-            this.tscMain.ContentPanel.Controls.Add(this.btnAnalyze);
-            this.tscMain.ContentPanel.Controls.Add(this.btnPublish);
+            this.tscMain.ContentPanel.Controls.Add(this.flpButtons);
             this.tscMain.ContentPanel.Controls.Add(this.tcMain);
-            this.tscMain.ContentPanel.Controls.Add(this.btnCreateTorrent);
             this.tscMain.ContentPanel.Padding = new System.Windows.Forms.Padding(3);
             this.tscMain.ContentPanel.Size = new System.Drawing.Size(892, 591);
             this.tscMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2199,6 +2199,17 @@ namespace TDMaker
             // tscMain.TopToolStripPanel
             // 
             this.tscMain.TopToolStripPanel.Controls.Add(this.msMain);
+            // 
+            // flpButtons
+            // 
+            this.flpButtons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.flpButtons.Controls.Add(this.btnAnalyze);
+            this.flpButtons.Controls.Add(this.btnCreateTorrent);
+            this.flpButtons.Controls.Add(this.btnPublish);
+            this.flpButtons.Location = new System.Drawing.Point(0, 554);
+            this.flpButtons.Name = "flpButtons";
+            this.flpButtons.Size = new System.Drawing.Size(889, 33);
+            this.flpButtons.TabIndex = 11;
             // 
             // MainWindow
             // 
@@ -2300,6 +2311,7 @@ namespace TDMaker
             this.tscMain.TopToolStripPanel.PerformLayout();
             this.tscMain.ResumeLayout(false);
             this.tscMain.PerformLayout();
+            this.flpButtons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2479,5 +2491,6 @@ namespace TDMaker
         private System.Windows.Forms.Button btnDownload;
         private System.Windows.Forms.Button btnFFmpegBrowse;
         private System.Windows.Forms.TextBox txtFFmpegPath;
+        private System.Windows.Forms.FlowLayoutPanel flpButtons;
     }
 }

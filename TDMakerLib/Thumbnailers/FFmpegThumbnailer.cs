@@ -28,7 +28,8 @@ namespace TDMakerLib
             string tempScreenshotPathFormat = Path.Combine(ScreenshotDir, string.Format("{0}-%03d.png", Path.GetFileNameWithoutExtension(MediaFile.FilePath)));
 
             // -i myvideo.avi -f image2 -vf fps=fps=1/60 img%03d.jpg
-            psi.Arguments = string.Format("-i \"{0}\" -f image2 -vf fps=fps={1} \"{2}\"", MediaFile.FilePath, fps, tempScreenshotPathFormat);
+            psi.Arguments = string.Format("-i \"{0}\" -f image2 -vf fps=1/{1} -vframes {2} \"{3}\"",
+                MediaFile.FilePath, (int)(MediaFile.SegmentDuration / 1000 / Options.ScreenshotCount), Options.ScreenshotCount, tempScreenshotPathFormat);
 
             Process p = new Process();
             p.StartInfo = psi;
@@ -44,7 +45,7 @@ namespace TDMakerLib
                     ScreenshotInfo screenshotInfo = new ScreenshotInfo(tempScreenshotPath)
                     {
                         Args = psi.Arguments,
-                        Timestamp = TimeSpan.FromSeconds((1/fps) * i)
+                        Timestamp = TimeSpan.FromSeconds((1 / fps) * i)
                     };
 
                     TempScreenshots.Add(screenshotInfo);

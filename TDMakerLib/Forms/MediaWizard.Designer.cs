@@ -34,6 +34,7 @@
             this.rbFilesAsColl = new System.Windows.Forms.RadioButton();
             this.flpTasks = new System.Windows.Forms.FlowLayoutPanel();
             this.chkScreenshotsCreate = new System.Windows.Forms.CheckBox();
+            this.chkScreenshotsUpload = new System.Windows.Forms.CheckBox();
             this.chkCreateTorrent = new System.Windows.Forms.CheckBox();
             this.lblUserActionMsg = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
@@ -73,7 +74,7 @@
             this.rbFilesAsIndiv.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rbFilesAsIndiv.Location = new System.Drawing.Point(3, 3);
             this.rbFilesAsIndiv.Name = "rbFilesAsIndiv";
-            this.rbFilesAsIndiv.Size = new System.Drawing.Size(179, 22);
+            this.rbFilesAsIndiv.Size = new System.Drawing.Size(178, 22);
             this.rbFilesAsIndiv.TabIndex = 0;
             this.rbFilesAsIndiv.TabStop = true;
             this.rbFilesAsIndiv.Text = "Process files individually";
@@ -86,7 +87,7 @@
             this.rbFilesAsColl.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rbFilesAsColl.Location = new System.Drawing.Point(3, 31);
             this.rbFilesAsColl.Name = "rbFilesAsColl";
-            this.rbFilesAsColl.Size = new System.Drawing.Size(237, 22);
+            this.rbFilesAsColl.Size = new System.Drawing.Size(235, 22);
             this.rbFilesAsColl.TabIndex = 1;
             this.rbFilesAsColl.TabStop = true;
             this.rbFilesAsColl.Text = "Process files as a Media Collection";
@@ -96,12 +97,13 @@
             // flpTasks
             // 
             this.flpTasks.Controls.Add(this.chkScreenshotsCreate);
+            this.flpTasks.Controls.Add(this.chkScreenshotsUpload);
             this.flpTasks.Controls.Add(this.chkCreateTorrent);
             this.flpTasks.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpTasks.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.flpTasks.Location = new System.Drawing.Point(8, 24);
             this.flpTasks.Name = "flpTasks";
-            this.flpTasks.Size = new System.Drawing.Size(440, 64);
+            this.flpTasks.Size = new System.Drawing.Size(440, 90);
             this.flpTasks.TabIndex = 2;
             // 
             // chkScreenshotsCreate
@@ -110,17 +112,29 @@
             this.chkScreenshotsCreate.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkScreenshotsCreate.Location = new System.Drawing.Point(3, 3);
             this.chkScreenshotsCreate.Name = "chkScreenshotsCreate";
-            this.chkScreenshotsCreate.Size = new System.Drawing.Size(150, 22);
+            this.chkScreenshotsCreate.Size = new System.Drawing.Size(145, 22);
             this.chkScreenshotsCreate.TabIndex = 1;
-            this.chkScreenshotsCreate.Text = "Include screenshots";
+            this.chkScreenshotsCreate.Text = "Create screenshots";
             this.chkScreenshotsCreate.UseVisualStyleBackColor = true;
             this.chkScreenshotsCreate.CheckedChanged += new System.EventHandler(this.chkScreenshotsInclude_CheckedChanged);
+            // 
+            // chkScreenshotsUpload
+            // 
+            this.chkScreenshotsUpload.AutoSize = true;
+            this.chkScreenshotsUpload.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkScreenshotsUpload.Location = new System.Drawing.Point(3, 31);
+            this.chkScreenshotsUpload.Name = "chkScreenshotsUpload";
+            this.chkScreenshotsUpload.Size = new System.Drawing.Size(148, 22);
+            this.chkScreenshotsUpload.TabIndex = 2;
+            this.chkScreenshotsUpload.Text = "Upload screenshots";
+            this.chkScreenshotsUpload.UseVisualStyleBackColor = true;
+            this.chkScreenshotsUpload.CheckedChanged += new System.EventHandler(this.chkScreenshotsUpload_CheckedChanged);
             // 
             // chkCreateTorrent
             // 
             this.chkCreateTorrent.AutoSize = true;
             this.chkCreateTorrent.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkCreateTorrent.Location = new System.Drawing.Point(3, 31);
+            this.chkCreateTorrent.Location = new System.Drawing.Point(3, 59);
             this.chkCreateTorrent.Name = "chkCreateTorrent";
             this.chkCreateTorrent.Size = new System.Drawing.Size(125, 22);
             this.chkCreateTorrent.TabIndex = 0;
@@ -134,14 +148,14 @@
             this.lblUserActionMsg.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUserActionMsg.Location = new System.Drawing.Point(16, 16);
             this.lblUserActionMsg.Name = "lblUserActionMsg";
-            this.lblUserActionMsg.Size = new System.Drawing.Size(131, 18);
+            this.lblUserActionMsg.Size = new System.Drawing.Size(130, 18);
             this.lblUserActionMsg.TabIndex = 3;
             this.lblUserActionMsg.Text = "You about to import";
             // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(312, 272);
+            this.btnOK.Location = new System.Drawing.Point(312, 311);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 4;
@@ -155,14 +169,15 @@
             this.gbTasks.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbTasks.Location = new System.Drawing.Point(8, 152);
             this.gbTasks.Name = "gbTasks";
-            this.gbTasks.Size = new System.Drawing.Size(464, 104);
+            this.gbTasks.Size = new System.Drawing.Size(464, 136);
             this.gbTasks.TabIndex = 5;
             this.gbTasks.TabStop = false;
             this.gbTasks.Text = "Tasks";
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(392, 272);
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCancel.Location = new System.Drawing.Point(392, 311);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 6;
@@ -175,7 +190,7 @@
             this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(487, 306);
+            this.ClientSize = new System.Drawing.Size(487, 345);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.gbTasks);
             this.Controls.Add(this.btnOK);
@@ -212,7 +227,6 @@
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.GroupBox gbTasks;
         private System.Windows.Forms.Button btnCancel;
-
-
+        private System.Windows.Forms.CheckBox chkScreenshotsUpload;
     }
 }

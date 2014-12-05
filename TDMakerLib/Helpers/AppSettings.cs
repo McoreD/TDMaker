@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelpersLib;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
@@ -7,12 +8,11 @@ using UploadersLib;
 
 namespace TDMakerLib
 {
-    [Serializable]
-    public class AppSettings
+    public class AppSettings : SettingsBase<AppSettings>
     {
-        public readonly static string AppSettingsFile = Path.Combine(App.zLocalAppDataFolder, "AppSettings.xml");
+        public readonly static string AppConfigFilePath = Path.Combine(App.zLocalAppDataFolder, "AppConfig.json");
         public string RootDir { get; set; }
-        public string XMLSettingsFile { get; set; }
+        public string SettingsFilePath { get; set; }
         public string UploadersConfigPath { get; set; }
 
         public ImageDestination ImageUploaderType { get; set; }
@@ -24,77 +24,6 @@ namespace TDMakerLib
         public AppSettings()
         {
             ImageUploaderType = ImageDestination.ImageShack;
-        }
-
-        public static AppSettings Read()
-        {
-            return Read(AppSettingsFile);
-        }
-
-        public string GetSettingsFilePath()
-        {
-            return Path.Combine(App.SettingsDir, XMLSettingsCore.XMLFileName);
-        }
-
-        public string GetSettingsFilePath(string fileName)
-        {
-            return Path.Combine(App.SettingsDir, fileName);
-        }
-
-        public static AppSettings Read(string filePath)
-        {
-            if (!Directory.Exists(Path.GetDirectoryName(filePath)))
-                Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-            if (File.Exists(filePath))
-            {
-                try
-                {
-                    XmlSerializer xs = new XmlSerializer(typeof(AppSettings));
-                    using (FileStream fs = new FileStream(filePath, FileMode.Open))
-                    {
-                        return xs.Deserialize(fs) as AppSettings;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    FileSystem.AppendDebug(ex.ToString());
-                }
-            }
-
-            return new AppSettings();
-        }
-
-        public void Write()
-        {
-            new Thread(SaveThread).Start(AppSettingsFile);
-        }
-
-        public void SaveThread(object filePath)
-        {
-            lock (this)
-            {
-                Write((string)filePath);
-            }
-        }
-
-        public void Write(string filePath)
-        {
-            try
-            {
-                if (!Directory.Exists(Path.GetDirectoryName(filePath)))
-                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-                XmlSerializer xs = new XmlSerializer(typeof(AppSettings));
-                using (FileStream fs = new FileStream(filePath, FileMode.Create))
-                {
-                    xs.Serialize(fs, this);
-                }
-            }
-            catch (Exception ex)
-            {
-                FileSystem.AppendDebug(ex.ToString());
-            }
         }
     }
 }
