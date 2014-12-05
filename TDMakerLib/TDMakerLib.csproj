@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentModelStrings.cs" />
     <Compile Include="Crypt.cs" />
     <Compile Include="FileSystemHelper.cs" />
     <Compile Include="Forms\ConfigWizard.cs">

@@ -37,7 +37,7 @@ namespace TDMakerLib
 
         public string AuthoringMode = "Untouched";
 
-        [Category("Input"), Editor(@"System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
+        [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection AuthoringModes { get; set; }
 
         [BrowsableAttribute(false)]
@@ -45,7 +45,7 @@ namespace TDMakerLib
 
         public string DiscMenu = "Intact";
 
-        [Category("Input"), Editor(@"System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
+        [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection DiscMenus { get; set; }
 
         [BrowsableAttribute(false)]
@@ -53,18 +53,18 @@ namespace TDMakerLib
 
         public string Extra = "Intact";
 
-        [Category("Input"), Editor(@"System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
+        [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection Extras { get; set; }
 
         // Source Properties
-        [Category("Input"), Editor(@"System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor))]
+        [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection MediaSources { get; set; }
 
-        [Category("Input"), Editor(@"System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor)),
+        [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor)),
         Description("Supported file types by MediaInfo and MTN. Add more file types only if you are absolutely sure both MediaInfo and MTN can handle those.")]
         public StringCollection SupportedFileExtVideo { get; set; }
 
-        [Category("Input"), Editor(@"System.Windows.Forms.Design.StringCollectionEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(System.Drawing.Design.UITypeEditor)),
+        [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor)),
         Description("Supported file types by TDMaker to create a Music Album NFO file. Add more file types only if you are absolutely sure both MediaInfo and MTN can handle those.")]
         public StringCollection SupportedFileExtAudio { get; set; }
 
@@ -80,138 +80,133 @@ namespace TDMakerLib
          */
 
         // Tab 3 - Publish
-        [Category("Screenshots"), DefaultValue(true), Description("Create screenshots using thumbnailer")]
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Create screenshots using thumbnailer")]
         public bool CreateScreenshots { get; set; }
 
-        [Category("Screenshots"), DefaultValue(true), Description("Upload screenshots")]
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Upload screenshots")]
         public bool UploadScreenshots { get; set; }
 
-        [Category("Screenshots"), DefaultValue(true), Description("Use full image URL in the torrent description.")]
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Use full image URL in the torrent description.")]
         public bool UseFullPicture { get; set; }
 
-        [Category("Screenshots"), DefaultValue(LocationType.KnownFolder), Description("Create screenshots in the same folders as the media file, default torrent folder or in a custom folder")]
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(LocationType.KnownFolder), Description("Create screenshots in the same folders as the media file, default torrent folder or in a custom folder")]
         public LocationType ScreenshotsLocation { get; set; }
 
-        [Category("Screenshots"), DefaultValue(true), Description("Keep or delete screenshots after processing files")]
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Keep or delete screenshots after processing files")]
         public bool KeepScreenshots { get; set; }
 
-        // Tab 3 - Publish - Options
-        [Category("Publish / Config"), DefaultValue(false), Description("Setting true will center align the description")]
+        [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Setting true will center align the description")]
         public bool AlignCenter { get; set; }
 
-        [Category("Publish / Config"), DefaultValue(false), Description("Setting true will retain the formatting on some message boards")]
+        [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Setting true will retain the formatting on some message boards")]
         public bool PreText { get; set; }
 
-        // Tab 4.1 - Options - General
-        [Category("Options / General"), DefaultValue(true), Description("Show Media Wizard always; otherwise it will only be shown when you import multiple files")]
+        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Show Media Wizard always; otherwise it will only be shown when you import multiple files")]
         public bool ShowMediaWizardAlways { get; set; }
 
-        [Category("Options / General"), DefaultValue(true), Description("Process media immediately after loading file or folder")]
+        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Process media immediately after loading file or folder")]
         public bool AnalyzeAuto { get; set; }
 
-        [Category("Options / General"), DefaultValue(true), Description("Write debug information into a log file.")]
+        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Write debug information into a log file.")]
         public bool WriteDebugFile { get; set; }
 
-        // Tab 4.4 - Options - Publish Templates
-        [Category("Publish"), DefaultValue(false), Description("Write the torrent description to file")]
+        [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Write the torrent description to file")]
         public bool WritePublish { get; set; }
 
-        [Category("Publish"), DefaultValue(true), Description("Have larger text when [pre] tag is set")]
+        [Category(ComponentModelStrings.Publish), DefaultValue(true), Description("Have larger text when [pre] tag is set")]
         public bool LargerPreText { get; set; }
 
-        [Category("Publish"), DefaultValue(PublishInfoType.MediaInfo), Description("Use internal template, external templates or information in MediaInfo in the torrent description in Publish tab")]
+        [Category(ComponentModelStrings.Publish), DefaultValue(PublishInfoType.MediaInfo), Description("Use internal template, external templates or information in MediaInfo in the torrent description in Publish tab")]
         public PublishInfoType PublishInfoTypeChoice { get; set; }
 
-        [Category("Publish / Font Sizes"), DefaultValue(5), Description("Font Size for Heading 1")]
+        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(5), Description("Font Size for Heading 1")]
         public int FontSizeHeading1 { get; set; }
 
-        [Category("Publish / Font Sizes"), DefaultValue(4), Description("Font Size for Heading 2")]
+        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(4), Description("Font Size for Heading 2")]
         public int FontSizeHeading2 { get; set; }
 
-        [Category("Publish / Font Sizes"), DefaultValue(3), Description("Font Size for Heading 3")]
+        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(3), Description("Font Size for Heading 3")]
         public int FontSizeHeading3 { get; set; }
 
-        [Category("Publish / Font Sizes"), DefaultValue(2), Description("Font Size for Body")]
+        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(2), Description("Font Size for Body")]
         public int FontSizeBody { get; set; }
 
-        [Category("Publish / Font Sizes"), DefaultValue(1), Description("Font Size increment")]
+        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(1), Description("Font Size increment")]
         public int FontSizeIncr { get; set; }
 
         [Browsable(false)]
         public int TemplateIndex { get; set; }
 
-        [Category("Proxy"), Description("Proxy Settings")]
+        [Category(ComponentModelStrings.Proxy), Description("Proxy Settings")]
         public bool ProxyEnabled { get; set; }
 
-        [Category("Proxy"), Description("Proxy Settings")]
+        [Category(ComponentModelStrings.Proxy), Description("Proxy Settings")]
         public ProxyInfo ProxySettings = new ProxyInfo();
 
         // Tab 4.2 - Options - MTN
-        [Category("Thumbnailers"), DefaultValue(ThumbnailerType.MPlayer), Description("Chooser thumbnailer application to take screenshots.")]
+        [Category(ComponentModelStrings.Thumbnailers), DefaultValue(ThumbnailerType.MPlayer), Description("Chooser thumbnailer application to take screenshots.")]
         public ThumbnailerType ThumbnailerType { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
-        [Category("Thumbnailers / FFmpeg"), Description("FFmpeg path")]
+        [Category(ComponentModelStrings.ThumbnailersFFmpeg), Description("FFmpeg path")]
         public string FFmpegPath { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
-        [Category("Thumbnailers / MPlayer"), Description("MPlayer path")]
+        [Category(ComponentModelStrings.ThumbnailersMPlayer), Description("MPlayer path")]
         public string MPlayerPath { get; set; }
 
         public ThumbnailerOptions ThumbnailerOptions = new ThumbnailerOptions();
 
-        // Tab 4.3 - Options - Image Hosting
         public ImageDestination ImageUploaderType = ImageDestination.Imgur;
         public FileDestination ImageFileUploaderType = FileDestination.Pomf;
 
-        [Category("Screenshots / Image Uploaders"), DefaultValue(""), Description("PtpImg registration code")]
+        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("PtpImg registration code")]
         public string PtpImgCode { get; set; }
 
-        [Category("Screenshots / Image Uploaders"), DefaultValue(""), Description("ImageShack registration code")]
+        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("ImageShack registration code")]
         public string ImageShackRegCode { get; set; }
 
-        [Category("Screenshots / Image Uploaders"), DefaultValue(false), Description("Use ImageShack registration code")]
+        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(false), Description("Use ImageShack registration code")]
         public bool UseImageShackRegCode { get; set; }
 
-        // Tab 4.5 - Options - Torrent Creator
         [Browsable(false)]
         public int TrackerGroupActive { get; set; }
 
-        [Category("Torrent Creator"), DefaultValue(false), Description("Create Torrent")]
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create Torrent")]
         public bool TorrentCreateAuto { get; set; }
 
-        [Category("Torrent Creator"), DefaultValue(LocationType.KnownFolder), Description("Create torrents in the same folders as the media file, default torrent folder or in a custom folder")]
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(LocationType.KnownFolder), Description("Create torrents in the same folders as the media file, default torrent folder or in a custom folder")]
         public LocationType TorrentLocationChoice { get; set; }
 
-        [Category("Torrent Creator"), DefaultValue(false), Description("Save torrent files in sub-folders organized by tracker namer")]
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Save torrent files in sub-folders organized by tracker namer")]
         public bool TorrentsOrganize { get; set; }
 
         public List<TrackerGroup> TrackerGroups = new List<TrackerGroup>();
 
-        [Category("Torrent Creator"), DefaultValue(false), Description("Create XML Torrent Upload file")]
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create XML Torrent Upload file")]
         public bool XMLTorrentUploadCreate { get; set; }
 
         // Tab 4.0 - Options - Paths
 
-        [Category("Options / Paths"), Description("Browse to reconfigure the MediaInfo.dll folder path")]
+        [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure the MediaInfo.dll folder path")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomMediaInfoDllDir { get; set; }
 
-        [Category("Options / Paths"), DefaultValue(false), Description("Use custom Templates directory")]
+        [Category(ComponentModelStrings.Paths), DefaultValue(false), Description("Use custom Templates directory")]
         public bool UseCustomTemplatesDir { get; set; }
 
-        [Category("Options / Paths"), Description("Browse to reconfigure the Templates folder path")]
+        [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure the Templates folder path")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomTemplatesDir { get; set; }
 
-        [Category("Options / Paths"), DefaultValue(false), Description("Use custom Torrents directory")]
+        [Category(ComponentModelStrings.Paths), DefaultValue(false), Description("Use custom Torrents directory")]
         public bool UseCustomTorrentsDir { get; set; }
 
-        [Category("Options / Paths"), Description("Browse to change where torrent files are saved")]
+        [Category(ComponentModelStrings.Paths), Description("Browse to change where torrent files are saved")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomTorrentsDir { get; set; }
 
-        [Category("Options / Paths"), Description("Browse to change where screenshots are saved")]
+        [Category(ComponentModelStrings.Paths), Description("Browse to change where screenshots are saved")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomScreenshotsDir { get; set; }
 
