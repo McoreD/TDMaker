@@ -154,12 +154,12 @@ namespace TDMakerLib
         [Category("Thumbnailers / FFmpeg"), Description("FFmpeg path")]
         public string FFmpegPath { get; set; }
 
-        [Category("Thumbnailers / MTN"), DefaultValue(false), Description("Show MTN during file creation")]
-        public bool ShowMTNWindow { get; set; }
-
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
         [Category("Thumbnailers / MTN"), Description("MTN path")]
         public string MTNPath { get; set; }
+
+        [Category("Thumbnailers / MTN"), DefaultValue(false), Description("Show MTN during file creation")]
+        public bool ShowMTNWindow { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
         [Category("Thumbnailers / MPlayer"), Description("MPlayer path")]
@@ -171,13 +171,13 @@ namespace TDMakerLib
         public ImageDestination ImageUploaderType = ImageDestination.Imgur;
         public FileDestination ImageFileUploaderType = FileDestination.Pomf;
 
-        [Category("Thumbnailers / Image Uploaders"), DefaultValue(""), Description("PtpImg registration code")]
+        [Category("Screenshots / Image Uploaders"), DefaultValue(""), Description("PtpImg registration code")]
         public string PtpImgCode { get; set; }
 
-        [Category("Thumbnailers / Image Uploaders"), DefaultValue(""), Description("ImageShack registration code")]
+        [Category("Screenshots / Image Uploaders"), DefaultValue(""), Description("ImageShack registration code")]
         public string ImageShackRegCode { get; set; }
 
-        [Category("Thumbnailers / Image Uploaders"), DefaultValue(false), Description("Use ImageShack registration code")]
+        [Category("Screenshots / Image Uploaders"), DefaultValue(false), Description("Use ImageShack registration code")]
         public bool UseImageShackRegCode { get; set; }
 
         // Tab 4.5 - Options - Torrent Creator

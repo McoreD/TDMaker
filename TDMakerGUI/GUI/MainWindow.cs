@@ -1756,6 +1756,11 @@ namespace TDMaker
                 {
                     pbScreenshot.LoadImageFromURLAsync(ss.FullImageLink);
                 }
+                else
+                {
+                    pbScreenshot.LoadImage(new Bitmap(300, 300));
+                    pgScreenshot.SelectedObject = null;
+                }
             }
         }
 
@@ -1907,8 +1912,15 @@ namespace TDMaker
 
         private void btnFFmpegBrowse_Click(object sender, EventArgs e)
         {
-            if (Helpers.BrowseFile("Browse for FFmpeg.exe", txtFFmpegPath, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)))
+            Helpers.BrowseFile("Browse for FFmpeg.exe", txtFFmpegPath, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+        }
+
+        private void txtFFmpegPath_TextChanged(object sender, EventArgs e)
+        {
+            if (File.Exists(txtFFmpegPath.Text))
+            {
                 App.Settings.FFmpegPath = txtFFmpegPath.Text;
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ namespace TDMakerLib
         public const int L_LocInfo_default = 4;
         public const bool n_Priority_default = false;
         public const string N_InfoSuffix_default = "";
-        public const string o_OutputSuffix_default = "_s.png";
+        public const string o_OutputSuffix_default = "_s.jpg";
         public const string O_OutputDir_default = "";
         public const bool p_PauseBeforeExit_default = false;
         public const bool P_QuitAfterDone_default = false;
