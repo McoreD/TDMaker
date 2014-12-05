@@ -95,31 +95,7 @@ namespace TDMaker
 
             string mtnExe = (App.IsUNIX ? "mtn" : "mtn.exe");
 
-            if (App.Settings.ThumbnailerType == ThumbnailerType.MovieThumbnailer)
-            {
-                if (!File.Exists(App.Settings.MTNPath))
-                {
-                    App.Settings.MTNPath = Path.Combine(Application.StartupPath, mtnExe);
-                }
-
-                if (!File.Exists(App.Settings.MTNPath))
-                {
-                    App.Settings.MTNPath = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), Application.ProductName), mtnExe);
-                }
-
-                if (!File.Exists(App.Settings.MTNPath))
-                {
-                    OpenFileDialog dlg = new OpenFileDialog();
-                    dlg.InitialDirectory = Application.StartupPath;
-                    dlg.Title = "Browse for mtn.exe";
-                    dlg.Filter = "Applications (*.exe)|*.exe";
-                    if (dlg.ShowDialog() == DialogResult.OK)
-                    {
-                        App.Settings.MTNPath = dlg.FileName;
-                    }
-                }
-            }
-            else if (App.Settings.ThumbnailerType == ThumbnailerType.MPlayer)
+            if (App.Settings.ThumbnailerType == ThumbnailerType.MPlayer)
             {
                 if (!File.Exists(App.Settings.MPlayerPath))
                 {
@@ -476,11 +452,8 @@ namespace TDMaker
             App.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
             App.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
 
-            App.Settings.FFmpegPath = txtFFmpegPath.Text;
-
             App.Settings.Save(App.Config.SettingsFilePath);
             App.UploadersConfig.Save(App.UploadersConfigPath);
-            App.MtnProfiles.Save(App.MtnProfilesPath);
         }
 
         private void ConfigureDirs()
@@ -533,13 +506,6 @@ namespace TDMaker
                 cboFileUploader.Items.Add(dest.GetDescription());
             }
             cboFileUploader.SelectedIndex = (int)App.Settings.ImageFileUploaderType;
-
-            if (string.IsNullOrEmpty(App.Settings.MTNPath))
-            {
-                string mtnPath = Path.Combine(Application.StartupPath, "mtn.exe");
-                if (File.Exists(mtnPath))
-                    App.Settings.MTNPath = mtnPath;
-            }
 
             if (string.IsNullOrEmpty(App.Settings.CustomMediaInfoDllDir))
             {
@@ -660,76 +626,7 @@ namespace TDMaker
 
             pgThumbnailerOptions.SelectedObject = App.Settings.ThumbnailerOptions;
 
-            txtFFmpegPath.Text = App.Settings.FFmpegPath;
-
-            SettingsReadOptionsMTN();
             SettingsReadOptionsTorrents();
-        }
-
-        private void SettingsReadOptionsMTN()
-        {
-            if (App.MtnProfiles.MtnProfiles.Count == 0)
-            {
-                XMLSettingsScreenshot mtnDefault1 = new XMLSettingsScreenshot("Movies (Auto Width)")
-                {
-                    k_ColorBackground = "eeeeee",
-                    f_FontFile = "arial.ttf",
-                    F_FontColor = "000000",
-                    F_FontSize = 12,
-                    g_GapBetweenShots = 8,
-                    L_LocInfo = 4,
-                    L_LocTimestamp = 2,
-                    j_JpgQuality = 97,
-                    N_InfoSuffix = ""
-                };
-                App.MtnProfiles.MtnProfiles.Add(mtnDefault1);
-
-                XMLSettingsScreenshot mtnDefault2 = new XMLSettingsScreenshot("Movies (Fixed Width)")
-                {
-                    k_ColorBackground = "eeeeee",
-                    f_FontFile = "arial.ttf",
-                    F_FontColor = "000000",
-                    F_FontSize = 12,
-                    g_GapBetweenShots = 8,
-                    L_LocInfo = 4,
-                    L_LocTimestamp = 2,
-                    j_JpgQuality = 97,
-                    w_Width = 800,
-                    N_InfoSuffix = ""
-                };
-                App.MtnProfiles.MtnProfiles.Add(mtnDefault2);
-
-                XMLSettingsScreenshot mtnDefault3 = new XMLSettingsScreenshot("Protech (4x3)")
-                {
-                    r_Rows = 4,
-                    c_Columns = 3,
-                    k_ColorBackground = "000000",
-                    D_EdgeDetection = 0,
-                    f_FontFile = "tahomabd.ttf",
-                    F_FontColor = "FFFFFF",
-                    F_FontSize = 11,
-                    g_GapBetweenShots = 8,
-                    h_MinHeight = 225,
-                    L_LocInfo = 4,
-                    L_LocTimestamp = 2,
-                    j_JpgQuality = 100,
-                    w_Width = 1024,
-                    N_InfoSuffix = ""
-                };
-                App.MtnProfiles.MtnProfiles.Add(mtnDefault3);
-            }
-
-            if (lbMtnProfiles.Items.Count == 0)
-            {
-                foreach (XMLSettingsScreenshot mtnProfile in App.MtnProfiles.MtnProfiles)
-                {
-                    lbMtnProfiles.Items.Add(mtnProfile);
-                }
-                lbMtnProfiles.SelectedIndex = Math.Min(App.MtnProfiles.MtnProfiles.Count - 1, App.MtnProfiles.MtnProfileActive);
-            }
-
-            this.chkCreateTorrent.Checked = App.Settings.TorrentCreateAuto;
-            this.chkTorrentOrganize.Checked = App.Settings.TorrentsOrganize;
         }
 
         private void SettingsReadOptionsTorrents()
@@ -1684,57 +1581,6 @@ namespace TDMaker
             }
         }
 
-        private void PgMtnPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            txtMtnArgs.Text = Adapter.GetMtnArg(App.MtnProfiles.GetMtnProfileActive());
-            if (lbMtnProfiles.SelectedIndex > -1)
-            {
-                lbMtnProfiles.Items[lbMtnProfiles.SelectedIndex] = App.MtnProfiles.GetMtnProfileActive();
-            }
-        }
-
-        private void TbnAddMtnProfileClick(object sender, EventArgs e)
-        {
-            InputBox ib = new InputBox("Enter profile name...", "Default");
-            if (ib.ShowDialog() == DialogResult.OK)
-            {
-                XMLSettingsScreenshot mtnProfile = new XMLSettingsScreenshot(ib.InputText);
-                App.MtnProfiles.MtnProfiles.Add(mtnProfile);
-                lbMtnProfiles.Items.Add(mtnProfile);
-                lbMtnProfiles.SelectedIndex = lbMtnProfiles.Items.Count - 1;
-            }
-        }
-
-        private void LbMtnProfilesSelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lbMtnProfiles.SelectedIndex > -1)
-            {
-                XMLSettingsScreenshot mtnProfile = lbMtnProfiles.Items[lbMtnProfiles.SelectedIndex] as XMLSettingsScreenshot;
-                pgMtn.SelectedObject = mtnProfile;
-                App.MtnProfiles.MtnProfileActive = lbMtnProfiles.SelectedIndex;
-                txtMtnArgs.Text = Adapter.GetMtnArg(mtnProfile);
-            }
-        }
-
-        private void BtnRemoveMtnProfileClick(object sender, EventArgs e)
-        {
-            int sel = lbMtnProfiles.SelectedIndex;
-            if (sel >= 0)
-            {
-                lbMtnProfiles.Items.RemoveAt(sel);
-                App.MtnProfiles.MtnProfiles.RemoveAt(sel);
-                sel = sel - 1;
-                if (sel < 0)
-                {
-                    sel = 0;
-                }
-                if (lbMtnProfiles.Items.Count > 0)
-                {
-                    lbMtnProfiles.SelectedIndex = sel;
-                }
-            }
-        }
-
         private void ChkProxyEnableCheckedChanged(object sender, EventArgs e)
         {
             App.Settings.ProxyEnabled = chkProxyEnable.Checked;
@@ -1899,7 +1745,7 @@ namespace TDMaker
             {
                 this.InvokeSafe(() =>
                 {
-                    txtFFmpegPath.Text = extractPath;
+                    App.Settings.FFmpegPath = extractPath;
                 });
 
                 MessageBox.Show("Successfully downloaded FFmpeg.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1907,19 +1753,6 @@ namespace TDMaker
             else
             {
                 MessageBox.Show("Failed to download FFmpeg.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnFFmpegBrowse_Click(object sender, EventArgs e)
-        {
-            Helpers.BrowseFile("Browse for FFmpeg.exe", txtFFmpegPath, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
-        }
-
-        private void txtFFmpegPath_TextChanged(object sender, EventArgs e)
-        {
-            if (File.Exists(txtFFmpegPath.Text))
-            {
-                App.Settings.FFmpegPath = txtFFmpegPath.Text;
             }
         }
     }

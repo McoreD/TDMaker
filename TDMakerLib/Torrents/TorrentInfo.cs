@@ -68,9 +68,6 @@ namespace TDMakerLib
 
             switch (App.Settings.ThumbnailerType)
             {
-                case ThumbnailerType.MovieThumbnailer:
-                    mf.Thumbnailer = new MovieThumbnailer(mf, ssDir);
-                    break;
                 case ThumbnailerType.FFmpeg:
                     mf.Thumbnailer = new FFmpegThumbnailer(mf, ssDir, App.Settings.ThumbnailerOptions);
                     break;

@@ -123,7 +123,6 @@
     <Compile Include="Helpers\Structs.cs" />
     <Compile Include="Helpers\TorrentPacket.cs" />
     <Compile Include="Helpers\WorkerTask.cs" />
-    <Compile Include="Helpers\XMLSettingsMtnProfiles.cs" />
     <Compile Include="Helpers\ImageFile.cs" />
     <Compile Include="Kernel32Helper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
@@ -135,10 +134,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="PtpImgUploader.cs" />
     <Compile Include="Thumbnailers\FFmpegThumbnailer.cs" />
-    <Compile Include="Thumbnailers\MovieThumbnailer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helpers\XMLSettingsScreenshot.cs" />
-    <Compile Include="Helpers\XMLSettingsCore.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Helpers\TDMKeys.cs" />
     <Compile Include="Templates\TemplateItem.cs" />
     <Compile Include="Templates\MappingHelper.cs" />

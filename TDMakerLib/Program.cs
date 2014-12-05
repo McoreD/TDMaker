@@ -48,7 +48,6 @@ namespace TDMakerLib
         private static string[] AppDirs;
 
         public static Settings Settings { get; set; }
-        public static SettingsMtnProfiles MtnProfiles { get; set; }
         public static UploadersConfig UploadersConfig { get; set; }
 
         public static bool DetectUnix()
@@ -77,14 +76,6 @@ namespace TDMakerLib
             get
             {
                 return Path.Combine(SettingsDir, UploadersConfigFileName);
-            }
-        }
-
-        public static string MtnProfilesPath
-        {
-            get
-            {
-                return Path.Combine(SettingsDir, SettingsMtnProfiles.MtnProfilesFileName);
             }
         }
 
@@ -306,8 +297,6 @@ namespace TDMakerLib
                 if (!string.IsNullOrEmpty(App.Config.PtpImgCode))
                     App.Settings.PtpImgCode = App.Config.PtpImgCode;
             }
-
-            MtnProfiles = SettingsMtnProfiles.Load(MtnProfilesPath);
         }
     }
 }

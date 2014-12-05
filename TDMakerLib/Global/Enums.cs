@@ -83,8 +83,6 @@ namespace TDMakerLib
         [Description("FFmpeg")]
         FFmpeg,
         [Description("MPlayer")]
-        MPlayer,
-        [Description("MTN")]
-        MovieThumbnailer,
+        MPlayer
     }
 }

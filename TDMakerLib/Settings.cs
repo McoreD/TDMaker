@@ -113,37 +113,37 @@ namespace TDMakerLib
         public bool WriteDebugFile { get; set; }
 
         // Tab 4.4 - Options - Publish Templates
-        [Category("Options / Publish"), DefaultValue(false), Description("Write the torrent description to file")]
+        [Category("Publish"), DefaultValue(false), Description("Write the torrent description to file")]
         public bool WritePublish { get; set; }
 
-        [Category("Options / Publish"), DefaultValue(true), Description("Have larger text when [pre] tag is set")]
+        [Category("Publish"), DefaultValue(true), Description("Have larger text when [pre] tag is set")]
         public bool LargerPreText { get; set; }
 
-        [Category("Options / Publish"), DefaultValue(PublishInfoType.MediaInfo), Description("Use internal template, external templates or information in MediaInfo in the torrent description in Publish tab")]
+        [Category("Publish"), DefaultValue(PublishInfoType.MediaInfo), Description("Use internal template, external templates or information in MediaInfo in the torrent description in Publish tab")]
         public PublishInfoType PublishInfoTypeChoice { get; set; }
 
-        [Category("Options / Publish / Font Sizes"), DefaultValue(5), Description("Font Size for Heading 1")]
+        [Category("Publish / Font Sizes"), DefaultValue(5), Description("Font Size for Heading 1")]
         public int FontSizeHeading1 { get; set; }
 
-        [Category("Options / Publish / Font Sizes"), DefaultValue(4), Description("Font Size for Heading 2")]
+        [Category("Publish / Font Sizes"), DefaultValue(4), Description("Font Size for Heading 2")]
         public int FontSizeHeading2 { get; set; }
 
-        [Category("Options / Publish / Font Sizes"), DefaultValue(3), Description("Font Size for Heading 3")]
+        [Category("Publish / Font Sizes"), DefaultValue(3), Description("Font Size for Heading 3")]
         public int FontSizeHeading3 { get; set; }
 
-        [Category("Options / Publish / Font Sizes"), DefaultValue(2), Description("Font Size for Body")]
+        [Category("Publish / Font Sizes"), DefaultValue(2), Description("Font Size for Body")]
         public int FontSizeBody { get; set; }
 
-        [Category("Options / Publish / Font Sizes"), DefaultValue(1), Description("Font Size increment")]
+        [Category("Publish / Font Sizes"), DefaultValue(1), Description("Font Size increment")]
         public int FontSizeIncr { get; set; }
 
         [Browsable(false)]
         public int TemplateIndex { get; set; }
 
-        [Category("Options / Proxy"), Description("Proxy Settings")]
+        [Category("Proxy"), Description("Proxy Settings")]
         public bool ProxyEnabled { get; set; }
 
-        [Category("Options / Proxy"), Description("Proxy Settings")]
+        [Category("Proxy"), Description("Proxy Settings")]
         public ProxyInfo ProxySettings = new ProxyInfo();
 
         // Tab 4.2 - Options - MTN
@@ -153,13 +153,6 @@ namespace TDMakerLib
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
         [Category("Thumbnailers / FFmpeg"), Description("FFmpeg path")]
         public string FFmpegPath { get; set; }
-
-        [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
-        [Category("Thumbnailers / MTN"), Description("MTN path")]
-        public string MTNPath { get; set; }
-
-        [Category("Thumbnailers / MTN"), DefaultValue(false), Description("Show MTN during file creation")]
-        public bool ShowMTNWindow { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
         [Category("Thumbnailers / MPlayer"), Description("MPlayer path")]
