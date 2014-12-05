@@ -658,11 +658,6 @@ namespace TDMaker
             chkProxyEnable.Checked = App.Settings.ProxyEnabled;
             pgProxy.SelectedObject = App.Settings.ProxySettings;
 
-            if (cboThumbnailer.Items.Count == 0)
-            {
-                cboThumbnailer.Items.AddRange(Enum.GetNames(typeof(ThumbnailerType)));
-            }
-            cboThumbnailer.SelectedIndex = (int)App.Settings.ThumbnailerType;
             pgThumbnailerOptions.SelectedObject = App.Settings.ThumbnailerOptions;
 
             txtFFmpegPath.Text = App.Settings.FFmpegPath;
@@ -1868,11 +1863,6 @@ namespace TDMaker
             form.Show();
         }
 
-        private void cboThumbnailer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            App.Settings.ThumbnailerType = (ThumbnailerType)cboThumbnailer.SelectedIndex;
-        }
-
         private void chkMediaInfoComplete_CheckedChanged(object sender, EventArgs e)
         {
             OnLbMediaInfoSelectedIndexChanged();
@@ -1917,7 +1907,8 @@ namespace TDMaker
 
         private void btnFFmpegBrowse_Click(object sender, EventArgs e)
         {
-            Helpers.BrowseFile("Browse for FFmpeg.exe", txtFFmpegPath, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles));
+            if (Helpers.BrowseFile("Browse for FFmpeg.exe", txtFFmpegPath, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)))
+                App.Settings.FFmpegPath = txtFFmpegPath.Text;
         }
     }
 }
