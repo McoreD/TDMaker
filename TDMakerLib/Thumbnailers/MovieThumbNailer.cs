@@ -6,14 +6,10 @@ namespace TDMakerLib
 {
     public class MovieThumbnailer : Thumbnailer
     {
-        private MovieThumbnailer()
-        {
-        }
-
         public MovieThumbnailer(MediaFile mf, string ssDir)
         {
-            this.MediaFile = mf;
-            this.ScreenshotDir = ssDir;
+            MediaFile = mf;
+            ScreenshotDir = ssDir;
         }
 
         public override void TakeScreenshot()

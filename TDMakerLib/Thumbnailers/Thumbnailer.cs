@@ -92,14 +92,14 @@ namespace TDMakerLib
 
                     TempScreenshots.Add(screenshotInfo);
                 }
-            } // for loop
+            }
 
             Finish();
         }
 
-        public void Finish()
+        protected virtual void Finish()
         {
-            if (TempScreenshots.Count > 0)
+            if (TempScreenshots != null && TempScreenshots.Count > 0)
             {
                 if (Options.CombineScreenshots)
                 {
@@ -107,22 +107,22 @@ namespace TDMakerLib
                     {
                         string temp_fp = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + "_s.png");
                         img.Save(temp_fp, ImageFormat.Png);
-                        this.Screenshots.Add(new ScreenshotInfo(temp_fp) { Args = TempScreenshots[0].Args });
+                        Screenshots.Add(new ScreenshotInfo(temp_fp) { Args = TempScreenshots[0].Args });
                     }
                 }
                 else
                 {
-                    this.Screenshots.AddRange(TempScreenshots);
+                    Screenshots.AddRange(TempScreenshots);
                 }
             }
         }
 
-        public int GetTimeSlice(int numScreenshots)
+        protected int GetTimeSlice(int numScreenshots)
         {
             return (int)(MediaFile.SegmentDuration / ((numScreenshots + 1) * 1000));
         }
 
-        private Image CombineScreenshots(List<ScreenshotInfo> screenshots)
+        protected Image CombineScreenshots(List<ScreenshotInfo> screenshots)
         {
             List<Image> images = new List<Image>();
             Image finalImage = null;
