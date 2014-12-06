@@ -33,6 +33,8 @@ namespace TDMakerLib
 
         private BackgroundWorker BwAppMy = null;
 
+        public bool Success { get; set; }
+
         public TorrentInfo(MediaInfo2 mi)
         {
             this.Media = mi;
@@ -61,7 +63,6 @@ namespace TDMakerLib
 
         private bool TakeScreenshot(MediaFile mf, string ssDir)
         {
-            bool success = true;
             String mediaFilePath = mf.FilePath;
             ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Taking Screenshot for " + Path.GetFileName(mediaFilePath));
 
@@ -78,10 +79,11 @@ namespace TDMakerLib
             try
             {
                 mf.Thumbnailer.TakeScreenshot();
+                ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Done taking Screenshot for " + Path.GetFileName(mediaFilePath));
             }
             catch (Exception ex)
             {
-                success = false;
+                Success = false;
                 Debug.WriteLine(ex.ToString());
                 ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, ex.Message + " for " + Path.GetFileName(mediaFilePath));
             }
@@ -95,7 +97,7 @@ namespace TDMakerLib
                 }
             }
 
-            return success;
+            return Success;
         }
 
         private void TakeScreenshots(string ssDir)
@@ -182,6 +184,7 @@ namespace TDMakerLib
                             {
                                 ss.FullImageLink = ur.URL;
                                 ss.LinkedThumbnail = ur.ThumbnailURL;
+                                Success &= true;
                             }
                         }
                     }
@@ -207,6 +210,7 @@ namespace TDMakerLib
                 else
                 {
                     ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Failed uploading {0}. Try again later.", Path.GetFileName(ssPath)));
+                    Success = false;
                 }
             }
             return ur;

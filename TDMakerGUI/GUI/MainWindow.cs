@@ -780,12 +780,24 @@ namespace TDMaker
 
         private void bwApp_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            List<TorrentInfo> tiList = e.Result as List<TorrentInfo>;
+
             pBar.Style = ProgressBarStyle.Continuous;
             pBar.Value = 0;
 
-            lbFiles.Items.Clear();
-            sBar.Text = "Ready.";
-            lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
+            bool success = true; tiList.ForEach(x => success &= x.Success);
+
+            if (success)
+            {
+                lbFiles.Items.Clear();
+                lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
+                sBar.Text = "Ready.";
+            }
+            else
+            {
+                sBar.Text = "Ready. One or more tasks failed.";
+            }
+
             UpdateGuiControls();
         }
 
@@ -803,7 +815,6 @@ namespace TDMaker
             btnBrowse.Enabled = !bwApp.IsBusy;
             btnBrowseDir.Enabled = !bwApp.IsBusy;
             btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
-            lbStatus.SelectedIndex = lbStatus.Items.Count - 1;
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -888,7 +899,6 @@ namespace TDMaker
 
                     case ProgressType.UPDATE_STATUSBAR_DEBUG:
                         sBar.Text = msg;
-                        lbStatus.Items.Add(msg);
                         DebugHelper.WriteLine(msg);
                         break;
                 }
@@ -1092,21 +1102,6 @@ namespace TDMaker
         private void tsmTemplates_Click(object sender, EventArgs e)
         {
             FileSystem.OpenDirTemplates();
-        }
-
-        private void updateThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            switch (e.ProgressPercentage)
-            {
-                case 1:
-                    string info = e.UserState as string;
-                    if (!string.IsNullOrEmpty(info))
-                    {
-                        string[] updates = Regex.Split(info, "\r\n");
-                        lbStatus.Items.AddRange(updates);
-                    }
-                    break;
-            }
         }
 
         private void cboTemplate_SelectedIndexChanged(object sender, EventArgs e)

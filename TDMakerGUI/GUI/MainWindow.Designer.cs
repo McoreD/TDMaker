@@ -83,8 +83,6 @@ namespace TDMaker
             this.btnCreateTorrent = new System.Windows.Forms.Button();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMedia = new System.Windows.Forms.TabPage();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.lbStatus = new System.Windows.Forms.ListBox();
             this.gbSourceProp = new System.Windows.Forms.GroupBox();
             this.chkTitle = new System.Windows.Forms.CheckBox();
             this.txtTitle = new System.Windows.Forms.TextBox();
@@ -198,7 +196,6 @@ namespace TDMaker
             this.msMain.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpMedia.SuspendLayout();
-            this.groupBox10.SuspendLayout();
             this.gbSourceProp.SuspendLayout();
             this.gbDVD.SuspendLayout();
             this.gbLocation.SuspendLayout();
@@ -665,7 +662,6 @@ namespace TDMaker
             // 
             // tpMedia
             // 
-            this.tpMedia.Controls.Add(this.groupBox10);
             this.tpMedia.Controls.Add(this.gbSourceProp);
             this.tpMedia.Controls.Add(this.gbDVD);
             this.tpMedia.Controls.Add(this.gbLocation);
@@ -675,34 +671,6 @@ namespace TDMaker
             this.tpMedia.TabIndex = 4;
             this.tpMedia.Text = "Input";
             this.tpMedia.UseVisualStyleBackColor = true;
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox10.Controls.Add(this.lbStatus);
-            this.groupBox10.Location = new System.Drawing.Point(8, 288);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox10.Size = new System.Drawing.Size(860, 224);
-            this.groupBox10.TabIndex = 13;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Progress";
-            // 
-            // lbStatus
-            // 
-            this.lbStatus.BackColor = System.Drawing.SystemColors.Control;
-            this.lbStatus.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbStatus.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbStatus.FormattingEnabled = true;
-            this.lbStatus.IntegralHeight = false;
-            this.lbStatus.ItemHeight = 15;
-            this.lbStatus.Location = new System.Drawing.Point(5, 18);
-            this.lbStatus.Name = "lbStatus";
-            this.lbStatus.ScrollAlwaysVisible = true;
-            this.lbStatus.Size = new System.Drawing.Size(850, 201);
-            this.lbStatus.TabIndex = 11;
             // 
             // gbSourceProp
             // 
@@ -714,7 +682,7 @@ namespace TDMaker
             this.gbSourceProp.Controls.Add(this.chkSource);
             this.gbSourceProp.Controls.Add(this.txtWebLink);
             this.gbSourceProp.Controls.Add(this.cboSource);
-            this.gbSourceProp.Location = new System.Drawing.Point(272, 176);
+            this.gbSourceProp.Location = new System.Drawing.Point(272, 413);
             this.gbSourceProp.Name = "gbSourceProp";
             this.gbSourceProp.Size = new System.Drawing.Size(596, 104);
             this.gbSourceProp.TabIndex = 12;
@@ -786,7 +754,7 @@ namespace TDMaker
             this.gbDVD.Controls.Add(this.chkExtras);
             this.gbDVD.Controls.Add(this.cboAuthoring);
             this.gbDVD.Controls.Add(this.chkAuthoring);
-            this.gbDVD.Location = new System.Drawing.Point(6, 176);
+            this.gbDVD.Location = new System.Drawing.Point(6, 413);
             this.gbDVD.Name = "gbDVD";
             this.gbDVD.Size = new System.Drawing.Size(256, 104);
             this.gbDVD.TabIndex = 11;
@@ -872,7 +840,7 @@ namespace TDMaker
             this.gbLocation.Controls.Add(this.pbLogo);
             this.gbLocation.Location = new System.Drawing.Point(8, 8);
             this.gbLocation.Name = "gbLocation";
-            this.gbLocation.Size = new System.Drawing.Size(860, 160);
+            this.gbLocation.Size = new System.Drawing.Size(860, 399);
             this.gbLocation.TabIndex = 7;
             this.gbLocation.TabStop = false;
             this.gbLocation.Text = "Locations - Browse or Drag and Drop a Movie file or folder...";
@@ -899,7 +867,7 @@ namespace TDMaker
             this.lbFiles.Location = new System.Drawing.Point(6, 58);
             this.lbFiles.Name = "lbFiles";
             this.lbFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbFiles.Size = new System.Drawing.Size(844, 96);
+            this.lbFiles.Size = new System.Drawing.Size(844, 335);
             this.lbFiles.Sorted = true;
             this.lbFiles.TabIndex = 13;
             this.lbFiles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbFiles_KeyDown);
@@ -919,7 +887,7 @@ namespace TDMaker
             // pbLogo
             // 
             this.pbLogo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pbLogo.Location = new System.Drawing.Point(642, 20);
+            this.pbLogo.Location = new System.Drawing.Point(644, 19);
             this.pbLogo.Name = "pbLogo";
             this.pbLogo.Size = new System.Drawing.Size(206, 29);
             this.pbLogo.TabIndex = 11;
@@ -1092,7 +1060,6 @@ namespace TDMaker
             // tpScreenshotsSettings
             // 
             this.tpScreenshotsSettings.Controls.Add(this.gbUploadScreenshots);
-            this.tpScreenshotsSettings.Controls.Add(this.btnDownloadFFmpeg);
             this.tpScreenshotsSettings.Controls.Add(this.pgThumbnailerOptions);
             this.tpScreenshotsSettings.Location = new System.Drawing.Point(4, 22);
             this.tpScreenshotsSettings.Name = "tpScreenshotsSettings";
@@ -1105,6 +1072,7 @@ namespace TDMaker
             // gbUploadScreenshots
             // 
             this.gbUploadScreenshots.Controls.Add(this.cboFileUploader);
+            this.gbUploadScreenshots.Controls.Add(this.btnDownloadFFmpeg);
             this.gbUploadScreenshots.Controls.Add(this.btnUploadersConfig);
             this.gbUploadScreenshots.Controls.Add(this.cboImageUploader);
             this.gbUploadScreenshots.Controls.Add(this.chkScreenshotUpload);
@@ -1164,7 +1132,7 @@ namespace TDMaker
             this.btnDownloadFFmpeg.AutoSize = true;
             this.btnDownloadFFmpeg.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnDownloadFFmpeg.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnDownloadFFmpeg.Location = new System.Drawing.Point(752, 10);
+            this.btnDownloadFFmpeg.Location = new System.Drawing.Point(550, 21);
             this.btnDownloadFFmpeg.Name = "btnDownloadFFmpeg";
             this.btnDownloadFFmpeg.Size = new System.Drawing.Size(106, 23);
             this.btnDownloadFFmpeg.TabIndex = 2;
@@ -2072,7 +2040,6 @@ namespace TDMaker
             this.msMain.PerformLayout();
             this.tcMain.ResumeLayout(false);
             this.tpMedia.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
             this.gbSourceProp.ResumeLayout(false);
             this.gbSourceProp.PerformLayout();
             this.gbDVD.ResumeLayout(false);
@@ -2091,7 +2058,6 @@ namespace TDMaker
             this.tlpScreenshots.ResumeLayout(false);
             this.tlpScreenshotProps.ResumeLayout(false);
             this.tpScreenshotsSettings.ResumeLayout(false);
-            this.tpScreenshotsSettings.PerformLayout();
             this.gbUploadScreenshots.ResumeLayout(false);
             this.gbUploadScreenshots.PerformLayout();
             this.tpPublish.ResumeLayout(false);
@@ -2189,8 +2155,6 @@ namespace TDMaker
         private System.Windows.Forms.ToolStripMenuItem tsmiPreferKnownFolders;
         private System.Windows.Forms.TabControl tcMain;
         private System.Windows.Forms.TabPage tpMedia;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.ListBox lbStatus;
         private System.Windows.Forms.GroupBox gbSourceProp;
         private System.Windows.Forms.CheckBox chkTitle;
         private System.Windows.Forms.TextBox txtTitle;
