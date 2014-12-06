@@ -1,5 +1,6 @@
 Version 4.0.0 - 2014-12-15
 
+* PtpImg image uploader support via Custom Image Uploader
 * Removed ancient MTN support (grid functionality is now available via MPlayer or FFmpeg)
 * Added FFmpeg thumbnailer support (thanks @Jaex)
 * Thumbnailers now support grid (thanks @Jaex)

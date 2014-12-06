@@ -41,7 +41,7 @@ namespace UploadersLib.ImageUploaders
         {
             Dictionary<string, string> arguments = new Dictionary<string, string>();
 
-            UploadResult result = UploadData(stream, "http://ptpimg.me/?type=uploadv7&key=" + APIKey, fileName, "uploadfile", arguments);
+            UploadResult result = UploadData(stream, "https://ptpimg.me/?type=uploadv7&key=" + APIKey, fileName, "uploadfile", arguments);
 
             return ParseResult(result);
         }
@@ -50,7 +50,7 @@ namespace UploadersLib.ImageUploaders
         {
             if (result.IsSuccess)
             {
-                result.URL = string.Concat("http://ptpimg.me/", result.Response);
+                result.URL = string.Concat("https://ptpimg.me/", result.Response);
             }
 
             return result;

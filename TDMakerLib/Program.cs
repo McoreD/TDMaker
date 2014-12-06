@@ -20,12 +20,30 @@ namespace TDMakerLib
         public static readonly string PicturesDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), mProductName);
         public static readonly string SettingsDir = Path.Combine(RootAppFolder, "Settings");
         public static readonly string ToolsDir = Path.Combine(RootAppFolder, "Tools");
-        public static string TemplatesDir = Path.Combine(RootAppFolder, "Templates");
-        public static string TorrentsDir = Path.Combine(RootAppFolder, "Torrents");
+        public static string TemplatesDir
+        {
+            get
+            {
+                return Settings != null && Directory.Exists(Settings.CustomTemplatesDir) && Settings.UseCustomTemplatesDir ? Settings.CustomTemplatesDir : Path.Combine(RootAppFolder, "Templates");
+            }
+        }
+        public static string TorrentsDir
+        {
+            get
+            {
+                return Settings != null && Directory.Exists(Settings.CustomTorrentsDir) && Settings.UseCustomTorrentsDir ? Settings.CustomTorrentsDir : Path.Combine(RootAppFolder, "Torrents");
+            }
+        }
         public static readonly string TempDir = Path.Combine(Path.GetTempPath(), mProductName);
 
         public static string SettingsFilePath = Path.Combine(SettingsDir, string.Format("{0}Settings.json", mProductName));
-        public static string UploadersConfigPath = Path.Combine(SettingsDir, "UploadersConfig.json");
+        public static string UploadersConfigPath
+        {
+            get
+            {
+                return Settings != null && File.Exists(Settings.CustomUploadersConfigPath) ? Settings.CustomUploadersConfigPath : Path.Combine(SettingsDir, "UploadersConfig.json");
+            }
+        }
 
         public static bool IsUNIX { get; private set; }
 
@@ -186,15 +204,8 @@ namespace TDMakerLib
 
         public static void LoadSettings()
         {
-            DebugHelper.WriteLine("Reading " + SettingsFilePath);
             App.Settings = Settings.Load(SettingsFilePath);
-
-            TemplatesDir = Settings != null && Directory.Exists(Settings.CustomTemplatesDir) && Settings.UseCustomTemplatesDir ? Settings.CustomTemplatesDir : TemplatesDir;
-            TorrentsDir = Settings != null && Directory.Exists(Settings.CustomTorrentsDir) && Settings.UseCustomTorrentsDir ? Settings.CustomTorrentsDir : TorrentsDir;
-
             LoadProxySettings();
-
-            DebugHelper.WriteLine("Reading " + UploadersConfigPath);
             App.UploadersConfig = UploadersConfig.Load(UploadersConfigPath);
         }
     }

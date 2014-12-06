@@ -19,6 +19,7 @@ namespace TDMaker
 {
     public partial class MainWindow : Form
     {
+        private bool IsGuiReady = false;
         private TrackerManager mTrackerManager = null;
 
         public MainWindow()
@@ -96,8 +97,6 @@ namespace TDMaker
             rtbDebugLog.Text = DebugHelper.Logger.ToString();
             DebugHelper.Logger.MessageAdded += Logger_MessageAdded;
 
-            string mtnExe = (App.IsUNIX ? "mtn" : "mtn.exe");
-
             if (App.Settings.ThumbnailerType == ThumbnailerType.FFmpeg)
             {
                 if (!File.Exists(App.Settings.FFmpegPath))
@@ -145,6 +144,8 @@ namespace TDMaker
             {
                 LoadMedia(ProgramUI.ExplorerFilePaths.ToArray());
             }
+
+            IsGuiReady = true;
         }
 
         private void Logger_MessageAdded(string message)
@@ -530,11 +531,6 @@ namespace TDMaker
                 App.Settings.CustomMediaInfoDllDir = Application.StartupPath;
             }
             Kernel32Helper.SetDllDirectory(App.Settings.CustomMediaInfoDllDir);
-
-            if (File.Exists(App.Settings.CustomUploadersConfigPath))
-            {
-                App.UploadersConfig = UploadersConfig.Load(App.Settings.CustomUploadersConfigPath);
-            }
 
             pgApp.SelectedObject = App.Settings;
         }
@@ -1346,7 +1342,15 @@ namespace TDMaker
 
         private void pgApp_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
-            SettingsRead();
+            if (IsGuiReady)
+            {
+                SettingsRead();
+
+                if (File.Exists(App.Settings.CustomUploadersConfigPath))
+                {
+                    App.UploadersConfig = UploadersConfig.Load(App.Settings.CustomUploadersConfigPath);
+                }
+            }
         }
 
         private void cboAuthoring_SelectedIndexChanged(object sender, EventArgs e)

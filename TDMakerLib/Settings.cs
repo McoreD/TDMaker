@@ -16,8 +16,6 @@ namespace TDMakerLib
 {
     public class Settings : SettingsBase<Settings>
     {
-        public static string FileName = string.Format("{0}Settings.json", Application.ProductName);
-
         public Settings()
         {
             this.ApplyDefaultPropertyValues();
@@ -29,26 +27,41 @@ namespace TDMakerLib
             SupportedFileExtVideo = new StringCollection();
         }
 
+        #region DVD Properties
+
         [BrowsableAttribute(false)]
         public bool bAuthoring { get; set; }
-
         public string AuthoringMode = "Untouched";
+
+        [BrowsableAttribute(false)]
+        public bool bDiscMenu { get; set; }
+        public string DiscMenu = "Intact";
+
+        [BrowsableAttribute(false)]
+        public bool bExtras { get; set; }
+        public string Extra = "Intact";
+
+        [BrowsableAttribute(false), DefaultValue(true)]
+        public bool bTitle { get; set; }
+
+        [BrowsableAttribute(false)]
+        public bool bWebLink { get; set; }
+
+        #endregion DVD Properties
+
+        #region Input
+
+        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Show Media Wizard always; otherwise it will only be shown when you import multiple files")]
+        public bool ShowMediaWizardAlways { get; set; }
+
+        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Process media immediately after loading file or folder")]
+        public bool AnalyzeAuto { get; set; }
 
         [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection AuthoringModes { get; set; }
 
-        [BrowsableAttribute(false)]
-        public bool bDiscMenu { get; set; }
-
-        public string DiscMenu = "Intact";
-
         [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection DiscMenus { get; set; }
-
-        [BrowsableAttribute(false)]
-        public bool bExtras { get; set; }
-
-        public string Extra = "Intact";
 
         [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection Extras { get; set; }
@@ -64,11 +77,12 @@ namespace TDMakerLib
         Description("Supported file types by TDMaker to create a Music Album NFO file. Add more file types only if you are absolutely sure both MediaInfo and MTN can handle those.")]
         public StringCollection SupportedFileExtAudio { get; set; }
 
-        [BrowsableAttribute(false), DefaultValue(true)]
-        public bool bTitle { get; set; }
+        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Write debug information into a log file.")]
+        public bool WriteDebugFile { get; set; }
 
-        [BrowsableAttribute(false)]
-        public bool bWebLink { get; set; }
+        #endregion Input
+
+        #region Screenshots
 
         [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Create screenshots using thumbnailer")]
         public bool CreateScreenshots { get; set; }
@@ -85,20 +99,50 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Keep or delete screenshots after processing files")]
         public bool KeepScreenshots { get; set; }
 
+        #endregion Screenshots
+
+        #region Screenshots / Thumbnailers
+
+        [Category(ComponentModelStrings.Thumbnailers), DefaultValue(ThumbnailerType.FFmpeg), Description("Chooser thumbnailer application to take screenshots.")]
+        public ThumbnailerType ThumbnailerType { get; set; }
+
+        [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
+        [Category(ComponentModelStrings.ThumbnailersFFmpeg), Description("FFmpeg path")]
+        public string FFmpegPath { get; set; }
+
+        [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
+        [Category(ComponentModelStrings.ThumbnailersMPlayer), Description("MPlayer path")]
+        public string MPlayerPath { get; set; }
+
+        public ThumbnailerOptions ThumbnailerOptions = new ThumbnailerOptions();
+
+        #endregion Screenshots / Thumbnailers
+
+        #region Screenshots / Uploaders
+
+        public ImageDestination ImageUploaderType = ImageDestination.Imgur;
+        public FileDestination ImageFileUploaderType = FileDestination.Pomf;
+        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("PtpImg registration code")]
+        public string PtpImgCode { get; set; }
+
+        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("ImageShack registration code")]
+        public string ImageShackRegCode { get; set; }
+
+        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(false), Description("Use ImageShack registration code")]
+        public bool UseImageShackRegCode { get; set; }
+
+        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(5), Description("Buffer size power")]
+        public double BufferSizePower { get; set; }
+
+        #endregion Screenshots / Uploaders
+
+        #region Publish
+
         [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Setting true will center align the description")]
         public bool AlignCenter { get; set; }
 
         [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Setting true will retain the formatting on some message boards")]
         public bool PreText { get; set; }
-
-        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Show Media Wizard always; otherwise it will only be shown when you import multiple files")]
-        public bool ShowMediaWizardAlways { get; set; }
-
-        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Process media immediately after loading file or folder")]
-        public bool AnalyzeAuto { get; set; }
-
-        [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Write debug information into a log file.")]
-        public bool WriteDebugFile { get; set; }
 
         [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Write the torrent description to file")]
         public bool WritePublish { get; set; }
@@ -127,36 +171,9 @@ namespace TDMakerLib
         [Browsable(false)]
         public int TemplateIndex { get; set; }
 
-        [Category(ComponentModelStrings.Proxy), Description("Proxy Settings")]
-        public ProxyInfo ProxySettings = new ProxyInfo();
+        #endregion Publish
 
-        [Category(ComponentModelStrings.Thumbnailers), DefaultValue(ThumbnailerType.FFmpeg), Description("Chooser thumbnailer application to take screenshots.")]
-        public ThumbnailerType ThumbnailerType { get; set; }
-
-        [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
-        [Category(ComponentModelStrings.ThumbnailersFFmpeg), Description("FFmpeg path")]
-        public string FFmpegPath { get; set; }
-
-        [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]
-        [Category(ComponentModelStrings.ThumbnailersMPlayer), Description("MPlayer path")]
-        public string MPlayerPath { get; set; }
-
-        public ThumbnailerOptions ThumbnailerOptions = new ThumbnailerOptions();
-
-        public ImageDestination ImageUploaderType = ImageDestination.Imgur;
-        public FileDestination ImageFileUploaderType = FileDestination.Pomf;
-
-        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("PtpImg registration code")]
-        public string PtpImgCode { get; set; }
-
-        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("ImageShack registration code")]
-        public string ImageShackRegCode { get; set; }
-
-        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(false), Description("Use ImageShack registration code")]
-        public bool UseImageShackRegCode { get; set; }
-
-        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(5), Description("Buffer size power")]
-        public double BufferSizePower { get; set; }
+        #region Torrent creator
 
         [Browsable(false)]
         public int TrackerGroupActive { get; set; }
@@ -175,7 +192,9 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create XML Torrent Upload file")]
         public bool XMLTorrentUploadCreate { get; set; }
 
-        // Tab 4.0 - Options - Paths
+        #endregion Torrent creator
+
+        #region Paths
 
         [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure the MediaInfo.dll folder path")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
@@ -202,5 +221,13 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Paths), Description("Browse to change where screenshots are saved")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomScreenshotsDir { get; set; }
+
+        #endregion Paths
+
+        #region Proxy
+
+        public ProxyInfo ProxySettings = new ProxyInfo();
+
+        #endregion Proxy
     }
 }

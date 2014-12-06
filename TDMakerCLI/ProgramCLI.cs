@@ -21,7 +21,7 @@ namespace TDMakerCLI
         {
             string dirImages = string.Empty;
             string dirRoot = string.Empty;
-            string mSettingsFile = string.Empty;
+            string mSettingsFilePath = string.Empty;
             string dirTorrents = string.Empty;
 
             bool mFileCollection = false;
@@ -31,7 +31,7 @@ namespace TDMakerCLI
             {
                 { "c", "Treat multiple files as a collection", v => mFileCollection = v != null},
                 { "m|media=", "Location of the media file/folder", v => mMediaLoc = v },
-                { "o|options=", "Location of the settings file", v => mSettingsFile = v },
+                { "o|options=", "Location of the settings file", v => mSettingsFilePath = v },
                 { "rd=", "Root directory for screenshots, torrent and all other output files. Overrides all other custom folders.", v => dirRoot = v },
                 { "s", "Create screenshots", v => mScreenshotsCreate = v != null},
                 { "sd=", "Create screenshots in a custom folder and upload", v => dirImages = v },
@@ -79,23 +79,15 @@ namespace TDMakerCLI
                 return;
             }
 
-            if (!File.Exists(mSettingsFile))
+            if (!File.Exists(mSettingsFilePath))
             {
-                mSettingsFile = App.SettingsFilePath;
+                mSettingsFilePath = App.SettingsFilePath;
             }
 
-            if (File.Exists(mSettingsFile))
+            if (File.Exists(mSettingsFilePath))
             {
-                App.Settings = Settings.Load(mSettingsFile);
-
-                if (File.Exists(App.Settings.CustomUploadersConfigPath))
-                {
-                    App.UploadersConfig = UploadersConfig.Load(App.Settings.CustomUploadersConfigPath);
-                }
-                else
-                {
-                    App.UploadersConfig = UploadersConfig.Load(App.UploadersConfigPath);
-                }
+                App.Settings = Settings.Load(mSettingsFilePath);
+                App.UploadersConfig = UploadersConfig.Load(App.UploadersConfigPath);
             }
 
             if (App.Settings != null)
