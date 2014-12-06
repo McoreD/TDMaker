@@ -123,7 +123,7 @@ namespace TDMakerLib
 
         public static void WriteTemplates(bool rewrite)
         {
-            string[] tNames = new string[] { "Default", "MTN", "Minimal" };
+            string[] tNames = new string[] { "Default", "BTN", "MTN", "Minimal" };
             foreach (string name in tNames)
             {
                 // Copy Default Templates to Templates folder

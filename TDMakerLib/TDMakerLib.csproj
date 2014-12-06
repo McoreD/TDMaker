@@ -223,6 +223,7 @@
     <EmbeddedResource Include="VersionHistory.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\BTN\File.txt" />
     <Content Include="Templates\MediaInfo.txt" />
   </ItemGroup>
   <ItemGroup>
