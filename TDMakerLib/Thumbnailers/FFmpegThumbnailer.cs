@@ -23,8 +23,8 @@ namespace TDMakerLib
                 string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.png", Path.GetFileNameWithoutExtension(MediaFile.FilePath), timeSliceElapsed));
 
                 ProcessStartInfo psi = new ProcessStartInfo(ThumbnailerPath);
-                psi.Arguments = string.Format("-ss {0} -i \"{1}\" -f image2 -vframes 1 \"{2}\"", timeSliceElapsed, MediaFile.FilePath, tempScreenshotPath);
-                psi.WindowStyle = ProcessWindowStyle.Hidden;
+                psi.Arguments = string.Format("-ss {0} -i \"{1}\" -f image2 -vframes 1 -y \"{2}\"", timeSliceElapsed, MediaFile.FilePath, tempScreenshotPath);
+                psi.WindowStyle = ProcessWindowStyle.Minimized;
 
                 Process p = new Process();
                 p.StartInfo = psi;

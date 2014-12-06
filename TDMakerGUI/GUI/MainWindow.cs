@@ -76,11 +76,13 @@ namespace TDMaker
                 //tpMedia.BackgroundImageLayout = ImageLayout.None;
                 pbLogo.BackgroundImage = Image.FromFile(logo2);
                 pbLogo.BackgroundImageLayout = ImageLayout.Stretch;
-                pbLogo.BackColor = System.Drawing.SystemColors.ControlDark;
-                this.BackColor = System.Drawing.SystemColors.ControlDark;
+                pbLogo.BackColor = SystemColors.ControlDark;
+                BackColor = SystemColors.ControlDark;
             }
 
             sBar.Text = string.Format("Ready.");
+
+            tttvMain.MainTabControl = tcMain;
 
             Text = App.GetProductName();
             Icon = Resources.GenuineAdvIcon;
