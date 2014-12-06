@@ -63,7 +63,6 @@ namespace TDMakerLib
         {
             bool success = true;
             String mediaFilePath = mf.FilePath;
-            Debug.WriteLine("Taking Screenshot for " + Path.GetFileName(mediaFilePath));
             ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Taking Screenshot for " + Path.GetFileName(mediaFilePath));
 
             switch (App.Settings.ThumbnailerType)

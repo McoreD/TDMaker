@@ -214,8 +214,8 @@ namespace TDMakerLib
         {
             DetectUnix();
             Config = AppSettings.Load(AppSettings.AppConfigFilePath);
-            FileSystem.AppendDebug("Operating System: " + Environment.OSVersion.VersionString);
-            FileSystem.AppendDebug("Product Version: " + mAppInfo.GetApplicationTitleFull());
+            DebugHelper.WriteLine("Operating System: " + Environment.OSVersion.VersionString);
+            DebugHelper.WriteLine("Product Version: " + mAppInfo.GetApplicationTitleFull());
             DialogResult configResult = DialogResult.OK;
 
             if (Directory.Exists(Path.Combine(Application.StartupPath, PortableRootFolder)))
@@ -245,9 +245,9 @@ namespace TDMakerLib
             }
             if (configResult == DialogResult.OK)
             {
-                FileSystem.AppendDebug("Config file: " + AppSettings.AppConfigFilePath);
-                FileSystem.AppendDebug(string.Format("Root Folder: {0}", Config.PreferSystemFolders ? zLocalAppDataFolder : RootAppFolder));
-                FileSystem.AppendDebug("Initializing Default folder paths...");
+                DebugHelper.WriteLine("Config file: " + AppSettings.AppConfigFilePath);
+                DebugHelper.WriteLine(string.Format("Root Folder: {0}", Config.PreferSystemFolders ? zLocalAppDataFolder : RootAppFolder));
+                DebugHelper.WriteLine("Initializing Default folder paths...");
                 App.InitializeDefaultFolderPaths(); // happens before XMLSettings is readed
             }
             mAppInfo.AppName = mProductName;
@@ -280,12 +280,12 @@ namespace TDMakerLib
         {
             if (string.IsNullOrEmpty(fp))
             {
-                FileSystem.AppendDebug("Reading " + App.SettingsFile);
+                DebugHelper.WriteLine("Reading " + App.SettingsFile);
                 App.Settings = Settings.Load(SettingsFile);
             }
             else
             {
-                FileSystem.AppendDebug("Reading " + fp);
+                DebugHelper.WriteLine("Reading " + fp);
                 App.Settings = Settings.Load(fp);
             }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HelpersLib;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -8,37 +9,7 @@ namespace TDMakerLib
 {
     public static class FileSystem
     {
-        public delegate void DebugLogEventHandler(string line);
-
-        public static event DebugLogEventHandler DebugLogChanged;
-
-        public static StringBuilder DebugLog = new StringBuilder();
         public static string DebugLogFilePath = Path.Combine(App.LogsDir, string.Format("{0}-{1}-debug.txt", Application.ProductName, DateTime.Now.ToString("yyyyMMdd")));
-
-        private static void OnDebugLogChanged(string line)
-        {
-            if (DebugLogChanged != null)
-            {
-                DebugLogChanged(line);
-            }
-        }
-
-        public static void AppendDebug(Exception ex)
-        {
-            AppendDebug(ex.ToString());
-        }
-
-        public static void AppendDebug(string msg)
-        {
-            if (!string.IsNullOrEmpty(msg))
-            {
-                // a modified http://iso.org/iso/en/prods-services/popstds/datesandtime.html - McoreD
-                string line = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss - ") + msg;
-                Debug.WriteLine(line);
-                DebugLog.AppendLine(line);
-                OnDebugLogChanged(line);
-            }
-        }
 
         public static void OpenDirTorrents()
         {
@@ -98,17 +69,11 @@ namespace TDMakerLib
                     dir = Path.Combine(Application.StartupPath, App.LogsDir);
                 }
                 string fpDebug = Path.Combine(dir, string.Format("{0}-{1}-debug.txt", Application.ProductName, DateTime.Now.ToString("yyyyMMdd")));
-                AppendDebug("Writing Debug file: " + fpDebug);
+                DebugHelper.WriteLine("Writing Debug file: " + fpDebug);
+
                 if (App.Settings.WriteDebugFile)
                 {
-                    if (DebugLog.Length > 0)
-                    {
-                        using (StreamWriter sw = new StreamWriter(fpDebug, true))
-                        {
-                            sw.WriteLine(DebugLog.ToString());
-                            DebugLog = new StringBuilder();
-                        }
-                    }
+                    DebugHelper.Logger.SaveLog(fpDebug);
                 }
             }
         }

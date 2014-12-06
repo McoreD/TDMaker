@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v2)
 
+using HelpersLib;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -167,7 +168,7 @@ namespace TDMakerLib
                 mwo.PromptShown = true;
             }
 
-            FileSystem.AppendDebug("Determined media type as: " + mwo.MediaTypeChoice.ToString());
+            DebugHelper.WriteLine("Determined media type as: " + mwo.MediaTypeChoice.ToString());
             return mwo;
         }
 

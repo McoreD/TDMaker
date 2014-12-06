@@ -92,8 +92,8 @@ namespace TDMaker
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
-            rtbDebugLog.Text = FileSystem.DebugLog.ToString();
-            FileSystem.DebugLogChanged += new FileSystem.DebugLogEventHandler(FileSystem_DebugLogChanged);
+            rtbDebugLog.Text = DebugHelper.Logger.ToString();
+            DebugHelper.Logger.MessageAdded += Logger_MessageAdded;
 
             string mtnExe = (App.IsUNIX ? "mtn" : "mtn.exe");
 
@@ -120,6 +120,26 @@ namespace TDMaker
             if (ProgramUI.ExplorerFilePaths.Count > 0)
             {
                 LoadMedia(ProgramUI.ExplorerFilePaths.ToArray());
+            }
+        }
+
+        private void Logger_MessageAdded(string message)
+        {
+            if (!rtbDebugLog.IsDisposed)
+            {
+                MethodInvoker method = delegate
+                {
+                    rtbDebugLog.AppendText(message + Environment.NewLine);
+                };
+
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(method);
+                }
+                else
+                {
+                    method.Invoke();
+                }
             }
         }
 
@@ -185,7 +205,7 @@ namespace TDMaker
                 if (File.Exists(p) || Directory.Exists(p))
                 {
                     // txtMediaLocation.Text = p;
-                    FileSystem.AppendDebug(string.Format("Queued {0} to create a torrent", p));
+                    DebugHelper.WriteLine(string.Format("Queued {0} to create a torrent", p));
                     lbFiles.Items.Add(p);
                     TorrentCreateInfo tp = new TorrentCreateInfo(GetTracker(), p);
                     tps.Add(tp);
@@ -422,26 +442,6 @@ namespace TDMaker
         private void btnCreateTorrent_Click(object sender, EventArgs e)
         {
             CreateTorrentButton();
-        }
-
-        private void FileSystem_DebugLogChanged(string line)
-        {
-            if (!rtbDebugLog.IsDisposed)
-            {
-                MethodInvoker method = delegate
-                {
-                    rtbDebugLog.AppendText(line + Environment.NewLine);
-                };
-
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(method);
-                }
-                else
-                {
-                    method.Invoke();
-                }
-            }
         }
 
         private void SettingsWrite()
@@ -781,6 +781,8 @@ namespace TDMaker
         private void bwApp_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             pBar.Style = ProgressBarStyle.Continuous;
+            pBar.Value = 0;
+
             lbFiles.Items.Clear();
             sBar.Text = "Ready.";
             lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
@@ -887,7 +889,7 @@ namespace TDMaker
                     case ProgressType.UPDATE_STATUSBAR_DEBUG:
                         sBar.Text = msg;
                         lbStatus.Items.Add(msg);
-                        FileSystem.AppendDebug(msg);
+                        DebugHelper.WriteLine(msg);
                         break;
                 }
             }
