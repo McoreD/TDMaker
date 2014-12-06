@@ -1138,7 +1138,7 @@ namespace TDMaker
             this.btnDownloadFFmpeg.TabIndex = 2;
             this.btnDownloadFFmpeg.Text = "Download FFmpeg";
             this.btnDownloadFFmpeg.UseVisualStyleBackColor = true;
-            this.btnDownloadFFmpeg.Click += new System.EventHandler(this.btnDownload_Click);
+            this.btnDownloadFFmpeg.Click += new System.EventHandler(this.btnDownloadFFmpeg_Click);
             // 
             // pgThumbnailerOptions
             // 

@@ -141,7 +141,7 @@ namespace TDMakerLib
         public ProxyInfo ProxySettings = new ProxyInfo();
 
         // Tab 4.2 - Options - MTN
-        [Category(ComponentModelStrings.Thumbnailers), DefaultValue(ThumbnailerType.MPlayer), Description("Chooser thumbnailer application to take screenshots.")]
+        [Category(ComponentModelStrings.Thumbnailers), DefaultValue(ThumbnailerType.FFmpeg), Description("Chooser thumbnailer application to take screenshots.")]
         public ThumbnailerType ThumbnailerType { get; set; }
 
         [EditorAttribute(typeof(ExeFileNameEditor), typeof(UITypeEditor))]

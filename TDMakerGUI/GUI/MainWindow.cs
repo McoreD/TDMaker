@@ -97,7 +97,30 @@ namespace TDMaker
 
             string mtnExe = (App.IsUNIX ? "mtn" : "mtn.exe");
 
-            if (App.Settings.ThumbnailerType == ThumbnailerType.MPlayer)
+            if (App.Settings.ThumbnailerType == ThumbnailerType.FFmpeg)
+            {
+                if (!File.Exists(App.Settings.FFmpegPath))
+                {
+                    DialogResult result = MessageBox.Show("FFmpeg is not configured. \n\nWould you like to download the latest FFmpeg?", Application.ProductName, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                    if (result == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        btnDownloadFFmpeg_Click(sender, e);
+                    }
+                    else if (result == System.Windows.Forms.DialogResult.No)
+                    {
+                        OpenFileDialog dlg = new OpenFileDialog();
+                        dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                        dlg.Title = "Browse for ffmpeg.exe";
+                        dlg.Filter = "Applications (ffmpeg.exe)|ffmpeg.exe";
+                        if (dlg.ShowDialog() == DialogResult.OK)
+                        {
+                            App.Settings.FFmpegPath = dlg.FileName;
+                        }
+                    }
+                }
+            }
+            else if (App.Settings.ThumbnailerType == ThumbnailerType.MPlayer)
             {
                 if (!File.Exists(App.Settings.MPlayerPath))
                 {
@@ -1719,7 +1742,7 @@ namespace TDMaker
                 UpdateTrackerGroup(sel);
         }
 
-        private void btnDownload_Click(object sender, EventArgs e)
+        private void btnDownloadFFmpeg_Click(object sender, EventArgs e)
         {
             FFmpegHelper.DownloadFFmpeg(true, DownloaderForm_InstallRequested);
         }
