@@ -10,11 +10,8 @@ namespace TDMakerLib
     public class TorrentCreateInfo
     {
         public TrackerGroup TrackerGroupActive { get; private set; }
-
         public string MediaLocation { get; private set; }
-
         public string TorrentFolder { get; set; }
-
         public string TorrentFilePath { get; private set; }
 
         public TorrentCreateInfo(TrackerGroup tracker, string mediaLoc)

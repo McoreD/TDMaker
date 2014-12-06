@@ -31,7 +31,6 @@ namespace TDMaker
             sbDesc.AppendLine();
             sbDesc.AppendLine("Using:");
             sbDesc.AppendLine(mi.Option("Info_Version") + " from http://sourceforge.net/projects/mediainfo");
-            sbDesc.AppendLine("Movie Thumbnailer v200808a:");
             this.textBoxDescription.Text = sbDesc.ToString();
 
             uclUpdate.CheckUpdate(CheckUpdate);

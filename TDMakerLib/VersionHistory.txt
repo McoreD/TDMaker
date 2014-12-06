@@ -1,6 +1,6 @@
-Version 3.2.0 - 2014-12-15
+Version 4.0.0 - 2014-12-15
 
-* Removed ancient MTN support (grid functionality can now be done via MPlayer or FFmpeg)
+* Removed ancient MTN support (grid functionality is now available via MPlayer or FFmpeg)
 * Added FFmpeg thumbnailer support (thanks @Jaex)
 * Thumbnailers now support grid (thanks @Jaex)
 * Latest MediaInfo.dll v7.71

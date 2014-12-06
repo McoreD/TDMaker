@@ -70,6 +70,7 @@ namespace TDMakerLib
                 p.StartInfo = psi;
                 p.Start();
                 p.WaitForExit(1000 * 30);
+                p.Close();
 
                 switch (App.Settings.ThumbnailerType)
                 {

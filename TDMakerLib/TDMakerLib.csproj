@@ -119,7 +119,7 @@
     <Compile Include="Helpers\BbCode.cs" />
     <Compile Include="Helpers\Options.cs" />
     <Compile Include="Helpers\Structs.cs" />
-    <Compile Include="Helpers\TorrentPacket.cs" />
+    <Compile Include="Helpers\TorrentCreator.cs" />
     <Compile Include="Helpers\WorkerTask.cs" />
     <Compile Include="Helpers\ImageFile.cs" />
     <Compile Include="Kernel32Helper.cs" />
