@@ -1,5 +1,5 @@
 ﻿using HelpersLib;
-
+using HelpersLib.UITypeEditors;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -29,9 +29,6 @@ namespace TDMakerLib
             SupportedFileExtVideo = new StringCollection();
         }
 
-        // Tab 1 - Input
-
-        // Disc Properties
         [BrowsableAttribute(false)]
         public bool bAuthoring { get; set; }
 
@@ -56,7 +53,6 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection Extras { get; set; }
 
-        // Source Properties
         [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor))]
         public StringCollection MediaSources { get; set; }
 
@@ -74,12 +70,6 @@ namespace TDMakerLib
         [BrowsableAttribute(false)]
         public bool bWebLink { get; set; }
 
-        // Tab 2 - Media Info
-        /*
-         * Nothing
-         */
-
-        // Tab 3 - Publish
         [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Create screenshots using thumbnailer")]
         public bool CreateScreenshots { get; set; }
 
@@ -140,7 +130,6 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Proxy), Description("Proxy Settings")]
         public ProxyInfo ProxySettings = new ProxyInfo();
 
-        // Tab 4.2 - Options - MTN
         [Category(ComponentModelStrings.Thumbnailers), DefaultValue(ThumbnailerType.FFmpeg), Description("Chooser thumbnailer application to take screenshots.")]
         public ThumbnailerType ThumbnailerType { get; set; }
 
@@ -194,6 +183,10 @@ namespace TDMakerLib
 
         [Category(ComponentModelStrings.Paths), DefaultValue(false), Description("Use custom Templates directory")]
         public bool UseCustomTemplatesDir { get; set; }
+
+        [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure UploadersConfig file path")]
+        [EditorAttribute(typeof(JsonFileNameEditor), typeof(UITypeEditor))]
+        public string CustomUploadersConfigPath { get; set; }
 
         [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure the Templates folder path")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]

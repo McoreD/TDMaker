@@ -531,6 +531,11 @@ namespace TDMaker
             }
             Kernel32Helper.SetDllDirectory(App.Settings.CustomMediaInfoDllDir);
 
+            if (File.Exists(App.Settings.CustomUploadersConfigPath))
+            {
+                App.UploadersConfig = UploadersConfig.Load(App.Settings.CustomUploadersConfigPath);
+            }
+
             pgApp.SelectedObject = App.Settings;
         }
 

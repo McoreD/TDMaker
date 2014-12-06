@@ -88,7 +88,15 @@ namespace TDMakerCLI
             if (File.Exists(mSettingsFile))
             {
                 App.Settings = Settings.Load(mSettingsFile);
-                App.UploadersConfig = UploadersConfig.Load(App.UploadersConfigPath);
+
+                if (File.Exists(App.Settings.CustomUploadersConfigPath))
+                {
+                    App.UploadersConfig = UploadersConfig.Load(App.Settings.CustomUploadersConfigPath);
+                }
+                else
+                {
+                    App.UploadersConfig = UploadersConfig.Load(App.UploadersConfigPath);
+                }
             }
 
             if (App.Config != null)
