@@ -698,7 +698,8 @@ namespace TDMaker
                 mi.UploadScreenshots = wt.UploadScreenshots;
                 if (wt.UploadScreenshots)
                 {
-                    ti.CreateUploadScreenshots();
+                    ti.CreateScreenshots();
+                    ti.UploadScreenshots();
                 }
                 else if (wt.CreateScreenshots)
                 {

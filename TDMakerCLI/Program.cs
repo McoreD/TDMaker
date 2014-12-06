@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using TDMakerLib;
+using UploadersLib;
 
 namespace TDMakerCLI
 {
@@ -11,6 +12,7 @@ namespace TDMakerCLI
         private static string mMediaLoc = string.Empty;
         private static string mScreenshotDir = string.Empty;
         private static bool mScreenshotsCreate = false;
+        private static bool mScreenshotsUpload = false;
         private static string mTorrentsDir = string.Empty;
         private static bool mTorrentCreate = false;
         private static bool mXmlCreate = false;
@@ -31,10 +33,11 @@ namespace TDMakerCLI
                 { "m|media=", "Location of the media file/folder", v => mMediaLoc = v },
                 { "o|options=", "Location of the settings file", v => mSettingsFile = v },
                 { "rd=", "Root directory for screenshots, torrent and all other output files. Overrides all other custom folders.", v => dirRoot = v },
-                { "s", "Create and upload screenshots", v => mScreenshotsCreate = v != null},
+                { "s", "Create screenshots", v => mScreenshotsCreate = v != null},
                 { "sd=", "Create screenshots in a custom folder and upload", v => dirImages = v },
                 { "t", "Create torrent file in the parent folder of the media file", v => mTorrentCreate = v != null},
                 { "td=", "Create torrent file in a custom folder", v => dirTorrents = v},
+                { "u", "Upload screenshots", v => mScreenshotsUpload = v != null},
                 { "x|xml",  "Folder path of the XML torrent description file", v => mXmlCreate = v != null },
                 { "h|help",  "Show this message and exit", v => mShowHelp = v != null }
             };
@@ -85,19 +88,12 @@ namespace TDMakerCLI
             if (File.Exists(mSettingsFile))
             {
                 App.Settings = Settings.Load(mSettingsFile);
+                App.UploadersConfig = UploadersConfig.Load(App.UploadersConfigPath);
             }
 
             if (App.Config != null)
             {
                 App.InitializeDefaultFolderPaths();
-
-                Console.WriteLine("Media location:");
-                Console.WriteLine(mMediaLoc);
-                Console.WriteLine();
-
-                Console.WriteLine("Settings file");
-                Console.WriteLine(mSettingsFile);
-                Console.WriteLine();
 
                 List<string> listFileOrDir = new List<string>() { mMediaLoc };
                 MediaWizardOptions mwo = Adapter.GetMediaType(listFileOrDir, true);
@@ -109,14 +105,22 @@ namespace TDMakerCLI
                 mi.ReadMedia();
 
                 TorrentInfo ti = new TorrentInfo(mi);
-                CreateScreenshot(ti);
+
+                mi.UploadScreenshots = mScreenshotsUpload;
+
+                if (mScreenshotsUpload)
+                {
+                    CreateScreenshots(ti);
+                    ti.UploadScreenshots();
+                }
+                else if (mScreenshotsCreate)
+                {
+                    CreateScreenshots(ti);
+                }
+
                 CreatePublish(ti);
                 CreateTorrent(ti);
             }
-
-            Console.WriteLine();
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadLine();
         }
 
         private static void ShowHelp(OptionSet p)
@@ -127,25 +131,20 @@ namespace TDMakerCLI
             p.WriteOptionDescriptions(Console.Out);
             Console.WriteLine();
             Console.WriteLine("Example:");
-            Console.WriteLine(@"tdmakercli -m ""F:\Linux ISOs\Ubuntu"" -x -t");
-            Console.WriteLine(@"tdmakercli -m ""F:\Linux ISOs\Ubuntu"" -x -t --rd ""F:\Linux ISOs\Ubuntu""");
+            Console.WriteLine(@"tdmakercli -m ""T:\Criminal Minds"" -s -u -t");
+            Console.WriteLine(@"tdmakercli -m ""T:\Criminal Minds"" -s -u -t --rd ""T:\Criminal Minds""");
             Console.WriteLine();
-
-            //  Console.ReadLine();
         }
 
-        private static void CreateScreenshot(TorrentInfo ti)
+        private static void CreateScreenshots(TorrentInfo ti)
         {
-            if (mScreenshotsCreate)
+            if (Directory.Exists(mScreenshotDir))
             {
-                if (Directory.Exists(mScreenshotDir))
-                {
-                    ti.CreateUploadScreenshots(mScreenshotDir);
-                }
-                else
-                {
-                    ti.CreateUploadScreenshots();
-                }
+                ti.CreateScreenshots(mScreenshotDir);
+            }
+            else
+            {
+                ti.CreateScreenshots();
             }
         }
 
@@ -161,11 +160,7 @@ namespace TDMakerCLI
             };
             ti.PublishString = Adapter.CreatePublish(ti, pop);
 
-            Console.WriteLine();
-            Console.WriteLine("Release Description: ");
-            Console.WriteLine();
             Console.WriteLine(ti.PublishString);
-            Console.WriteLine();
         }
 
         private static void CreateTorrent(TorrentInfo ti)

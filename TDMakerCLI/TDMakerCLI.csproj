@@ -74,6 +74,10 @@
       <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
       <Name>HelpersLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ShareX\UploadersLib\UploadersLib.csproj">
+      <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>
+      <Name>UploadersLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TDMakerLib\TDMakerLib.csproj">
       <Project>{6023302C-5D3C-494A-B7D1-95A0BED8CA22}</Project>
       <Name>TDMakerLib</Name>

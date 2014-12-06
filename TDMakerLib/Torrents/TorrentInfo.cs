@@ -46,21 +46,6 @@ namespace TDMakerLib
             this.BwAppMy = bwApp;
         }
 
-        /// <summary>
-        /// Createa and upload screenshots
-        /// </summary>
-        public void CreateUploadScreenshots()
-        {
-            CreateScreenshots();
-            UploadScreenshots();
-        }
-
-        public void CreateUploadScreenshots(string ssDir)
-        {
-            TakeScreenshots(ssDir);
-            UploadScreenshots();
-        }
-
         private bool TakeScreenshot(MediaFile mf, string ssDir)
         {
             String mediaFilePath = mf.FilePath;
@@ -101,7 +86,7 @@ namespace TDMakerLib
             return Success;
         }
 
-        private void TakeScreenshots(string ssDir)
+        public void CreateScreenshots(string ssDir)
         {
             switch (this.Media.MediaTypeChoice)
             {
@@ -571,12 +556,12 @@ namespace TDMakerLib
                 switch (percentProgress)
                 {
                     case ProgressType.UPDATE_STATUSBAR_DEBUG:
-                        Console.WriteLine((string)userState);
+                        Debug.WriteLine((string)userState);
                         break;
 
                     case ProgressType.UPDATE_SCREENSHOTS_LIST:
                         ScreenshotInfo ss = userState as ScreenshotInfo;
-                        Console.WriteLine("Screenshot: " + ss.FullImageLink);
+                        Debug.WriteLine("Screenshot: " + ss.FullImageLink);
                         break;
                 }
             }
