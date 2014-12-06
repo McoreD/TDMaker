@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
+using UploadersLib.HelperClasses;
 
 namespace TDMakerLib
 {
@@ -95,7 +96,7 @@ namespace TDMakerLib
 
                         tc.Hashed += delegate(object o, TorrentCreatorEventArgs e)
                         {
-                            ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_CUMULATIVE, e.OverallCompletion);
+                            ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_Cumulative, e.OverallCompletion);
                         };
 
                         HelpersLib.Helpers.CreateDirectoryIfNotExist(this.TorrentFilePath);

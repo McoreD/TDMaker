@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using TDMakerGUI.Properties;
 using TDMakerLib;
 using UploadersLib;
+using UploadersLib.HelperClasses;
 
 namespace TDMaker
 {
@@ -884,7 +885,15 @@ namespace TDMaker
                         sBar.Text = msg;
                         break;
 
-                    case ProgressType.UPDATE_PROGRESSBAR_CUMULATIVE:
+                    case ProgressType.UPDATE_PROGRESSBAR_ProgressManager:
+                        ProgressManager progress = e.UserState as ProgressManager;
+                        pBar.Style = ProgressBarStyle.Continuous;
+                        pBar.Maximum = 100;
+                        pBar.Value = (int)progress.Percentage;
+                        Debug.WriteLine(progress.Percentage);
+                        break;
+
+                    case ProgressType.UPDATE_PROGRESSBAR_Cumulative:
                         pBar.Style = ProgressBarStyle.Continuous;
                         pBar.Maximum = 100;
                         pBar.Value = Convert.ToInt16(e.UserState);

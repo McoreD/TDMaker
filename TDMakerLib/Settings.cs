@@ -166,6 +166,9 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(false), Description("Use ImageShack registration code")]
         public bool UseImageShackRegCode { get; set; }
 
+        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(5), Description("Buffer size power")]
+        public double BufferSizePower { get; set; }
+
         [Browsable(false)]
         public int TrackerGroupActive { get; set; }
 
@@ -206,8 +209,6 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Paths), Description("Browse to change where screenshots are saved")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomScreenshotsDir { get; set; }
-
-        public string txtMTN_T_Title = string.Empty;
 
         #region I/O Methods
 

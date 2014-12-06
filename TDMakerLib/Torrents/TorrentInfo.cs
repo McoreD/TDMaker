@@ -32,6 +32,7 @@ namespace TDMakerLib
         public PublishOptionsPacket PublishOptions { get; set; }
 
         private BackgroundWorker BwAppMy = null;
+        private Uploader uploader;
 
         public bool Success { get; set; }
 
@@ -285,11 +286,27 @@ namespace TDMakerLib
 
             if (imageUploader != null)
             {
+                PrepareUploader(imageUploader);
                 ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0}.", Path.GetFileName(ssPath)));
                 return imageUploader.Upload(ssPath);
             }
 
             return null;
+        }
+
+        private void PrepareUploader(Uploader currentUploader)
+        {
+            uploader = currentUploader;
+            uploader.BufferSize = (int)Math.Pow(2, App.Settings.BufferSizePower) * 1024;
+            uploader.ProgressChanged += uploader_ProgressChanged;
+        }
+
+        private void uploader_ProgressChanged(ProgressManager progress)
+        {
+            if (progress != null)
+            {
+                ReportProgress(ProgressType.UPDATE_PROGRESSBAR_ProgressManager, progress);
+            }
         }
 
         private UploadResult UploadFile(string ssPath)
