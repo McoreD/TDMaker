@@ -129,8 +129,22 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <Content Include="ReleaseInfo.txt" />
+    <None Include="Resources\folder-open-film.png" />
+    <None Include="Resources\folder-open.png" />
+    <None Include="Resources\disk-return.png" />
+    <None Include="Resources\disk--pencil.png" />
+    <None Include="Resources\cross.png" />
+    <None Include="Resources\document-copy.png" />
+    <None Include="Resources\crown.png" />
+    <None Include="Resources\application-task.png" />
+    <None Include="Resources\application-cloud.png" />
+    <None Include="Resources\application-monitor.png" />
+    <None Include="Resources\folder-open-document-text.png" />
     <Content Include="Resources\GenuineAdv.ico" />
     <Content Include="Resources\GenuineAdv.png" />
+    <None Include="Resources\images.png" />
+    <None Include="Resources\wrench-screwdriver.png" />
+    <None Include="Resources\layout-design.png" />
     <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>

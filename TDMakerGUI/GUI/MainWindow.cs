@@ -510,8 +510,6 @@ namespace TDMaker
 
         private void SettingsRead()
         {
-            tsmiPreferKnownFolders.Checked = App.Config.PreferSystemFolders;
-
             SettingsReadInput();
             SettingsReadMedia();
             SettingsReadPublish();
@@ -841,8 +839,8 @@ namespace TDMaker
         private void tmrStatus_Tick(object sender, EventArgs e)
         {
             tssPerc.Text = (bwApp.IsBusy ? string.Format("{0}%", (100.0 * (double)pBar.Value / (double)pBar.Maximum).ToString("0")) : "");
-            btnAnalyze.Text = "Create &Description" + (lbFiles.SelectedItems.Count > 1 ? "s" : "");
-            btnCreateTorrent.Text = "Create &Torrent" + (lbPublish.SelectedItems.Count > 1 ? "s" : "");
+            btnAnalyze.Text = "Create &description" + (lbFiles.SelectedItems.Count > 1 ? "s" : "");
+            btnCreateTorrent.Text = "Create &torrent" + (lbPublish.SelectedItems.Count > 1 ? "s" : "");
             btnBrowse.Enabled = !bwApp.IsBusy;
             btnBrowseDir.Enabled = !bwApp.IsBusy;
             btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
@@ -958,11 +956,6 @@ namespace TDMaker
         {
             AboutBox ab = new AboutBox();
             ab.ShowDialog();
-        }
-
-        private void cmsAppAbout_Click(object sender, EventArgs e)
-        {
-            ShowAboutWindow();
         }
 
         private void FillTrackersComboBox()
@@ -1120,19 +1113,9 @@ namespace TDMaker
             Process.Start("http://moviethumbnail.sourceforge.net/usage.en.html");
         }
 
-        private void tsmTorrentsDir_Click(object sender, EventArgs e)
+        private void tsmLogsDir_Click(object sender, EventArgs e)
         {
-            FileSystem.OpenDirTorrents();
-        }
-
-        private void tsmScreenshots_Click(object sender, EventArgs e)
-        {
-            FileSystem.OpenDirScreenshots();
-        }
-
-        private void tsmTemplates_Click(object sender, EventArgs e)
-        {
-            FileSystem.OpenDirTemplates();
+            FileSystem.OpenDirLogs();
         }
 
         private void cboTemplate_SelectedIndexChanged(object sender, EventArgs e)
@@ -1144,11 +1127,6 @@ namespace TDMaker
         {
             App.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
             cboFileUploader.Enabled = App.Settings.ImageUploaderType == ImageDestination.FileUploader;
-        }
-
-        private void tsmLogsDir_Click(object sender, EventArgs e)
-        {
-            FileSystem.OpenDirLogs();
         }
 
         private void btnTemplatesRewrite_Click(object sender, EventArgs e)
@@ -1180,11 +1158,6 @@ namespace TDMaker
                 v.Icon = this.Icon;
                 v.ShowDialog();
             }
-        }
-
-        private void tmsVersionHistory_Click(object sender, EventArgs e)
-        {
-            OpenVersionHistory();
         }
 
         private void cboQuickTemplate_SelectedIndexChanged(object sender, EventArgs e)
@@ -1236,11 +1209,6 @@ namespace TDMaker
             {
                 Console.WriteLine(ex.ToString());
             }
-        }
-
-        private void tsmSettingsDir_Click(object sender, EventArgs e)
-        {
-            FileSystem.OpenDirSettings();
         }
 
         private void WriteMediaInfo(string info)
@@ -1698,16 +1666,6 @@ namespace TDMaker
             cboTemplate.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate;
             gbTemplatesInternal.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
             gbFonts.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
-        }
-
-        private void tsmiPreferKnownFolders_Click(object sender, EventArgs e)
-        {
-            ConfigWizard cw = new ConfigWizard(App.RootAppFolder);
-            if (cw.ShowDialog() == DialogResult.OK)
-            {
-                tsmiPreferKnownFolders.Checked = cw.PreferSystemFolders;
-                App.InitializeDefaultFolderPaths();
-            }
         }
 
         private void lbFiles_KeyDown(object sender, KeyEventArgs e)
