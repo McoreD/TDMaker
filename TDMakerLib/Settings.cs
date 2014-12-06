@@ -138,9 +138,6 @@ namespace TDMakerLib
         public int TemplateIndex { get; set; }
 
         [Category(ComponentModelStrings.Proxy), Description("Proxy Settings")]
-        public bool ProxyEnabled { get; set; }
-
-        [Category(ComponentModelStrings.Proxy), Description("Proxy Settings")]
         public ProxyInfo ProxySettings = new ProxyInfo();
 
         // Tab 4.2 - Options - MTN

@@ -82,9 +82,9 @@ namespace TDMakerLib
 
         public static void OpenFileDebug()
         {
-            if (File.Exists(FileSystem.DebugLogFilePath))
+            if (File.Exists(DebugLogFilePath))
             {
-                Process.Start(FileSystem.DebugLogFilePath);
+                Process.Start(DebugLogFilePath);
             }
         }
 

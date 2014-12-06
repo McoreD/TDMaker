@@ -494,17 +494,11 @@ namespace TDMaker
             SettingsReadOptions();
 
             cboImageUploader.Items.Clear();
-            foreach (ImageDestination dest in Enum.GetValues(typeof(ImageDestination)))
-            {
-                cboImageUploader.Items.Add(dest.GetDescription());
-            }
+            cboImageUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<ImageDestination>());
             cboImageUploader.SelectedIndex = (int)App.Settings.ImageUploaderType;
 
             cboFileUploader.Items.Clear();
-            foreach (FileDestination dest in Enum.GetValues(typeof(FileDestination)))
-            {
-                cboFileUploader.Items.Add(dest.GetDescription());
-            }
+            cboFileUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<FileDestination>());
             cboFileUploader.SelectedIndex = (int)App.Settings.ImageFileUploaderType;
 
             if (string.IsNullOrEmpty(App.Settings.CustomMediaInfoDllDir))
@@ -621,7 +615,6 @@ namespace TDMaker
             nudHeading3Size.Value = (decimal)App.Settings.FontSizeHeading3;
             nudBodySize.Value = (decimal)App.Settings.FontSizeBody;
 
-            chkProxyEnable.Checked = App.Settings.ProxyEnabled;
             pgProxy.SelectedObject = App.Settings.ProxySettings;
 
             pgThumbnailerOptions.SelectedObject = App.Settings.ThumbnailerOptions;
@@ -1579,11 +1572,6 @@ namespace TDMaker
                     App.Settings.TrackerGroups[sel] = tg;
                 }
             }
-        }
-
-        private void ChkProxyEnableCheckedChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProxyEnabled = chkProxyEnable.Checked;
         }
 
         private void lbScreenshots_SelectedIndexChanged(object sender, EventArgs e)
