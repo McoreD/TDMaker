@@ -33,7 +33,7 @@ namespace TDMaker
             this.labelVersion = new System.Windows.Forms.Label();
             this.labelCopyright = new System.Windows.Forms.Label();
             this.labelCompanyName = new System.Windows.Forms.Label();
-            this.textBoxDescription = new System.Windows.Forms.TextBox();
+            this.textBoxDescription = new System.Windows.Forms.RichTextBox();
             this.okButton = new System.Windows.Forms.Button();
             this.uclUpdate = new HelpersLib.UpdateCheckerLabel();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
@@ -107,7 +107,7 @@ namespace TDMaker
             this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.ReadOnly = true;
-            this.textBoxDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+           
             this.textBoxDescription.Size = new System.Drawing.Size(472, 184);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
@@ -166,7 +166,7 @@ namespace TDMaker
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label labelCopyright;
         private System.Windows.Forms.Label labelCompanyName;
-        private System.Windows.Forms.TextBox textBoxDescription;
+        private System.Windows.Forms.RichTextBox textBoxDescription;
         private System.Windows.Forms.Button okButton;
         public UpdateCheckerLabel uclUpdate;
     }

@@ -31,6 +31,7 @@ namespace TDMaker
             sbDesc.AppendLine();
             sbDesc.AppendLine("Using:");
             sbDesc.AppendLine(mi.Option("Info_Version") + " from http://sourceforge.net/projects/mediainfo");
+            sbDesc.AppendLine("ShareX UploadersLib and HelpersLib from https://github.com/ShareX/ShareX/");
             this.textBoxDescription.Text = sbDesc.ToString();
 
             uclUpdate.CheckUpdate(CheckUpdate);
