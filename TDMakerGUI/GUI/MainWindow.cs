@@ -46,7 +46,7 @@ namespace TDMaker
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            ConfigureDirs();
+            ConfigureTemplates();
 
             // ConfigureGUIForUnix();
             SettingsRead();
@@ -252,7 +252,7 @@ namespace TDMaker
                 cboSource.Text = "DVD";
             else if (source.Contains("HDTV"))
                 cboSource.Text = "HDTV";
-            else if (source.Contains("Blu"))
+            else if (source.Contains("Blu") || source.Contains("BDRip"))
                 cboSource.Text = "Blu-ray";
             else if (source.Contains("TV"))
                 cboSource.Text = "TV";
@@ -478,11 +478,11 @@ namespace TDMaker
             App.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
             App.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
 
-            App.Settings.Save(App.Config.SettingsFilePath);
+            App.Settings.Save(App.SettingsFilePath);
             App.UploadersConfig.Save(App.UploadersConfigPath);
         }
 
-        private void ConfigureDirs()
+        private void ConfigureTemplates()
         {
             App.WriteTemplates(false);
 
@@ -1728,7 +1728,7 @@ namespace TDMaker
 
         private void DownloaderForm_InstallRequested(string filePath)
         {
-            string extractPath = Path.Combine(App.DefaultRootAppFolder, "ffmpeg.exe");
+            string extractPath = Path.Combine(App.ToolsDir, "ffmpeg.exe");
             bool result = FFmpegHelper.ExtractFFmpeg(filePath, extractPath);
 
             if (result)

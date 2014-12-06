@@ -111,7 +111,7 @@ namespace TDMakerLib
                     }
                 case LocationType.KnownFolder:
                 default:
-                    return App.Settings.KeepScreenshots ? App.PicturesDir : App.zTempDir;
+                    return App.Settings.KeepScreenshots ? App.PicturesDir : App.TempDir;
             }
         }
 

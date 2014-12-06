@@ -202,41 +202,5 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Paths), Description("Browse to change where screenshots are saved")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomScreenshotsDir { get; set; }
-
-        #region I/O Methods
-
-        public void Write(string filePath)
-        {
-            try
-            {
-                if (!Directory.Exists(Path.GetDirectoryName(filePath)))
-                    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-                //Write XML file
-                XmlSerializer serial = new XmlSerializer(typeof(Settings));
-                FileStream fs = new FileStream(filePath, FileMode.Create);
-                serial.Serialize(fs, this);
-                fs.Close();
-
-                serial = null;
-                fs = null;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
-        }
-
-        public void Write()
-        {
-            Write(App.Config.SettingsFilePath);
-        }
-
-        public static Settings Read(string filePath)
-        {
-            return SettingsHelper.Load<Settings>(filePath, SerializationType.Xml);
-        }
-
-        #endregion I/O Methods
     }
 }

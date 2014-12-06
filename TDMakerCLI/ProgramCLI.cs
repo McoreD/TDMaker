@@ -7,7 +7,7 @@ using UploadersLib;
 
 namespace TDMakerCLI
 {
-    public class Program
+    public class ProgramCLI
     {
         private static string mMediaLoc = string.Empty;
         private static string mScreenshotDir = string.Empty;
@@ -81,8 +81,7 @@ namespace TDMakerCLI
 
             if (!File.Exists(mSettingsFile))
             {
-                App.Config = AppSettings.Load(AppSettings.AppConfigFilePath);
-                mSettingsFile = App.Config.SettingsFilePath;
+                mSettingsFile = App.SettingsFilePath;
             }
 
             if (File.Exists(mSettingsFile))
@@ -99,7 +98,7 @@ namespace TDMakerCLI
                 }
             }
 
-            if (App.Config != null)
+            if (App.Settings != null)
             {
                 App.InitializeDefaultFolderPaths();
 

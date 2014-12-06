@@ -43,4 +43,4 @@ Channel positions : %Audio_ChannelPositions%
 Sampling rate : %Audio_SamplingRate% 
 
 
-[img]%ScreenshotFull%[/img]
+%ScreenshotFull%
