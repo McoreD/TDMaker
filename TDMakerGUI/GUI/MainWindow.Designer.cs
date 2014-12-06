@@ -113,14 +113,15 @@ namespace TDMaker
             this.tlpScreenshots = new System.Windows.Forms.TableLayoutPanel();
             this.lbScreenshots = new System.Windows.Forms.ListBox();
             this.tlpScreenshotProps = new System.Windows.Forms.TableLayoutPanel();
+            this.pbScreenshot = new HelpersLib.MyPictureBox();
             this.pgScreenshot = new System.Windows.Forms.PropertyGrid();
             this.tpScreenshotsSettings = new System.Windows.Forms.TabPage();
             this.gbUploadScreenshots = new System.Windows.Forms.GroupBox();
             this.cboFileUploader = new System.Windows.Forms.ComboBox();
+            this.btnDownloadFFmpeg = new System.Windows.Forms.Button();
             this.btnUploadersConfig = new System.Windows.Forms.Button();
             this.cboImageUploader = new System.Windows.Forms.ComboBox();
             this.chkScreenshotUpload = new System.Windows.Forms.CheckBox();
-            this.btnDownloadFFmpeg = new System.Windows.Forms.Button();
             this.pgThumbnailerOptions = new System.Windows.Forms.PropertyGrid();
             this.tpPublish = new System.Windows.Forms.TabPage();
             this.tcPublish = new System.Windows.Forms.TabControl();
@@ -186,11 +187,18 @@ namespace TDMaker
             this.cboTrackerGroupActive = new System.Windows.Forms.ComboBox();
             this.chkCreateTorrent = new System.Windows.Forms.CheckBox();
             this.tpSettingsProxy = new System.Windows.Forms.TabPage();
-            this.pgProxy = new System.Windows.Forms.PropertyGrid();
             this.tscMain = new System.Windows.Forms.ToolStripContainer();
             this.flpButtons = new System.Windows.Forms.FlowLayoutPanel();
-            this.pbScreenshot = new HelpersLib.MyPictureBox();
             this.tttvMain = new HelpersLib.TabToTreeView();
+            this.cbProxyMethod = new System.Windows.Forms.ComboBox();
+            this.lblProxyMethod = new System.Windows.Forms.Label();
+            this.txtProxyHost = new System.Windows.Forms.TextBox();
+            this.nudProxyPort = new System.Windows.Forms.NumericUpDown();
+            this.lblProxyPort = new System.Windows.Forms.Label();
+            this.lblProxyPassword = new System.Windows.Forms.Label();
+            this.txtProxyPassword = new System.Windows.Forms.TextBox();
+            this.lblProxyUsername = new System.Windows.Forms.Label();
+            this.txtProxyUsername = new System.Windows.Forms.TextBox();
             this.ssMain.SuspendLayout();
             this.cmsApp.SuspendLayout();
             this.msMain.SuspendLayout();
@@ -242,6 +250,7 @@ namespace TDMaker
             this.tscMain.TopToolStripPanel.SuspendLayout();
             this.tscMain.SuspendLayout();
             this.flpButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudProxyPort)).BeginInit();
             this.SuspendLayout();
             // 
             // bwApp
@@ -276,7 +285,7 @@ namespace TDMaker
             // 
             this.sBar.Margin = new System.Windows.Forms.Padding(3, 3, 0, 2);
             this.sBar.Name = "sBar";
-            this.sBar.Size = new System.Drawing.Size(718, 17);
+            this.sBar.Size = new System.Drawing.Size(749, 17);
             this.sBar.Spring = true;
             this.sBar.Text = "Ready";
             this.sBar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1046,6 +1055,18 @@ namespace TDMaker
             this.tlpScreenshotProps.Size = new System.Drawing.Size(601, 485);
             this.tlpScreenshotProps.TabIndex = 3;
             // 
+            // pbScreenshot
+            // 
+            this.pbScreenshot.BackColor = System.Drawing.Color.White;
+            this.pbScreenshot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbScreenshot.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbScreenshot.Location = new System.Drawing.Point(3, 3);
+            this.pbScreenshot.Name = "pbScreenshot";
+            this.pbScreenshot.Size = new System.Drawing.Size(595, 382);
+            this.pbScreenshot.TabIndex = 1;
+            this.pbScreenshot.TabStop = false;
+            this.pbScreenshot.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbScreenshot_MouseDown);
+            // 
             // pgScreenshot
             // 
             this.pgScreenshot.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1094,6 +1115,19 @@ namespace TDMaker
             this.cboFileUploader.TabIndex = 11;
             this.cboFileUploader.SelectedIndexChanged += new System.EventHandler(this.cboImageFileUploader_SelectedIndexChanged);
             // 
+            // btnDownloadFFmpeg
+            // 
+            this.btnDownloadFFmpeg.AutoSize = true;
+            this.btnDownloadFFmpeg.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnDownloadFFmpeg.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.btnDownloadFFmpeg.Location = new System.Drawing.Point(550, 21);
+            this.btnDownloadFFmpeg.Name = "btnDownloadFFmpeg";
+            this.btnDownloadFFmpeg.Size = new System.Drawing.Size(106, 23);
+            this.btnDownloadFFmpeg.TabIndex = 2;
+            this.btnDownloadFFmpeg.Text = "Download FFmpeg";
+            this.btnDownloadFFmpeg.UseVisualStyleBackColor = true;
+            this.btnDownloadFFmpeg.Click += new System.EventHandler(this.btnDownloadFFmpeg_Click);
+            // 
             // btnUploadersConfig
             // 
             this.btnUploadersConfig.Location = new System.Drawing.Point(384, 20);
@@ -1126,19 +1160,6 @@ namespace TDMaker
             this.chkScreenshotUpload.Text = "Upload Screenshot to:";
             this.chkScreenshotUpload.UseVisualStyleBackColor = true;
             this.chkScreenshotUpload.CheckedChanged += new System.EventHandler(this.chkScreenshotUpload_CheckedChanged);
-            // 
-            // btnDownloadFFmpeg
-            // 
-            this.btnDownloadFFmpeg.AutoSize = true;
-            this.btnDownloadFFmpeg.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnDownloadFFmpeg.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnDownloadFFmpeg.Location = new System.Drawing.Point(550, 21);
-            this.btnDownloadFFmpeg.Name = "btnDownloadFFmpeg";
-            this.btnDownloadFFmpeg.Size = new System.Drawing.Size(106, 23);
-            this.btnDownloadFFmpeg.TabIndex = 2;
-            this.btnDownloadFFmpeg.Text = "Download FFmpeg";
-            this.btnDownloadFFmpeg.UseVisualStyleBackColor = true;
-            this.btnDownloadFFmpeg.Click += new System.EventHandler(this.btnDownloadFFmpeg_Click);
             // 
             // pgThumbnailerOptions
             // 
@@ -1190,7 +1211,7 @@ namespace TDMaker
             this.tlpPublish.ColumnCount = 3;
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.00001F));
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.99999F));
-            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 171F));
+            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 172F));
             this.tlpPublish.Controls.Add(this.gbQuickPublish, 2, 0);
             this.tlpPublish.Controls.Add(this.txtPublish, 1, 0);
             this.tlpPublish.Controls.Add(this.lbPublish, 0, 0);
@@ -1206,9 +1227,9 @@ namespace TDMaker
             // 
             this.gbQuickPublish.Controls.Add(this.flpPublishConfig);
             this.gbQuickPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuickPublish.Location = new System.Drawing.Point(689, 3);
+            this.gbQuickPublish.Location = new System.Drawing.Point(688, 3);
             this.gbQuickPublish.Name = "gbQuickPublish";
-            this.gbQuickPublish.Size = new System.Drawing.Size(166, 479);
+            this.gbQuickPublish.Size = new System.Drawing.Size(167, 479);
             this.gbQuickPublish.TabIndex = 1;
             this.gbQuickPublish.TabStop = false;
             this.gbQuickPublish.Text = "Quick Options";
@@ -1224,7 +1245,7 @@ namespace TDMaker
             this.flpPublishConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpPublishConfig.Location = new System.Drawing.Point(3, 16);
             this.flpPublishConfig.Name = "flpPublishConfig";
-            this.flpPublishConfig.Size = new System.Drawing.Size(160, 460);
+            this.flpPublishConfig.Size = new System.Drawing.Size(161, 460);
             this.flpPublishConfig.TabIndex = 7;
             // 
             // chkQuickPre
@@ -1293,7 +1314,7 @@ namespace TDMaker
             this.txtPublish.Multiline = true;
             this.txtPublish.Name = "txtPublish";
             this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtPublish.Size = new System.Drawing.Size(543, 479);
+            this.txtPublish.Size = new System.Drawing.Size(542, 479);
             this.txtPublish.TabIndex = 0;
             this.txtPublish.WordWrap = false;
             this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
@@ -1932,7 +1953,15 @@ namespace TDMaker
             // 
             // tpSettingsProxy
             // 
-            this.tpSettingsProxy.Controls.Add(this.pgProxy);
+            this.tpSettingsProxy.Controls.Add(this.cbProxyMethod);
+            this.tpSettingsProxy.Controls.Add(this.lblProxyMethod);
+            this.tpSettingsProxy.Controls.Add(this.txtProxyHost);
+            this.tpSettingsProxy.Controls.Add(this.nudProxyPort);
+            this.tpSettingsProxy.Controls.Add(this.lblProxyPort);
+            this.tpSettingsProxy.Controls.Add(this.lblProxyPassword);
+            this.tpSettingsProxy.Controls.Add(this.txtProxyPassword);
+            this.tpSettingsProxy.Controls.Add(this.lblProxyUsername);
+            this.tpSettingsProxy.Controls.Add(this.txtProxyUsername);
             this.tpSettingsProxy.Location = new System.Drawing.Point(4, 22);
             this.tpSettingsProxy.Name = "tpSettingsProxy";
             this.tpSettingsProxy.Padding = new System.Windows.Forms.Padding(3);
@@ -1940,15 +1969,6 @@ namespace TDMaker
             this.tpSettingsProxy.TabIndex = 1;
             this.tpSettingsProxy.Text = "Proxy";
             this.tpSettingsProxy.UseVisualStyleBackColor = true;
-            // 
-            // pgProxy
-            // 
-            this.pgProxy.Location = new System.Drawing.Point(16, 16);
-            this.pgProxy.Name = "pgProxy";
-            this.pgProxy.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgProxy.Size = new System.Drawing.Size(448, 152);
-            this.pgProxy.TabIndex = 0;
-            this.pgProxy.ToolbarVisible = false;
             // 
             // tscMain
             // 
@@ -1987,18 +2007,6 @@ namespace TDMaker
             this.flpButtons.Size = new System.Drawing.Size(889, 33);
             this.flpButtons.TabIndex = 11;
             // 
-            // pbScreenshot
-            // 
-            this.pbScreenshot.BackColor = System.Drawing.Color.White;
-            this.pbScreenshot.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbScreenshot.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pbScreenshot.Location = new System.Drawing.Point(3, 3);
-            this.pbScreenshot.Name = "pbScreenshot";
-            this.pbScreenshot.Size = new System.Drawing.Size(595, 382);
-            this.pbScreenshot.TabIndex = 1;
-            this.pbScreenshot.TabStop = false;
-            this.pbScreenshot.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbScreenshot_MouseDown);
-            // 
             // tttvMain
             // 
             this.tttvMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -2012,6 +2020,95 @@ namespace TDMaker
             this.tttvMain.Size = new System.Drawing.Size(885, 549);
             this.tttvMain.TabIndex = 12;
             this.tttvMain.TreeViewSize = 150;
+            // 
+            // cbProxyMethod
+            // 
+            this.cbProxyMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbProxyMethod.FormattingEnabled = true;
+            this.cbProxyMethod.Location = new System.Drawing.Point(24, 33);
+            this.cbProxyMethod.Name = "cbProxyMethod";
+            this.cbProxyMethod.Size = new System.Drawing.Size(136, 21);
+            this.cbProxyMethod.TabIndex = 11;
+            this.cbProxyMethod.SelectedIndexChanged += new System.EventHandler(this.cbProxyMethod_SelectedIndexChanged);
+            // 
+            // lblProxyMethod
+            // 
+            this.lblProxyMethod.AutoSize = true;
+            this.lblProxyMethod.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lblProxyMethod.Location = new System.Drawing.Point(21, 17);
+            this.lblProxyMethod.Name = "lblProxyMethod";
+            this.lblProxyMethod.Size = new System.Drawing.Size(100, 13);
+            this.lblProxyMethod.TabIndex = 10;
+            this.lblProxyMethod.Text = "Proxy configuration:";
+            // 
+            // txtProxyHost
+            // 
+            this.txtProxyHost.Location = new System.Drawing.Point(24, 81);
+            this.txtProxyHost.Name = "txtProxyHost";
+            this.txtProxyHost.Size = new System.Drawing.Size(232, 20);
+            this.txtProxyHost.TabIndex = 12;
+            this.txtProxyHost.TextChanged += new System.EventHandler(this.txtProxyHost_TextChanged);
+            // 
+            // nudProxyPort
+            // 
+            this.nudProxyPort.Location = new System.Drawing.Point(264, 81);
+            this.nudProxyPort.Maximum = new decimal(new int[] {
+            65535,
+            0,
+            0,
+            0});
+            this.nudProxyPort.Name = "nudProxyPort";
+            this.nudProxyPort.Size = new System.Drawing.Size(64, 20);
+            this.nudProxyPort.TabIndex = 14;
+            this.nudProxyPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.nudProxyPort.ValueChanged += new System.EventHandler(this.nudProxyPort_ValueChanged);
+            // 
+            // lblProxyPort
+            // 
+            this.lblProxyPort.AutoSize = true;
+            this.lblProxyPort.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lblProxyPort.Location = new System.Drawing.Point(261, 65);
+            this.lblProxyPort.Name = "lblProxyPort";
+            this.lblProxyPort.Size = new System.Drawing.Size(29, 13);
+            this.lblProxyPort.TabIndex = 13;
+            this.lblProxyPort.Text = "Port:";
+            // 
+            // lblProxyPassword
+            // 
+            this.lblProxyPassword.AutoSize = true;
+            this.lblProxyPassword.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lblProxyPassword.Location = new System.Drawing.Point(21, 161);
+            this.lblProxyPassword.Name = "lblProxyPassword";
+            this.lblProxyPassword.Size = new System.Drawing.Size(56, 13);
+            this.lblProxyPassword.TabIndex = 17;
+            this.lblProxyPassword.Text = "Password:";
+            // 
+            // txtProxyPassword
+            // 
+            this.txtProxyPassword.Location = new System.Drawing.Point(24, 177);
+            this.txtProxyPassword.Name = "txtProxyPassword";
+            this.txtProxyPassword.Size = new System.Drawing.Size(232, 20);
+            this.txtProxyPassword.TabIndex = 18;
+            this.txtProxyPassword.UseSystemPasswordChar = true;
+            this.txtProxyPassword.TextChanged += new System.EventHandler(this.txtProxyPassword_TextChanged);
+            // 
+            // lblProxyUsername
+            // 
+            this.lblProxyUsername.AutoSize = true;
+            this.lblProxyUsername.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.lblProxyUsername.Location = new System.Drawing.Point(21, 113);
+            this.lblProxyUsername.Name = "lblProxyUsername";
+            this.lblProxyUsername.Size = new System.Drawing.Size(58, 13);
+            this.lblProxyUsername.TabIndex = 15;
+            this.lblProxyUsername.Text = "Username:";
+            // 
+            // txtProxyUsername
+            // 
+            this.txtProxyUsername.Location = new System.Drawing.Point(24, 129);
+            this.txtProxyUsername.Name = "txtProxyUsername";
+            this.txtProxyUsername.Size = new System.Drawing.Size(232, 20);
+            this.txtProxyUsername.TabIndex = 16;
+            this.txtProxyUsername.TextChanged += new System.EventHandler(this.txtProxyUsername_TextChanged);
             // 
             // MainWindow
             // 
@@ -2096,6 +2193,7 @@ namespace TDMaker
             this.gbTrackerGroups.ResumeLayout(false);
             this.gbTrackers.ResumeLayout(false);
             this.tpSettingsProxy.ResumeLayout(false);
+            this.tpSettingsProxy.PerformLayout();
             this.tscMain.BottomToolStripPanel.ResumeLayout(false);
             this.tscMain.BottomToolStripPanel.PerformLayout();
             this.tscMain.ContentPanel.ResumeLayout(false);
@@ -2104,6 +2202,7 @@ namespace TDMaker
             this.tscMain.ResumeLayout(false);
             this.tscMain.PerformLayout();
             this.flpButtons.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.nudProxyPort)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2259,7 +2358,6 @@ namespace TDMaker
         private System.Windows.Forms.TabPage tpSettingsGeneral;
         private System.Windows.Forms.TabPage tpPublishTemplates;
         private System.Windows.Forms.TabPage tpSettingsProxy;
-        private System.Windows.Forms.PropertyGrid pgProxy;
         private System.Windows.Forms.ToolStripContainer tscMain;
         private System.Windows.Forms.Button btnDownloadFFmpeg;
         private System.Windows.Forms.FlowLayoutPanel flpButtons;
@@ -2268,5 +2366,14 @@ namespace TDMaker
         private System.Windows.Forms.TabControl tcPublish;
         private System.Windows.Forms.TabPage tpPublishGeneral;
         private TabToTreeView tttvMain;
+        private System.Windows.Forms.ComboBox cbProxyMethod;
+        private System.Windows.Forms.Label lblProxyMethod;
+        private System.Windows.Forms.TextBox txtProxyHost;
+        private System.Windows.Forms.NumericUpDown nudProxyPort;
+        private System.Windows.Forms.Label lblProxyPort;
+        private System.Windows.Forms.Label lblProxyPassword;
+        private System.Windows.Forms.TextBox txtProxyPassword;
+        private System.Windows.Forms.Label lblProxyUsername;
+        private System.Windows.Forms.TextBox txtProxyUsername;
     }
 }

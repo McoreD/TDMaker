@@ -640,9 +640,16 @@ namespace TDMaker
             nudHeading3Size.Value = (decimal)App.Settings.FontSizeHeading3;
             nudBodySize.Value = (decimal)App.Settings.FontSizeBody;
 
-            pgProxy.SelectedObject = App.Settings.ProxySettings;
-
             pgThumbnailerOptions.SelectedObject = App.Settings.ThumbnailerOptions;
+
+            // Proxy
+            cbProxyMethod.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<ProxyMethod>());
+            cbProxyMethod.SelectedIndex = (int)App.Settings.ProxySettings.ProxyMethod;
+            txtProxyUsername.Text = App.Settings.ProxySettings.Username;
+            txtProxyPassword.Text = App.Settings.ProxySettings.Password;
+            txtProxyHost.Text = App.Settings.ProxySettings.Host ?? string.Empty;
+            nudProxyPort.Value = App.Settings.ProxySettings.Port;
+            UpdateProxyControls();
 
             SettingsReadOptionsTorrents();
         }
@@ -1765,6 +1772,57 @@ namespace TDMaker
             {
                 MessageBox.Show("Failed to download FFmpeg.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void txtProxyHost_TextChanged(object sender, EventArgs e)
+        {
+            App.Settings.ProxySettings.Host = txtProxyHost.Text;
+        }
+
+        private void cbProxyMethod_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            App.Settings.ProxySettings.ProxyMethod = (ProxyMethod)cbProxyMethod.SelectedIndex;
+
+            if (App.Settings.ProxySettings.ProxyMethod == ProxyMethod.Automatic)
+            {
+                App.Settings.ProxySettings.IsValidProxy();
+                txtProxyHost.Text = App.Settings.ProxySettings.Host ?? string.Empty;
+                nudProxyPort.Value = App.Settings.ProxySettings.Port;
+            }
+
+            UpdateProxyControls();
+        }
+
+        private void UpdateProxyControls()
+        {
+            switch (App.Settings.ProxySettings.ProxyMethod)
+            {
+                case ProxyMethod.None:
+                    txtProxyUsername.Enabled = txtProxyPassword.Enabled = txtProxyHost.Enabled = nudProxyPort.Enabled = false;
+                    break;
+                case ProxyMethod.Manual:
+                    txtProxyUsername.Enabled = txtProxyPassword.Enabled = txtProxyHost.Enabled = nudProxyPort.Enabled = true;
+                    break;
+                case ProxyMethod.Automatic:
+                    txtProxyUsername.Enabled = txtProxyPassword.Enabled = true;
+                    txtProxyHost.Enabled = nudProxyPort.Enabled = false;
+                    break;
+            }
+        }
+
+        private void nudProxyPort_ValueChanged(object sender, EventArgs e)
+        {
+            App.Settings.ProxySettings.Port = (int)nudProxyPort.Value;
+        }
+
+        private void txtProxyPassword_TextChanged(object sender, EventArgs e)
+        {
+            App.Settings.ProxySettings.Password = txtProxyPassword.Text;
+        }
+
+        private void txtProxyUsername_TextChanged(object sender, EventArgs e)
+        {
+            App.Settings.ProxySettings.Username = txtProxyUsername.Text;
         }
     }
 }
