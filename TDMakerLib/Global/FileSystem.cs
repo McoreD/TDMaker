@@ -284,7 +284,7 @@ namespace TDMakerLib
                 }
                 ret = true;
             }
-            catch (Exception ex)
+            catch
             {
                 ret = false;
             }

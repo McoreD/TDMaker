@@ -80,6 +80,7 @@ namespace TDMakerLib
             {
                 mf.Thumbnailer.TakeScreenshot();
                 ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Done taking Screenshot for " + Path.GetFileName(mediaFilePath));
+                Success = true;
             }
             catch (Exception ex)
             {
