@@ -18,12 +18,12 @@ namespace TDMakerLib
         public ImageDestination ImageUploaderType { get; set; }
         public string PtpImgCode { get; set; }
 
-        [Category("Options / General"), DefaultValue(false), Description("Prefer System Folders for all the data created by ZScreen")]
+        [Category("Options / General"), DefaultValue(false), Description("Prefer System Folders for all the data created by TDMaker")]
         public bool PreferSystemFolders { get; set; }
 
         public AppSettings()
         {
-            ImageUploaderType = ImageDestination.ImageShack;
+            ImageUploaderType = ImageDestination.Imgur;
         }
     }
 }
