@@ -610,8 +610,7 @@ namespace TDMaker
 
             btnUploadersConfig.Visible = cboFileUploader.Visible = cboImageUploader.Visible = string.IsNullOrEmpty(App.Settings.PtpImgCode);
 
-            if (!string.IsNullOrEmpty(App.Settings.PtpImgCode))
-                chkScreenshotUpload.Text = "Upload screenshots to ptpimg.me";
+            chkScreenshotUpload.Text = string.IsNullOrEmpty(App.Settings.PtpImgCode) ? "Upload screenshot to:" : "Upload screenshots to ptpimg.me";
         }
 
         private void SettingsReadPublish()
