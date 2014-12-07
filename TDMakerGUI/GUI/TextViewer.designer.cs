@@ -1,6 +1,6 @@
-﻿namespace ZSS
+﻿namespace TDMaker
 {
-    partial class frmTextViewer
+    partial class TextViewer
     {
         /// <summary>
         /// Required designer variable.

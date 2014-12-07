@@ -7,7 +7,7 @@ using System.Text;
 
 namespace TDMakerLib
 {
-    public class ThumbnailerOptions
+    public class ThumbnailerOptions : SettingsBase<ThumbnailerOptions>
     {
         [Category("Options"), DefaultValue(3), Description("Number of screenshots to take")]
         public int ScreenshotCount { get; set; }

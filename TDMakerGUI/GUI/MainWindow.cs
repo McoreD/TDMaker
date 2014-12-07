@@ -49,8 +49,7 @@ namespace TDMaker
         {
             ConfigureTemplates();
 
-            // ConfigureGUIForUnix();
-            SettingsRead();
+            LoadSettingsToControls();
 
             // Logo
             string logo1 = Path.Combine(Application.StartupPath, "logo1.png");
@@ -505,21 +504,16 @@ namespace TDMaker
             mTrackerManager = new TrackerManager();
         }
 
-        private void SettingsRead()
+        private void LoadSettingsToControls()
         {
             SettingsReadInput();
             SettingsReadMedia();
             SettingsReadPublish();
             SettingsReadScreenshots();
-            SettingsReadOptions();
+            LoadSettingsPublishControls();
+            LoadSettingsTorrentControls();
 
-            cboImageUploader.Items.Clear();
-            cboImageUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<ImageDestination>());
-            cboImageUploader.SelectedIndex = (int)App.Settings.ImageUploaderType;
-
-            cboFileUploader.Items.Clear();
-            cboFileUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<FileDestination>());
-            cboFileUploader.SelectedIndex = (int)App.Settings.ImageFileUploaderType;
+            LoadSettingsScreenshotControls();
 
             if (string.IsNullOrEmpty(App.Settings.CustomMediaInfoDllDir))
             {
@@ -528,6 +522,17 @@ namespace TDMaker
             Kernel32Helper.SetDllDirectory(App.Settings.CustomMediaInfoDllDir);
 
             pgApp.SelectedObject = App.Settings;
+        }
+
+        private void LoadSettingsScreenshotControls()
+        {
+            cboImageUploader.Items.Clear();
+            cboImageUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<ImageDestination>());
+            cboImageUploader.SelectedIndex = (int)App.Settings.ImageUploaderType;
+
+            cboFileUploader.Items.Clear();
+            cboFileUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<FileDestination>());
+            cboFileUploader.SelectedIndex = (int)App.Settings.ImageFileUploaderType;
         }
 
         private void SettingsReadInput()
@@ -619,7 +624,7 @@ namespace TDMaker
             cboQuickPublishType.SelectedIndex = (int)App.Settings.PublishInfoTypeChoice;
         }
 
-        private void SettingsReadOptions()
+        private void LoadSettingsPublishControls()
         {
             cboTemplate.SelectedIndex = App.Settings.TemplateIndex;
             chkUploadFullScreenshot.Checked = App.Settings.UseFullPicture;
@@ -644,11 +649,9 @@ namespace TDMaker
             txtProxyHost.Text = App.Settings.ProxySettings.Host ?? string.Empty;
             nudProxyPort.Value = App.Settings.ProxySettings.Port;
             UpdateProxyControls();
-
-            SettingsReadOptionsTorrents();
         }
 
-        private void SettingsReadOptionsTorrents()
+        private void LoadSettingsTorrentControls()
         {
             lbTrackerGroups.Items.Clear();
             foreach (TrackerGroup tg in App.Settings.TrackerGroups)
@@ -737,10 +740,7 @@ namespace TDMaker
                     // create textFiles of MediaInfo
                     string txtPath = Path.Combine(mi.TorrentCreateInfo.TorrentFolder, mi.Overall.FileName) + ".txt";
 
-                    if (!Directory.Exists(mi.TorrentCreateInfo.TorrentFolder))
-                    {
-                        Directory.CreateDirectory(mi.TorrentCreateInfo.TorrentFolder);
-                    }
+                    Helpers.CreateDirectoryIfNotExist(mi.TorrentCreateInfo.TorrentFolder);
 
                     using (StreamWriter sw = new StreamWriter(txtPath))
                     {
@@ -828,7 +828,7 @@ namespace TDMaker
         private void pbScreenshot_MouseClick(object sender, MouseEventArgs e)
         {
             PictureBox pbScreenshot = sender as PictureBox;
-            Process.Start(pbScreenshot.ImageLocation);
+            Helpers.OpenFile(pbScreenshot.ImageLocation);
         }
 
         private void tmrStatus_Tick(object sender, EventArgs e)
@@ -1113,7 +1113,7 @@ namespace TDMaker
 
         private void btnMTNHelp_Click(object sender, EventArgs e)
         {
-            Process.Start("http://moviethumbnail.sourceforge.net/usage.en.html");
+            URLHelpers.OpenURL("http://moviethumbnail.sourceforge.net/usage.en.html");
         }
 
         private void tsmLogsDir_Click(object sender, EventArgs e)
@@ -1140,24 +1140,13 @@ namespace TDMaker
             }
         }
 
-        private void btnImageShackRegCode_Click(object sender, EventArgs e)
-        {
-            Process.Start("http://my.imageshack.us/registration/");
-        }
-
-        private void btnImageShackImages_Click(object sender, EventArgs e)
-        {
-            Process.Start("http://my.imageshack.us/v_images.php");
-        }
-
         private void OpenVersionHistory()
         {
             string h = App.GetText("VersionHistory.txt");
 
             if (h != string.Empty)
             {
-                ZSS.frmTextViewer v = new ZSS.frmTextViewer(string.Format("{0} - {1}",
-                    Application.ProductName, "Version History"), h);
+                TextViewer v = new TextViewer(string.Format("{0} - {1}", Application.ProductName, "Version History"), h);
                 v.Icon = this.Icon;
                 v.ShowDialog();
             }
@@ -1337,7 +1326,7 @@ namespace TDMaker
         {
             if (IsGuiReady)
             {
-                SettingsRead();
+                LoadSettingsToControls();
 
                 if (File.Exists(App.Settings.CustomUploadersConfigPath))
                 {

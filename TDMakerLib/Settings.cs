@@ -122,14 +122,9 @@ namespace TDMakerLib
 
         public ImageDestination ImageUploaderType = ImageDestination.Imgur;
         public FileDestination ImageFileUploaderType = FileDestination.Pomf;
+
         [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("PtpImg registration code")]
         public string PtpImgCode { get; set; }
-
-        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("ImageShack registration code")]
-        public string ImageShackRegCode { get; set; }
-
-        [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(false), Description("Use ImageShack registration code")]
-        public bool UseImageShackRegCode { get; set; }
 
         [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(5), Description("Buffer size power")]
         public double BufferSizePower { get; set; }

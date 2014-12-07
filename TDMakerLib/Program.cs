@@ -155,19 +155,10 @@ namespace TDMakerLib
         /// <summary>
         /// Function to update Default Folder Paths based on Root folder
         /// </summary>
-        public static bool InitializeDefaultFolderPaths()
+        public static void InitializeDefaultFolderPaths()
         {
             AppDirs = new[] { LogsDir, PicturesDir, SettingsDir, ToolsDir };
-
-            foreach (string dp in AppDirs)
-            {
-                if (!string.IsNullOrEmpty(dp) && !Directory.Exists(dp))
-                {
-                    Directory.CreateDirectory(dp);
-                }
-            }
-
-            return true;
+            AppDirs.ForEach(x => Helpers.CreateDirectoryIfNotExist(x));
         }
 
         public static string GetProductName()
@@ -175,7 +166,7 @@ namespace TDMakerLib
             return mAppInfo.GetApplicationTitle(McoreSystem.AppInfo.VersionDepth.MajorMinorBuild);
         }
 
-        public static bool TurnOn()
+        public static void TurnOn()
         {
             DetectUnix();
 
@@ -185,11 +176,12 @@ namespace TDMakerLib
             if (Directory.Exists(Path.Combine(Application.StartupPath, PortableRootFolder)))
             {
                 mProductName += " Portable";
-                mAppInfo.AppName = mProductName;
             }
+
             mAppInfo.AppName = mProductName;
 
-            return App.InitializeDefaultFolderPaths(); // happens before Settings is readed
+            App.InitializeDefaultFolderPaths(); // happens before Settings is readed
+            App.LoadSettings();
         }
 
         public static void TurnOff()
