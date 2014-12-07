@@ -1132,14 +1132,16 @@ namespace TDMaker
 
         private void OpenVersionHistory()
         {
-            string h = App.GetText("VersionHistory.txt");
+            /*string h = App.GetText("VersionHistory.txt");
 
             if (h != string.Empty)
             {
                 TextViewer v = new TextViewer(string.Format("{0} - {1}", Application.ProductName, "Version History"), h);
                 v.Icon = this.Icon;
                 v.ShowDialog();
-            }
+            }*/
+
+            URLHelpers.OpenURL("https://github.com/McoreD/TDMaker/wiki/Changelog");
         }
 
         private void cboQuickTemplate_SelectedIndexChanged(object sender, EventArgs e)
