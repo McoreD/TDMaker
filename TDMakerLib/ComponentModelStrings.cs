@@ -7,6 +7,7 @@ namespace TDMakerLib
 {
     public static class ComponentModelStrings
     {
+        public const string General = "General";
         public const string Input = "Input";
         public const string InputMedia = Input + " / Media";
         public const string Paths = "Paths";
@@ -14,6 +15,7 @@ namespace TDMakerLib
         public const string Publish = "Publish";
         public const string PublishFontSizes = Publish + " / Font Sizes";
         public const string Screenshots = "Screenshots";
+        public const string ScreenshotsCombine = Screenshots + " / Combined";
         public const string ScreenshotsImageUploaders = Screenshots + " / Uploaders";
         public const string Thumbnailers = Screenshots + " / Thumbnailers";
         public const string ThumbnailersFFmpeg = Thumbnailers + " / FFmpeg";

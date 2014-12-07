@@ -52,7 +52,7 @@ namespace TDMakerLib
             String mediaFilePath = mf.FilePath;
             ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Taking Screenshot for " + Path.GetFileName(mediaFilePath));
 
-            mf.Thumbnailer = new Thumbnailer(mf, ssDir, App.Settings.ThumbnailerOptions);
+            mf.Thumbnailer = new Thumbnailer(mf, ssDir, App.Settings.ProfileActive);
 
             try
             {
@@ -205,7 +205,7 @@ namespace TDMakerLib
             }
             else
             {
-                switch ((ImageDestination)App.Settings.ImageUploaderType)
+                switch ((ImageDestination)App.Settings.ProfileActive.ImageUploaderType)
                 {
                     case ImageDestination.TinyPic:
                         imageUploader = new TinyPicUploader(ZKeys.TinyPicID, ZKeys.TinyPicKey, App.UploadersConfig.TinyPicAccountType,
@@ -305,7 +305,7 @@ namespace TDMakerLib
         {
             FileUploader fileUploader = null;
 
-            switch (App.Settings.ImageFileUploaderType)
+            switch (App.Settings.ProfileActive.ImageFileUploaderType)
             {
                 case FileDestination.Dropbox:
                     fileUploader = new Dropbox(App.UploadersConfig.DropboxOAuth2Info, App.UploadersConfig.DropboxAccountInfo)

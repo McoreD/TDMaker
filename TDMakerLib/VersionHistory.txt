@@ -1,5 +1,6 @@
 Version 4.0.0 - 2014-12-15
 
+* Profile support to configure different settings per website
 * Support for capturing progressive random frame
 * PtpImg image uploader support via Custom Image Uploader
 * Removed ancient MTN support (grid functionality is now available via MPlayer or FFmpeg)

@@ -14,7 +14,7 @@ namespace TDMakerLib
     {
         protected string ThumbnailerPath;
 
-        protected ThumbnailerOptions Options = new ThumbnailerOptions();
+        protected ProfileOptions Options = new ProfileOptions();
 
         protected MediaFile MediaFile { get; set; }
         protected string ScreenshotDir { get; set; }
@@ -30,7 +30,7 @@ namespace TDMakerLib
         {
         }
 
-        public Thumbnailer(MediaFile mf, string ssDir, ThumbnailerOptions options)
+        public Thumbnailer(MediaFile mf, string ssDir, ProfileOptions options)
         {
             MediaFile = mf;
             ScreenshotDir = ssDir;

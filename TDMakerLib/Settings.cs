@@ -27,6 +27,27 @@ namespace TDMakerLib
             SupportedFileExtVideo = new StringCollection();
         }
 
+        public ProfileOptions ProfileActive
+        {
+            get
+            {
+                if (Profiles.Count == 0)
+                {
+                    Profiles.Add(new ProfileOptions() { Name = "Movies" });
+                    Profiles.Add(new ProfileOptions() { Name = "Music Videos", CombineScreenshots = true, ScreenshotCount = 16, ColumnCount = 4, MaxThumbnailWidth = 256 });
+                }
+
+                ProfileOptions profile = Profiles[0];
+
+                if (ProfileIndex >= 0 && Profiles.Count > ProfileIndex)
+                {
+                    profile = Profiles[ProfileIndex];
+                }
+
+                return profile;
+            }
+        }
+
         #region DVD Properties
 
         [BrowsableAttribute(false)]
@@ -87,9 +108,6 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Create screenshots using thumbnailer")]
         public bool CreateScreenshots { get; set; }
 
-        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Upload screenshots")]
-        public bool UploadScreenshots { get; set; }
-
         [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Use full image URL in the torrent description.")]
         public bool UseFullPicture { get; set; }
 
@@ -114,14 +132,12 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.ThumbnailersMPlayer), Description("MPlayer path")]
         public string MPlayerPath { get; set; }
 
-        public ThumbnailerOptions ThumbnailerOptions = new ThumbnailerOptions();
+        public int ProfileIndex = 0;
+        public List<ProfileOptions> Profiles = new List<ProfileOptions>();
 
         #endregion Screenshots / Thumbnailers
 
         #region Screenshots / Uploaders
-
-        public ImageDestination ImageUploaderType = ImageDestination.Imgur;
-        public FileDestination ImageFileUploaderType = FileDestination.Pomf;
 
         [Category(ComponentModelStrings.ScreenshotsImageUploaders), DefaultValue(""), Description("PtpImg registration code")]
         public string PtpImgCode { get; set; }
@@ -145,9 +161,6 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Publish), DefaultValue(true), Description("Have larger text when [pre] tag is set")]
         public bool LargerPreText { get; set; }
 
-        [Category(ComponentModelStrings.Publish), DefaultValue(PublishInfoType.MediaInfo), Description("Use internal template, external templates or information in MediaInfo in the torrent description in Publish tab")]
-        public PublishInfoType PublishInfoTypeChoice { get; set; }
-
         [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(5), Description("Font Size for Heading 1")]
         public int FontSizeHeading1 { get; set; }
 
@@ -163,18 +176,9 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(1), Description("Font Size increment")]
         public int FontSizeIncr { get; set; }
 
-        [Browsable(false)]
-        public int TemplateIndex { get; set; }
-
         #endregion Publish
 
         #region Torrent creator
-
-        [Browsable(false)]
-        public int TrackerGroupActive { get; set; }
-
-        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create Torrent")]
-        public bool TorrentCreateAuto { get; set; }
 
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(LocationType.KnownFolder), Description("Create torrents in the same folders as the media file, default torrent folder or in a custom folder")]
         public LocationType TorrentLocationChoice { get; set; }

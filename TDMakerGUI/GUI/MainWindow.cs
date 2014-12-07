@@ -276,9 +276,9 @@ namespace TDMaker
             else
             {
                 // fill previous settings
-                wt.MediaOptions.CreateTorrent = App.Settings.TorrentCreateAuto;
+                wt.MediaOptions.CreateTorrent = App.Settings.ProfileActive.CreateTorrent;
                 wt.MediaOptions.CreateScreenshots = App.Settings.CreateScreenshots;
-                wt.MediaOptions.UploadScreenshots = App.Settings.UploadScreenshots;
+                wt.MediaOptions.UploadScreenshots = App.Settings.ProfileActive.UploadScreenshots;
             }
 
             if (!mwo.PromptShown && App.Settings.ShowMediaWizardAlways)
@@ -395,7 +395,7 @@ namespace TDMaker
             StringBuilder sbMsg = new StringBuilder();
 
             // checks
-            if (string.IsNullOrEmpty(cboSource.Text) && App.Settings.PublishInfoTypeChoice != PublishInfoType.MediaInfo)
+            if (string.IsNullOrEmpty(cboSource.Text) && App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo)
             {
                 sbMsg.AppendLine("Source information is mandatory. Use the Source drop down menu to select the correct source type.");
             }
@@ -450,7 +450,7 @@ namespace TDMaker
             mi.WebLink = txtWebLink.Text;
             mi.TorrentCreateInfo = new TorrentCreateInfo(GetTracker(), p);
 
-            if (App.Settings.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate)
+            if (App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate)
             {
                 mi.TemplateLocation = Path.Combine(App.TemplatesDir, cboTemplate.Text);
             }
@@ -465,14 +465,6 @@ namespace TDMaker
 
         private void SettingsWrite()
         {
-            App.Settings.TrackerGroupActive = cboTrackerGroupActive.SelectedIndex;
-            App.Settings.TemplateIndex = cboTemplate.SelectedIndex;
-
-            App.Settings.TorrentLocationChoice = (LocationType)cboTorrentLoc.SelectedIndex;
-
-            App.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
-            App.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
-
             App.Settings.Save(App.SettingsFilePath);
             App.UploadersConfig.Save(App.UploadersConfigPath);
         }
@@ -497,8 +489,8 @@ namespace TDMaker
             }
             if (cboTemplate.Items.Count > 0)
             {
-                cboTemplate.SelectedIndex = Math.Max(App.Settings.TemplateIndex, 0);
-                cboQuickTemplate.SelectedIndex = Math.Max(App.Settings.TemplateIndex, 0);
+                cboTemplate.SelectedIndex = Math.Max(App.Settings.ProfileActive.ExternalTemplateIndex, 0);
+                cboQuickTemplate.SelectedIndex = Math.Max(App.Settings.ProfileActive.ExternalTemplateIndex, 0);
             }
 
             mTrackerManager = new TrackerManager();
@@ -506,36 +498,49 @@ namespace TDMaker
 
         private void LoadSettingsToControls()
         {
-            SettingsReadInput();
-            SettingsReadMedia();
-            SettingsReadPublish();
-            SettingsReadScreenshots();
-            LoadSettingsPublishControls();
-            LoadSettingsTorrentControls();
+            LoadSettingsInputControls();
+            LoadSettingsInputMediaControls();
+
+            LoadSettingsMediaInfoControls();
 
             LoadSettingsScreenshotControls();
 
+            LoadSettingsPublishControls();
+            LoadSettingsPublishTemplatesControls();
+
+            LoadSettingsTorrentControls();
+
+            pgApp.SelectedObject = App.Settings;
+        }
+
+        private static void LoadSettingsMediaInfoControls()
+        {
             if (string.IsNullOrEmpty(App.Settings.CustomMediaInfoDllDir))
             {
                 App.Settings.CustomMediaInfoDllDir = Application.StartupPath;
             }
             Kernel32Helper.SetDllDirectory(App.Settings.CustomMediaInfoDllDir);
-
-            pgApp.SelectedObject = App.Settings;
         }
 
         private void LoadSettingsScreenshotControls()
         {
+            chkUploadScreenshots.Checked = App.Settings.CreateScreenshots;
+            btnUploadersConfig.Visible = cboFileUploader.Visible = cboImageUploader.Visible = string.IsNullOrEmpty(App.Settings.PtpImgCode);
+            chkUploadScreenshots.Text = string.IsNullOrEmpty(App.Settings.PtpImgCode) ? "Upload screenshot to:" : "Upload screenshots to ptpimg.me";
+
             cboImageUploader.Items.Clear();
             cboImageUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<ImageDestination>());
-            cboImageUploader.SelectedIndex = (int)App.Settings.ImageUploaderType;
+            cboImageUploader.SelectedIndex = (int)App.Settings.ProfileActive.ImageUploaderType;
 
             cboFileUploader.Items.Clear();
             cboFileUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<FileDestination>());
-            cboFileUploader.SelectedIndex = (int)App.Settings.ImageFileUploaderType;
+            cboFileUploader.SelectedIndex = (int)App.Settings.ProfileActive.ImageFileUploaderType;
+
+            App.Settings.Profiles.ForEach(x => listBoxProfiles.Items.Add(x));
+            listBoxProfiles.SelectedIndex = App.Settings.ProfileIndex;
         }
 
-        private void SettingsReadInput()
+        private void LoadSettingsInputControls()
         {
             if (App.Settings.MediaSources.Count == 0)
             {
@@ -589,7 +594,7 @@ namespace TDMaker
             }
         }
 
-        private void SettingsReadMedia()
+        private void LoadSettingsInputMediaControls()
         {
             chkAuthoring.Checked = App.Settings.bAuthoring;
             cboAuthoring.Text = App.Settings.AuthoringMode;
@@ -604,29 +609,20 @@ namespace TDMaker
             chkWebLink.Checked = App.Settings.bWebLink;
         }
 
-        private void SettingsReadScreenshots()
-        {
-            chkScreenshotUpload.Checked = App.Settings.CreateScreenshots;
-
-            btnUploadersConfig.Visible = cboFileUploader.Visible = cboImageUploader.Visible = string.IsNullOrEmpty(App.Settings.PtpImgCode);
-
-            chkScreenshotUpload.Text = string.IsNullOrEmpty(App.Settings.PtpImgCode) ? "Upload screenshot to:" : "Upload screenshots to ptpimg.me";
-        }
-
-        private void SettingsReadPublish()
+        private void LoadSettingsPublishControls()
         {
             if (cboQuickPublishType.Items.Count == 0)
             {
                 cboQuickPublishType.Items.AddRange(Enum.GetNames(typeof(PublishInfoType)));
                 cboPublishType.Items.AddRange(Enum.GetNames(typeof(PublishInfoType)));
             }
-            cboPublishType.SelectedIndex = (int)App.Settings.PublishInfoTypeChoice;
-            cboQuickPublishType.SelectedIndex = (int)App.Settings.PublishInfoTypeChoice;
+            cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
+            cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
         }
 
-        private void LoadSettingsPublishControls()
+        private void LoadSettingsPublishTemplatesControls()
         {
-            cboTemplate.SelectedIndex = App.Settings.TemplateIndex;
+            cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
             chkUploadFullScreenshot.Checked = App.Settings.UseFullPicture;
 
             chkAlignCenter.Checked = App.Settings.AlignCenter;
@@ -638,8 +634,6 @@ namespace TDMaker
             nudHeading2Size.Value = (decimal)App.Settings.FontSizeHeading2;
             nudHeading3Size.Value = (decimal)App.Settings.FontSizeHeading3;
             nudBodySize.Value = (decimal)App.Settings.FontSizeBody;
-
-            pgThumbnailerOptions.SelectedObject = App.Settings.ThumbnailerOptions;
 
             // Proxy
             cbProxyMethod.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<ProxyMethod>());
@@ -673,9 +667,9 @@ namespace TDMaker
             }
 
             FillTrackersComboBox();
-            if (cboTrackerGroupActive.Items.Count > 0 && App.Settings.TrackerGroupActive < cboTrackerGroupActive.Items.Count)
+            if (cboTrackerGroupActive.Items.Count > 0 && App.Settings.ProfileActive.TrackerGroupActive < cboTrackerGroupActive.Items.Count)
             {
-                cboTrackerGroupActive.SelectedIndex = App.Settings.TrackerGroupActive;
+                cboTrackerGroupActive.SelectedIndex = App.Settings.ProfileActive.TrackerGroupActive;
             }
 
             if (cboTorrentLoc.Items.Count == 0)
@@ -695,7 +689,7 @@ namespace TDMaker
             pop.AlignCenter = App.Settings.AlignCenter;
             pop.FullPicture = ti.Media.Options.UploadScreenshots && App.Settings.UseFullPicture;
             pop.PreformattedText = App.Settings.PreText;
-            pop.PublishInfoTypeChoice = App.Settings.PublishInfoTypeChoice;
+            pop.PublishInfoTypeChoice = App.Settings.ProfileActive.PublishInfoTypeChoice;
             ti.PublishOptions = pop;
 
             return Adapter.CreatePublish(ti, pop);
@@ -939,8 +933,8 @@ namespace TDMaker
 
         private void chkScreenshotUpload_CheckedChanged(object sender, EventArgs e)
         {
-            chkUploadFullScreenshot.Enabled = chkScreenshotUpload.Checked;
-            App.Settings.CreateScreenshots = chkScreenshotUpload.Checked;
+            chkUploadFullScreenshot.Enabled = chkUploadScreenshots.Checked;
+            App.Settings.ProfileActive.UploadScreenshots = chkUploadScreenshots.Checked;
         }
 
         private void btnAnalyze_Click(object sender, EventArgs e)
@@ -982,12 +976,12 @@ namespace TDMaker
         {
             TrackerGroup t = null;
 
-            if (App.Settings.TrackerGroupActive < 0)
-                App.Settings.TrackerGroupActive = 0;
+            if (App.Settings.ProfileActive.TrackerGroupActive < 0)
+                App.Settings.ProfileActive.TrackerGroupActive = 0;
 
-            if (cboTrackerGroupActive.Items.Count > App.Settings.TrackerGroupActive)
+            if (cboTrackerGroupActive.Items.Count > App.Settings.ProfileActive.TrackerGroupActive)
             {
-                t = cboTrackerGroupActive.Items[App.Settings.TrackerGroupActive] as TrackerGroup;
+                t = cboTrackerGroupActive.Items[App.Settings.ProfileActive.TrackerGroupActive] as TrackerGroup;
             }
             return t;
         }
@@ -1036,7 +1030,7 @@ namespace TDMaker
 
         private void cboAnnounceURL_SelectedIndexChanged(object sender, EventArgs e)
         {
-            App.Settings.TrackerGroupActive = cboTrackerGroupActive.SelectedIndex;
+            App.Settings.ProfileActive.TrackerGroupActive = cboTrackerGroupActive.SelectedIndex;
         }
 
         private TorrentInfo GetTorrentInfo()
@@ -1123,13 +1117,13 @@ namespace TDMaker
 
         private void cboTemplate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            App.Settings.TemplateIndex = cboTemplate.SelectedIndex;
+            App.Settings.ProfileActive.ExternalTemplateIndex = cboTemplate.SelectedIndex;
         }
 
         private void cboScreenshotDest_SelectedIndexChanged(object sender, EventArgs e)
         {
-            App.Settings.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
-            cboFileUploader.Enabled = App.Settings.ImageUploaderType == ImageDestination.FileUploader;
+            App.Settings.ProfileActive.ImageUploaderType = (ImageDestination)cboImageUploader.SelectedIndex;
+            cboFileUploader.Enabled = App.Settings.ProfileActive.ImageUploaderType == ImageDestination.FileUploader;
         }
 
         private void btnTemplatesRewrite_Click(object sender, EventArgs e)
@@ -1319,7 +1313,7 @@ namespace TDMaker
 
         private void chkCreateTorrent_CheckedChanged(object sender, EventArgs e)
         {
-            App.Settings.TorrentCreateAuto = chkCreateTorrent.Checked;
+            App.Settings.ProfileActive.CreateTorrent = chkCreateTorrent.Checked;
         }
 
         private void pgApp_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -1392,7 +1386,6 @@ namespace TDMaker
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // this.WindowState = FormWindowState.Minimized;
             SettingsWrite();
             App.ClearScreenshots();
         }
@@ -1662,10 +1655,10 @@ namespace TDMaker
 
         private void cboPublishType_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-            App.Settings.PublishInfoTypeChoice = (PublishInfoType)cboPublishType.SelectedIndex;
-            cboTemplate.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate;
-            gbTemplatesInternal.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
-            gbFonts.Enabled = App.Settings.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
+            App.Settings.ProfileActive.PublishInfoTypeChoice = (PublishInfoType)cboPublishType.SelectedIndex;
+            cboTemplate.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate;
+            gbTemplatesInternal.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
+            gbFonts.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
         }
 
         private void lbFiles_KeyDown(object sender, KeyEventArgs e)
@@ -1697,7 +1690,7 @@ namespace TDMaker
 
         private void cboImageFileUploader_SelectedIndexChanged(object sender, EventArgs e)
         {
-            App.Settings.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
+            App.Settings.ProfileActive.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
         }
 
         private void btnUpdateGroup_Click(object sender, EventArgs e)
@@ -1781,6 +1774,48 @@ namespace TDMaker
         private void txtProxyUsername_TextChanged(object sender, EventArgs e)
         {
             App.Settings.ProxySettings.Username = txtProxyUsername.Text;
+        }
+
+        private void btnAddScreenshotProfile_Click(object sender, EventArgs e)
+        {
+            ProfileOptions profile = new ProfileOptions() { Name = string.Format("Profile {0}", App.Settings.Profiles.Count) };
+            listBoxProfiles.Items.Add(profile);
+            App.Settings.Profiles.Add(profile);
+            listBoxProfiles.SelectedIndex = (listBoxProfiles.Items.Count - 1);
+        }
+
+        private void btnRemoveScreenshotProfile_Click(object sender, EventArgs e)
+        {
+            int sel = listBoxProfiles.SelectedIndex;
+            if (listBoxProfiles.SelectedIndex > 0 && App.Settings.Profiles.Count > listBoxProfiles.SelectedIndex)
+            {
+                ProfileOptions profile = App.Settings.Profiles[listBoxProfiles.SelectedIndex];
+                App.Settings.Profiles.Remove(profile);
+                listBoxProfiles.Items.Remove(profile);
+                listBoxProfiles.SelectedIndex = Math.Min(sel, listBoxProfiles.Items.Count - 1);
+            }
+        }
+
+        private void listBoxProfiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            App.Settings.ProfileIndex = listBoxProfiles.SelectedIndex;
+            LoadProfileControls();
+        }
+
+        private void LoadProfileControls()
+        {
+            pgProfileOptions.SelectedObject = App.Settings.ProfileActive;
+
+            if (IsGuiReady)
+            {
+                chkUploadScreenshots.Checked = App.Settings.ProfileActive.UploadScreenshots;
+                cboImageUploader.SelectedIndex = (int)App.Settings.ProfileActive.ImageUploaderType;
+                cboFileUploader.SelectedIndex = (int)App.Settings.ProfileActive.ImageFileUploaderType;
+                cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
+                cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
+                chkCreateTorrent.Checked = App.Settings.ProfileActive.CreateTorrent;
+                cboTrackerGroupActive.SelectedIndex = App.Settings.ProfileActive.TrackerGroupActive;
+            }
         }
     }
 }

@@ -91,9 +91,9 @@ namespace TDMakerLib
                 }
             }
 
-            chkCreateTorrent.Checked = App.Settings.TorrentCreateAuto;
+            chkCreateTorrent.Checked = App.Settings.ProfileActive.CreateTorrent;
             chkScreenshotsCreate.Checked = App.Settings.CreateScreenshots;
-            chkScreenshotsUpload.Checked = App.Settings.UploadScreenshots;
+            chkScreenshotsUpload.Checked = App.Settings.ProfileActive.UploadScreenshots;
             gbQuestion.Enabled = this.Options.MediaTypeChoice != MediaType.MediaDisc;
         }
 

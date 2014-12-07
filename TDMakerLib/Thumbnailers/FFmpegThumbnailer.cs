@@ -9,7 +9,7 @@ namespace TDMakerLib
 {
     public class FFmpegThumbnailer : Thumbnailer
     {
-        public FFmpegThumbnailer(MediaFile mf, string ssDir, ThumbnailerOptions options)
+        public FFmpegThumbnailer(MediaFile mf, string ssDir, ProfileOptions options)
             : base(mf, ssDir, options)
         {
             ThumbnailerPath = App.Settings.FFmpegPath;
