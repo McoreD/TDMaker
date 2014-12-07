@@ -991,7 +991,7 @@ namespace TDMaker
             this.tlpPublish.ColumnCount = 3;
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.00001F));
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.99999F));
-            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 195F));
+            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 196F));
             this.tlpPublish.Controls.Add(this.gbQuickPublish, 2, 0);
             this.tlpPublish.Controls.Add(this.txtPublish, 1, 0);
             this.tlpPublish.Controls.Add(this.lbPublish, 0, 0);
@@ -1007,9 +1007,9 @@ namespace TDMaker
             // 
             this.gbQuickPublish.Controls.Add(this.flpPublishConfig);
             this.gbQuickPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuickPublish.Location = new System.Drawing.Point(665, 3);
+            this.gbQuickPublish.Location = new System.Drawing.Point(664, 3);
             this.gbQuickPublish.Name = "gbQuickPublish";
-            this.gbQuickPublish.Size = new System.Drawing.Size(190, 479);
+            this.gbQuickPublish.Size = new System.Drawing.Size(191, 479);
             this.gbQuickPublish.TabIndex = 1;
             this.gbQuickPublish.TabStop = false;
             this.gbQuickPublish.Text = "Quick Options";
@@ -1025,7 +1025,7 @@ namespace TDMaker
             this.flpPublishConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpPublishConfig.Location = new System.Drawing.Point(3, 16);
             this.flpPublishConfig.Name = "flpPublishConfig";
-            this.flpPublishConfig.Size = new System.Drawing.Size(184, 460);
+            this.flpPublishConfig.Size = new System.Drawing.Size(185, 460);
             this.flpPublishConfig.TabIndex = 7;
             // 
             // chkQuickPre
@@ -1094,7 +1094,7 @@ namespace TDMaker
             this.txtPublish.Multiline = true;
             this.txtPublish.Name = "txtPublish";
             this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtPublish.Size = new System.Drawing.Size(524, 479);
+            this.txtPublish.Size = new System.Drawing.Size(523, 479);
             this.txtPublish.TabIndex = 0;
             this.txtPublish.WordWrap = false;
             this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
@@ -1887,6 +1887,8 @@ namespace TDMaker
             // 
             // listBoxProfiles
             // 
+            this.listBoxProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.listBoxProfiles.FormattingEnabled = true;
             this.listBoxProfiles.Location = new System.Drawing.Point(6, 32);
             this.listBoxProfiles.Name = "listBoxProfiles";
@@ -1951,13 +1953,13 @@ namespace TDMaker
             this.cboImageUploader.TabIndex = 2;
             this.cboImageUploader.SelectedIndexChanged += new System.EventHandler(this.cboScreenshotDest_SelectedIndexChanged);
             // 
-            // chkScreenshotUpload
+            // chkUploadScreenshots
             // 
             this.chkUploadScreenshots.AutoSize = true;
             this.chkUploadScreenshots.Checked = true;
             this.chkUploadScreenshots.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUploadScreenshots.Location = new System.Drawing.Point(16, 24);
-            this.chkUploadScreenshots.Name = "chkScreenshotUpload";
+            this.chkUploadScreenshots.Name = "chkUploadScreenshots";
             this.chkUploadScreenshots.Size = new System.Drawing.Size(130, 17);
             this.chkUploadScreenshots.TabIndex = 0;
             this.chkUploadScreenshots.Text = "Upload screenshot to:";

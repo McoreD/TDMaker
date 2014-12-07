@@ -85,7 +85,6 @@ namespace TDMaker
 
             tttvMain.MainTabControl = tcMain;
 
-            Text = App.GetProductName();
             Icon = Resources.GenuineAdvIcon;
 
             UpdateGuiControls();
@@ -328,9 +327,6 @@ namespace TDMaker
                             if (wt.IsSingleTask() && !string.IsNullOrEmpty(txtTitle.Text))
                             {
                                 mi.SetTitle(txtTitle.Text);
-
-                                // if it is a DVD, set the title to be name of the folder.
-                                this.Text = string.Format("{0} - {1}", App.GetProductName(), MediaHelper.GetMediaName(mi.Location));
                             }
                             miList.Add(mi);
                         }
@@ -1804,6 +1800,7 @@ namespace TDMaker
 
         private void LoadProfileControls()
         {
+            Text = App.GetProductName() + " - " + App.Settings.ProfileActive.Name;
             pgProfileOptions.SelectedObject = App.Settings.ProfileActive;
 
             if (IsGuiReady)
