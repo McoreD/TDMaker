@@ -132,7 +132,7 @@
     <Compile Include="Templates\MappingHelper.cs" />
     <Compile Include="Templates\TemplateReader2.cs" />
     <Compile Include="Thumbnailers\Thumbnailer.cs" />
-    <Compile Include="Thumbnailers\ThumbnailerOptions.cs" />
+    <Compile Include="ProfileOptions.cs" />
     <Compile Include="Torrents\TorrentInfoMgr.cs" />
     <Compile Include="Torrents\HttpWebMultipartRequest.cs" />
     <Compile Include="Torrents\TorrentInfo.cs" />
