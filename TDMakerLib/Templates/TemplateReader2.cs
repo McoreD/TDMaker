@@ -97,7 +97,7 @@ namespace TDMakerLib
 
             if (TorrentInfo.Media != null)
             {
-                if (TorrentInfo.Media.MediaTypeChoice == MediaType.MediaDisc)
+                if (TorrentInfo.Media.Options.MediaTypeChoice == MediaType.MediaDisc)
                 {
                     pattern = CreateDiscInfo(TorrentInfo.Media);
                 }
@@ -161,6 +161,7 @@ namespace TDMakerLib
             pattern = Regex.Replace(pattern, "%Video_DisplayAspectRatio%", mf.Video.DisplayAspectRatio, RegexOptions.IgnoreCase);
             pattern = Regex.Replace(pattern, "%Video_Width%", mf.Video.Width, RegexOptions.IgnoreCase);
             pattern = Regex.Replace(pattern, "%Video_Height%", mf.Video.Height, RegexOptions.IgnoreCase);
+            pattern = Regex.Replace(pattern, "%Video_Resolution%", mf.Video.Resolution, RegexOptions.IgnoreCase);
             pattern = Regex.Replace(pattern, "%Video_EncodedLibrarySettings%", mf.Video.EncodedLibrarySettings, RegexOptions.IgnoreCase);
 
             pattern = this.MappingHelperMy.ReplacePatternVideo(pattern);
@@ -219,6 +220,7 @@ namespace TDMakerLib
 
                 pattern = GetStringFromAnyPattern(pattern, mf);
                 pattern = GetStyles(pattern); // apply any formatting
+
                 pattern = GetScreenshotInfo(pattern, mf);
 
                 sb.AppendLine(pattern);

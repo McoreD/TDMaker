@@ -130,7 +130,7 @@ namespace TDMakerLib
 
         private void MediaWizard_FormClosed(object sender, FormClosedEventArgs e)
         {
-            this.Options.DialogResultMy = this.DialogResult;
+            this.Options.DialogResult = this.DialogResult;
         }
 
         private void chkScreenshotsUpload_CheckedChanged(object sender, System.EventArgs e)
@@ -142,15 +142,10 @@ namespace TDMakerLib
     public class MediaWizardOptions
     {
         public bool CreateScreenshots { get; set; }
-
         public bool UploadScreenshots { get; set; }
-
         public bool CreateTorrent { get; set; }
-
         public MediaType MediaTypeChoice { get; set; }
-
         public bool PromptShown { get; set; }
-
-        public DialogResult DialogResultMy { get; set; }
+        public DialogResult DialogResult { get; set; }
     }
 }

@@ -268,20 +268,18 @@ namespace TDMaker
 
             MediaWizardOptions mwo = Adapter.GetMediaType(wt.FileOrDirPaths);
 
-            wt.MediaTypeChoice = mwo.MediaTypeChoice;
+            wt.MediaOptions = mwo;
             if (mwo.PromptShown)
             {
-                wt.TorrentCreateAuto = mwo.CreateTorrent;
-                wt.CreateScreenshots = mwo.CreateScreenshots;
-                wt.UploadScreenshots = mwo.UploadScreenshots;
-                dlgResult = mwo.DialogResultMy;
+                wt.MediaOptions = mwo;
+                dlgResult = mwo.DialogResult;
             }
             else
             {
                 // fill previous settings
-                wt.TorrentCreateAuto = App.Settings.TorrentCreateAuto;
-                wt.CreateScreenshots = App.Settings.CreateScreenshots;
-                wt.UploadScreenshots = App.Settings.UploadScreenshots;
+                wt.MediaOptions.CreateTorrent = App.Settings.TorrentCreateAuto;
+                wt.MediaOptions.CreateScreenshots = App.Settings.CreateScreenshots;
+                wt.MediaOptions.UploadScreenshots = App.Settings.UploadScreenshots;
             }
 
             if (!mwo.PromptShown && App.Settings.ShowMediaWizardAlways)
@@ -290,16 +288,13 @@ namespace TDMaker
                 dlgResult = mw.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
-                    wt.TorrentCreateAuto = mw.Options.CreateTorrent;
-                    wt.CreateScreenshots = App.Settings.CreateScreenshots;
-                    wt.UploadScreenshots = mw.Options.UploadScreenshots;
-                    wt.MediaTypeChoice = mw.Options.MediaTypeChoice;
+                    wt.MediaOptions = mw.Options;
                 }
             }
 
             if (dlgResult == DialogResult.OK)
             {
-                if (wt.MediaTypeChoice == MediaType.MediaCollection)
+                if (wt.MediaOptions.MediaTypeChoice == MediaType.MediaCollection)
                 {
                     wt.FileOrDirPaths.Sort();
                     string firstPath = wt.FileOrDirPaths[0];
@@ -440,8 +435,8 @@ namespace TDMaker
         /// <returns>MediaInfo2 object</returns>
         private MediaInfo2 PrepareNewMedia(WorkerTask wt, string p)
         {
-            MediaType mt = wt.MediaTypeChoice;
-            MediaInfo2 mi = new MediaInfo2(mt, p);
+            MediaType mt = wt.MediaOptions.MediaTypeChoice;
+            MediaInfo2 mi = new MediaInfo2(wt.MediaOptions, p);
             mi.Extras = cboExtras.Text;
             if (cboSource.Text == "DVD")
             {
@@ -454,7 +449,7 @@ namespace TDMaker
             mi.Menu = cboDiscMenu.Text;
             mi.Authoring = cboAuthoring.Text;
             mi.WebLink = txtWebLink.Text;
-            mi.TorrentCreateInfoMy = new TorrentCreateInfo(GetTracker(), p);
+            mi.TorrentCreateInfo = new TorrentCreateInfo(GetTracker(), p);
 
             if (App.Settings.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate)
             {
@@ -695,7 +690,7 @@ namespace TDMaker
         {
             PublishOptionsPacket pop = new PublishOptionsPacket();
             pop.AlignCenter = App.Settings.AlignCenter;
-            pop.FullPicture = ti.Media.UploadScreenshots && App.Settings.UseFullPicture;
+            pop.FullPicture = ti.Media.Options.UploadScreenshots && App.Settings.UseFullPicture;
             pop.PreformattedText = App.Settings.PreText;
             pop.PublishInfoTypeChoice = App.Settings.PublishInfoTypeChoice;
             ti.PublishOptions = pop;
@@ -724,13 +719,12 @@ namespace TDMaker
                 }
 
                 // creates screenshot
-                mi.UploadScreenshots = wt.UploadScreenshots;
-                if (wt.UploadScreenshots)
+                if (wt.MediaOptions.UploadScreenshots)
                 {
                     ti.CreateScreenshots();
                     ti.UploadScreenshots();
                 }
-                else if (wt.CreateScreenshots)
+                else if (wt.MediaOptions.CreateScreenshots)
                 {
                     ti.CreateScreenshots();
                 }
@@ -741,11 +735,11 @@ namespace TDMaker
                 if (App.Settings.WritePublish)
                 {
                     // create textFiles of MediaInfo
-                    string txtPath = Path.Combine(mi.TorrentCreateInfoMy.TorrentFolder, mi.Overall.FileName) + ".txt";
+                    string txtPath = Path.Combine(mi.TorrentCreateInfo.TorrentFolder, mi.Overall.FileName) + ".txt";
 
-                    if (!Directory.Exists(mi.TorrentCreateInfoMy.TorrentFolder))
+                    if (!Directory.Exists(mi.TorrentCreateInfo.TorrentFolder))
                     {
-                        Directory.CreateDirectory(mi.TorrentCreateInfoMy.TorrentFolder);
+                        Directory.CreateDirectory(mi.TorrentCreateInfo.TorrentFolder);
                     }
 
                     using (StreamWriter sw = new StreamWriter(txtPath))
@@ -754,14 +748,14 @@ namespace TDMaker
                     }
                 }
 
-                if (wt.TorrentCreateAuto)
+                if (wt.MediaOptions.CreateTorrent)
                 {
-                    mi.TorrentCreateInfoMy.CreateTorrent(bwApp);
+                    mi.TorrentCreateInfo.CreateTorrent(bwApp);
                 }
 
                 if (App.Settings.XMLTorrentUploadCreate)
                 {
-                    string fp = Path.Combine(mi.TorrentCreateInfoMy.TorrentFolder, MediaHelper.GetMediaName(mi.TorrentCreateInfoMy.MediaLocation)) + ".xml";
+                    string fp = Path.Combine(mi.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(mi.TorrentCreateInfo.MediaLocation)) + ".xml";
                     FileSystem.GetXMLTorrentUpload(mi).Write2(fp);
                 }
 
@@ -777,7 +771,7 @@ namespace TDMaker
             {
                 foreach (TorrentInfo ti in wt.MediaList)
                 {
-                    TorrentCreateInfo tci = ti.Media.TorrentCreateInfoMy;
+                    TorrentCreateInfo tci = ti.Media.TorrentCreateInfo;
                     tci.CreateTorrent(wt.MyWorker);
                     if (App.Settings.XMLTorrentUploadCreate)
                     {
@@ -901,7 +895,7 @@ namespace TDMaker
 
                     case ProgressType.REPORT_MEDIAINFO_SUMMARY:
                         MediaInfo2 mi = (MediaInfo2)e.UserState;
-                        gbDVD.Enabled = (mi.MediaTypeChoice == MediaType.MediaDisc);
+                        gbDVD.Enabled = (mi.Options.MediaTypeChoice == MediaType.MediaDisc);
                         foreach (MediaFile mf in mi.MediaFiles)
                         {
                             lbMediaInfo.Items.Add(mf);
@@ -1072,7 +1066,7 @@ namespace TDMaker
 
                     txtPublish.Text = Adapter.CreatePublish(ti, pop);
 
-                    if (ti.Media.MediaTypeChoice == MediaType.MusicAudioAlbum)
+                    if (ti.Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum)
                     {
                         txtPublish.BackColor = System.Drawing.Color.Black;
                         txtPublish.ForeColor = System.Drawing.Color.White;

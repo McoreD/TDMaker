@@ -160,8 +160,8 @@ namespace TDMakerLib
             if (showWizard)
             {
                 MediaWizard mw = new MediaWizard(FileOrDirPaths);
-                mwo.DialogResultMy = mw.ShowDialog();
-                if (mwo.DialogResultMy == DialogResult.OK)
+                mwo.DialogResult = mw.ShowDialog();
+                if (mwo.DialogResult == DialogResult.OK)
                 {
                     mwo = mw.Options;
                 }

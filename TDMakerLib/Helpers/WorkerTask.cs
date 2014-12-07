@@ -13,19 +13,15 @@ namespace TDMakerLib
         /// A string array of File or Directory paths
         /// </summary>
         public List<string> FileOrDirPaths { get; set; }
-        [Category("Torrent Creator"), DefaultValue(false), Description("Create Torrent")]
-        public bool TorrentCreateAuto { get; set; }
-        [Category("Screenshots"), DefaultValue(true), Description("Create screenshot.")]
-        public bool CreateScreenshots { get; set; }
-        [Category("Screenshots"), DefaultValue(true), Description("Upload screenshot.")]
-        public bool UploadScreenshots { get; set; }
-        public MediaType MediaTypeChoice { get; set; }
+
+        public MediaWizardOptions MediaOptions { get; set; }
 
         public WorkerTask(BackgroundWorker worker, TaskType task)
         {
             this.MyWorker = worker;
             this.Task = task;
             this.FileOrDirPaths = new List<string>();
+            this.MediaOptions = new MediaWizardOptions();
         }
 
         public bool IsSingleTask()

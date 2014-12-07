@@ -12,6 +12,9 @@ namespace TDMakerLib
         [Category("Options"), DefaultValue(3), Description("Number of screenshots to take")]
         public int ScreenshotCount { get; set; }
 
+        [Category("Options"), DefaultValue(true), Description("Choose random frame each time a media file is processed.")]
+        public bool RandomFrame { get; set; }
+
         [Category("Combine screenshots"), DefaultValue(false), Description("Combine all screenshots to one large screenshot")]
         public bool CombineScreenshots { get; set; }
 

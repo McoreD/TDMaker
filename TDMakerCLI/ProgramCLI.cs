@@ -101,12 +101,12 @@ namespace TDMakerCLI
                 {
                     mwo.MediaTypeChoice = MediaType.MediaCollection;
                 }
-                MediaInfo2 mi = new MediaInfo2(mwo.MediaTypeChoice, mMediaLoc);
+                MediaInfo2 mi = new MediaInfo2(mwo, mMediaLoc);
                 mi.ReadMedia();
 
                 TorrentInfo ti = new TorrentInfo(mi);
 
-                mi.UploadScreenshots = mScreenshotsUpload;
+                mi.Options.UploadScreenshots = mScreenshotsUpload;
 
                 if (mScreenshotsUpload)
                 {
@@ -170,17 +170,17 @@ namespace TDMakerCLI
                 if (App.Settings.TrackerGroups.Count > 0 && App.Settings.TrackerGroupActive > -1)
                 {
                     Helpers.CreateDirectoryIfNotExist(mTorrentsDir);
-                    ti.Media.TorrentCreateInfoMy = new TorrentCreateInfo(App.Settings.TrackerGroups[App.Settings.TrackerGroupActive], mMediaLoc);
+                    ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.TrackerGroups[App.Settings.TrackerGroupActive], mMediaLoc);
                     if (Directory.Exists(mTorrentsDir))
                     {
-                        ti.Media.TorrentCreateInfoMy.TorrentFolder = mTorrentsDir;
+                        ti.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
                     }
-                    ti.Media.TorrentCreateInfoMy.CreateTorrent();
+                    ti.Media.TorrentCreateInfo.CreateTorrent();
 
                     // create xml file
                     if (mXmlCreate)
                     {
-                        string fp = Path.Combine(ti.Media.TorrentCreateInfoMy.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfoMy.MediaLocation)) + ".xml";
+                        string fp = Path.Combine(ti.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
                         FileSystem.GetXMLTorrentUpload(ti.Media).Write2(fp);
                     }
                 }

@@ -15,26 +15,22 @@ namespace TDMakerLib
     public class MediaInfo2
     {
         /// <summary>
+        /// Create Screenshot, Torrent choice
         /// Disc property is set to true if the media is found to be DVD, BD, HDDVD source
         /// </summary>
-        public MediaType MediaTypeChoice { get; private set; }
+        public MediaWizardOptions Options { get; private set; }
 
         public SourceType DiscType { get; set; }
 
         /// <summary>
         /// Packet that contains Tracker Information
         /// </summary>
-        public TorrentCreateInfo TorrentCreateInfoMy { get; set; }
+        public TorrentCreateInfo TorrentCreateInfo { get; set; }
 
         /// <summary>
         /// FilePath or DirectoryPath of the Media
         /// </summary>
         public string Location { get; private set; }
-
-        /// <summary>
-        /// Check here Screenshots were taken
-        /// </summary>
-        public bool UploadScreenshots { get; set; }
 
         /// <summary>
         /// Title is same as Overall.FileName
@@ -64,9 +60,9 @@ namespace TDMakerLib
         /// </summary>
         public string TemplateLocation { get; set; }
 
-        public MediaInfo2(MediaType mediaType, string loc)
+        public MediaInfo2(MediaWizardOptions options, string loc)
         {
-            this.MediaTypeChoice = mediaType;
+            Options = options;
             FileCollection = new List<string>();
             MediaFiles = new List<MediaFile>();
             Overall = new MediaFile(loc, this.Source);
@@ -113,7 +109,7 @@ namespace TDMakerLib
         /// </summary>
         public void ReadMedia()
         {
-            switch (MediaTypeChoice)
+            switch (Options.MediaTypeChoice)
             {
                 case MediaType.MediaIndiv:
                     if (File.Exists(Location))
@@ -168,7 +164,7 @@ namespace TDMakerLib
                 string[] ifo = Directory.GetFiles(Location, "VTS_01_0.IFO", SearchOption.AllDirectories);
                 if (ifo.Length == 1) // CHECK IF A DVD
                 {
-                    this.MediaTypeChoice = MediaType.MediaDisc;
+                    this.Options.MediaTypeChoice = MediaType.MediaDisc;
                     MediaInfoLib.MediaInfo mi = new MediaInfoLib.MediaInfo();
                     this.DiscType = TDMakerLib.SourceType.DVD;
 
@@ -215,7 +211,7 @@ namespace TDMakerLib
                 bool allAudio = Adapter.MediaIsAudio(FileCollection);
                 if (allAudio)
                 {
-                    this.MediaTypeChoice = MediaType.MusicAudioAlbum;
+                    this.Options.MediaTypeChoice = MediaType.MusicAudioAlbum;
                 }
 
                 if (FileCollection.Count > 0)
@@ -237,7 +233,7 @@ namespace TDMakerLib
 
                 // DVD Video
                 // Combined Duration and File Size
-                if (MediaTypeChoice == MediaType.MediaDisc)
+                if (Options.MediaTypeChoice == MediaType.MediaDisc)
                 {
                     if (listFileInfo.Count > 0)
                     {
@@ -346,7 +342,7 @@ namespace TDMakerLib
                 sbTitleInfo.AppendLine(string.Format("[u]Source:[/u] {0}", this.Source));
             }
 
-            if (MediaTypeChoice == MediaType.MediaDisc)
+            if (Options.MediaTypeChoice == MediaType.MediaDisc)
             {
                 // Authoring
                 if (App.Settings.bAuthoring && !string.IsNullOrEmpty(this.Authoring))
@@ -377,7 +373,7 @@ namespace TDMakerLib
                 sbBody.AppendLine();
             }
 
-            if (this.MediaFiles.Count > 1 && this.MediaTypeChoice == MediaType.MediaDisc)
+            if (this.MediaFiles.Count > 1 && this.Options.MediaTypeChoice == MediaType.MediaDisc)
 
             // is a DVD so need Overall Info only
             {
@@ -386,7 +382,7 @@ namespace TDMakerLib
             else
             {
                 // If the loaded folder is not a Disc but individual ripped files or a collection of files
-                if (MediaTypeChoice == MediaType.MediaCollection)
+                if (Options.MediaTypeChoice == MediaType.MediaCollection)
                 {
                     sbBody.AppendLine(ToStringMediaList());
                 }

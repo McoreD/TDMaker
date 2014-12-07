@@ -52,15 +52,7 @@ namespace TDMakerLib
             String mediaFilePath = mf.FilePath;
             ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Taking Screenshot for " + Path.GetFileName(mediaFilePath));
 
-            switch (App.Settings.ThumbnailerType)
-            {
-                case ThumbnailerType.FFmpeg:
-                    mf.Thumbnailer = new FFmpegThumbnailer(mf, ssDir, App.Settings.ThumbnailerOptions);
-                    break;
-                default:
-                    mf.Thumbnailer = new Thumbnailer(mf, ssDir, App.Settings.ThumbnailerOptions);
-                    break;
-            }
+            mf.Thumbnailer = new Thumbnailer(mf, ssDir, App.Settings.ThumbnailerOptions);
 
             try
             {
@@ -89,7 +81,7 @@ namespace TDMakerLib
 
         public void CreateScreenshots(string ssDir)
         {
-            switch (this.Media.MediaTypeChoice)
+            switch (this.Media.Options.MediaTypeChoice)
             {
                 case MediaType.MediaCollection:
                 case MediaType.MediaIndiv:
@@ -107,7 +99,7 @@ namespace TDMakerLib
 
         public void CreateScreenshots()
         {
-            switch (Media.MediaTypeChoice)
+            switch (Media.Options.MediaTypeChoice)
             {
                 case MediaType.MediaDisc:
                     if (TakeScreenshot(this.Media.Overall, FileSystem.GetScreenShotsDir(this.Media.Overall.FilePath)))
@@ -137,9 +129,9 @@ namespace TDMakerLib
 
         public void UploadScreenshots()
         {
-            if (Media.UploadScreenshots)
+            if (Media.Options.UploadScreenshots)
             {
-                switch (Media.MediaTypeChoice)
+                switch (Media.Options.MediaTypeChoice)
                 {
                     case MediaType.MediaDisc:
                         UploadScreenshots(Media.Overall);
@@ -157,7 +149,7 @@ namespace TDMakerLib
 
         private void UploadScreenshots(MediaFile mf)
         {
-            if (Media.UploadScreenshots)
+            if (Media.Options.UploadScreenshots)
             {
                 foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
                 {
@@ -499,7 +491,7 @@ namespace TDMakerLib
         {
             StringBuilder sbPublish = new StringBuilder();
 
-            switch (Media.MediaTypeChoice)
+            switch (Media.Options.MediaTypeChoice)
             {
                 case MediaType.MediaDisc:
                     StringBuilder sbMediaInfo = new StringBuilder();
@@ -520,7 +512,7 @@ namespace TDMakerLib
 
                     sbPublish.AppendLine(GetPublishString(sbMediaInfo.ToString(), pop));
 
-                    if (Media.UploadScreenshots)
+                    if (Media.Options.UploadScreenshots)
                         sbPublish.AppendLine(Media.Overall.GetScreenshotString(pop));
 
                     break;
@@ -536,7 +528,7 @@ namespace TDMakerLib
 
                         sbPublish.AppendLine(GetPublishString(sbMediaInfo.ToString(), pop));
 
-                        if (Media.UploadScreenshots)
+                        if (Media.Options.UploadScreenshots)
                             sbPublish.AppendLine(mf.GetScreenshotString(pop));
                     }
 
@@ -556,7 +548,7 @@ namespace TDMakerLib
         public string CreatePublishInternal(PublishOptionsPacket pop)
         {
             StringBuilder sbPublish = new StringBuilder();
-            string info = Media.MediaTypeChoice == MediaType.MusicAudioAlbum ? Media.ToStringAudio() : Media.ToStringMedia(pop);
+            string info = Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum ? Media.ToStringAudio() : Media.ToStringMedia(pop);
             sbPublish.Append(GetPublishString(info, pop));
 
             return sbPublish.ToString().Trim();

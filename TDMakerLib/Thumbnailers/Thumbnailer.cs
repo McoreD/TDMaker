@@ -22,6 +22,7 @@ namespace TDMakerLib
         protected List<ScreenshotInfo> TempScreenshots = new List<ScreenshotInfo>();
         public List<ScreenshotInfo> Screenshots = new List<ScreenshotInfo>();
         protected int TimeSlice;
+        protected List<int> MediaSeekTimes = new List<int>();
 
         public string MediaSummary { get; protected set; }
 
@@ -36,6 +37,10 @@ namespace TDMakerLib
             Options = options;
 
             TimeSlice = GetTimeSlice(Options.ScreenshotCount);
+            for (int i = 1; i < Options.ScreenshotCount + 2; i++)
+            {
+                MediaSeekTimes.Add(GetTimeSlice(Options.ScreenshotCount, 2) * i);
+            }
         }
 
         public virtual void TakeScreenshot()
@@ -48,11 +53,14 @@ namespace TDMakerLib
                     ThumbnailerPath = App.Settings.MPlayerPath;
                     if (File.Exists(MPlayerTempFp)) File.Delete(MPlayerTempFp);
                     break;
+                case ThumbnailerType.FFmpeg:
+                    ThumbnailerPath = App.Settings.FFmpegPath;
+                    break;
             }
 
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {
-                int timeSliceElapsed = TimeSlice * (i + 1);
+                int timeSliceElapsed = Options.RandomFrame ? GetRandomTimeSlice(i) : TimeSlice * (i + 1);
                 string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.png", Path.GetFileNameWithoutExtension(MediaFile.FilePath), timeSliceElapsed));
 
                 ProcessStartInfo psi = new ProcessStartInfo(ThumbnailerPath);
@@ -63,6 +71,9 @@ namespace TDMakerLib
                     case ThumbnailerType.MPlayer:
                         psi.Arguments = string.Format("-nosound -ss {0} -zoom -vf screenshot -frames 1 -vo png:z=9:outdir=\\\"{1}\\\" \"{2}\"",
                                timeSliceElapsed, ScreenshotDir, MediaFile.FilePath);
+                        break;
+                    case ThumbnailerType.FFmpeg:
+                        psi.Arguments = string.Format("-ss {0} -i \"{1}\" -f image2 -vframes 1 -y \"{2}\"", timeSliceElapsed, MediaFile.FilePath, tempScreenshotPath);
                         break;
                 }
 
@@ -118,9 +129,15 @@ namespace TDMakerLib
             }
         }
 
-        protected int GetTimeSlice(int numScreenshots)
+        protected int GetRandomTimeSlice(int start)
         {
-            return (int)(MediaFile.SegmentDuration / ((numScreenshots + 1) * 1000));
+            Random random = new Random();
+            return (int)(random.NextDouble() * (MediaSeekTimes[start + 1] - MediaSeekTimes[start]) + MediaSeekTimes[start]);
+        }
+
+        protected int GetTimeSlice(int numScreenshots, int extraSlices = 1)
+        {
+            return (int)(MediaFile.SegmentDuration / ((numScreenshots + extraSlices) * 1000));
         }
 
         protected Image CombineScreenshots(List<ScreenshotInfo> screenshots)
