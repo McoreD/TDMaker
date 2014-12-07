@@ -1,4 +1,5 @@
-﻿using Mono.Options;
+﻿using HelpersLib;
+using Mono.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -131,7 +132,7 @@ namespace TDMakerCLI
             Console.WriteLine();
             Console.WriteLine("Example:");
             Console.WriteLine(@"tdmakercli -m ""T:\Criminal Minds"" -s -u -t");
-            Console.WriteLine(@"tdmakercli -m ""T:\Criminal Minds"" -s -u -t --rd ""T:\Criminal Minds""");
+            Console.WriteLine(@"tdmakercli -m ""P:\Hercules.2014.576p.BDRip.x264-HANDJOB.mkv"" -s -u -t --rd ""P:\Screenshots""");
             Console.WriteLine();
         }
 
@@ -155,7 +156,7 @@ namespace TDMakerCLI
                 FullPicture = App.Settings.UseFullPicture,
                 PreformattedText = App.Settings.PreText,
                 PublishInfoTypeChoice = App.Settings.PublishInfoTypeChoice,
-                TemplateLocation = Path.Combine(App.TemplatesDir, "Default")
+                TemplateLocation = Path.Combine(App.TemplatesDir, "BTN")
             };
             ti.PublishString = Adapter.CreatePublish(ti, pop);
 
@@ -164,21 +165,24 @@ namespace TDMakerCLI
 
         private static void CreateTorrent(TorrentInfo ti)
         {
-            // create a torrent
-            if (mTorrentCreate || Directory.Exists(mTorrentsDir))
+            if (mTorrentCreate)
             {
-                ti.Media.TorrentCreateInfoMy = new TorrentCreateInfo(App.Settings.TrackerGroups[App.Settings.TrackerGroupActive], mMediaLoc);
-                if (Directory.Exists(mTorrentsDir))
+                if (App.Settings.TrackerGroups.Count > 0 && App.Settings.TrackerGroupActive > -1)
                 {
-                    ti.Media.TorrentCreateInfoMy.TorrentFolder = mTorrentsDir;
-                }
-                ti.Media.TorrentCreateInfoMy.CreateTorrent();
+                    Helpers.CreateDirectoryIfNotExist(mTorrentsDir);
+                    ti.Media.TorrentCreateInfoMy = new TorrentCreateInfo(App.Settings.TrackerGroups[App.Settings.TrackerGroupActive], mMediaLoc);
+                    if (Directory.Exists(mTorrentsDir))
+                    {
+                        ti.Media.TorrentCreateInfoMy.TorrentFolder = mTorrentsDir;
+                    }
+                    ti.Media.TorrentCreateInfoMy.CreateTorrent();
 
-                // create xml file
-                if (mXmlCreate)
-                {
-                    string fp = Path.Combine(ti.Media.TorrentCreateInfoMy.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfoMy.MediaLocation)) + ".xml";
-                    FileSystem.GetXMLTorrentUpload(ti.Media).Write2(fp);
+                    // create xml file
+                    if (mXmlCreate)
+                    {
+                        string fp = Path.Combine(ti.Media.TorrentCreateInfoMy.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfoMy.MediaLocation)) + ".xml";
+                        FileSystem.GetXMLTorrentUpload(ti.Media).Write2(fp);
+                    }
                 }
             }
         }
