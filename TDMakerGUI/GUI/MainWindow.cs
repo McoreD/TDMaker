@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -28,19 +29,12 @@ namespace TDMaker
 
         private void MainWindow_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.All;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
+            e.Effect = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.All : DragDropEffects.None;
         }
 
         private void MainWindow_DragDrop(object sender, DragEventArgs e)
         {
-            string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop, true);
+            var paths = (string[])e.Data.GetData(DataFormats.FileDrop, true);
             LoadMedia(paths);
         }
 
@@ -50,37 +44,7 @@ namespace TDMaker
 
             LoadSettingsToControls();
 
-            // Logo
-            string logo1 = Path.Combine(Application.StartupPath, "logo1.png");
-            if (!File.Exists(logo1))
-            {
-                logo1 = Path.Combine(App.SettingsDir, "logo1.png");
-            }
-
-            string logo2 = Path.Combine(Application.StartupPath, "logo.png");
-            if (!File.Exists(logo2))
-            {
-                logo2 = Path.Combine(App.SettingsDir, "logo.png");
-            }
-
-            if (File.Exists(logo1))
-            {
-                gbLocation.BackgroundImage = Image.FromFile(logo1);
-                gbLocation.BackgroundImageLayout = ImageLayout.Stretch;
-            }
-            else if (File.Exists(logo2))
-            {
-                //this.BackgroundImage = Image.FromFile(logo);
-                //this.BackgroundImageLayout = ImageLayout.Tile;
-                //tpMedia.BackgroundImage = Image.FromFile(logo);
-                //tpMedia.BackgroundImageLayout = ImageLayout.None;
-                pbLogo.BackgroundImage = Image.FromFile(logo2);
-                pbLogo.BackgroundImageLayout = ImageLayout.Stretch;
-                pbLogo.BackColor = SystemColors.ControlDark;
-                BackColor = SystemColors.ControlDark;
-            }
-
-            sBar.Text = string.Format("Ready.");
+            sBar.Text = string.Format(Resources.MainWindow_bwApp_RunWorkerCompleted_Ready_);
 
             tttvMain.MainTabControl = tcMain;
 
@@ -94,47 +58,50 @@ namespace TDMaker
             rtbDebugLog.Text = DebugHelper.Logger.ToString();
             DebugHelper.Logger.MessageAdded += Logger_MessageAdded;
 
-            if (App.Settings.ThumbnailerType == ThumbnailerType.FFmpeg)
+            switch (App.Settings.ThumbnailerType)
             {
-                if (!File.Exists(App.Settings.FFmpegPath))
-                {
-                    DialogResult result = MessageBox.Show("FFmpeg is not configured. \n\nWould you like to download the latest FFmpeg?", Application.ProductName, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                case ThumbnailerType.FFmpeg:
+                    if (!File.Exists(App.Settings.FFmpegPath))
+                    {
+                        DialogResult result = MessageBox.Show(Resources.MainWindow_MainWindow_Shown_, Application.ProductName, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-                    if (result == System.Windows.Forms.DialogResult.Yes)
-                    {
-                        btnDownloadFFmpeg_Click(sender, e);
-                    }
-                    else if (result == System.Windows.Forms.DialogResult.No)
-                    {
-                        OpenFileDialog dlg = new OpenFileDialog();
-                        dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                        dlg.Title = "Browse for ffmpeg.exe";
-                        dlg.Filter = "Applications (ffmpeg.exe)|ffmpeg.exe";
-                        if (dlg.ShowDialog() == DialogResult.OK)
+                        if (result == System.Windows.Forms.DialogResult.Yes)
                         {
-                            App.Settings.FFmpegPath = dlg.FileName;
+                            btnDownloadFFmpeg_Click(sender, e);
+                        }
+                        else if (result == System.Windows.Forms.DialogResult.No)
+                        {
+                            OpenFileDialog dlg = new OpenFileDialog();
+                            dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+                            dlg.Title = Resources.MainWindow_MainWindow_Shown_Browse_for_ffmpeg_exe;
+                            dlg.Filter = Resources.MainWindow_MainWindow_Shown_Applications__ffmpeg_exe__ffmpeg_exe;
+                            if (dlg.ShowDialog() == DialogResult.OK)
+                            {
+                                App.Settings.FFmpegPath = dlg.FileName;
+                            }
                         }
                     }
-                }
-            }
-            else if (App.Settings.ThumbnailerType == ThumbnailerType.MPlayer)
-            {
-                if (!File.Exists(App.Settings.MPlayerPath))
-                {
-                    OpenFileDialog dlg = new OpenFileDialog();
-                    dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                    string mplayer = "http://mplayerwin.sourceforge.net/downloads.html";
-                    dlg.Title = "Browse for mplayer.exe or download from " + mplayer;
-                    dlg.Filter = "Applications (mplayer.exe)|mplayer.exe";
-                    if (dlg.ShowDialog() == DialogResult.OK)
+                    break;
+                case ThumbnailerType.MPlayer:
+                    if (!File.Exists(App.Settings.MPlayerPath))
                     {
-                        App.Settings.MPlayerPath = dlg.FileName;
+                        var dlg = new OpenFileDialog
+                        {
+                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
+                        };
+                        const string mplayer = "http://mplayerwin.sourceforge.net/downloads.html";
+                        dlg.Title = Resources.MainWindow_MainWindow_Shown_Browse_for_mplayer_exe_or_download_from_ + mplayer;
+                        dlg.Filter = Resources.MainWindow_MainWindow_Shown_Applications__mplayer_exe__mplayer_exe;
+                        if (dlg.ShowDialog() == DialogResult.OK)
+                        {
+                            App.Settings.MPlayerPath = dlg.FileName;
+                        }
+                        else
+                        {
+                            URLHelpers.OpenURL(mplayer);
+                        }
                     }
-                    else
-                    {
-                        URLHelpers.OpenURL(mplayer);
-                    }
-                }
+                    break;
             }
 
             if (ProgramUI.ExplorerFilePaths.Count > 0)
@@ -169,7 +136,7 @@ namespace TDMaker
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Multiselect = true;
-            dlg.Title = "Browse for Media file...";
+            dlg.Title = Resources.MainWindow_OpenFile_Browse_for_Media_file___;
             StringBuilder sbExt = new StringBuilder();
             sbExt.Append("Media Files (");
             StringBuilder sbExtDesc = new StringBuilder();
@@ -197,7 +164,7 @@ namespace TDMaker
         private void OpenFolder()
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
-            dlg.Description = "Browse for media disc folder...";
+            dlg.Description = Resources.MainWindow_OpenFolder_Browse_for_media_disc_folder___;
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 LoadMedia(new string[] { dlg.SelectedPath });
@@ -214,7 +181,7 @@ namespace TDMaker
 
             if (!App.Settings.WritePublish && ps.Length > 1)
             {
-                if (MessageBox.Show("Writing Publish info to File is recommended when analysing multiple files or folders. \n\nWould you like to turn this feature on?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show(Resources.MainWindow_LoadMedia_, Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     App.Settings.WritePublish = true;
                 }
@@ -310,7 +277,7 @@ namespace TDMaker
                     {
                         if (File.Exists(fd) || Directory.Exists(fd))
                         {
-                            MakeGUIReadyForAnalysis();
+                            MakeGuiReadyForAnalysis();
 
                             MediaInfo2 mi = this.PrepareNewMedia(wt, fd);
 
@@ -332,12 +299,7 @@ namespace TDMaker
                 }
 
                 // Attach the MediaInfo2 object in to TorrentInfo
-                List<TorrentInfo> tiList = new List<TorrentInfo>();
-                foreach (MediaInfo2 mi in miList)
-                {
-                    TorrentInfo ti = new TorrentInfo(bwApp, mi);
-                    tiList.Add(ti);
-                }
+                var tiList = miList.Select(mi => new TorrentInfo(bwApp, mi)).ToList();
                 wt.MediaList = tiList;
 
                 if (!bwApp.IsBusy)
@@ -359,7 +321,7 @@ namespace TDMaker
             return info.Report;
         }
 
-        private void MakeGUIReadyForAnalysis()
+        private void MakeGuiReadyForAnalysis()
         {
             pBar.Value = 0;
         }
@@ -396,7 +358,7 @@ namespace TDMaker
 
             if (sbMsg.Length > 0)
             {
-                MessageBox.Show("The following errors were found:\n\n" + sbMsg.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(Resources.MainWindow_ValidateInput_ + sbMsg.ToString(), Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return false;
             }
 
@@ -762,11 +724,11 @@ namespace TDMaker
                 }
 
                 lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
-                sBar.Text = "Ready.";
+                sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready_;
             }
             else
             {
-                sBar.Text = "Ready. One or more tasks failed.";
+                sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready__One_or_more_tasks_failed_;
             }
 
             UpdateGuiControls();
@@ -779,15 +741,15 @@ namespace TDMaker
 
         private void pbScreenshot_MouseClick(object sender, MouseEventArgs e)
         {
-            PictureBox pbScreenshot = sender as PictureBox;
-            Helpers.OpenFile(pbScreenshot.ImageLocation);
+            PictureBox screenshot = sender as PictureBox;
+            if (screenshot != null) Helpers.OpenFile(screenshot.ImageLocation);
         }
 
         private void tmrStatus_Tick(object sender, EventArgs e)
         {
             tssPerc.Text = (bwApp.IsBusy ? string.Format("{0}%", (100.0 * (double)pBar.Value / (double)pBar.Maximum).ToString("0")) : "");
-            btnAnalyze.Text = "Create &description" + (lbFiles.SelectedItems.Count > 1 ? "s" : "");
-            btnCreateTorrent.Text = "Create &torrent" + (lbPublish.SelectedItems.Count > 1 ? "s" : "");
+            btnAnalyze.Text = Resources.MainWindow_tmrStatus_Tick_Create__description + (lbFiles.SelectedItems.Count > 1 ? "s" : "");
+            btnCreateTorrent.Text = Resources.MainWindow_tmrStatus_Tick_Create__torrent + (lbPublish.SelectedItems.Count > 1 ? "s" : "");
             btnBrowse.Enabled = !bwApp.IsBusy;
             btnBrowseDir.Enabled = !bwApp.IsBusy;
             btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
@@ -816,7 +778,7 @@ namespace TDMaker
             if (e.UserState != null)
             {
                 string msg = "";
-                if (e.UserState.GetType() == typeof(string))
+                if (e.UserState is string)
                 {
                     msg = e.UserState.ToString();
                 }
@@ -926,7 +888,7 @@ namespace TDMaker
                 }
                 if (tps.Count > 0)
                 {
-                    WorkerTask wt = new WorkerTask(bwApp, TaskType.CREATE_TORRENT);
+                    var wt = new WorkerTask(bwApp, TaskType.CREATE_TORRENT);
                     wt.MediaList = tiList;
                     wt.TorrentPackets = tps;
                     bwApp.RunWorkerAsync(wt);
@@ -953,13 +915,15 @@ namespace TDMaker
                 TorrentInfo ti = GetTorrentInfo();
                 if (ti != null)
                 {
-                    PublishOptionsPacket pop = new PublishOptionsPacket();
-                    pop.AlignCenter = chkQuickAlignCenter.Checked;
-                    pop.FullPicture = chkQuickFullPicture.Checked;
-                    pop.PreformattedText = chkQuickPre.Checked;
+                    var pop = new PublishOptionsPacket
+                    {
+                        AlignCenter = chkQuickAlignCenter.Checked,
+                        FullPicture = chkQuickFullPicture.Checked,
+                        PreformattedText = chkQuickPre.Checked,
+                        PublishInfoTypeChoice = (PublishInfoType)cboQuickPublishType.SelectedIndex,
+                        TemplateLocation = Path.Combine(App.TemplatesDir, cboQuickTemplate.Text)
+                    };
 
-                    pop.PublishInfoTypeChoice = (PublishInfoType)cboQuickPublishType.SelectedIndex;
-                    pop.TemplateLocation = Path.Combine(App.TemplatesDir, cboQuickTemplate.Text);
 
                     txtPublish.Text = Adapter.CreatePublish(ti, pop);
 
@@ -974,7 +938,6 @@ namespace TDMaker
                         txtPublish.ForeColor = System.Drawing.SystemColors.WindowText;
                     }
                 }
-                Console.WriteLine("CreatePublish called from " + new StackFrame(1).GetMethod().Name);
             }
         }
 
@@ -1026,7 +989,7 @@ namespace TDMaker
 
         private void btnTemplatesRewrite_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("This will rewrite old copies of TDMaker created Templates. Your own templates will not be affected. \n\nAre you sure?", Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show(Resources.MainWindow_btnTemplatesRewrite_Click_, Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 App.WriteTemplates(true);
             }
@@ -1034,15 +997,6 @@ namespace TDMaker
 
         private void OpenVersionHistory()
         {
-            /*string h = App.GetText("VersionHistory.txt");
-
-            if (h != string.Empty)
-            {
-                TextViewer v = new TextViewer(string.Format("{0} - {1}", Application.ProductName, "Version History"), h);
-                v.Icon = this.Icon;
-                v.ShowDialog();
-            }*/
-
             URLHelpers.OpenURL("https://github.com/McoreD/TDMaker/wiki/Changelog");
         }
 
@@ -1065,14 +1019,13 @@ namespace TDMaker
 
         private void SetComboBoxTextColor(ref ComboBox cbo)
         {
-            string hexColor = "";
             ColorDialog cd = new ColorDialog();
             cd.FullOpen = true;
             cd.AnyColor = true;
 
             if (cd.ShowDialog() == DialogResult.OK)
             {
-                hexColor = string.Format("0x{0:X8}", cd.Color.ToArgb());
+                var hexColor = string.Format("0x{0:X8}", cd.Color.ToArgb());
                 hexColor = hexColor.Substring(hexColor.Length - 6, 6);
                 cbo.Text = hexColor;
                 cbo.BackColor = cd.Color;
@@ -1084,7 +1037,7 @@ namespace TDMaker
             if (GetTorrentInfo() != null)
             {
                 SaveFileDialog dlg = new SaveFileDialog();
-                dlg.Filter = "Text Files (*.txt)|*.txt";
+                dlg.Filter = Resources.MainWindow_WriteMediaInfo_Text_Files____txt____txt;
                 dlg.FileName = GetTorrentInfo().Media.Title;
 
                 if (dlg.ShowDialog() == DialogResult.OK)
@@ -1120,11 +1073,11 @@ namespace TDMaker
         {
             if (tcMain.SelectedTab == tpMediaInfo)
             {
-                miFileSaveInfoAs.Text = "&Save Media Info As...";
+                miFileSaveInfoAs.Text = Resources.MainWindow_tcMain_SelectedIndexChanged__Save_Media_Info_As___;
             }
             else
             {
-                miFileSaveInfoAs.Text = "&Save Publish Info As...";
+                miFileSaveInfoAs.Text = Resources.MainWindow_tcMain_SelectedIndexChanged__Save_Publish_Info_As___;
             }
         }
 
@@ -1339,7 +1292,7 @@ namespace TDMaker
         private void pbScreenshot_MouseDown(object sender, MouseEventArgs e)
         {
             ScreenshotInfo ss = pbScreenshot.Tag as ScreenshotInfo;
-            if (File.Exists(ss.LocalPath))
+            if (ss != null && File.Exists(ss.LocalPath))
             {
                 Helpers.OpenFile(ss.LocalPath);
             }
@@ -1359,9 +1312,17 @@ namespace TDMaker
             if (lbMediaInfo.SelectedIndex > -1)
             {
                 if (!chkMediaInfoComplete.Checked)
-                    txtMediaInfo.Text = (lbMediaInfo.Items[lbMediaInfo.SelectedIndex] as MediaFile).Summary;
+                {
+                    var mediaFile = lbMediaInfo.Items[lbMediaInfo.SelectedIndex] as MediaFile;
+                    if (mediaFile != null)
+                        txtMediaInfo.Text = mediaFile.Summary;
+                }
                 else
-                    txtMediaInfo.Text = (lbMediaInfo.Items[lbMediaInfo.SelectedIndex] as MediaFile).SummaryComplete;
+                {
+                    var file = lbMediaInfo.Items[lbMediaInfo.SelectedIndex] as MediaFile;
+                    if (file != null)
+                        txtMediaInfo.Text = file.SummaryComplete;
+                }
             }
         }
 
@@ -1406,11 +1367,7 @@ namespace TDMaker
         {
             if (e.KeyCode == Keys.Delete)
             {
-                List<string> temp = new List<string>();
-                foreach (string fd in lbFiles.SelectedItems)
-                {
-                    temp.Add(fd);
-                }
+                List<string> temp = lbFiles.SelectedItems.Cast<string>().ToList();
                 foreach (string fd in temp)
                 {
                     lbFiles.Items.Remove(fd);
@@ -1451,11 +1408,11 @@ namespace TDMaker
                     App.Settings.FFmpegPath = extractPath;
                 });
 
-                MessageBox.Show("Successfully downloaded FFmpeg.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(Resources.MainWindow_DownloaderForm_InstallRequested_Successfully_downloaded_FFmpeg_, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Failed to download FFmpeg.", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Resources.MainWindow_DownloaderForm_InstallRequested_Failed_to_download_FFmpeg_, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1512,7 +1469,7 @@ namespace TDMaker
 
         private void btnAddScreenshotProfile_Click(object sender, EventArgs e)
         {
-            ProfileOptions profile = new ProfileOptions() { Name = string.Format("Profile {0}", App.Settings.Profiles.Count) };
+            ProfileOptions profile = new ProfileOptions() { Name = "New Profile" };
             listBoxProfiles.Items.Add(profile);
             App.Settings.Profiles.Add(profile);
             listBoxProfiles.SelectedIndex = (listBoxProfiles.Items.Count - 1);
@@ -1538,7 +1495,7 @@ namespace TDMaker
 
         private void LoadProfileControls()
         {
-            Text = App.GetProductName() + " - " + App.Settings.ProfileActive.Name;
+            Text = string.Format("{0} - {1}", App.GetProductName(), App.Settings.ProfileActive.Name);
             pgProfileOptions.SelectedObject = App.Settings.ProfileActive;
 
             if (IsGuiReady)
