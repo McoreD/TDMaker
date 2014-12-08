@@ -1,11 +1,9 @@
 ﻿using HelpersLib;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using UploadersLib;
 using UploadersLib.FileUploaders;
@@ -207,13 +205,8 @@ namespace TDMakerLib
             }
             else
             {
-                switch ((ImageDestination)App.Settings.ProfileActive.ImageUploaderType)
+                switch (App.Settings.ProfileActive.ImageUploaderType)
                 {
-                    case ImageDestination.TinyPic:
-                        imageUploader = new TinyPicUploader(ZKeys.TinyPicID, ZKeys.TinyPicKey, App.UploadersConfig.TinyPicAccountType,
-                            App.UploadersConfig.TinyPicRegistrationCode);
-                        break;
-
                     case ImageDestination.Imgur:
                         if (App.UploadersConfig.ImgurOAuth2Info == null)
                         {
@@ -235,15 +228,15 @@ namespace TDMakerLib
                             UploadAlbumID = albumID
                         };
                         break;
-
+                    case ImageDestination.TinyPic:
+                        imageUploader = new TinyPicUploader(APIKeys.TinyPicID, APIKeys.TinyPicKey, App.UploadersConfig.TinyPicAccountType, App.UploadersConfig.TinyPicRegistrationCode);
+                        break;
                     case ImageDestination.Flickr:
                         imageUploader = new FlickrUploader(APIKeys.FlickrKey, APIKeys.FlickrSecret, App.UploadersConfig.FlickrAuthInfo, App.UploadersConfig.FlickrSettings);
                         break;
-
                     case ImageDestination.Photobucket:
                         imageUploader = new Photobucket(App.UploadersConfig.PhotobucketOAuthInfo, App.UploadersConfig.PhotobucketAccountInfo);
                         break;
-
                     case ImageDestination.Picasa:
                         imageUploader = new Picasa(App.UploadersConfig.PicasaOAuth2Info)
                         {
@@ -272,7 +265,6 @@ namespace TDMakerLib
                             imageUploader = new CustomImageUploader(App.UploadersConfig.CustomUploadersList[App.UploadersConfig.CustomImageUploaderSelected]);
                         }
                         break;
-
                     case ImageDestination.FileUploader:
                         return UploadFile(ssPath);
                 }

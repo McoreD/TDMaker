@@ -14,7 +14,7 @@ namespace TDMakerLib
         private static readonly string PortableRootFolder = mProductName; // using relative paths
         public static readonly string RootAppFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), mProductName);
 
-        public static McoreSystem.AppInfo mAppInfo = new McoreSystem.AppInfo(mProductName, Application.ProductVersion, McoreSystem.AppInfo.SoftwareCycle.Beta, false);
+        public static AppInfo mAppInfo = new AppInfo(mProductName, Application.ProductVersion, AppInfo.SoftwareCycle.Beta, false);
         public static bool Portable = Directory.Exists(Path.Combine(Application.StartupPath, PortableRootFolder));
 
         public static readonly string LogsDir = Path.Combine(RootAppFolder, "Logs");
@@ -165,7 +165,7 @@ namespace TDMakerLib
 
         public static string GetProductName()
         {
-            return mAppInfo.GetApplicationTitle(McoreSystem.AppInfo.VersionDepth.MajorMinorBuild);
+            return mAppInfo.GetApplicationTitle(AppInfo.VersionDepth.MajorMinorBuild);
         }
 
         public static void TurnOn()

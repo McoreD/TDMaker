@@ -63,21 +63,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\MonoTorrent.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp, Version=2.0.3.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -121,7 +110,6 @@
     <Compile Include="Thumbnailers\FFmpegThumbnailer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="Helpers\TDMKeys.cs" />
     <Compile Include="Templates\TemplateItem.cs" />
     <Compile Include="Templates\MappingHelper.cs" />
     <Compile Include="Templates\TemplateReader2.cs" />
@@ -201,9 +189,6 @@
     <EmbeddedResource Include="Templates\MTN\GeneralInfo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="VersionHistory.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Templates\BTN\File.txt" />
     <Content Include="Templates\MediaInfo.txt" />
   </ItemGroup>
@@ -232,10 +217,6 @@
     <ProjectReference Include="..\..\ShareX\UploadersLib\UploadersLib.csproj">
       <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>
       <Name>UploadersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib\BDInfo\BDInfo\BDInfo.csproj">
-      <Project>{3209af1d-4762-4960-9de5-13e90e77ee96}</Project>
-      <Name>BDInfo</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -9,18 +9,13 @@ namespace TDMaker
 {
     internal static class ProgramUI
     {
-        /// <summary>
-        /// Application Version
-        /// </summary>
         public static readonly Version AssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version;
-        public static McoreSystem.AppInfo gAppInfo = new McoreSystem.AppInfo(Application.ProductName, Application.ProductVersion, McoreSystem.AppInfo.SoftwareCycle.Final);
+        public static AppInfo gAppInfo = new AppInfo(Application.ProductName, Application.ProductVersion, AppInfo.SoftwareCycle.Final);
 
         public static List<string> ExplorerFilePaths = new List<string>();
 
         public static TaskType CurrentTask { get; set; }
 
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         private static void Main(string[] args)
         {

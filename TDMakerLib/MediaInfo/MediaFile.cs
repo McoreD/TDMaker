@@ -22,7 +22,6 @@ namespace TDMakerLib
         public string EncodedApplication { get; set; }
         public string BitrateOverall { get; set; }
 
-
         /// <summary>
         /// Duration in milli seconds
         /// </summary>
@@ -181,7 +180,6 @@ namespace TDMakerLib
                     this.EncodedApplication = MI.Get(StreamKind.General, 0, "Encoded_Application");
                     this.EncodedDate = MI.Get(StreamKind.General, 0, "Encoded_Date");
 
-
                     if (string.IsNullOrEmpty(this.Subtitles))
                     {
                         StringBuilder sbSubs = new StringBuilder();
@@ -217,8 +215,6 @@ namespace TDMakerLib
                         }
 
                         this.Subtitles = sbSubs.ToString();
-
-
                     }
 
                     //*********************

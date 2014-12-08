@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Torrent Description Maker")]
 [assembly: AssemblyDescription("Program used to create a Media Description, Screenshot and a Torrent of a Media file")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Passthepopcorn")]
+[assembly: AssemblyCompany("McoreD")]
 [assembly: AssemblyProduct("TDMaker")]
 [assembly: AssemblyCopyright("Copyright © McoreD 2009 - 2014")]
 [assembly: AssemblyTrademark("")]
