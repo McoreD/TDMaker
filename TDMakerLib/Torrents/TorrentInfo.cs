@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using UploadersLib;
 using UploadersLib.FileUploaders;
@@ -510,7 +511,6 @@ namespace TDMakerLib
                         sbPublish.AppendLine(Media.Overall.GetScreenshotString(pop));
 
                     break;
-
                 default:
                     foreach (MediaFile mf in Media.MediaFiles)
                     {
@@ -559,7 +559,6 @@ namespace TDMakerLib
                     case ProgressType.UPDATE_STATUSBAR_DEBUG:
                         Debug.WriteLine((string)userState);
                         break;
-
                     case ProgressType.UPDATE_SCREENSHOTS_LIST:
                         ScreenshotInfo ss = userState as ScreenshotInfo;
                         Debug.WriteLine("Screenshot: " + ss.FullImageLink);
@@ -571,6 +570,11 @@ namespace TDMakerLib
         public string GetPublishString(string p, PublishOptionsPacket options)
         {
             StringBuilder sbPublish = new StringBuilder();
+
+            if (App.Settings.ProfileActive.HidePrivateInfo)
+            {
+                p = Regex.Replace(p, "(?<=Complete name *: ).+?(?=\\r)", match => Path.GetFileName(match.Value));
+            }
 
             if (options.AlignCenter)
             {

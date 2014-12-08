@@ -1319,17 +1319,18 @@ namespace TDMaker
         {
             if (lbMediaInfo.SelectedIndex > -1)
             {
-                if (!chkMediaInfoComplete.Checked)
+                MediaFile mediaFile = lbMediaInfo.Items[lbMediaInfo.SelectedIndex] as MediaFile;
+
+                if (mediaFile != null)
                 {
-                    var mediaFile = lbMediaInfo.Items[lbMediaInfo.SelectedIndex] as MediaFile;
-                    if (mediaFile != null)
+                    if (!chkMediaInfoComplete.Checked)
+                    {
                         txtMediaInfo.Text = mediaFile.Summary;
-                }
-                else
-                {
-                    var file = lbMediaInfo.Items[lbMediaInfo.SelectedIndex] as MediaFile;
-                    if (file != null)
-                        txtMediaInfo.Text = file.SummaryComplete;
+                    }
+                    else
+                    {
+                        txtMediaInfo.Text = mediaFile.SummaryComplete;
+                    }
                 }
             }
         }
@@ -1340,11 +1341,6 @@ namespace TDMaker
             {
                 CreatePublishUser();
             }
-        }
-
-        private void cboMediaType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            UpdateGuiControls();
         }
 
         private void btnBrowseDir_Click(object sender, EventArgs e)

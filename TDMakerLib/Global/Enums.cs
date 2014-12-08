@@ -6,13 +6,10 @@ namespace TDMakerLib
     {
         [Description("Media disc e.g. DVD or BD")]
         MediaDisc,
-
         [Description("Single media file")]
         MediaIndiv,
-
         [Description("Media files collection")]
         MediaCollection,
-
         [Description("Music audio album")]
         MusicAudioAlbum
     }
@@ -21,10 +18,8 @@ namespace TDMakerLib
     {
         [Description("Rip")]
         Rip,
-
         [Description("Blu-ray")]
         Bluray,
-
         [Description("DVD")]
         DVD
     }
@@ -33,10 +28,8 @@ namespace TDMakerLib
     {
         [Description("Parent folder of the media file")]
         ParentFolder,
-
         [Description("Default folder")]
         KnownFolder,
-
         [Description("Custom folder")]
         CustomFolder,
     }
@@ -45,10 +38,8 @@ namespace TDMakerLib
     {
         [Description("Internal Template")]
         InternalTemplate,
-
         [Description("External Template")]
         ExternalTemplate,
-
         [Description("MediaInfo")]
         MediaInfo
     }
