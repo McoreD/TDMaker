@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using UploadersLib;
 
@@ -94,10 +95,7 @@ namespace TDMakerLib
             long mins = secLeft / 60;
             long sec = secLeft - mins * 60;
 
-            string duraString = string.Format("{0}:{1}:{2}",
-                hours.ToString("00"),
-                mins.ToString("00"),
-                sec.ToString("00"));
+            string duraString = string.Format("{0:00}:{1:00}:{2:00}", hours, mins, sec);
 
             return duraString;
         }
@@ -109,9 +107,9 @@ namespace TDMakerLib
             {
                 // Copy Default Templates to Templates folder
                 string dPrefix = string.Format("Templates.{0}.", name);
-                string tDir = Path.Combine(App.TemplatesDir, name);
+                string tDir = Path.Combine(TemplatesDir, name);
 
-                Helpers.CreateDirectoryIfNotExist(tDir);
+                Helpers.CreateDirectoryIfNotExist(tDir, false);
 
                 string[] tFiles = new string[] { "Disc.txt", "File.txt", "DiscAudioInfo.txt", "FileAudioInfo.txt", "GeneralInfo.txt", "FileVideoInfo.txt", "DiscVideoInfo.txt" };
 
@@ -136,12 +134,16 @@ namespace TDMakerLib
 
             try
             {
-                System.Reflection.Assembly oAsm = System.Reflection.Assembly.GetExecutingAssembly();
-                Stream oStrm = oAsm.GetManifestResourceStream(oAsm.GetName().Name + "." + name);
-                if (oStrm != null)
+                Assembly oAsm = Assembly.GetExecutingAssembly();
+                using (Stream oStrm = oAsm.GetManifestResourceStream(oAsm.GetName().Name + "." + name))
                 {
-                    StreamReader oRdr = new StreamReader(oStrm);
-                    text = oRdr.ReadToEnd();
+                    if (oStrm != null)
+                    {
+                        using (StreamReader oRdr = new StreamReader(oStrm))
+                        {
+                            text = oRdr.ReadToEnd();
+                        }
+                    }
                 }
             }
             catch (Exception ex)
