@@ -1,4 +1,5 @@
-﻿using MonoTorrent.Common;
+﻿using HelpersLib;
+using MonoTorrent.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,14 +11,14 @@ namespace TDMakerLib
 {
     public class TorrentCreateInfo
     {
-        public TrackerGroup TrackerGroupActive { get; private set; }
+        public ProfileOptions Profile { get; private set; }
         public string MediaLocation { get; private set; }
         public string TorrentFolder { get; set; }
         public string TorrentFilePath { get; private set; }
 
-        public TorrentCreateInfo(TrackerGroup tracker, string mediaLoc)
+        public TorrentCreateInfo(ProfileOptions profile, string mediaLoc)
         {
-            this.TrackerGroupActive = tracker;
+            this.Profile = profile;
             this.MediaLocation = mediaLoc;
             this.TorrentFolder = GetTorrentFolderPath();
         }
@@ -31,7 +32,7 @@ namespace TDMakerLib
                 case LocationType.CustomFolder:
                     if (Directory.Exists(App.Settings.CustomTorrentsDir) && App.Settings.TorrentsOrganize)
                     {
-                        dir = Path.Combine(App.Settings.CustomTorrentsDir, this.TrackerGroupActive.Name);
+                        dir = Path.Combine(App.Settings.CustomTorrentsDir, this.Profile.Name);
                     }
                     else
                     {
@@ -71,43 +72,41 @@ namespace TDMakerLib
         public void CreateTorrent(BackgroundWorker workerMy)
         {
             string p = this.MediaLocation;
-            if (this.TrackerGroupActive != null)
+            if (this.Profile != null && this.Profile.Trackers != null && (File.Exists(p) || Directory.Exists(p)))
             {
-                if (File.Exists(p) || Directory.Exists(p))
+                foreach (string tracker in this.Profile.Trackers)
                 {
-                    foreach (Tracker myTracker in this.TrackerGroupActive.Trackers)
+                    MonoTorrent.Common.TorrentCreator tc = new MonoTorrent.Common.TorrentCreator();
+                    tc.CreatedBy = Application.ProductName;
+                    tc.Private = true;
+                    tc.Comment = MediaHelper.GetMediaName(p);
+                    tc.Path = p;
+                    tc.PublisherUrl = "https://github.com/McoreD/TDMaker";
+                    tc.Publisher = Application.ProductName;
+                    tc.StoreMD5 = false; // delays torrent creation
+                    List<string> temp = new List<string>();
+                    temp.Add(tracker);
+                    tc.Announces.Add(temp);
+
+                    var uri = new Uri(tracker);
+                    string torrentFileName = string.Format("{0} - {1}.torrent", (File.Exists(p) ? Path.GetFileName(p) : MediaHelper.GetMediaName(p)), uri.Host);
+                    this.SetTorrentFilePath(torrentFileName);
+
+                    ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
+
+                    tc.Hashed += delegate(object o, TorrentCreatorEventArgs e)
                     {
-                        MonoTorrent.Common.TorrentCreator tc = new MonoTorrent.Common.TorrentCreator();
-                        tc.CreatedBy = Application.ProductName;
-                        tc.Private = true;
-                        tc.Comment = MediaHelper.GetMediaName(p);
-                        tc.Path = p;
-                        tc.PublisherUrl = "https://github.com/McoreD/TDMaker";
-                        tc.Publisher = Application.ProductName;
-                        tc.StoreMD5 = false; // delays torrent creation
-                        List<string> temp = new List<string>();
-                        temp.Add(myTracker.AnnounceURL);
-                        tc.Announces.Add(temp);
+                        ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_Cumulative, e.OverallCompletion);
+                    };
 
-                        string torrentFileName = string.Format("{0} - {1}.torrent", (File.Exists(p) ? Path.GetFileName(p) : MediaHelper.GetMediaName(p)), myTracker.Name);
-                        this.SetTorrentFilePath(torrentFileName);
-
-                        ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
-
-                        tc.Hashed += delegate(object o, TorrentCreatorEventArgs e)
-                        {
-                            ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_Cumulative, e.OverallCompletion);
-                        };
-
-                        HelpersLib.Helpers.CreateDirectoryIfNotExist(this.TorrentFilePath);
-                        tc.Create(this.TorrentFilePath);
-                        ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Created {0}", this.TorrentFilePath));
-                    }
+                    HelpersLib.Helpers.CreateDirectoryIfNotExist(this.TorrentFilePath);
+                    tc.Create(this.TorrentFilePath);
+                    ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Created {0}", this.TorrentFilePath));
                 }
             }
             else
             {
-                Console.WriteLine("There were no active trackers configured to create a torrent.");
+                DebugHelper.WriteLine("There were no active trackers configured to create a torrent.");
             }
         }
 

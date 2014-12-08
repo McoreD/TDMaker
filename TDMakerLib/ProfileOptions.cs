@@ -1,6 +1,7 @@
 ﻿using HelpersLib;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -65,10 +66,11 @@ namespace TDMakerLib
 
         #region Torrent creator
 
-        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(0), Description("Tracker group index")]
-        public int TrackerGroupIndex { get; set; }
+        [Category(ComponentModelStrings.TorrentCreator), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor)),
+        Description("Your personal Announce URL is usually shown in the upload page e.g. http://torrent.ubuntu.com:6969")]
+        public StringCollection Trackers { get; set; }
 
-        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create Torrent")]
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create torrent after analysing media.")]
         public bool CreateTorrent { get; set; }
 
         #endregion Torrent creator
@@ -76,6 +78,7 @@ namespace TDMakerLib
         public ProfileOptions()
         {
             this.ApplyDefaultPropertyValues();
+            Trackers = new StringCollection();
         }
 
         public override string ToString()

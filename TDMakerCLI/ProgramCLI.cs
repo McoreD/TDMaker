@@ -167,22 +167,19 @@ namespace TDMakerCLI
         {
             if (mTorrentCreate)
             {
-                if (App.Settings.TrackerGroups.Count > 0 && App.Settings.ProfileActive.TrackerGroupIndex > -1)
+                Helpers.CreateDirectoryIfNotExist(mTorrentsDir);
+                ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, mMediaLoc);
+                if (Directory.Exists(mTorrentsDir))
                 {
-                    Helpers.CreateDirectoryIfNotExist(mTorrentsDir);
-                    ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.TrackerGroups[App.Settings.ProfileActive.TrackerGroupIndex], mMediaLoc);
-                    if (Directory.Exists(mTorrentsDir))
-                    {
-                        ti.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
-                    }
-                    ti.Media.TorrentCreateInfo.CreateTorrent();
+                    ti.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
+                }
+                ti.Media.TorrentCreateInfo.CreateTorrent();
 
-                    // create xml file
-                    if (mXmlCreate)
-                    {
-                        string fp = Path.Combine(ti.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
-                        FileSystem.GetXMLTorrentUpload(ti.Media).Write2(fp);
-                    }
+                // create xml file
+                if (mXmlCreate)
+                {
+                    string fp = Path.Combine(ti.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
+                    FileSystem.GetXMLTorrentUpload(ti.Media).Write2(fp);
                 }
             }
         }

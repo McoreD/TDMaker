@@ -41,7 +41,6 @@ namespace TDMaker
             this.pBar = new System.Windows.Forms.ToolStripProgressBar();
             this.tmrStatus = new System.Windows.Forms.Timer(this.components);
             this.ttApp = new System.Windows.Forms.ToolTip(this.components);
-            this.btnRefreshTrackers = new System.Windows.Forms.Button();
             this.txtWebLink = new System.Windows.Forms.TextBox();
             this.msMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -139,30 +138,6 @@ namespace TDMaker
             this.tcSettings = new System.Windows.Forms.TabControl();
             this.tpSettingsGeneral = new System.Windows.Forms.TabPage();
             this.pgApp = new System.Windows.Forms.PropertyGrid();
-            this.tpTorrentCreator = new System.Windows.Forms.TabPage();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.cboTorrentLoc = new System.Windows.Forms.ComboBox();
-            this.chkWritePublish = new System.Windows.Forms.CheckBox();
-            this.chkTorrentOrganize = new System.Windows.Forms.CheckBox();
-            this.btnBrowseTorrentCustomFolder = new System.Windows.Forms.Button();
-            this.txtTorrentCustomFolder = new System.Windows.Forms.TextBox();
-            this.gbTrackerMgr = new System.Windows.Forms.GroupBox();
-            this.tlpTrackers = new System.Windows.Forms.TableLayoutPanel();
-            this.flpTrackers = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnAddTracker = new System.Windows.Forms.Button();
-            this.btnRemoveTracker = new System.Windows.Forms.Button();
-            this.pgTracker = new System.Windows.Forms.PropertyGrid();
-            this.flpTrackerGroups = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnAddTrackerGroup = new System.Windows.Forms.Button();
-            this.btnRemoveTrackerGroup = new System.Windows.Forms.Button();
-            this.btnUpdateGroup = new System.Windows.Forms.Button();
-            this.gbTrackerGroups = new System.Windows.Forms.GroupBox();
-            this.lbTrackerGroups = new System.Windows.Forms.ListBox();
-            this.gbTrackers = new System.Windows.Forms.GroupBox();
-            this.lbTrackers = new System.Windows.Forms.ListBox();
-            this.cboTrackerGroupActive = new System.Windows.Forms.ComboBox();
-            this.chkCreateTorrent = new System.Windows.Forms.CheckBox();
             this.tpSettingsProxy = new System.Windows.Forms.TabPage();
             this.lblProxyHost = new System.Windows.Forms.Label();
             this.cbProxyMethod = new System.Windows.Forms.ComboBox();
@@ -220,14 +195,6 @@ namespace TDMaker
             this.tpSettings.SuspendLayout();
             this.tcSettings.SuspendLayout();
             this.tpSettingsGeneral.SuspendLayout();
-            this.tpTorrentCreator.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            this.gbTrackerMgr.SuspendLayout();
-            this.tlpTrackers.SuspendLayout();
-            this.flpTrackers.SuspendLayout();
-            this.flpTrackerGroups.SuspendLayout();
-            this.gbTrackerGroups.SuspendLayout();
-            this.gbTrackers.SuspendLayout();
             this.tpSettingsProxy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudProxyPort)).BeginInit();
             this.tpProfiles.SuspendLayout();
@@ -292,18 +259,6 @@ namespace TDMaker
             this.tmrStatus.Enabled = true;
             this.tmrStatus.Interval = 1000;
             this.tmrStatus.Tick += new System.EventHandler(this.tmrStatus_Tick);
-            // 
-            // btnRefreshTrackers
-            // 
-            this.btnRefreshTrackers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefreshTrackers.Location = new System.Drawing.Point(753, 11);
-            this.btnRefreshTrackers.Name = "btnRefreshTrackers";
-            this.btnRefreshTrackers.Size = new System.Drawing.Size(75, 23);
-            this.btnRefreshTrackers.TabIndex = 5;
-            this.btnRefreshTrackers.Text = "&Refresh";
-            this.ttApp.SetToolTip(this.btnRefreshTrackers, "Refresh Trackers List from Tracker Manager");
-            this.btnRefreshTrackers.UseVisualStyleBackColor = true;
-            this.btnRefreshTrackers.Click += new System.EventHandler(this.btnRefreshTrackers_Click);
             // 
             // txtWebLink
             // 
@@ -991,7 +946,7 @@ namespace TDMaker
             this.tlpPublish.ColumnCount = 3;
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.00001F));
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.99999F));
-            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 196F));
+            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 197F));
             this.tlpPublish.Controls.Add(this.gbQuickPublish, 2, 0);
             this.tlpPublish.Controls.Add(this.txtPublish, 1, 0);
             this.tlpPublish.Controls.Add(this.lbPublish, 0, 0);
@@ -1007,9 +962,9 @@ namespace TDMaker
             // 
             this.gbQuickPublish.Controls.Add(this.flpPublishConfig);
             this.gbQuickPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuickPublish.Location = new System.Drawing.Point(664, 3);
+            this.gbQuickPublish.Location = new System.Drawing.Point(663, 3);
             this.gbQuickPublish.Name = "gbQuickPublish";
-            this.gbQuickPublish.Size = new System.Drawing.Size(191, 479);
+            this.gbQuickPublish.Size = new System.Drawing.Size(192, 479);
             this.gbQuickPublish.TabIndex = 1;
             this.gbQuickPublish.TabStop = false;
             this.gbQuickPublish.Text = "Quick Options";
@@ -1025,7 +980,7 @@ namespace TDMaker
             this.flpPublishConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpPublishConfig.Location = new System.Drawing.Point(3, 16);
             this.flpPublishConfig.Name = "flpPublishConfig";
-            this.flpPublishConfig.Size = new System.Drawing.Size(185, 460);
+            this.flpPublishConfig.Size = new System.Drawing.Size(186, 460);
             this.flpPublishConfig.TabIndex = 7;
             // 
             // chkQuickPre
@@ -1094,7 +1049,7 @@ namespace TDMaker
             this.txtPublish.Multiline = true;
             this.txtPublish.Name = "txtPublish";
             this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtPublish.Size = new System.Drawing.Size(523, 479);
+            this.txtPublish.Size = new System.Drawing.Size(522, 479);
             this.txtPublish.TabIndex = 0;
             this.txtPublish.WordWrap = false;
             this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
@@ -1414,7 +1369,6 @@ namespace TDMaker
             // tcSettings
             // 
             this.tcSettings.Controls.Add(this.tpSettingsGeneral);
-            this.tcSettings.Controls.Add(this.tpTorrentCreator);
             this.tcSettings.Controls.Add(this.tpSettingsProxy);
             this.tcSettings.Controls.Add(this.tpProfiles);
             this.tcSettings.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1444,292 +1398,6 @@ namespace TDMaker
             this.pgApp.TabIndex = 0;
             this.pgApp.ToolbarVisible = false;
             this.pgApp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgApp_PropertyValueChanged);
-            // 
-            // tpTorrentCreator
-            // 
-            this.tpTorrentCreator.Controls.Add(this.btnRefreshTrackers);
-            this.tpTorrentCreator.Controls.Add(this.groupBox8);
-            this.tpTorrentCreator.Controls.Add(this.gbTrackerMgr);
-            this.tpTorrentCreator.Controls.Add(this.cboTrackerGroupActive);
-            this.tpTorrentCreator.Controls.Add(this.chkCreateTorrent);
-            this.tpTorrentCreator.Location = new System.Drawing.Point(4, 22);
-            this.tpTorrentCreator.Name = "tpTorrentCreator";
-            this.tpTorrentCreator.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTorrentCreator.Size = new System.Drawing.Size(864, 491);
-            this.tpTorrentCreator.TabIndex = 1;
-            this.tpTorrentCreator.Text = "Torrent creator";
-            this.tpTorrentCreator.UseVisualStyleBackColor = true;
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox8.Controls.Add(this.label1);
-            this.groupBox8.Controls.Add(this.cboTorrentLoc);
-            this.groupBox8.Controls.Add(this.chkWritePublish);
-            this.groupBox8.Controls.Add(this.chkTorrentOrganize);
-            this.groupBox8.Controls.Add(this.btnBrowseTorrentCustomFolder);
-            this.groupBox8.Controls.Add(this.txtTorrentCustomFolder);
-            this.groupBox8.Location = new System.Drawing.Point(17, 288);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(817, 122);
-            this.groupBox8.TabIndex = 4;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Save location";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 48);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 13);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "Custom directory:";
-            // 
-            // cboTorrentLoc
-            // 
-            this.cboTorrentLoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTorrentLoc.FormattingEnabled = true;
-            this.cboTorrentLoc.Location = new System.Drawing.Point(16, 16);
-            this.cboTorrentLoc.Name = "cboTorrentLoc";
-            this.cboTorrentLoc.Size = new System.Drawing.Size(288, 21);
-            this.cboTorrentLoc.TabIndex = 6;
-            this.cboTorrentLoc.SelectedIndexChanged += new System.EventHandler(this.cboTorrentLoc_SelectedIndexChanged);
-            // 
-            // chkWritePublish
-            // 
-            this.chkWritePublish.AutoSize = true;
-            this.chkWritePublish.Location = new System.Drawing.Point(16, 96);
-            this.chkWritePublish.Name = "chkWritePublish";
-            this.chkWritePublish.Size = new System.Drawing.Size(232, 17);
-            this.chkWritePublish.TabIndex = 5;
-            this.chkWritePublish.Text = "Write publish information of the torrent to file";
-            this.chkWritePublish.UseVisualStyleBackColor = true;
-            this.chkWritePublish.CheckedChanged += new System.EventHandler(this.chkWritePublish_CheckedChanged);
-            // 
-            // chkTorrentOrganize
-            // 
-            this.chkTorrentOrganize.AutoSize = true;
-            this.chkTorrentOrganize.Checked = true;
-            this.chkTorrentOrganize.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkTorrentOrganize.Location = new System.Drawing.Point(114, 71);
-            this.chkTorrentOrganize.Name = "chkTorrentOrganize";
-            this.chkTorrentOrganize.Size = new System.Drawing.Size(287, 17);
-            this.chkTorrentOrganize.TabIndex = 4;
-            this.chkTorrentOrganize.Text = "Create torrents in sub-folders according to tracker name";
-            this.chkTorrentOrganize.UseVisualStyleBackColor = true;
-            this.chkTorrentOrganize.CheckedChanged += new System.EventHandler(this.chkTorrentOrganize_CheckedChanged);
-            // 
-            // btnBrowseTorrentCustomFolder
-            // 
-            this.btnBrowseTorrentCustomFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnBrowseTorrentCustomFolder.Location = new System.Drawing.Point(712, 43);
-            this.btnBrowseTorrentCustomFolder.Name = "btnBrowseTorrentCustomFolder";
-            this.btnBrowseTorrentCustomFolder.Size = new System.Drawing.Size(75, 23);
-            this.btnBrowseTorrentCustomFolder.TabIndex = 3;
-            this.btnBrowseTorrentCustomFolder.Text = "&Browse";
-            this.btnBrowseTorrentCustomFolder.UseVisualStyleBackColor = true;
-            this.btnBrowseTorrentCustomFolder.Click += new System.EventHandler(this.btnBrowseTorrentCustomFolder_Click);
-            // 
-            // txtTorrentCustomFolder
-            // 
-            this.txtTorrentCustomFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTorrentCustomFolder.Location = new System.Drawing.Point(112, 44);
-            this.txtTorrentCustomFolder.Name = "txtTorrentCustomFolder";
-            this.txtTorrentCustomFolder.Size = new System.Drawing.Size(592, 20);
-            this.txtTorrentCustomFolder.TabIndex = 2;
-            this.txtTorrentCustomFolder.TextChanged += new System.EventHandler(this.txtTorrentCustomFolder_TextChanged);
-            // 
-            // gbTrackerMgr
-            // 
-            this.gbTrackerMgr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbTrackerMgr.Controls.Add(this.tlpTrackers);
-            this.gbTrackerMgr.Location = new System.Drawing.Point(17, 40);
-            this.gbTrackerMgr.Name = "gbTrackerMgr";
-            this.gbTrackerMgr.Size = new System.Drawing.Size(817, 240);
-            this.gbTrackerMgr.TabIndex = 3;
-            this.gbTrackerMgr.TabStop = false;
-            this.gbTrackerMgr.Text = "Tracker manager";
-            // 
-            // tlpTrackers
-            // 
-            this.tlpTrackers.ColumnCount = 3;
-            this.tlpTrackers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpTrackers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpTrackers.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpTrackers.Controls.Add(this.flpTrackers, 1, 1);
-            this.tlpTrackers.Controls.Add(this.pgTracker, 2, 0);
-            this.tlpTrackers.Controls.Add(this.flpTrackerGroups, 0, 1);
-            this.tlpTrackers.Controls.Add(this.gbTrackerGroups, 0, 0);
-            this.tlpTrackers.Controls.Add(this.gbTrackers, 1, 0);
-            this.tlpTrackers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpTrackers.Location = new System.Drawing.Point(3, 16);
-            this.tlpTrackers.Name = "tlpTrackers";
-            this.tlpTrackers.RowCount = 2;
-            this.tlpTrackers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpTrackers.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tlpTrackers.Size = new System.Drawing.Size(811, 221);
-            this.tlpTrackers.TabIndex = 0;
-            // 
-            // flpTrackers
-            // 
-            this.flpTrackers.Controls.Add(this.btnAddTracker);
-            this.flpTrackers.Controls.Add(this.btnRemoveTracker);
-            this.flpTrackers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpTrackers.Location = new System.Drawing.Point(205, 188);
-            this.flpTrackers.Name = "flpTrackers";
-            this.flpTrackers.Size = new System.Drawing.Size(196, 30);
-            this.flpTrackers.TabIndex = 4;
-            // 
-            // btnAddTracker
-            // 
-            this.btnAddTracker.AutoSize = true;
-            this.btnAddTracker.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAddTracker.Location = new System.Drawing.Point(3, 3);
-            this.btnAddTracker.Name = "btnAddTracker";
-            this.btnAddTracker.Size = new System.Drawing.Size(36, 23);
-            this.btnAddTracker.TabIndex = 0;
-            this.btnAddTracker.Text = "Add";
-            this.btnAddTracker.UseVisualStyleBackColor = true;
-            this.btnAddTracker.Click += new System.EventHandler(this.BtnAddTrackerClick);
-            // 
-            // btnRemoveTracker
-            // 
-            this.btnRemoveTracker.AutoSize = true;
-            this.btnRemoveTracker.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnRemoveTracker.Location = new System.Drawing.Point(45, 3);
-            this.btnRemoveTracker.Name = "btnRemoveTracker";
-            this.btnRemoveTracker.Size = new System.Drawing.Size(57, 23);
-            this.btnRemoveTracker.TabIndex = 1;
-            this.btnRemoveTracker.Text = "Remove";
-            this.btnRemoveTracker.UseVisualStyleBackColor = true;
-            this.btnRemoveTracker.Click += new System.EventHandler(this.btnRemoveTracker_Click);
-            // 
-            // pgTracker
-            // 
-            this.pgTracker.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgTracker.Location = new System.Drawing.Point(407, 3);
-            this.pgTracker.Name = "pgTracker";
-            this.pgTracker.PropertySort = System.Windows.Forms.PropertySort.NoSort;
-            this.pgTracker.Size = new System.Drawing.Size(401, 179);
-            this.pgTracker.TabIndex = 1;
-            this.pgTracker.ToolbarVisible = false;
-            this.pgTracker.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PgTrackerPropertyValueChanged);
-            // 
-            // flpTrackerGroups
-            // 
-            this.flpTrackerGroups.Controls.Add(this.btnAddTrackerGroup);
-            this.flpTrackerGroups.Controls.Add(this.btnRemoveTrackerGroup);
-            this.flpTrackerGroups.Controls.Add(this.btnUpdateGroup);
-            this.flpTrackerGroups.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpTrackerGroups.Location = new System.Drawing.Point(3, 188);
-            this.flpTrackerGroups.Name = "flpTrackerGroups";
-            this.flpTrackerGroups.Size = new System.Drawing.Size(196, 30);
-            this.flpTrackerGroups.TabIndex = 3;
-            // 
-            // btnAddTrackerGroup
-            // 
-            this.btnAddTrackerGroup.AutoSize = true;
-            this.btnAddTrackerGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnAddTrackerGroup.Location = new System.Drawing.Point(3, 3);
-            this.btnAddTrackerGroup.Name = "btnAddTrackerGroup";
-            this.btnAddTrackerGroup.Size = new System.Drawing.Size(36, 23);
-            this.btnAddTrackerGroup.TabIndex = 0;
-            this.btnAddTrackerGroup.Text = "Add";
-            this.btnAddTrackerGroup.UseVisualStyleBackColor = true;
-            this.btnAddTrackerGroup.Click += new System.EventHandler(this.btnAddTrackerGroup_Click);
-            // 
-            // btnRemoveTrackerGroup
-            // 
-            this.btnRemoveTrackerGroup.AutoSize = true;
-            this.btnRemoveTrackerGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnRemoveTrackerGroup.Location = new System.Drawing.Point(45, 3);
-            this.btnRemoveTrackerGroup.Name = "btnRemoveTrackerGroup";
-            this.btnRemoveTrackerGroup.Size = new System.Drawing.Size(57, 23);
-            this.btnRemoveTrackerGroup.TabIndex = 1;
-            this.btnRemoveTrackerGroup.Text = "Remove";
-            this.btnRemoveTrackerGroup.UseVisualStyleBackColor = true;
-            this.btnRemoveTrackerGroup.Click += new System.EventHandler(this.btnRemoveTrackerGroup_Click);
-            // 
-            // btnUpdateGroup
-            // 
-            this.btnUpdateGroup.AutoSize = true;
-            this.btnUpdateGroup.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnUpdateGroup.Location = new System.Drawing.Point(108, 3);
-            this.btnUpdateGroup.Name = "btnUpdateGroup";
-            this.btnUpdateGroup.Size = new System.Drawing.Size(52, 23);
-            this.btnUpdateGroup.TabIndex = 2;
-            this.btnUpdateGroup.Text = "Update";
-            this.btnUpdateGroup.UseVisualStyleBackColor = true;
-            this.btnUpdateGroup.Click += new System.EventHandler(this.btnUpdateGroup_Click);
-            // 
-            // gbTrackerGroups
-            // 
-            this.gbTrackerGroups.Controls.Add(this.lbTrackerGroups);
-            this.gbTrackerGroups.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbTrackerGroups.Location = new System.Drawing.Point(3, 3);
-            this.gbTrackerGroups.Name = "gbTrackerGroups";
-            this.gbTrackerGroups.Size = new System.Drawing.Size(196, 179);
-            this.gbTrackerGroups.TabIndex = 5;
-            this.gbTrackerGroups.TabStop = false;
-            this.gbTrackerGroups.Text = "Groups";
-            // 
-            // lbTrackerGroups
-            // 
-            this.lbTrackerGroups.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbTrackerGroups.FormattingEnabled = true;
-            this.lbTrackerGroups.Location = new System.Drawing.Point(3, 16);
-            this.lbTrackerGroups.Name = "lbTrackerGroups";
-            this.lbTrackerGroups.Size = new System.Drawing.Size(190, 160);
-            this.lbTrackerGroups.TabIndex = 2;
-            this.lbTrackerGroups.SelectedIndexChanged += new System.EventHandler(this.lbTrackerGroups_SelectedIndexChanged);
-            this.lbTrackerGroups.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.lbTrackerGroups_MouseDoubleClick);
-            // 
-            // gbTrackers
-            // 
-            this.gbTrackers.Controls.Add(this.lbTrackers);
-            this.gbTrackers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbTrackers.Location = new System.Drawing.Point(205, 3);
-            this.gbTrackers.Name = "gbTrackers";
-            this.gbTrackers.Size = new System.Drawing.Size(196, 179);
-            this.gbTrackers.TabIndex = 6;
-            this.gbTrackers.TabStop = false;
-            this.gbTrackers.Text = "Trackers";
-            // 
-            // lbTrackers
-            // 
-            this.lbTrackers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbTrackers.FormattingEnabled = true;
-            this.lbTrackers.Location = new System.Drawing.Point(3, 16);
-            this.lbTrackers.Name = "lbTrackers";
-            this.lbTrackers.Size = new System.Drawing.Size(190, 160);
-            this.lbTrackers.TabIndex = 0;
-            this.lbTrackers.SelectedIndexChanged += new System.EventHandler(this.lbTrackers_SelectedIndexChanged);
-            // 
-            // cboTrackerGroupActive
-            // 
-            this.cboTrackerGroupActive.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboTrackerGroupActive.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTrackerGroupActive.FormattingEnabled = true;
-            this.cboTrackerGroupActive.Location = new System.Drawing.Point(209, 12);
-            this.cboTrackerGroupActive.Name = "cboTrackerGroupActive";
-            this.cboTrackerGroupActive.Size = new System.Drawing.Size(538, 21);
-            this.cboTrackerGroupActive.TabIndex = 2;
-            this.cboTrackerGroupActive.SelectedIndexChanged += new System.EventHandler(this.cboAnnounceURL_SelectedIndexChanged);
-            // 
-            // chkCreateTorrent
-            // 
-            this.chkCreateTorrent.AutoSize = true;
-            this.chkCreateTorrent.Location = new System.Drawing.Point(17, 14);
-            this.chkCreateTorrent.Name = "chkCreateTorrent";
-            this.chkCreateTorrent.Size = new System.Drawing.Size(185, 17);
-            this.chkCreateTorrent.TabIndex = 0;
-            this.chkCreateTorrent.Text = "Automatically create &torrent using:";
-            this.chkCreateTorrent.UseVisualStyleBackColor = true;
-            this.chkCreateTorrent.CheckedChanged += new System.EventHandler(this.chkCreateTorrent_CheckedChanged);
             // 
             // tpSettingsProxy
             // 
@@ -2092,18 +1760,6 @@ namespace TDMaker
             this.tpSettings.ResumeLayout(false);
             this.tcSettings.ResumeLayout(false);
             this.tpSettingsGeneral.ResumeLayout(false);
-            this.tpTorrentCreator.ResumeLayout(false);
-            this.tpTorrentCreator.PerformLayout();
-            this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
-            this.gbTrackerMgr.ResumeLayout(false);
-            this.tlpTrackers.ResumeLayout(false);
-            this.flpTrackers.ResumeLayout(false);
-            this.flpTrackers.PerformLayout();
-            this.flpTrackerGroups.ResumeLayout(false);
-            this.flpTrackerGroups.PerformLayout();
-            this.gbTrackerGroups.ResumeLayout(false);
-            this.gbTrackers.ResumeLayout(false);
             this.tpSettingsProxy.ResumeLayout(false);
             this.tpSettingsProxy.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudProxyPort)).EndInit();
@@ -2220,30 +1876,6 @@ namespace TDMaker
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox chkUploadFullScreenshot;
         private System.Windows.Forms.CheckBox chkTemplatesMode;
-        private System.Windows.Forms.TabPage tpTorrentCreator;
-        private System.Windows.Forms.Button btnRefreshTrackers;
-        private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cboTorrentLoc;
-        private System.Windows.Forms.CheckBox chkWritePublish;
-        private System.Windows.Forms.CheckBox chkTorrentOrganize;
-        private System.Windows.Forms.Button btnBrowseTorrentCustomFolder;
-        private System.Windows.Forms.TextBox txtTorrentCustomFolder;
-        private System.Windows.Forms.GroupBox gbTrackerMgr;
-        private System.Windows.Forms.TableLayoutPanel tlpTrackers;
-        private System.Windows.Forms.FlowLayoutPanel flpTrackers;
-        private System.Windows.Forms.Button btnAddTracker;
-        private System.Windows.Forms.Button btnRemoveTracker;
-        private System.Windows.Forms.PropertyGrid pgTracker;
-        private System.Windows.Forms.FlowLayoutPanel flpTrackerGroups;
-        private System.Windows.Forms.Button btnAddTrackerGroup;
-        private System.Windows.Forms.Button btnRemoveTrackerGroup;
-        private System.Windows.Forms.GroupBox gbTrackerGroups;
-        private System.Windows.Forms.ListBox lbTrackerGroups;
-        private System.Windows.Forms.GroupBox gbTrackers;
-        private System.Windows.Forms.ListBox lbTrackers;
-        private System.Windows.Forms.ComboBox cboTrackerGroupActive;
-        private System.Windows.Forms.CheckBox chkCreateTorrent;
         private System.Windows.Forms.TabPage tpDebug;
         private System.Windows.Forms.RichTextBox rtbDebugLog;
         private System.Windows.Forms.Button btnCreateTorrent;
@@ -2255,7 +1887,6 @@ namespace TDMaker
         private System.Windows.Forms.GroupBox gbMediaInfoQuickOptions;
         private System.Windows.Forms.CheckBox chkMediaInfoComplete;
         private System.Windows.Forms.ComboBox cboFileUploader;
-        private System.Windows.Forms.Button btnUpdateGroup;
         private System.Windows.Forms.TabControl tcSettings;
         private System.Windows.Forms.TabPage tpSettingsGeneral;
         private System.Windows.Forms.TabPage tpPublishTemplates;

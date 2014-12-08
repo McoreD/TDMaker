@@ -49,27 +49,6 @@ namespace TDMakerLib
             }
         }
 
-        [Browsable(false)]
-        public TrackerGroup TrackerGroupActive
-        {
-            get
-            {
-                if (TrackerGroups.Count == 0)
-                {
-                    TrackerGroups.Add(new TrackerGroup("PTP"));
-                }
-
-                TrackerGroup group = TrackerGroups[0];
-
-                if (ProfileActive.TrackerGroupIndex >= 0 && TrackerGroups.Count > ProfileActive.TrackerGroupIndex)
-                {
-                    group = TrackerGroups[ProfileActive.TrackerGroupIndex];
-                }
-
-                return group;
-            }
-        }
-
         #region DVD Properties
 
         [BrowsableAttribute(false)]
@@ -207,8 +186,6 @@ namespace TDMakerLib
 
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Save torrent files in sub-folders organized by tracker namer")]
         public bool TorrentsOrganize { get; set; }
-
-        public List<TrackerGroup> TrackerGroups = new List<TrackerGroup>();
 
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create XML Torrent Upload file")]
         public bool XMLTorrentUploadCreate { get; set; }

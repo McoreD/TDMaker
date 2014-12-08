@@ -137,8 +137,6 @@
     <Compile Include="Torrents\HttpWebMultipartRequest.cs" />
     <Compile Include="Torrents\TorrentInfo.cs" />
     <Compile Include="Torrents\TorrentUploader.cs" />
-    <Compile Include="Torrents\Tracker.cs" />
-    <Compile Include="Torrents\TrackerManager.cs" />
     <Compile Include="Torrents\XMLTorrentUpload.cs" />
   </ItemGroup>
   <ItemGroup>

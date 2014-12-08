@@ -20,7 +20,6 @@ namespace TDMaker
     public partial class MainWindow : Form
     {
         private bool IsGuiReady = false;
-        private TrackerManager mTrackerManager = null;
 
         public MainWindow()
         {
@@ -230,7 +229,7 @@ namespace TDMaker
                     // txtMediaLocation.Text = p;
                     DebugHelper.WriteLine(string.Format("Queued {0} to create a torrent", p));
                     lbFiles.Items.Add(p);
-                    TorrentCreateInfo tp = new TorrentCreateInfo(GetTracker(), p);
+                    TorrentCreateInfo tp = new TorrentCreateInfo(App.Settings.ProfileActive, p);
                     tps.Add(tp);
 
                     UpdateGuiControls();
@@ -444,7 +443,7 @@ namespace TDMaker
             mi.Menu = cboDiscMenu.Text;
             mi.Authoring = cboAuthoring.Text;
             mi.WebLink = txtWebLink.Text;
-            mi.TorrentCreateInfo = new TorrentCreateInfo(GetTracker(), p);
+            mi.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, p);
 
             if (App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate)
             {
@@ -488,8 +487,6 @@ namespace TDMaker
                 cboTemplate.SelectedIndex = Math.Max(App.Settings.ProfileActive.ExternalTemplateIndex, 0);
                 cboQuickTemplate.SelectedIndex = Math.Max(App.Settings.ProfileActive.ExternalTemplateIndex, 0);
             }
-
-            mTrackerManager = new TrackerManager();
         }
 
         private void LoadSettingsToControls()
@@ -503,8 +500,6 @@ namespace TDMaker
 
             LoadSettingsPublishControls();
             LoadSettingsPublishTemplatesControls();
-
-            LoadSettingsTorrentControls();
 
             pgApp.SelectedObject = App.Settings;
         }
@@ -641,44 +636,6 @@ namespace TDMaker
             UpdateProxyControls();
         }
 
-        private void LoadSettingsTorrentControls()
-        {
-            lbTrackerGroups.Items.Clear();
-            foreach (TrackerGroup tg in App.Settings.TrackerGroups)
-            {
-                lbTrackerGroups.Items.Add(tg);
-                lbTrackers.Items.Clear();
-                foreach (Tracker myTracker in tg.Trackers)
-                {
-                    lbTrackers.Items.Add(myTracker);
-                }
-                if (lbTrackers.Items.Count > 0)
-                {
-                    lbTrackers.SelectedIndex = 0;
-                }
-            }
-            if (lbTrackerGroups.Items.Count > 0)
-            {
-                lbTrackerGroups.SelectedIndex = 0;
-            }
-
-            FillTrackersComboBox();
-            if (cboTrackerGroupActive.Items.Count > 0 && App.Settings.ProfileActive.TrackerGroupIndex < cboTrackerGroupActive.Items.Count)
-            {
-                cboTrackerGroupActive.SelectedIndex = App.Settings.ProfileActive.TrackerGroupIndex;
-            }
-
-            if (cboTorrentLoc.Items.Count == 0)
-            {
-                cboTorrentLoc.Items.AddRange(Enum.GetNames(typeof(LocationType)));
-            }
-            cboTorrentLoc.SelectedIndex = (int)App.Settings.TorrentLocationChoice;
-            chkWritePublish.Checked = App.Settings.WritePublish;
-            chkTorrentOrganize.Checked = App.Settings.TorrentsOrganize;
-
-            txtTorrentCustomFolder.Text = App.Settings.CustomTorrentsDir;
-        }
-
         private string CreatePublishInitial(TorrentInfo ti)
         {
             PublishOptionsPacket pop = new PublishOptionsPacket();
@@ -784,10 +741,6 @@ namespace TDMaker
             btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
 
             btnPublish.Enabled = !bwApp.IsBusy && !string.IsNullOrEmpty(txtPublish.Text);
-
-            txtTorrentCustomFolder.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
-            btnBrowseTorrentCustomFolder.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
-            chkTorrentOrganize.Enabled = App.Settings.TorrentLocationChoice == LocationType.CustomFolder;
 
             gbTemplatesInternal.Enabled = !chkTemplatesMode.Checked;
         }
@@ -951,37 +904,6 @@ namespace TDMaker
             ab.ShowDialog();
         }
 
-        private void FillTrackersComboBox()
-        {
-            try
-            {
-                cboTrackerGroupActive.Items.Clear();
-                foreach (TrackerGroup tg in lbTrackerGroups.Items)
-                {
-                    cboTrackerGroupActive.Items.Add(tg);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("fillTrackersComboBox() fails...");
-                Console.WriteLine(ex.ToString());
-            }
-        }
-
-        private TrackerGroup GetTracker()
-        {
-            TrackerGroup t = null;
-
-            if (App.Settings.ProfileActive.TrackerGroupIndex < 0)
-                App.Settings.ProfileActive.TrackerGroupIndex = 0;
-
-            if (cboTrackerGroupActive.Items.Count > App.Settings.ProfileActive.TrackerGroupIndex)
-            {
-                t = cboTrackerGroupActive.Items[App.Settings.ProfileActive.TrackerGroupIndex] as TrackerGroup;
-            }
-            return t;
-        }
-
         private void CreateTorrentButton()
         {
             if (!bwApp.IsBusy)
@@ -990,7 +912,7 @@ namespace TDMaker
                 List<TorrentInfo> tiList = new List<TorrentInfo>();
                 foreach (TorrentInfo ti in lbPublish.SelectedItems)
                 {
-                    tps.Add(new TorrentCreateInfo(GetTracker(), ti.Media.Location));
+                    tps.Add(new TorrentCreateInfo(App.Settings.ProfileActive, ti.Media.Location));
                     tiList.Add(ti);
                 }
                 if (tps.Count > 0)
@@ -1003,30 +925,6 @@ namespace TDMaker
                     btnCreateTorrent.Enabled = false;
                 }
             }
-        }
-
-        private void btnBrowseTorrentCustomFolder_Click(object sender, EventArgs e)
-        {
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                txtTorrentCustomFolder.Text = dlg.SelectedPath;
-                App.Settings.CustomTorrentsDir = txtTorrentCustomFolder.Text;
-            }
-        }
-
-        private void rbTorrentFolderCustom_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateGuiControls();
-            if (string.IsNullOrEmpty(txtTorrentCustomFolder.Text))
-            {
-                txtTorrentCustomFolder.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Torrent Uploads");
-            }
-        }
-
-        private void cboAnnounceURL_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.TrackerGroupIndex = cboTrackerGroupActive.SelectedIndex;
         }
 
         private TorrentInfo GetTorrentInfo()
@@ -1177,24 +1075,6 @@ namespace TDMaker
             }
         }
 
-        private void btnRefreshTrackers_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int old = cboTrackerGroupActive.SelectedIndex;
-                FillTrackersComboBox();
-                if (cboTrackerGroupActive.Items.Count > 0)
-                {
-                    if (old < 0) old = 0;
-                    cboTrackerGroupActive.SelectedIndex = Math.Min(old, cboTrackerGroupActive.Items.Count - 1);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
-
         private void WriteMediaInfo(string info)
         {
             if (GetTorrentInfo() != null)
@@ -1307,11 +1187,6 @@ namespace TDMaker
         private void miHelpVersionHistory_Click(object sender, EventArgs e)
         {
             OpenVersionHistory();
-        }
-
-        private void chkCreateTorrent_CheckedChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.CreateTorrent = chkCreateTorrent.Checked;
         }
 
         private void pgApp_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
@@ -1433,136 +1308,6 @@ namespace TDMaker
             App.Settings.FontSizeBody = (int)nudBodySize.Value;
         }
 
-        private void lbTrackers_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (lbTrackers.SelectedIndex != -1)
-            {
-                Tracker t = lbTrackers.SelectedItem as Tracker;
-                if (t != null)
-                {
-                    pgTracker.SelectedObject = t;
-                }
-                pgTracker.Enabled = t != null;
-            }
-        }
-
-        private void lbTrackerGroups_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lbTrackers.Items.Clear();
-            TrackerGroup tg = lbTrackerGroups.SelectedItem as TrackerGroup;
-            if (tg != null && tg.Trackers.Count > 0)
-            {
-                foreach (Tracker myTracker in tg.Trackers)
-                {
-                    lbTrackers.Items.Add(myTracker);
-                }
-                lbTrackers.SelectedIndex = 0;
-            }
-        }
-
-        private void btnAddTrackerGroup_Click(object sender, EventArgs e)
-        {
-            InputBox ib = new InputBox();
-            ib.Text = "Enter group name";
-            ib.InputText = "Linux ISOs";
-            if (ib.ShowDialog() == DialogResult.OK)
-            {
-                TrackerGroup tg = new TrackerGroup(ib.InputText);
-                Tracker t = new Tracker("Ubuntu", "http://torrent.ubuntu.com:6969");
-                tg.Trackers.Add(t);
-
-                App.Settings.TrackerGroups.Add(tg);
-                lbTrackerGroups.Items.Add(tg);
-                lbTrackerGroups.SelectedIndex = lbTrackerGroups.Items.Count - 1;
-
-                btnRefreshTrackers_Click(sender, e);
-            }
-        }
-
-        private void btnRemoveTrackerGroup_Click(object sender, EventArgs e)
-        {
-            if (lbTrackerGroups.SelectedIndex > -1)
-            {
-                int sel = lbTrackerGroups.SelectedIndex;
-                lbTrackerGroups.Items.RemoveAt(sel);
-                App.Settings.TrackerGroups.RemoveAt(sel);
-                lbTrackers.Items.Clear();
-                pgTracker.Enabled = false;
-            }
-        }
-
-        private void btnRemoveTracker_Click(object sender, EventArgs e)
-        {
-            if (lbTrackers.SelectedIndex > -1 && lbTrackerGroups.SelectedIndex > -1)
-            {
-                int sel = lbTrackers.SelectedIndex;
-                lbTrackers.Items.RemoveAt(sel);
-                App.Settings.TrackerGroups[lbTrackerGroups.SelectedIndex].Trackers.RemoveAt(sel);
-            }
-        }
-
-        private void chkTorrentOrganize_CheckedChanged(object sender, EventArgs e)
-        {
-            App.Settings.TorrentsOrganize = chkTorrentOrganize.Checked;
-        }
-
-        private void chkWritePublish_CheckedChanged(object sender, EventArgs e)
-        {
-            App.Settings.WritePublish = chkWritePublish.Checked;
-        }
-
-        private void txtTorrentCustomFolder_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void BtnAddTrackerClick(object sender, EventArgs e)
-        {
-            if (lbTrackerGroups.SelectedIndex > -1)
-            {
-                TrackerGroup tg = lbTrackerGroups.Items[lbTrackerGroups.SelectedIndex] as TrackerGroup;
-                if (tg != null)
-                {
-                    Tracker t = new Tracker("Ubuntu", "http://torrent.ubuntu.com:6969");
-                    tg.Trackers.Add(t);
-                    lbTrackers.Items.Add(t);
-                    lbTrackers.SelectedIndex = lbTrackers.Items.Count - 1;
-                }
-            }
-        }
-
-        private void PgTrackerPropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            if (lbTrackers.SelectedIndex > -1 && lbTrackerGroups.SelectedIndex > -1)
-            {
-                int sel = lbTrackers.SelectedIndex;
-                lbTrackers.Items[sel] = (Tracker)pgTracker.SelectedObject;
-                App.Settings.TrackerGroups[lbTrackerGroups.SelectedIndex].Trackers[lbTrackers.SelectedIndex] = (Tracker)pgTracker.SelectedObject;
-            }
-        }
-
-        private void lbTrackerGroups_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            int sel = lbTrackerGroups.IndexFromPoint(e.X, e.Y);
-            UpdateTrackerGroup(sel);
-        }
-
-        private void UpdateTrackerGroup(int sel)
-        {
-            TrackerGroup tg = lbTrackerGroups.Items[sel] as TrackerGroup;
-            if (tg != null)
-            {
-                InputBox ib = new InputBox();
-                ib.InputText = tg.Name;
-                ib.Text = "Enter new name...";
-                if (ib.ShowDialog() == DialogResult.OK)
-                {
-                    tg.Name = ib.InputText;
-                    lbTrackerGroups.Items[sel] = tg;
-                    App.Settings.TrackerGroups[sel] = tg;
-                }
-            }
-        }
-
         private void lbScreenshots_SelectedIndexChanged(object sender, EventArgs e)
         {
             int sel = lbScreenshots.SelectedIndex;
@@ -1629,12 +1374,6 @@ namespace TDMaker
             UpdateGuiControls();
         }
 
-        private void cboTorrentLoc_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            App.Settings.TorrentLocationChoice = (LocationType)cboTorrentLoc.SelectedIndex;
-            UpdateGuiControls();
-        }
-
         private void btnBrowseDir_Click(object sender, EventArgs e)
         {
             OpenFolder();
@@ -1689,13 +1428,6 @@ namespace TDMaker
         private void cboImageFileUploader_SelectedIndexChanged(object sender, EventArgs e)
         {
             App.Settings.ProfileActive.ImageFileUploaderType = (FileDestination)cboFileUploader.SelectedIndex;
-        }
-
-        private void btnUpdateGroup_Click(object sender, EventArgs e)
-        {
-            int sel = lbTrackerGroups.SelectedIndex;
-            if (sel > -1)
-                UpdateTrackerGroup(sel);
         }
 
         private void btnDownloadFFmpeg_Click(object sender, EventArgs e)
@@ -1812,8 +1544,6 @@ namespace TDMaker
                 cboFileUploader.SelectedIndex = (int)App.Settings.ProfileActive.ImageFileUploaderType;
                 cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
                 cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
-                chkCreateTorrent.Checked = App.Settings.ProfileActive.CreateTorrent;
-                cboTrackerGroupActive.SelectedIndex = App.Settings.ProfileActive.TrackerGroupIndex;
             }
         }
     }
