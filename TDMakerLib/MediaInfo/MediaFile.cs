@@ -14,17 +14,14 @@ namespace TDMakerLib
     public class MediaFile
     {
         public int Index { get; set; }
-
         public bool HasAudio { get; set; }
-
         public bool HasVideo { get; set; }
 
         // General
         public string EncodedDate { get; set; }
-
         public string EncodedApplication { get; set; }
-
         public string BitrateOverall { get; set; }
+
 
         /// <summary>
         /// Duration in milli seconds
@@ -67,6 +64,8 @@ namespace TDMakerLib
         public string FormatInfo { get; set; }
 
         public Thumbnailer Thumbnailer = null;
+
+        public string WritingLibrary { get; set; }
 
         public string Source { get; set; }
 
@@ -118,14 +117,6 @@ namespace TDMakerLib
 
             if (File.Exists(FilePath))
             {
-                //*********************
-                //* General
-                //*********************
-
-                //System.Debug.WriteLine("Current Dir1: " + System.Environment.CurrentDirectory);
-                //System.Environment.CurrentDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-                //System.Debug.WriteLine("Current Dir2: " + System.Environment.CurrentDirectory);
-
                 MediaInfoLib.MediaInfo MI = null;
                 try
                 {
@@ -160,7 +151,7 @@ namespace TDMakerLib
                     this.FormatInfo = MI.Get(StreamKind.General, 0, "Format/Info");
 
                     // this.FileName = mMI.Get(0, 0, "FileName");
-                    if (0 == this.FileSize)
+                    if (this.FileSize == 0)
                     {
                         double sz;
                         double.TryParse(MI.Get(0, 0, "FileSize"), out sz);
@@ -190,6 +181,7 @@ namespace TDMakerLib
                     this.EncodedApplication = MI.Get(StreamKind.General, 0, "Encoded_Application");
                     this.EncodedDate = MI.Get(StreamKind.General, 0, "Encoded_Date");
 
+
                     if (string.IsNullOrEmpty(this.Subtitles))
                     {
                         StringBuilder sbSubs = new StringBuilder();
@@ -205,7 +197,6 @@ namespace TDMakerLib
                                 string lang = MI.Get(StreamKind.Text, i, "Language/String");
                                 if (!string.IsNullOrEmpty(lang))
                                 {
-                                    // System.Windows.Forms.MessageBox.Show(lang);
                                     sbLang.Append(lang);
                                     if (i < subCount - 1)
                                         sbLang.Append(", ");
@@ -226,6 +217,8 @@ namespace TDMakerLib
                         }
 
                         this.Subtitles = sbSubs.ToString();
+
+
                     }
 
                     //*********************

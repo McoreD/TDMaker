@@ -212,14 +212,22 @@ namespace TDMaker
 
         private void GuessSource(string source)
         {
-            if (source.Contains("DVD"))
+            if (Regex.IsMatch(source, "DVD", RegexOptions.IgnoreCase))
+            {
                 cboSource.Text = "DVD";
-            else if (source.Contains("HDTV"))
+            }
+            else if (Regex.IsMatch(source, "HDTV", RegexOptions.IgnoreCase))
+            {
                 cboSource.Text = "HDTV";
-            else if (source.Contains("Blu") || source.Contains("BDRip"))
+            }
+            else if (Regex.IsMatch(source, "Blu", RegexOptions.IgnoreCase) || Regex.IsMatch(source, "BDRip", RegexOptions.IgnoreCase))
+            {
                 cboSource.Text = "Blu-ray";
-            else if (source.Contains("TV"))
+            }
+            else if (Regex.IsMatch(source, "TV", RegexOptions.IgnoreCase))
+            {
                 cboSource.Text = "TV";
+            }
         }
 
         private void AnalyzeMedia(WorkerTask wt)
@@ -551,6 +559,8 @@ namespace TDMaker
 
         private void LoadSettingsInputMediaControls()
         {
+            gbDVD.Visible = gbSource.Visible = App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo;
+
             chkAuthoring.Checked = App.Settings.bAuthoring;
             cboAuthoring.Text = App.Settings.AuthoringMode;
 

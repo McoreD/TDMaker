@@ -118,19 +118,26 @@ namespace TDMakerLib
             StringBuilder sbLinksFull = new StringBuilder();
             StringBuilder sbLinksThumbs = new StringBuilder();
 
-            foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
+            if (mf.Thumbnailer != null && mf.Thumbnailer.Screenshots != null)
             {
-                if (!string.IsNullOrEmpty(ss.FullImageLink))
+                foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
                 {
-                    sbLinksFull.AppendLine(string.Format("[img]{0}[/img]", ss.FullImageLink));
+                    if (!string.IsNullOrEmpty(ss.FullImageLink))
+                    {
+                        sbLinksFull.AppendLine(string.Format("[img]{0}[/img]", ss.FullImageLink));
+                    }
+                    if (!string.IsNullOrEmpty(ss.LinkedThumbnail))
+                    {
+                        sbLinksThumbs.AppendLine(string.Format("[img]{0}[/img]", ss.LinkedThumbnail));
+                    }
                 }
-                if (!string.IsNullOrEmpty(ss.LinkedThumbnail))
-                {
-                    sbLinksThumbs.AppendLine(string.Format("[img]{0}[/img]", ss.LinkedThumbnail));
-                }
+                pattern = Regex.Replace(pattern, "%ScreenshotFull%", sbLinksFull.ToString().Trim(), RegexOptions.IgnoreCase);
+                pattern = Regex.Replace(pattern, "%ScreenshotForums%", sbLinksThumbs.ToString().Trim(), RegexOptions.IgnoreCase);
             }
-            pattern = Regex.Replace(pattern, "%ScreenshotFull%", sbLinksFull.ToString().Trim(), RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%ScreenshotForums%", sbLinksThumbs.ToString().Trim(), RegexOptions.IgnoreCase);
+            else
+            {
+                pattern = "";
+            }
             return pattern;
         }
 

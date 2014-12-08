@@ -69,7 +69,7 @@ namespace TDMaker
             this.btnCreateTorrent = new System.Windows.Forms.Button();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tpMedia = new System.Windows.Forms.TabPage();
-            this.gbSourceProp = new System.Windows.Forms.GroupBox();
+            this.gbSource = new System.Windows.Forms.GroupBox();
             this.chkTitle = new System.Windows.Forms.CheckBox();
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.chkWebLink = new System.Windows.Forms.CheckBox();
@@ -167,7 +167,7 @@ namespace TDMaker
             this.msMain.SuspendLayout();
             this.tcMain.SuspendLayout();
             this.tpMedia.SuspendLayout();
-            this.gbSourceProp.SuspendLayout();
+            this.gbSource.SuspendLayout();
             this.gbDVD.SuspendLayout();
             this.gbLocation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
@@ -526,7 +526,7 @@ namespace TDMaker
             // 
             // tpMedia
             // 
-            this.tpMedia.Controls.Add(this.gbSourceProp);
+            this.tpMedia.Controls.Add(this.gbSource);
             this.tpMedia.Controls.Add(this.gbDVD);
             this.tpMedia.Controls.Add(this.gbLocation);
             this.tpMedia.Location = new System.Drawing.Point(4, 22);
@@ -536,22 +536,22 @@ namespace TDMaker
             this.tpMedia.Text = "Input";
             this.tpMedia.UseVisualStyleBackColor = true;
             // 
-            // gbSourceProp
+            // gbSource
             // 
-            this.gbSourceProp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.gbSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gbSourceProp.Controls.Add(this.chkTitle);
-            this.gbSourceProp.Controls.Add(this.txtTitle);
-            this.gbSourceProp.Controls.Add(this.chkWebLink);
-            this.gbSourceProp.Controls.Add(this.chkSource);
-            this.gbSourceProp.Controls.Add(this.txtWebLink);
-            this.gbSourceProp.Controls.Add(this.cboSource);
-            this.gbSourceProp.Location = new System.Drawing.Point(272, 413);
-            this.gbSourceProp.Name = "gbSourceProp";
-            this.gbSourceProp.Size = new System.Drawing.Size(596, 104);
-            this.gbSourceProp.TabIndex = 12;
-            this.gbSourceProp.TabStop = false;
-            this.gbSourceProp.Text = "Source properties";
+            this.gbSource.Controls.Add(this.chkTitle);
+            this.gbSource.Controls.Add(this.txtTitle);
+            this.gbSource.Controls.Add(this.chkWebLink);
+            this.gbSource.Controls.Add(this.chkSource);
+            this.gbSource.Controls.Add(this.txtWebLink);
+            this.gbSource.Controls.Add(this.cboSource);
+            this.gbSource.Location = new System.Drawing.Point(272, 413);
+            this.gbSource.Name = "gbSource";
+            this.gbSource.Size = new System.Drawing.Size(596, 104);
+            this.gbSource.TabIndex = 12;
+            this.gbSource.TabStop = false;
+            this.gbSource.Text = "Source properties";
             // 
             // chkTitle
             // 
@@ -946,7 +946,7 @@ namespace TDMaker
             this.tlpPublish.ColumnCount = 3;
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.00001F));
             this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.99999F));
-            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 198F));
+            this.tlpPublish.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 199F));
             this.tlpPublish.Controls.Add(this.gbQuickPublish, 2, 0);
             this.tlpPublish.Controls.Add(this.txtPublish, 1, 0);
             this.tlpPublish.Controls.Add(this.lbPublish, 0, 0);
@@ -962,9 +962,9 @@ namespace TDMaker
             // 
             this.gbQuickPublish.Controls.Add(this.flpPublishConfig);
             this.gbQuickPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbQuickPublish.Location = new System.Drawing.Point(662, 3);
+            this.gbQuickPublish.Location = new System.Drawing.Point(661, 3);
             this.gbQuickPublish.Name = "gbQuickPublish";
-            this.gbQuickPublish.Size = new System.Drawing.Size(193, 479);
+            this.gbQuickPublish.Size = new System.Drawing.Size(194, 479);
             this.gbQuickPublish.TabIndex = 1;
             this.gbQuickPublish.TabStop = false;
             this.gbQuickPublish.Text = "Quick Options";
@@ -980,7 +980,7 @@ namespace TDMaker
             this.flpPublishConfig.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpPublishConfig.Location = new System.Drawing.Point(3, 16);
             this.flpPublishConfig.Name = "flpPublishConfig";
-            this.flpPublishConfig.Size = new System.Drawing.Size(187, 460);
+            this.flpPublishConfig.Size = new System.Drawing.Size(188, 460);
             this.flpPublishConfig.TabIndex = 7;
             // 
             // chkQuickPre
@@ -1045,7 +1045,7 @@ namespace TDMaker
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPublish.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPublish.Location = new System.Drawing.Point(135, 3);
+            this.txtPublish.Location = new System.Drawing.Point(134, 3);
             this.txtPublish.Multiline = true;
             this.txtPublish.Name = "txtPublish";
             this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -1061,7 +1061,7 @@ namespace TDMaker
             this.lbPublish.IntegralHeight = false;
             this.lbPublish.Location = new System.Drawing.Point(3, 3);
             this.lbPublish.Name = "lbPublish";
-            this.lbPublish.Size = new System.Drawing.Size(126, 479);
+            this.lbPublish.Size = new System.Drawing.Size(125, 479);
             this.lbPublish.TabIndex = 2;
             this.lbPublish.SelectedIndexChanged += new System.EventHandler(this.LbPublishSelectedIndexChanged);
             // 
@@ -1723,8 +1723,8 @@ namespace TDMaker
             this.msMain.PerformLayout();
             this.tcMain.ResumeLayout(false);
             this.tpMedia.ResumeLayout(false);
-            this.gbSourceProp.ResumeLayout(false);
-            this.gbSourceProp.PerformLayout();
+            this.gbSource.ResumeLayout(false);
+            this.gbSource.PerformLayout();
             this.gbDVD.ResumeLayout(false);
             this.gbDVD.PerformLayout();
             this.gbLocation.ResumeLayout(false);
@@ -1812,7 +1812,7 @@ namespace TDMaker
         private System.Windows.Forms.ToolStripMenuItem miFoldersTemplates;
         private System.Windows.Forms.TabControl tcMain;
         private System.Windows.Forms.TabPage tpMedia;
-        private System.Windows.Forms.GroupBox gbSourceProp;
+        private System.Windows.Forms.GroupBox gbSource;
         private System.Windows.Forms.CheckBox chkTitle;
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.CheckBox chkWebLink;

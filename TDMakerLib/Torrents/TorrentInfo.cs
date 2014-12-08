@@ -522,7 +522,7 @@ namespace TDMakerLib
                     foreach (MediaFile mf in Media.MediaFiles)
                     {
                         sbMediaInfo = new StringBuilder();
-                        sbMediaInfo.AppendLine(BbCode.Bold(mf.FileName));
+                        sbMediaInfo.AppendLine(mf.FileName);
                         sbMediaInfo.AppendLine();
                         sbMediaInfo.AppendLine(mf.Summary.Trim());
                         sbMediaInfo.AppendLine();
