@@ -33,8 +33,8 @@ namespace TDMakerLib
             {
                 if (Profiles.Count == 0)
                 {
-                    Profiles.Add(new ProfileOptions() { Name = "Movies" });
-                    Profiles.Add(new ProfileOptions() { Name = "Music Videos", CombineScreenshots = true, ScreenshotCount = 16, ColumnCount = 4, MaxThumbnailWidth = 256 });
+                    Profiles.Add(new ProfileOptions() { Name = "Movies Profile" });
+                    Profiles.Add(new ProfileOptions() { Name = "Music Videos Profile", CombineScreenshots = true, ScreenshotCount = 16, ColumnCount = 4, MaxThumbnailWidth = 256 });
                 }
 
                 ProfileOptions profile = Profiles[0];
@@ -45,6 +45,26 @@ namespace TDMakerLib
                 }
 
                 return profile;
+            }
+        }
+
+        public TrackerGroup TrackerGroupActive
+        {
+            get
+            {
+                if (TrackerGroups.Count == 0)
+                {
+                    TrackerGroups.Add(new TrackerGroup("PTP"));
+                }
+
+                TrackerGroup group = TrackerGroups[0];
+
+                if (ProfileActive.TrackerGroupIndex >= 0 && TrackerGroups.Count > ProfileActive.TrackerGroupIndex)
+                {
+                    group = TrackerGroups[ProfileActive.TrackerGroupIndex];
+                }
+
+                return group;
             }
         }
 

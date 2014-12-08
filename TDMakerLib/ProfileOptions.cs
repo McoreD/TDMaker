@@ -66,7 +66,7 @@ namespace TDMakerLib
         #region Torrent creator
 
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(0), Description("Tracker group index")]
-        public int TrackerGroupActive { get; set; }
+        public int TrackerGroupIndex { get; set; }
 
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create Torrent")]
         public bool CreateTorrent { get; set; }

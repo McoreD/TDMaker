@@ -663,9 +663,9 @@ namespace TDMaker
             }
 
             FillTrackersComboBox();
-            if (cboTrackerGroupActive.Items.Count > 0 && App.Settings.ProfileActive.TrackerGroupActive < cboTrackerGroupActive.Items.Count)
+            if (cboTrackerGroupActive.Items.Count > 0 && App.Settings.ProfileActive.TrackerGroupIndex < cboTrackerGroupActive.Items.Count)
             {
-                cboTrackerGroupActive.SelectedIndex = App.Settings.ProfileActive.TrackerGroupActive;
+                cboTrackerGroupActive.SelectedIndex = App.Settings.ProfileActive.TrackerGroupIndex;
             }
 
             if (cboTorrentLoc.Items.Count == 0)
@@ -972,12 +972,12 @@ namespace TDMaker
         {
             TrackerGroup t = null;
 
-            if (App.Settings.ProfileActive.TrackerGroupActive < 0)
-                App.Settings.ProfileActive.TrackerGroupActive = 0;
+            if (App.Settings.ProfileActive.TrackerGroupIndex < 0)
+                App.Settings.ProfileActive.TrackerGroupIndex = 0;
 
-            if (cboTrackerGroupActive.Items.Count > App.Settings.ProfileActive.TrackerGroupActive)
+            if (cboTrackerGroupActive.Items.Count > App.Settings.ProfileActive.TrackerGroupIndex)
             {
-                t = cboTrackerGroupActive.Items[App.Settings.ProfileActive.TrackerGroupActive] as TrackerGroup;
+                t = cboTrackerGroupActive.Items[App.Settings.ProfileActive.TrackerGroupIndex] as TrackerGroup;
             }
             return t;
         }
@@ -1026,7 +1026,7 @@ namespace TDMaker
 
         private void cboAnnounceURL_SelectedIndexChanged(object sender, EventArgs e)
         {
-            App.Settings.ProfileActive.TrackerGroupActive = cboTrackerGroupActive.SelectedIndex;
+            App.Settings.ProfileActive.TrackerGroupIndex = cboTrackerGroupActive.SelectedIndex;
         }
 
         private TorrentInfo GetTorrentInfo()
@@ -1450,7 +1450,7 @@ namespace TDMaker
         {
             lbTrackers.Items.Clear();
             TrackerGroup tg = lbTrackerGroups.SelectedItem as TrackerGroup;
-            if (tg != null)
+            if (tg != null && tg.Trackers.Count > 0)
             {
                 foreach (Tracker myTracker in tg.Trackers)
                 {
@@ -1813,7 +1813,7 @@ namespace TDMaker
                 cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
                 cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
                 chkCreateTorrent.Checked = App.Settings.ProfileActive.CreateTorrent;
-                cboTrackerGroupActive.SelectedIndex = App.Settings.ProfileActive.TrackerGroupActive;
+                cboTrackerGroupActive.SelectedIndex = App.Settings.ProfileActive.TrackerGroupIndex;
             }
         }
     }

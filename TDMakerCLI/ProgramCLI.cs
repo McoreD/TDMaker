@@ -167,10 +167,10 @@ namespace TDMakerCLI
         {
             if (mTorrentCreate)
             {
-                if (App.Settings.TrackerGroups.Count > 0 && App.Settings.ProfileActive.TrackerGroupActive > -1)
+                if (App.Settings.TrackerGroups.Count > 0 && App.Settings.ProfileActive.TrackerGroupIndex > -1)
                 {
                     Helpers.CreateDirectoryIfNotExist(mTorrentsDir);
-                    ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.TrackerGroups[App.Settings.ProfileActive.TrackerGroupActive], mMediaLoc);
+                    ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.TrackerGroups[App.Settings.ProfileActive.TrackerGroupIndex], mMediaLoc);
                     if (Directory.Exists(mTorrentsDir))
                     {
                         ti.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
