@@ -40,6 +40,7 @@ namespace TDMakerLib
         public TorrentInfo(MediaInfo2 mi)
         {
             Media = mi;
+            Success = true; // set to false if error
         }
 
         public TorrentInfo(BackgroundWorker bwApp, MediaInfo2 mi)
@@ -59,7 +60,6 @@ namespace TDMakerLib
             {
                 mf.Thumbnailer.TakeScreenshot();
                 ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Done taking Screenshot for " + Path.GetFileName(mediaFilePath));
-                Success = true;
             }
             catch (Exception ex)
             {
@@ -164,7 +164,10 @@ namespace TDMakerLib
                             {
                                 ss.FullImageLink = ur.URL;
                                 ss.LinkedThumbnail = ur.ThumbnailURL;
-                                Success &= true;
+                            }
+                            else
+                            {
+                                Success = false;
                             }
                         }
                     }
