@@ -39,13 +39,13 @@ namespace TDMakerLib
 
         public TorrentInfo(MediaInfo2 mi)
         {
-            this.Media = mi;
+            Media = mi;
         }
 
         public TorrentInfo(BackgroundWorker bwApp, MediaInfo2 mi)
             : this(mi)
         {
-            this.BwAppMy = bwApp;
+            BwAppMy = bwApp;
         }
 
         private bool TakeScreenshot(MediaFile mf, string ssDir)
@@ -590,7 +590,7 @@ namespace TDMakerLib
                 sbPublish.AppendLine(p);
             }
 
-            return sbPublish.ToString();
+            return sbPublish.ToString().Trim();
         }
 
         /// <summary>
@@ -599,12 +599,12 @@ namespace TDMakerLib
         /// <returns>Publish String</returns>
         public string ToStringPublish()
         {
-            return CreatePublishInternal(this.PublishOptions);
+            return CreatePublishInternal(PublishOptions);
         }
 
         public override string ToString()
         {
-            return Path.GetFileName(this.Media.Location);
+            return Path.GetFileName(Media.Location);
         }
     }
 }
