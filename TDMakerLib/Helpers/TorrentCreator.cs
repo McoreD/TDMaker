@@ -89,7 +89,7 @@ namespace TDMakerLib
                     tc.Announces.Add(temp);
 
                     var uri = new Uri(tracker);
-                    string torrentFileName = string.Format("{0} - {1}.torrent", (File.Exists(p) ? Path.GetFileName(p) : MediaHelper.GetMediaName(p)), uri.Host);
+                    string torrentFileName = string.Format("{0} - {1}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)), uri.Host);
                     this.SetTorrentFilePath(torrentFileName);
 
                     ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));

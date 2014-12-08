@@ -226,7 +226,6 @@ namespace TDMaker
             {
                 if (File.Exists(p) || Directory.Exists(p))
                 {
-                    // txtMediaLocation.Text = p;
                     DebugHelper.WriteLine(string.Format("Queued {0} to create a torrent", p));
                     lbFiles.Items.Add(p);
                     TorrentCreateInfo tp = new TorrentCreateInfo(App.Settings.ProfileActive, p);
@@ -527,7 +526,10 @@ namespace TDMaker
             cboFileUploader.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<FileDestination>());
             cboFileUploader.SelectedIndex = (int)App.Settings.ProfileActive.ImageFileUploaderType;
 
-            App.Settings.Profiles.ForEach(x => listBoxProfiles.Items.Add(x));
+            if (listBoxProfiles.Items.Count == 0)
+            {
+                App.Settings.Profiles.ForEach(x => listBoxProfiles.Items.Add(x));
+            }
             listBoxProfiles.SelectedIndex = App.Settings.ProfileIndex;
         }
 
@@ -648,15 +650,13 @@ namespace TDMaker
             return Adapter.CreatePublish(ti, pop);
         }
 
-        private List<TorrentInfo> WorkerAnalyzeMedia(WorkerTask wt)
+        private WorkerTask WorkerAnalyzeMedia(WorkerTask wt)
         {
             App.LoadProxySettings();
 
-            List<TorrentInfo> tiListTemp = wt.MediaList;
+            bwApp.ReportProgress((int)ProgressType.UPDATE_PROGRESSBAR_MAX, wt.MediaList.Count);
 
-            bwApp.ReportProgress((int)ProgressType.UPDATE_PROGRESSBAR_MAX, tiListTemp.Count);
-
-            foreach (TorrentInfo ti in tiListTemp)
+            foreach (TorrentInfo ti in wt.MediaList)
             {
                 MediaInfo2 mi = ti.Media;
 
@@ -709,7 +709,7 @@ namespace TDMaker
                 bwApp.ReportProgress((int)ProgressType.INCREMENT_PROGRESS_WITH_MSG, mi.Title);
             }
 
-            return tiListTemp;
+            return wt;
         }
 
         private object WorkerCreateTorrents(WorkerTask wt)
@@ -747,16 +747,20 @@ namespace TDMaker
 
         private void bwApp_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            List<TorrentInfo> tiList = e.Result as List<TorrentInfo>;
+            WorkerTask wt = e.Result as WorkerTask;
 
             pBar.Style = ProgressBarStyle.Continuous;
             pBar.Value = 0;
 
-            bool success = true; tiList.ForEach(x => success &= x.Success);
+            bool success = true; wt.MediaList.ForEach(x => success &= x.Success);
 
             if (success)
             {
-                lbFiles.Items.Clear();
+                foreach (string p in wt.FileOrDirPaths)
+                {
+                    lbFiles.Items.Remove(p);
+                }
+
                 lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
                 sBar.Text = "Ready.";
             }
@@ -766,6 +770,11 @@ namespace TDMaker
             }
 
             UpdateGuiControls();
+
+            if (lbFiles.Items.Count > 0)
+            {
+                btnAnalyze_Click(sender, e);
+            }
         }
 
         private void pbScreenshot_MouseClick(object sender, MouseEventArgs e)
@@ -997,11 +1006,6 @@ namespace TDMaker
         private void chkTemplatesMode_CheckedChanged(object sender, EventArgs e)
         {
             chkTemplatesMode.CheckState = CheckState.Indeterminate;
-        }
-
-        private void btnMTNHelp_Click(object sender, EventArgs e)
-        {
-            URLHelpers.OpenURL("http://moviethumbnail.sourceforge.net/usage.en.html");
         }
 
         private void tsmLogsDir_Click(object sender, EventArgs e)
