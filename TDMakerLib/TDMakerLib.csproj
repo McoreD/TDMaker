@@ -63,16 +63,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\MonoTorrent.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Starksoft.Net.Ftp, Version=1.0.140.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Starksoft.Net.Ftp.dll</HintPath>
-    </Reference>
-    <Reference Include="Starksoft.Net.Proxy, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Starksoft.Net.Proxy.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Design" />
@@ -122,6 +115,7 @@
     <Compile Include="MediaInfo\MediaInfoDLL.cs" />
     <Compile Include="MediaInfo\NfoReport.cs" />
     <Compile Include="MediaInfo\ScreenshotInfo.cs" />
+    <Compile Include="MediaWizardOptions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="PtpImgUploader.cs" />
     <Compile Include="Thumbnailers\FFmpegThumbnailer.cs" />
@@ -140,6 +134,10 @@
     <Compile Include="Torrents\XMLTorrentUpload.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Forms\MediaWizard.resx">
+      <DependentUpon>MediaWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Templates\Default\Disc.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -203,10 +201,6 @@
     <EmbeddedResource Include="Templates\MTN\GeneralInfo.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\MediaWizard.resx">
-      <DependentUpon>MediaWizard.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="VersionHistory.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -60,16 +60,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SevenZipSharp, Version=0.64.3890.29348, Culture=neutral, PublicKeyToken=20de82c62b055c88, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SevenZipSharp.0.64\lib\SevenZipSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GUI\AboutBox.cs">
@@ -153,10 +146,6 @@
     <ProjectReference Include="..\..\ShareX\HelpersLib\HelpersLib.csproj">
       <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
       <Name>HelpersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ShareX\ScreenCaptureLib\ScreenCaptureLib.csproj">
-      <Project>{dbdb0daa-b3ae-4cc4-a8c2-20550b7f32e3}</Project>
-      <Name>ScreenCaptureLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ShareX\UploadersLib\UploadersLib.csproj">
       <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>

@@ -102,13 +102,12 @@ namespace TDMaker
             this.textBoxDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxDescription.Location = new System.Drawing.Point(8, 136);
             this.textBoxDescription.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
-            this.textBoxDescription.Multiline = true;
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.ReadOnly = true;
-           
-            this.textBoxDescription.Size = new System.Drawing.Size(472, 184);
+            this.textBoxDescription.Size = new System.Drawing.Size(472, 177);
             this.textBoxDescription.TabIndex = 23;
             this.textBoxDescription.TabStop = false;
             this.textBoxDescription.Text = "Description";
@@ -126,7 +125,7 @@ namespace TDMaker
             // uclUpdate
             // 
             this.uclUpdate.Location = new System.Drawing.Point(152, 104);
-            this.uclUpdate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.uclUpdate.Margin = new System.Windows.Forms.Padding(4);
             this.uclUpdate.Name = "uclUpdate";
             this.uclUpdate.Size = new System.Drawing.Size(224, 24);
             this.uclUpdate.TabIndex = 25;
@@ -136,7 +135,7 @@ namespace TDMaker
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(492, 366);
+            this.ClientSize = new System.Drawing.Size(492, 359);
             this.Controls.Add(this.uclUpdate);
             this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.labelProductName);
@@ -147,7 +146,7 @@ namespace TDMaker
             this.Controls.Add(this.okButton);
             this.MinimumSize = new System.Drawing.Size(500, 398);
             this.Name = "AboutBox";
-            this.Padding = new System.Windows.Forms.Padding(9, 9, 9, 9);
+            this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

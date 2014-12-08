@@ -29,9 +29,9 @@ namespace TDMaker
             sbDesc.AppendLine(App.SettingsFilePath);
             MediaInfoLib.MediaInfo mi = new MediaInfoLib.MediaInfo();
             sbDesc.AppendLine();
-            sbDesc.AppendLine("Using:");
-            sbDesc.AppendLine(mi.Option("Info_Version") + " from http://sourceforge.net/projects/mediainfo");
-            sbDesc.AppendLine("ShareX UploadersLib and HelpersLib from https://github.com/ShareX/ShareX/");
+            sbDesc.AppendLine("External libraries:");
+            sbDesc.AppendLine("ShareX: http://getsharex.com");
+            sbDesc.AppendLine(mi.Option("Info_Version") + ": http://sourceforge.net/projects/mediainfo");
             this.textBoxDescription.Text = sbDesc.ToString();
 
             uclUpdate.CheckUpdate(CheckUpdate);

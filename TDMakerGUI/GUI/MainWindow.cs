@@ -1,6 +1,5 @@
 ﻿using BDInfo;
 using HelpersLib;
-using ScreenCaptureLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -934,7 +933,6 @@ namespace TDMaker
                         TemplateLocation = Path.Combine(App.TemplatesDir, cboQuickTemplate.Text)
                     };
 
-
                     txtPublish.Text = Adapter.CreatePublish(ti, pop);
 
                     if (ti.Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum)
@@ -1403,13 +1401,13 @@ namespace TDMaker
 
         private void btnDownloadFFmpeg_Click(object sender, EventArgs e)
         {
-            FFmpegHelper.DownloadFFmpeg(true, DownloaderForm_InstallRequested);
+            FFmpegDownloader.DownloadFFmpeg(true, DownloaderForm_InstallRequested);
         }
 
         private void DownloaderForm_InstallRequested(string filePath)
         {
             string extractPath = Path.Combine(App.ToolsDir, "ffmpeg.exe");
-            bool result = FFmpegHelper.ExtractFFmpeg(filePath, extractPath);
+            bool result = FFmpegDownloader.ExtractFFmpeg(filePath, extractPath);
 
             if (result)
             {
