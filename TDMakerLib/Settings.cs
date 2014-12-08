@@ -27,6 +27,7 @@ namespace TDMakerLib
             SupportedFileExtVideo = new StringCollection();
         }
 
+        [Browsable(false)]
         public ProfileOptions ProfileActive
         {
             get
@@ -48,6 +49,7 @@ namespace TDMakerLib
             }
         }
 
+        [Browsable(false)]
         public TrackerGroup TrackerGroupActive
         {
             get
