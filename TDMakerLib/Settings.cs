@@ -173,19 +173,6 @@ namespace TDMakerLib
 
         #endregion Publish
 
-        #region Torrent creator
-
-        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(LocationType.KnownFolder), Description("Create torrents in the same folders as the media file, default torrent folder or in a custom folder")]
-        public LocationType TorrentLocationChoice { get; set; }
-
-        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Save torrent files in sub-folders organized by tracker namer")]
-        public bool TorrentsOrganize { get; set; }
-
-        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create XML Torrent Upload file")]
-        public bool XMLTorrentUploadCreate { get; set; }
-
-        #endregion Torrent creator
-
         #region Paths
 
         [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure the MediaInfo.dll folder path")]

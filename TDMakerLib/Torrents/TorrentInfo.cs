@@ -32,7 +32,7 @@ namespace TDMakerLib
         /// </summary>
         public PublishOptionsPacket PublishOptions { get; set; }
 
-        private BackgroundWorker BwAppMy = null;
+        private BackgroundWorker BwAppMy;
         private Uploader uploader;
 
         public bool Success { get; set; }

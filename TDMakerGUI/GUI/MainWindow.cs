@@ -671,7 +671,7 @@ namespace TDMaker
                     mi.TorrentCreateInfo.CreateTorrent(bwApp);
                 }
 
-                if (App.Settings.XMLTorrentUploadCreate)
+                if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
                 {
                     string fp = Path.Combine(mi.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(mi.TorrentCreateInfo.MediaLocation)) + ".xml";
                     FileSystem.GetXMLTorrentUpload(mi).Write2(fp);
@@ -691,7 +691,7 @@ namespace TDMaker
                 {
                     TorrentCreateInfo tci = ti.Media.TorrentCreateInfo;
                     tci.CreateTorrent(wt.MyWorker);
-                    if (App.Settings.XMLTorrentUploadCreate)
+                    if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
                     {
                         string fp = Path.Combine(tci.TorrentFolder, MediaHelper.GetMediaName(tci.MediaLocation)) + ".xml";
                         FileSystem.GetXMLTorrentUpload(ti.Media).Write(fp);

@@ -26,17 +26,10 @@ namespace TDMakerLib
         {
             string dir = "";
 
-            switch (App.Settings.TorrentLocationChoice)
+            switch (App.Settings.ProfileActive.TorrentsFolder)
             {
                 case LocationType.CustomFolder:
-                    if (Directory.Exists(App.Settings.CustomTorrentsDir) && App.Settings.TorrentsOrganize)
-                    {
-                        dir = Path.Combine(App.Settings.CustomTorrentsDir, this.Profile.Name);
-                    }
-                    else
-                    {
-                        dir = App.Settings.CustomTorrentsDir;
-                    }
+                    dir = App.Settings.CustomTorrentsDir;
                     break;
 
                 case LocationType.KnownFolder:
@@ -51,9 +44,11 @@ namespace TDMakerLib
             return dir;
         }
 
-        public void SetTorrentFilePath(string fileName)
+        public void SetTorrentFilePath(string fileName, string trackerName)
         {
-            TorrentFilePath = Path.Combine(TorrentFolder, fileName);
+            string torrentDir = Profile.OrganizeTorrentsByTracker ? Path.Combine(TorrentFolder, trackerName) : TorrentFolder;
+
+            TorrentFilePath = Path.Combine(torrentDir, fileName);
         }
 
         /// <summary>
@@ -89,7 +84,7 @@ namespace TDMakerLib
 
                     var uri = new Uri(tracker);
                     string torrentFileName = string.Format("{0} - {1}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)), uri.Host);
-                    this.SetTorrentFilePath(torrentFileName);
+                    this.SetTorrentFilePath(torrentFileName, uri.Host);
 
                     ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
 

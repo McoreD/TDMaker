@@ -69,8 +69,17 @@ namespace TDMakerLib
         Description("Your personal Announce URL is usually shown in the upload page e.g. http://torrent.ubuntu.com:6969")]
         public StringCollection Trackers { get; set; }
 
-        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create torrent after analysing media.")]
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(true), Description("Create torrent after analysing media.")]
         public bool CreateTorrent { get; set; }
+
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(LocationType.KnownFolder), Description("Create torrents in the same folders as the media file, default torrent folder or in a custom folder")]
+        public LocationType TorrentsFolder { get; set; }
+
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(true), Description("Save torrent files in sub-folders organized by tracker name")]
+        public bool OrganizeTorrentsByTracker { get; set; }
+
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(false), Description("Create XML Torrent Upload file")]
+        public bool XMLTorrentUploadCreate { get; set; }
 
         #endregion Torrent creator
 

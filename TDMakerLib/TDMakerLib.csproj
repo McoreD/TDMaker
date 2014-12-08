@@ -74,9 +74,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentModelStrings.cs" />
-    <Compile Include="Crypt.cs" />
-    <Compile Include="FileSystemHelper.cs" />
+    <Compile Include="Helpers\ComponentModelStrings.cs" />
+    <Compile Include="Helpers\Crypt.cs" />
+    <Compile Include="Helpers\FileSystemHelper.cs" />
     <Compile Include="Forms\MediaWizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,19 +94,19 @@
     <Compile Include="Helpers\BbCode.cs" />
     <Compile Include="Helpers\Options.cs" />
     <Compile Include="Helpers\Structs.cs" />
-    <Compile Include="Helpers\TorrentCreator.cs" />
+    <Compile Include="Torrents\TorrentCreator.cs" />
     <Compile Include="Helpers\WorkerTask.cs" />
     <Compile Include="Helpers\ImageFile.cs" />
-    <Compile Include="Kernel32Helper.cs" />
+    <Compile Include="Helpers\Kernel32Helper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
     <Compile Include="MediaInfo\MediaFile.cs" />
     <Compile Include="MediaInfo\MediaInfo2.cs" />
     <Compile Include="MediaInfo\MediaInfoDLL.cs" />
     <Compile Include="MediaInfo\NfoReport.cs" />
     <Compile Include="MediaInfo\ScreenshotInfo.cs" />
-    <Compile Include="MediaWizardOptions.cs" />
+    <Compile Include="Helpers\MediaWizardOptions.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="PtpImgUploader.cs" />
+    <Compile Include="Helpers\PtpImgUploader.cs" />
     <Compile Include="Thumbnailers\FFmpegThumbnailer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
@@ -116,9 +116,7 @@
     <Compile Include="Thumbnailers\Thumbnailer.cs" />
     <Compile Include="ProfileOptions.cs" />
     <Compile Include="Torrents\TorrentInfoMgr.cs" />
-    <Compile Include="Torrents\HttpWebMultipartRequest.cs" />
     <Compile Include="Torrents\TorrentInfo.cs" />
-    <Compile Include="Torrents\TorrentUploader.cs" />
     <Compile Include="Torrents\XMLTorrentUpload.cs" />
   </ItemGroup>
   <ItemGroup>
