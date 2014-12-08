@@ -56,6 +56,9 @@ namespace TDMakerLib
 
         #region Publish
 
+        [Category(ComponentModelStrings.Publish), DefaultValue(true), Description("Hide private information (file path in MediaInfo will be replaced by file name).")]
+        public bool HidePrivateInfo { get; set; }
+
         [Category(ComponentModelStrings.Publish), DefaultValue(PublishInfoType.MediaInfo), Description("Use internal template, external templates or information in MediaInfo in the torrent description in Publish tab")]
         public PublishInfoType PublishInfoTypeChoice { get; set; }
 

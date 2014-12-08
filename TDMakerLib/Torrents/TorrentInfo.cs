@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using UploadersLib;
 using UploadersLib.FileUploaders;
@@ -522,8 +523,6 @@ namespace TDMakerLib
                     foreach (MediaFile mf in Media.MediaFiles)
                     {
                         sbMediaInfo = new StringBuilder();
-                        sbMediaInfo.AppendLine(mf.FileName);
-                        sbMediaInfo.AppendLine();
                         sbMediaInfo.AppendLine(mf.Summary.Trim());
                         sbMediaInfo.AppendLine();
 
