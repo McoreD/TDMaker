@@ -119,7 +119,7 @@ namespace TDMakerLib
                     sbPublishInfo.AppendLine(line);
                 }
 
-                PublishInfo = sbPublishInfo.ToString().Trim();
+                PublishInfo = sbPublishInfo.ToString();
             }
         }
 
@@ -135,11 +135,14 @@ namespace TDMakerLib
                     if (!string.IsNullOrEmpty(ss.FullImageLink))
                     {
                         sbLinksFull.AppendLine(string.Format("[img]{0}[/img]", ss.FullImageLink));
+                        sbLinksFull.AppendLine();
                     }
                     if (!string.IsNullOrEmpty(ss.LinkedThumbnail))
                     {
                         sbLinksThumbs.AppendLine(string.Format("[img]{0}[/img]", ss.LinkedThumbnail));
+                        sbLinksFull.AppendLine();
                     }
+
                 }
                 pattern = pattern.ReplaceCode("%ScreenshotFull%", sbLinksFull.ToString().Trim());
                 pattern = pattern.ReplaceCode("%ScreenshotForums%", sbLinksThumbs.ToString().Trim());

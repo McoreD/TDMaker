@@ -143,24 +143,22 @@ namespace TDMakerLib
         {
             if (Media.Options.UploadScreenshots)
             {
-                foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
+                for (int i = 0; i < mf.Thumbnailer.Screenshots.Count; i++)
                 {
-                    if (ss != null)
-                    {
-                        UploadResult ur = UploadScreenshot(ss.LocalPath);
+                    ScreenshotInfo ss = mf.Thumbnailer.Screenshots[i];
+                    if (ss == null) continue;
+                    ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0} ({1} of {2})", Path.GetFileName(ss.LocalPath), i + 1, mf.Thumbnailer.Screenshots.Count));
+                    UploadResult ur = UploadScreenshot(ss.LocalPath);
 
-                        if (ur != null)
-                        {
-                            if (!string.IsNullOrEmpty(ur.URL))
-                            {
-                                ss.FullImageLink = ur.URL;
-                                ss.LinkedThumbnail = ur.ThumbnailURL;
-                            }
-                            else
-                            {
-                                Success = false;
-                            }
-                        }
+                    if (ur == null) continue;
+                    if (!string.IsNullOrEmpty(ur.URL))
+                    {
+                        ss.FullImageLink = ur.URL;
+                        ss.LinkedThumbnail = ur.ThumbnailURL;
+                    }
+                    else
+                    {
+                        Success = false;
                     }
                 }
             }
@@ -268,7 +266,7 @@ namespace TDMakerLib
             if (imageUploader != null)
             {
                 PrepareUploader(imageUploader);
-                ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0}.", Path.GetFileName(ssPath)));
+
                 return imageUploader.Upload(ssPath);
             }
 
@@ -469,7 +467,7 @@ namespace TDMakerLib
         {
             tr.CreateInfo(options);
 
-            return GetPublishString(tr.PublishInfo, options);
+            return BbFormat(tr.PublishInfo, options);
         }
 
         public string CreatePublishMediaInfo(PublishOptionsPacket pop)
@@ -495,7 +493,7 @@ namespace TDMakerLib
                         sbMediaInfo.AppendLine();
                     }
 
-                    sbPublish.AppendLine(GetPublishString(sbMediaInfo.ToString(), pop));
+                    sbPublish.AppendLine(BbFormat(sbMediaInfo.ToString(), pop));
 
                     if (Media.Options.UploadScreenshots)
                         sbPublish.AppendLine(Media.Overall.GetScreenshotString(pop));
@@ -508,16 +506,20 @@ namespace TDMakerLib
                         sbMediaInfo.AppendLine(mf.Summary.Trim());
                         sbMediaInfo.AppendLine();
 
-                        sbPublish.AppendLine(GetPublishString(sbMediaInfo.ToString(), pop));
+                        sbPublish.AppendLine(BbFormat(sbMediaInfo.ToString(), pop));
 
                         if (Media.Options.UploadScreenshots)
-                            sbPublish.AppendLine(mf.GetScreenshotString(pop));
+                        {
+                            sbPublish.AppendLine();
+    sbPublish.AppendLine(mf.GetScreenshotString(pop));
+                        }
+                        
                     }
 
                     break;
             }
 
-            string publishInfo = sbPublish.ToString();
+            string publishInfo = sbPublish.ToString().Trim();
 
             if (App.Settings.ProfileActive.HidePrivateInfo)
             {
@@ -538,7 +540,7 @@ namespace TDMakerLib
         {
             StringBuilder sbPublish = new StringBuilder();
             string info = Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum ? Media.ToStringAudio() : Media.ToStringMedia(pop);
-            sbPublish.Append(GetPublishString(info, pop));
+            sbPublish.Append(BbFormat(info, pop));
 
             return sbPublish.ToString().Trim();
         }
@@ -564,7 +566,7 @@ namespace TDMakerLib
             }
         }
 
-        public string GetPublishString(string p, PublishOptionsPacket options)
+        private string BbFormat(string p, PublishOptionsPacket options)
         {
             StringBuilder sbPublish = new StringBuilder();
 
