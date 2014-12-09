@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 
@@ -13,7 +14,7 @@ namespace TDMakerLib
         }
 
         // This method is experimental.
-        public override void TakeScreenshot()
+        public override void TakeScreenshots(BackgroundWorker worker)
         {
             ProcessStartInfo psi = new ProcessStartInfo(ThumbnailerPath);
             psi.WindowStyle = ProcessWindowStyle.Minimized;

@@ -10,7 +10,7 @@ namespace TDMakerLib
     /// A Template Directory has 7 files:
     /// GeneralInfo.txt; VideoInfo.txt; AudioInfo.txt; Disc.txt; File.txt
     /// </summary>
-    public class TemplateReader2
+    public class TemplateReader
     {
         /// <summary>
         /// Location of the Template
@@ -36,7 +36,7 @@ namespace TDMakerLib
         /// </summary>
         /// <param name="loc">Directory Path of the Template</param>
         /// <param name="ti">TorrentInfo object that has MediaInfo</param>
-        public TemplateReader2(string loc, TorrentInfo ti)
+        public TemplateReader(string loc, TorrentInfo ti)
         {
             this.Location = loc;
             this.TorrentInfo = ti;

@@ -112,10 +112,9 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Templates\TemplateItem.cs" />
     <Compile Include="Templates\MappingHelper.cs" />
-    <Compile Include="Templates\TemplateReader2.cs" />
+    <Compile Include="Templates\TemplateReader.cs" />
     <Compile Include="Thumbnailers\Thumbnailer.cs" />
     <Compile Include="ProfileOptions.cs" />
-    <Compile Include="Torrents\TorrentInfoMgr.cs" />
     <Compile Include="Torrents\TorrentInfo.cs" />
     <Compile Include="Torrents\XMLTorrentUpload.cs" />
   </ItemGroup>

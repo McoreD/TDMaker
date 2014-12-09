@@ -32,7 +32,7 @@ namespace TDMakerLib
         /// </summary>
         public PublishOptionsPacket PublishOptions { get; set; }
 
-        private BackgroundWorker BwAppMy;
+        private BackgroundWorker worker;
         private Uploader uploader;
 
         public bool Success { get; set; }
@@ -46,19 +46,18 @@ namespace TDMakerLib
         public TorrentInfo(BackgroundWorker bwApp, MediaInfo2 mi)
             : this(mi)
         {
-            BwAppMy = bwApp;
+            worker = bwApp;
         }
 
         private bool TakeScreenshot(MediaFile mf, string ssDir)
         {
             String mediaFilePath = mf.FilePath;
-            ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Taking Screenshot for " + Path.GetFileName(mediaFilePath));
 
             mf.Thumbnailer = new Thumbnailer(mf, ssDir, App.Settings.ProfileActive);
 
             try
             {
-                mf.Thumbnailer.TakeScreenshot();
+                mf.Thumbnailer.TakeScreenshots(worker);
                 ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Done taking Screenshot for " + Path.GetFileName(mediaFilePath));
             }
             catch (Exception ex)
@@ -474,7 +473,7 @@ namespace TDMakerLib
         /// </summary>
         /// <param name="tr"></param>
         /// <returns></returns>
-        public string CreatePublish(PublishOptionsPacket options, TemplateReader2 tr)
+        public string CreatePublish(PublishOptionsPacket options, TemplateReader tr)
         {
             tr.CreateInfo(options);
 
@@ -550,9 +549,9 @@ namespace TDMakerLib
 
         private void ReportProgress(ProgressType percentProgress, object userState)
         {
-            if (BwAppMy != null)
+            if (worker != null)
             {
-                BwAppMy.ReportProgress((int)percentProgress, userState);
+                worker.ReportProgress((int)percentProgress, userState);
             }
             else
             {
@@ -593,15 +592,6 @@ namespace TDMakerLib
             }
 
             return sbPublish.ToString().Trim();
-        }
-
-        /// <summary>
-        /// Default Publish String representation of a Torrent
-        /// </summary>
-        /// <returns>Publish String</returns>
-        public string ToStringPublish()
-        {
-            return CreatePublishInternal(PublishOptions);
         }
 
         public override string ToString()

@@ -41,7 +41,6 @@ namespace TDMakerLib
         public static string ReplaceCode(this string input, string what, string with)
         {
             return Regex.Replace(input, what, with, RegexOptions.IgnoreCase);
-            ;
         }
 
         public static int Mid(this int number, int min, int max)

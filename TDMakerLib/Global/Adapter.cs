@@ -206,11 +206,11 @@ namespace TDMakerLib
                 case PublishInfoType.ExternalTemplate:
                     if (Directory.Exists(pop.TemplateLocation))
                     {
-                        pt = ti.CreatePublish(pop, new TemplateReader2(pop.TemplateLocation, ti));
+                        pt = ti.CreatePublish(pop, new TemplateReader(pop.TemplateLocation, ti));
                     }
                     else if (Directory.Exists(ti.Media.TemplateLocation))
                     {
-                        pt = ti.CreatePublish(pop, new TemplateReader2(ti.Media.TemplateLocation, ti));
+                        pt = ti.CreatePublish(pop, new TemplateReader(ti.Media.TemplateLocation, ti));
                     }
                     else
                     {

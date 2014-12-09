@@ -76,12 +76,14 @@ namespace TDMakerLib
 
                 //Write XML file
                 XmlSerializer serial = new XmlSerializer(typeof(XMLTorrentUpload));
-                FileStream fs = new FileStream(filePath, FileMode.Create);
-                serial.Serialize(fs, this);
-                fs.Close();
+                using (FileStream fs = new FileStream(filePath, FileMode.Create))
+                {
+                    serial.Serialize(fs, this);
+                    fs.Close();
+                }
 
                 serial = null;
-                fs = null;
+
                 Console.WriteLine("Wrote: " + filePath);
             }
             catch (Exception e)

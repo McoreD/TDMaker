@@ -27,13 +27,13 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Upload screenshots")]
         public bool UploadScreenshots { get; set; }
 
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(0), Description("Maximum thumbnail width size, 0 means don't resize")]
+        public int MaxThumbnailWidth { get; set; }
+
         #region Screenshots / Combine
 
         [Category(ComponentModelStrings.ScreenshotsCombine), DefaultValue(false), Description("Combine all screenshots to one large screenshot")]
         public bool CombineScreenshots { get; set; }
-
-        [Category(ComponentModelStrings.ScreenshotsCombine), DefaultValue(0), Description("Maximum thumbnail width size, 0 means don't resize")]
-        public int MaxThumbnailWidth { get; set; }
 
         [Category(ComponentModelStrings.ScreenshotsCombine), DefaultValue(20), Description("Space between border and content as pixel")]
         public int Padding { get; set; }

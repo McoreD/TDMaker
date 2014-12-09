@@ -1,6 +1,7 @@
 ﻿using HelpersLib;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -41,7 +42,7 @@ namespace TDMakerLib
             }
         }
 
-        public virtual void TakeScreenshot()
+        public virtual void TakeScreenshots(BackgroundWorker worker)
         {
             string MPlayerTempFp = Path.Combine(ScreenshotDir, "00000001.png"); // MPlayer creates this file by default
 
@@ -58,8 +59,11 @@ namespace TDMakerLib
 
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {
+                string mediaFileName = Path.GetFileNameWithoutExtension(MediaFile.FilePath);
+                worker.ReportProgress((int)ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Taking Screenshot {0} of {1} for {2}", i + 1, Options.ScreenshotCount, mediaFileName));
+
                 int timeSliceElapsed = Options.RandomFrame ? GetRandomTimeSlice(i) : TimeSlice * (i + 1);
-                string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.png", Path.GetFileNameWithoutExtension(MediaFile.FilePath), timeSliceElapsed));
+                string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.png", mediaFileName, timeSliceElapsed));
 
                 ProcessStartInfo psi = new ProcessStartInfo(ThumbnailerPath);
                 psi.WindowStyle = ProcessWindowStyle.Minimized;
@@ -68,7 +72,7 @@ namespace TDMakerLib
                 {
                     case ThumbnailerType.MPlayer:
                         psi.Arguments = string.Format("-nosound -ss {0} -zoom -vf screenshot -frames 1 -vo png:z=9:outdir=\\\"{1}\\\" \"{2}\"",
-                               timeSliceElapsed, ScreenshotDir, MediaFile.FilePath);
+                            timeSliceElapsed, ScreenshotDir, MediaFile.FilePath);
                         break;
                     case ThumbnailerType.FFmpeg:
                         psi.Arguments = string.Format("-ss {0} -i \"{1}\" -f image2 -vframes 1 -y \"{2}\"", timeSliceElapsed, MediaFile.FilePath, tempScreenshotPath);
@@ -172,17 +176,17 @@ namespace TDMakerLib
                 int thumbWidth = images[0].Width;
 
                 int width = Options.Padding * 2 +
-                    thumbWidth * columnCount +
-                    (columnCount - 1) * Options.Spacing;
+                            thumbWidth * columnCount +
+                            (columnCount - 1) * Options.Spacing;
 
                 int rowCount = (int)Math.Ceiling(images.Count / (float)columnCount);
 
                 int thumbHeight = images[0].Height;
 
                 int height = Options.Padding * 3 +
-                    infoStringHeight +
-                    thumbHeight * rowCount +
-                    (rowCount - 1) * Options.Spacing;
+                             infoStringHeight +
+                             thumbHeight * rowCount +
+                             (rowCount - 1) * Options.Spacing;
 
                 finalImage = new Bitmap(width, height);
 
