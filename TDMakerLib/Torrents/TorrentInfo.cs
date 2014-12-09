@@ -476,8 +476,7 @@ namespace TDMakerLib
         /// <returns></returns>
         public string CreatePublish(PublishOptionsPacket options, TemplateReader2 tr)
         {
-            tr.SetFullScreenshot(options.FullPicture);
-            tr.CreateInfo();
+            tr.CreateInfo(options);
 
             StringBuilder sbPublish = new StringBuilder();
             sbPublish.Append(GetPublishString(tr.PublishInfo, options));

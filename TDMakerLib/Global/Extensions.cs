@@ -26,6 +26,7 @@
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace TDMakerLib
@@ -35,6 +36,13 @@ namespace TDMakerLib
         public static int ToInt(this string str)
         {
             return Convert.ToInt32(str);
+        }
+
+        public static string Replace(this string input, string what, string with, string orWith = "")
+        {
+            input = Regex.Replace(input, what, with, RegexOptions.IgnoreCase);
+            input = Regex.Replace(input, what, orWith, RegexOptions.IgnoreCase);
+            return input;
         }
 
         public static int Mid(this int number, int min, int max)

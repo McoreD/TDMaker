@@ -91,8 +91,10 @@ namespace TDMakerLib
             }
         }
 
-        public void CreateInfo()
+        public void CreateInfo(PublishOptionsPacket options)
         {
+            SetFullScreenshot(options.FullPicture);
+
             string pattern = "";
 
             if (TorrentInfo.Media != null)
@@ -107,7 +109,7 @@ namespace TDMakerLib
                 }
 
                 pattern = GetSourceInfo(pattern, TorrentInfo.Media);
-                pattern = Regex.Replace(pattern, "%NewLine%", Environment.NewLine);
+                pattern = pattern.Replace("%NewLine%", Environment.NewLine);
 
                 PublishInfo = pattern.Trim();
             }
@@ -134,10 +136,7 @@ namespace TDMakerLib
                 pattern = Regex.Replace(pattern, "%ScreenshotFull%", sbLinksFull.ToString().Trim(), RegexOptions.IgnoreCase);
                 pattern = Regex.Replace(pattern, "%ScreenshotForums%", sbLinksThumbs.ToString().Trim(), RegexOptions.IgnoreCase);
             }
-            else
-            {
-                pattern = "";
-            }
+
             return pattern;
         }
 
