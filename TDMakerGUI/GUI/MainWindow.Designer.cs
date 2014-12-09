@@ -221,7 +221,7 @@ namespace TDMaker
             this.pBar});
             this.ssMain.Location = new System.Drawing.Point(0, 0);
             this.ssMain.Name = "ssMain";
-            this.ssMain.Size = new System.Drawing.Size(892, 22);
+            this.ssMain.Size = new System.Drawing.Size(896, 22);
             this.ssMain.TabIndex = 0;
             this.ssMain.Text = "statusStrip1";
             // 
@@ -236,7 +236,7 @@ namespace TDMaker
             // 
             this.sBar.Margin = new System.Windows.Forms.Padding(3, 3, 0, 2);
             this.sBar.Name = "sBar";
-            this.sBar.Size = new System.Drawing.Size(749, 17);
+            this.sBar.Size = new System.Drawing.Size(753, 17);
             this.sBar.Spring = true;
             this.sBar.Text = "Ready";
             this.sBar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -260,11 +260,11 @@ namespace TDMaker
             // 
             // txtWebLink
             // 
-            this.txtWebLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtWebLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWebLink.Location = new System.Drawing.Point(112, 72);
             this.txtWebLink.Name = "txtWebLink";
-            this.txtWebLink.Size = new System.Drawing.Size(468, 20);
+            this.txtWebLink.Size = new System.Drawing.Size(472, 20);
             this.txtWebLink.TabIndex = 5;
             this.ttApp.SetToolTip(this.txtWebLink, "IMDB URL");
             this.txtWebLink.TextChanged += new System.EventHandler(this.txtWebLink_TextChanged);
@@ -280,7 +280,7 @@ namespace TDMaker
             this.msMain.Location = new System.Drawing.Point(0, 0);
             this.msMain.Name = "msMain";
             this.msMain.Padding = new System.Windows.Forms.Padding(2, 2, 0, 2);
-            this.msMain.Size = new System.Drawing.Size(892, 24);
+            this.msMain.Size = new System.Drawing.Size(896, 24);
             this.msMain.TabIndex = 0;
             this.msMain.Text = "menuStrip1";
             // 
@@ -313,7 +313,7 @@ namespace TDMaker
             this.miFileOpenFolder.Image = global::TDMakerGUI.Properties.Resources.folder_open;
             this.miFileOpenFolder.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.miFileOpenFolder.Name = "miFileOpenFolder";
-            this.miFileOpenFolder.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+            this.miFileOpenFolder.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
             | System.Windows.Forms.Keys.O)));
             this.miFileOpenFolder.Size = new System.Drawing.Size(221, 22);
             this.miFileOpenFolder.Text = "&Open folder...";
@@ -506,8 +506,8 @@ namespace TDMaker
             // 
             // tcMain
             // 
-            this.tcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.tcMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tcMain.Controls.Add(this.tpMedia);
             this.tcMain.Controls.Add(this.tpMediaInfo);
@@ -518,7 +518,7 @@ namespace TDMaker
             this.tcMain.Location = new System.Drawing.Point(3, 3);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(886, 549);
+            this.tcMain.Size = new System.Drawing.Size(890, 553);
             this.tcMain.TabIndex = 0;
             this.tcMain.Visible = false;
             this.tcMain.SelectedIndexChanged += new System.EventHandler(this.tcMain_SelectedIndexChanged);
@@ -530,14 +530,14 @@ namespace TDMaker
             this.tpMedia.Controls.Add(this.gbLocation);
             this.tpMedia.Location = new System.Drawing.Point(4, 22);
             this.tpMedia.Name = "tpMedia";
-            this.tpMedia.Size = new System.Drawing.Size(878, 523);
+            this.tpMedia.Size = new System.Drawing.Size(882, 527);
             this.tpMedia.TabIndex = 4;
             this.tpMedia.Text = "Input";
             this.tpMedia.UseVisualStyleBackColor = true;
             // 
             // gbSource
             // 
-            this.gbSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.gbSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbSource.Controls.Add(this.chkTitle);
             this.gbSource.Controls.Add(this.txtTitle);
@@ -547,7 +547,7 @@ namespace TDMaker
             this.gbSource.Controls.Add(this.cboSource);
             this.gbSource.Location = new System.Drawing.Point(272, 413);
             this.gbSource.Name = "gbSource";
-            this.gbSource.Size = new System.Drawing.Size(596, 104);
+            this.gbSource.Size = new System.Drawing.Size(600, 104);
             this.gbSource.TabIndex = 2;
             this.gbSource.TabStop = false;
             this.gbSource.Text = "Source properties";
@@ -567,11 +567,11 @@ namespace TDMaker
             // 
             // txtTitle
             // 
-            this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTitle.Location = new System.Drawing.Point(112, 48);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(468, 20);
+            this.txtTitle.Size = new System.Drawing.Size(472, 20);
             this.txtTitle.TabIndex = 3;
             this.txtTitle.TextChanged += new System.EventHandler(this.txtTitle_TextChanged);
             // 
@@ -611,6 +611,7 @@ namespace TDMaker
             // 
             // gbDVD
             // 
+            this.gbDVD.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.gbDVD.Controls.Add(this.cboDiscMenu);
             this.gbDVD.Controls.Add(this.chkDiscMenu);
             this.gbDVD.Controls.Add(this.cboExtras);
@@ -695,7 +696,8 @@ namespace TDMaker
             // 
             // gbLocation
             // 
-            this.gbLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.gbLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.gbLocation.Controls.Add(this.btnBrowseDir);
             this.gbLocation.Controls.Add(this.lbFiles);
@@ -703,7 +705,7 @@ namespace TDMaker
             this.gbLocation.Controls.Add(this.pbLogo);
             this.gbLocation.Location = new System.Drawing.Point(8, 8);
             this.gbLocation.Name = "gbLocation";
-            this.gbLocation.Size = new System.Drawing.Size(860, 399);
+            this.gbLocation.Size = new System.Drawing.Size(864, 403);
             this.gbLocation.TabIndex = 0;
             this.gbLocation.TabStop = false;
             this.gbLocation.Text = "Locations - Browse or drag and drop a movie file or folder";
@@ -721,7 +723,8 @@ namespace TDMaker
             // 
             // lbFiles
             // 
-            this.lbFiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.lbFiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbFiles.FormattingEnabled = true;
             this.lbFiles.HorizontalScrollbar = true;
@@ -729,7 +732,7 @@ namespace TDMaker
             this.lbFiles.Location = new System.Drawing.Point(8, 56);
             this.lbFiles.Name = "lbFiles";
             this.lbFiles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbFiles.Size = new System.Drawing.Size(840, 336);
+            this.lbFiles.Size = new System.Drawing.Size(844, 340);
             this.lbFiles.Sorted = true;
             this.lbFiles.TabIndex = 2;
             this.lbFiles.KeyDown += new System.Windows.Forms.KeyEventHandler(this.lbFiles_KeyDown);
@@ -748,7 +751,7 @@ namespace TDMaker
             // pbLogo
             // 
             this.pbLogo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pbLogo.Location = new System.Drawing.Point(648, 16);
+            this.pbLogo.Location = new System.Drawing.Point(648, 20);
             this.pbLogo.Name = "pbLogo";
             this.pbLogo.Size = new System.Drawing.Size(200, 29);
             this.pbLogo.TabIndex = 11;
@@ -957,8 +960,8 @@ namespace TDMaker
             // txtPublish
             // 
             this.txtPublish.AcceptsReturn = true;
-            this.txtPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.txtPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPublish.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPublish.Location = new System.Drawing.Point(174, 3);
@@ -1039,7 +1042,7 @@ namespace TDMaker
             // 
             // cboQuickTemplate
             // 
-            this.cboQuickTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.cboQuickTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboQuickTemplate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboQuickTemplate.FormattingEnabled = true;
@@ -1420,7 +1423,7 @@ namespace TDMaker
             // 
             // listBoxProfiles
             // 
-            this.listBoxProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.listBoxProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.listBoxProfiles.FormattingEnabled = true;
             this.listBoxProfiles.Location = new System.Drawing.Point(6, 32);
@@ -1501,8 +1504,8 @@ namespace TDMaker
             // 
             // pgProfileOptions
             // 
-            this.pgProfileOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.pgProfileOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pgProfileOptions.Location = new System.Drawing.Point(137, 6);
             this.pgProfileOptions.Name = "pgProfileOptions";
@@ -1645,11 +1648,11 @@ namespace TDMaker
             this.tscMain.ContentPanel.Controls.Add(this.tcMain);
             this.tscMain.ContentPanel.Controls.Add(this.tttvMain);
             this.tscMain.ContentPanel.Padding = new System.Windows.Forms.Padding(3);
-            this.tscMain.ContentPanel.Size = new System.Drawing.Size(892, 591);
+            this.tscMain.ContentPanel.Size = new System.Drawing.Size(896, 595);
             this.tscMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tscMain.Location = new System.Drawing.Point(0, 0);
             this.tscMain.Name = "tscMain";
-            this.tscMain.Size = new System.Drawing.Size(892, 637);
+            this.tscMain.Size = new System.Drawing.Size(896, 641);
             this.tscMain.TabIndex = 0;
             this.tscMain.Text = "toolStripContainer1";
             // 
@@ -1663,22 +1666,22 @@ namespace TDMaker
             this.flpButtons.Controls.Add(this.btnCreateTorrent);
             this.flpButtons.Controls.Add(this.btnPublish);
             this.flpButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flpButtons.Location = new System.Drawing.Point(3, 558);
+            this.flpButtons.Location = new System.Drawing.Point(3, 562);
             this.flpButtons.Name = "flpButtons";
-            this.flpButtons.Size = new System.Drawing.Size(886, 30);
+            this.flpButtons.Size = new System.Drawing.Size(890, 30);
             this.flpButtons.TabIndex = 2;
             // 
             // tttvMain
             // 
-            this.tttvMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.tttvMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tttvMain.ImageList = null;
             this.tttvMain.Location = new System.Drawing.Point(3, 3);
             this.tttvMain.MainTabControl = null;
             this.tttvMain.Margin = new System.Windows.Forms.Padding(0);
             this.tttvMain.Name = "tttvMain";
-            this.tttvMain.Size = new System.Drawing.Size(885, 553);
+            this.tttvMain.Size = new System.Drawing.Size(889, 557);
             this.tttvMain.TabIndex = 1;
             this.tttvMain.TreeViewFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.tttvMain.TreeViewSize = 150;
@@ -1689,10 +1692,10 @@ namespace TDMaker
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(892, 637);
+            this.ClientSize = new System.Drawing.Size(896, 641);
             this.Controls.Add(this.tscMain);
             this.MainMenuStrip = this.msMain;
-            this.MinimumSize = new System.Drawing.Size(908, 639);
+            this.MinimumSize = new System.Drawing.Size(912, 680);
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TDMaker";

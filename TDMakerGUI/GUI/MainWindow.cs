@@ -564,8 +564,6 @@ namespace TDMaker
 
         private void LoadSettingsInputMediaControls()
         {
-            gbDVD.Visible = gbSource.Visible = App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo;
-
             chkAuthoring.Checked = App.Settings.bAuthoring;
             cboAuthoring.Text = App.Settings.AuthoringMode;
 
@@ -714,7 +712,7 @@ namespace TDMaker
 
         private void UpdateGuiControls()
         {
-            gbDVD.Visible = gbSource.Visible = App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo;
+            gbDVD.Enabled = gbSource.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo;
 
             btnCreateTorrent.Enabled = !bwApp.IsBusy && lbPublish.Items.Count > 0;
             btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
@@ -1504,6 +1502,7 @@ namespace TDMaker
         {
             App.Settings.ProfileIndex = listBoxProfiles.SelectedIndex;
             LoadProfileControls();
+            UpdateGuiControls();
         }
 
         private void LoadProfileControls()
