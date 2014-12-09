@@ -19,29 +19,22 @@ namespace TDMakerLib
         {
             this.Profile = profile;
             this.MediaLocation = mediaLoc;
-            this.TorrentFolder = GetTorrentFolderPath();
+            this.TorrentFolder = DefaultTorrentFolder;
         }
 
-        private string GetTorrentFolderPath()
+        private string DefaultTorrentFolder
         {
-            string dir = "";
-
-            switch (App.Settings.ProfileActive.TorrentsFolder)
+            get
             {
-                case LocationType.CustomFolder:
-                    dir = App.Settings.CustomTorrentsDir;
-                    break;
+                string dir = App.TorrentsDir;
 
-                case LocationType.KnownFolder:
-                    dir = App.TorrentsDir;
-                    break;
-
-                case LocationType.ParentFolder:
+                if (this.Profile.TorrentsFolder == LocationType.ParentFolder)
+                {
                     dir = Path.GetDirectoryName(this.MediaLocation);
-                    break;
-            }
+                }
 
-            return dir;
+                return dir;
+            }
         }
 
         public void SetTorrentFilePath(string fileName, string trackerName)

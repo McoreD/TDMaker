@@ -136,6 +136,7 @@ namespace TDMaker
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Multiselect = true;
             dlg.Title = Resources.MainWindow_OpenFile_Browse_for_Media_file___;
+            dlg.InitialDirectory = App.Settings.ProfileActive.DefaultMediaDirectory;
             StringBuilder sbExt = new StringBuilder();
             sbExt.Append("Media Files (");
             StringBuilder sbExtDesc = new StringBuilder();
@@ -164,6 +165,8 @@ namespace TDMaker
         {
             FolderBrowserDialog dlg = new FolderBrowserDialog();
             dlg.Description = Resources.MainWindow_OpenFolder_Browse_for_media_disc_folder___;
+            dlg.SelectedPath = App.Settings.ProfileActive.DefaultMediaDirectory;
+
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 LoadMedia(new string[] { dlg.SelectedPath });
@@ -506,9 +509,12 @@ namespace TDMaker
         {
             if (App.Settings.MediaSources.Count == 0)
             {
-                App.Settings.MediaSources.AddRange(new string[] { "CAM", "TC", "TS", "R5", "DVD-Screener",
-                                                            "DVD", "TV", "HDTV", "Blu-ray", "HD-DVD",
-                                                            "Laser Disc", "VHS", "Unknown" });
+                App.Settings.MediaSources.AddRange(new string[]
+                {
+                    "CAM", "TC", "TS", "R5", "DVD-Screener",
+                    "DVD", "TV", "HDTV", "Blu-ray", "HD-DVD",
+                    "Laser Disc", "VHS", "Unknown"
+                });
             }
             if (App.Settings.Extras.Count == 0)
             {
@@ -723,7 +729,8 @@ namespace TDMaker
             pBar.Style = ProgressBarStyle.Continuous;
             pBar.Value = 0;
 
-            bool success = true; wt.MediaList.ForEach(x => success &= x.Success);
+            bool success = true;
+            wt.MediaList.ForEach(x => success &= x.Success);
 
             if (success)
             {
