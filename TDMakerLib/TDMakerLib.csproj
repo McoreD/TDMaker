@@ -115,7 +115,7 @@
     <Compile Include="Templates\TemplateReader.cs" />
     <Compile Include="Thumbnailers\Thumbnailer.cs" />
     <Compile Include="ProfileOptions.cs" />
-    <Compile Include="Torrents\TorrentInfo.cs" />
+    <Compile Include="TorrentInfo.cs" />
     <Compile Include="Torrents\XMLTorrentUpload.cs" />
   </ItemGroup>
   <ItemGroup>

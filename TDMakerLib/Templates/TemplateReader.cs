@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -109,7 +110,15 @@ namespace TDMakerLib
                 pattern = GetSourceInfo(pattern, TorrentInfo.Media);
                 pattern = pattern.ReplaceCode("%NewLine%", Environment.NewLine);
 
-                PublishInfo = pattern.Trim();
+                string[] lines = Regex.Split(pattern.Trim(), Environment.NewLine);
+
+                StringBuilder sbPublishInfo = new StringBuilder();
+                foreach (string line in lines.Where(line => !line.Contains("%")))
+                {
+                    sbPublishInfo.AppendLine(line);
+                }
+
+                PublishInfo = sbPublishInfo.ToString().Trim();
             }
         }
 

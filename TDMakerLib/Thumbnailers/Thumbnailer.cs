@@ -23,8 +23,6 @@ namespace TDMakerLib
         protected int TimeSlice;
         protected List<int> MediaSeekTimes = new List<int>();
 
-        public string MediaSummary { get; protected set; }
-
         protected Thumbnailer()
         {
         }

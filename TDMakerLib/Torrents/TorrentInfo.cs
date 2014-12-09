@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -65,15 +66,6 @@ namespace TDMakerLib
                 Success = false;
                 Debug.WriteLine(ex.ToString());
                 ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, ex.Message + " for " + Path.GetFileName(mediaFilePath));
-            }
-
-            if (App.IsUNIX)
-            {
-                // Save _s.txt to MediaInfo2.Overall object
-                if (string.IsNullOrEmpty(Media.Overall.Summary))
-                {
-                    Media.Overall.Summary = mf.Thumbnailer.MediaSummary;
-                }
             }
 
             return Success;
@@ -473,14 +465,11 @@ namespace TDMakerLib
         /// </summary>
         /// <param name="tr"></param>
         /// <returns></returns>
-        public string CreatePublish(PublishOptionsPacket options, TemplateReader tr)
+        public string CreatePublishExternal(PublishOptionsPacket options, TemplateReader tr)
         {
             tr.CreateInfo(options);
 
-            StringBuilder sbPublish = new StringBuilder();
-            sbPublish.Append(GetPublishString(tr.PublishInfo, options));
-
-            return sbPublish.ToString();
+            return GetPublishString(tr.PublishInfo, options);
         }
 
         public string CreatePublishMediaInfo(PublishOptionsPacket pop)
@@ -528,7 +517,14 @@ namespace TDMakerLib
                     break;
             }
 
-            return sbPublish.ToString();
+            string publishInfo = sbPublish.ToString();
+
+            if (App.Settings.ProfileActive.HidePrivateInfo)
+            {
+                publishInfo = Regex.Replace(publishInfo, "(?<=Complete name *: ).+?(?=\\r)", match => Path.GetFileName(match.Value));
+            }
+
+            return publishInfo;
         }
 
         /// <summary>
@@ -571,11 +567,6 @@ namespace TDMakerLib
         public string GetPublishString(string p, PublishOptionsPacket options)
         {
             StringBuilder sbPublish = new StringBuilder();
-
-            if (App.Settings.ProfileActive.HidePrivateInfo)
-            {
-                p = Regex.Replace(p, "(?<=Complete name *: ).+?(?=\\r)", match => Path.GetFileName(match.Value));
-            }
 
             if (options.AlignCenter)
             {

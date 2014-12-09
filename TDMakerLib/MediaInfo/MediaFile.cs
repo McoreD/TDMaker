@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TDMakerLib
 {
@@ -70,7 +72,17 @@ namespace TDMakerLib
 
         private string mSubtitles = "None";
 
-        public string Subtitles { get { return mSubtitles; } set { mSubtitles = value; } }
+        public string Subtitles
+        {
+            get
+            {
+                return mSubtitles;
+            }
+            set
+            {
+                mSubtitles = value;
+            }
+        }
 
         /// <summary>
         /// This is what you get for mi.Option("Complete") using MediaInfo
@@ -133,6 +145,7 @@ namespace TDMakerLib
                     Debug.WriteLine(string.Format("MediaInfo Opening {0}", FilePath));
                     MI.Open(FilePath);
                     Debug.WriteLine(string.Format("MediaInfo Opened {0}", FilePath));
+
                     MI.Option("Complete");
                     this.Summary = MI.Inform();
                     MI.Option("Complete", "1");
@@ -241,7 +254,8 @@ namespace TDMakerLib
                         this.Video.Codec = MI.Get(StreamKind.Video, 0, "CodecID");
 
                     this.Video.Bitrate = MI.Get(StreamKind.Video, 0, "BitRate/String");
-                    this.Video.Standard = MI.Get(StreamKind.Video, 0, "Standard"); ;
+                    this.Video.Standard = MI.Get(StreamKind.Video, 0, "Standard");
+                    ;
                     this.Video.FrameRate = MI.Get(StreamKind.Video, 0, "FrameRate/String");
                     this.Video.ScanType = MI.Get(StreamKind.Video, 0, "ScanType/String");
                     this.Video.Height = MI.Get(StreamKind.Video, 0, "Height");
@@ -322,8 +336,8 @@ namespace TDMakerLib
         public string ToStringPublish(PublishOptionsPacket pop)
         {
             int fontSizeHeading3 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
-           App.Settings.FontSizeHeading3 + App.Settings.FontSizeIncr :
-           App.Settings.FontSizeHeading3);
+                App.Settings.FontSizeHeading3 + App.Settings.FontSizeIncr :
+                App.Settings.FontSizeHeading3);
 
             int fontSizeBody = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
                 App.Settings.FontSizeBody + App.Settings.FontSizeIncr :
@@ -496,7 +510,6 @@ namespace TDMakerLib
             */
 
             StringBuilder sb = new StringBuilder();
-
             sb.AppendLine(string.Format("File: {0}", this.FileName));
             sb.AppendLine(string.Format("Size: {0}, Duration: {1}, Average bitrate: {2}", this.FileSizeString, this.DurationString2, this.BitrateOverall));
             sb.AppendLine(string.Format("Video: {0}, {1}, {2}, {3}", this.Video.Codec, this.Video.Resolution, this.Video.Bitrate, this.Video.FrameRate));
@@ -510,37 +523,27 @@ namespace TDMakerLib
         }
     }
 
-    public class Info
+    public class MediaFileInfo
     {
         public string Bitrate { get; set; }
-
         public string Codec { get; set; }
-
         public string Standard { get; set; }
-
         public string Format { get; set; }
-
         public string FormatProfile { get; set; }
-
         public string FormatVersion { get; set; }
-
         public string Resolution { get; set; }
 
-        public Info()
+        public MediaFileInfo()
         {
             this.Resolution = "Unknown";
         }
     }
 
-    public class AudioInfo : Info
+    public class AudioInfo : MediaFileInfo
     {
-        //
         public int Index { get; set; }
-
         public string BitrateMode { get; set; }
-
         public string Channels { get; set; }
-
         public string SamplingRate { get; set; }
 
         public AudioInfo(int id)
@@ -549,20 +552,14 @@ namespace TDMakerLib
         }
     }
 
-    public class VideoInfo : Info
+    public class VideoInfo : MediaFileInfo
     {
         public string FrameRate { get; set; }
-
         public string Height { get; set; }
-
         public string ScanType { get; set; }
-
         public string Width { get; set; }
-
         public string BitsPerPixelXFrame { get; set; }
-
         public string DisplayAspectRatio { get; set; }
-
         public string EncodedLibrarySettings { get; set; }
     }
 }
