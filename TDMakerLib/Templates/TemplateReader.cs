@@ -113,7 +113,8 @@ namespace TDMakerLib
                 string[] lines = Regex.Split(pattern.Trim(), Environment.NewLine);
 
                 StringBuilder sbPublishInfo = new StringBuilder();
-                foreach (string line in lines.Where(line => !line.Contains("%")))
+
+                foreach (string line in lines.Where(line => !Regex.Match(line, "%*%").Success))
                 {
                     sbPublishInfo.AppendLine(line);
                 }

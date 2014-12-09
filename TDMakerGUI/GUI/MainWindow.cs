@@ -393,11 +393,6 @@ namespace TDMaker
             return fl;
         }
 
-        /// <summary>
-        /// Gets new MediaInfo2 object from settings based on GUI Controls
-        /// </summary>
-        /// <param name="p">File or Folder path of the Media</param>
-        /// <returns>MediaInfo2 object</returns>
         private MediaInfo2 PrepareNewMedia(WorkerTask wt, string p)
         {
             MediaType mt = wt.MediaOptions.MediaTypeChoice;
