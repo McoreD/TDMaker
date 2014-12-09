@@ -81,13 +81,13 @@ namespace TDMakerLib
         {
             if (arg)
             {
-                this.mFileInfo = Regex.Replace(this.mFileInfo, "%ScreenshotForums%", "%ScreenshotFull%", RegexOptions.IgnoreCase);
-                this.mDiscInfo = Regex.Replace(this.mDiscInfo, "%ScreenshotForums%", "%ScreenshotFull%", RegexOptions.IgnoreCase);
+                this.mFileInfo = Regex.Replace(this.mFileInfo, "%ScreenshotForums%", "%ScreenshotFull%");
+                this.mDiscInfo = Regex.Replace(this.mDiscInfo, "%ScreenshotForums%", "%ScreenshotFull%");
             }
             else
             {
-                this.mFileInfo = Regex.Replace(this.mFileInfo, "%ScreenshotFull%", "%ScreenshotForums%", RegexOptions.IgnoreCase);
-                this.mDiscInfo = Regex.Replace(this.mDiscInfo, "%ScreenshotFull%", "%ScreenshotForums%", RegexOptions.IgnoreCase);
+                this.mFileInfo = Regex.Replace(this.mFileInfo, "%ScreenshotFull%", "%ScreenshotForums%");
+                this.mDiscInfo = Regex.Replace(this.mDiscInfo, "%ScreenshotFull%", "%ScreenshotForums%");
             }
         }
 
@@ -109,7 +109,7 @@ namespace TDMakerLib
                 }
 
                 pattern = GetSourceInfo(pattern, TorrentInfo.Media);
-                pattern = pattern.Replace("%NewLine%", Environment.NewLine);
+                pattern = pattern.ReplaceCode("%NewLine%", Environment.NewLine);
 
                 PublishInfo = pattern.Trim();
             }
@@ -133,8 +133,8 @@ namespace TDMakerLib
                         sbLinksThumbs.AppendLine(string.Format("[img]{0}[/img]", ss.LinkedThumbnail));
                     }
                 }
-                pattern = Regex.Replace(pattern, "%ScreenshotFull%", sbLinksFull.ToString().Trim(), RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%ScreenshotForums%", sbLinksThumbs.ToString().Trim(), RegexOptions.IgnoreCase);
+                pattern = pattern.ReplaceCode("%ScreenshotFull%", sbLinksFull.ToString().Trim());
+                pattern = pattern.ReplaceCode("%ScreenshotForums%", sbLinksThumbs.ToString().Trim());
             }
 
             return pattern;
@@ -142,13 +142,13 @@ namespace TDMakerLib
 
         private string GetGeneralInfo(string pattern, MediaFile mf)
         {
-            pattern = Regex.Replace(pattern, "%Format%", mf.Format, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Bitrate%", mf.BitrateOverall, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%FileSize%", mf.FileSizeString, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Subtitles%", mf.Subtitles, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Duration%", mf.DurationString2, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%EncodedApplication%", mf.EncodedApplication, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%EncodedDate%", mf.EncodedDate, RegexOptions.IgnoreCase);
+            pattern = pattern.ReplaceCode("%Format%", mf.Format);
+            pattern = pattern.ReplaceCode("%Bitrate%", mf.BitrateOverall);
+            pattern = pattern.ReplaceCode("%FileSize%", mf.FileSizeString);
+            pattern = pattern.ReplaceCode("%Subtitles%", mf.Subtitles);
+            pattern = pattern.ReplaceCode("%Duration%", mf.DurationString2);
+            pattern = pattern.ReplaceCode("%EncodedApplication%", mf.EncodedApplication);
+            pattern = pattern.ReplaceCode("%EncodedDate%", mf.EncodedDate);
 
             pattern = this.MappingHelperMy.ReplacePatternGeneral(pattern);
 
@@ -157,18 +157,18 @@ namespace TDMakerLib
 
         private string GetVideoInfo(string pattern, MediaFile mf)
         {
-            pattern = Regex.Replace(pattern, "%Video_Codec%", mf.Video.Codec, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_Format%", mf.Video.Format, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_Bitrate%", mf.Video.Bitrate, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_Standard%", mf.Video.Standard, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_FrameRate%", mf.Video.FrameRate, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_ScanType%", mf.Video.ScanType, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_BitsPerPixelFrame%", mf.Video.BitsPerPixelXFrame, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_DisplayAspectRatio%", mf.Video.DisplayAspectRatio, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_Width%", mf.Video.Width, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_Height%", mf.Video.Height, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_Resolution%", mf.Video.Resolution, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Video_EncodedLibrarySettings%", mf.Video.EncodedLibrarySettings, RegexOptions.IgnoreCase);
+            pattern = pattern.ReplaceCode("%Video_Codec%", mf.Video.Codec);
+            pattern = pattern.ReplaceCode("%Video_Format%", mf.Video.Format);
+            pattern = pattern.ReplaceCode("%Video_Bitrate%", mf.Video.Bitrate);
+            pattern = pattern.ReplaceCode("%Video_Standard%", mf.Video.Standard);
+            pattern = pattern.ReplaceCode("%Video_FrameRate%", mf.Video.FrameRate);
+            pattern = pattern.ReplaceCode("%Video_ScanType%", mf.Video.ScanType);
+            pattern = pattern.ReplaceCode("%Video_BitsPerPixelFrame%", mf.Video.BitsPerPixelXFrame);
+            pattern = pattern.ReplaceCode("%Video_DisplayAspectRatio%", mf.Video.DisplayAspectRatio);
+            pattern = pattern.ReplaceCode("%Video_Width%", mf.Video.Width);
+            pattern = pattern.ReplaceCode("%Video_Height%", mf.Video.Height);
+            pattern = pattern.ReplaceCode("%Video_Resolution%", mf.Video.Resolution);
+            pattern = pattern.ReplaceCode("%Video_EncodedLibrarySettings%", mf.Video.EncodedLibrarySettings);
 
             pattern = this.MappingHelperMy.ReplacePatternVideo(pattern);
 
@@ -183,7 +183,7 @@ namespace TDMakerLib
             {
                 string info = pattern;
                 AudioInfo ai = mf.Audio[i];
-                info = Regex.Replace(info, "%AudioID%", (i + 1).ToString(), RegexOptions.IgnoreCase);
+                info = info.ReplaceCode("%AudioID%", (i + 1).ToString());
                 info = GetStringFromAudio(info, ai);
                 sbAudio.AppendLine(info);
             }
@@ -193,13 +193,13 @@ namespace TDMakerLib
 
         private string GetStringFromAudio(string pattern, AudioInfo ai)
         {
-            pattern = Regex.Replace(pattern, "%Audio_Format%", ai.Format, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Audio_%Format%", ai.Format, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Audio_Bitrate%", ai.Bitrate, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Audio_BitrateMode%", ai.BitrateMode, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Audio_Channels%", ai.Channels, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Audio_SamplingRate%", ai.SamplingRate, RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%Audio_Resolution%", ai.Resolution, RegexOptions.IgnoreCase);
+            pattern = pattern.ReplaceCode("%Audio_Format%", ai.Format);
+            pattern = pattern.ReplaceCode("%Audio_%Format%", ai.Format);
+            pattern = pattern.ReplaceCode("%Audio_Bitrate%", ai.Bitrate);
+            pattern = pattern.ReplaceCode("%Audio_BitrateMode%", ai.BitrateMode);
+            pattern = pattern.ReplaceCode("%Audio_Channels%", ai.Channels);
+            pattern = pattern.ReplaceCode("%Audio_SamplingRate%", ai.SamplingRate);
+            pattern = pattern.ReplaceCode("%Audio_Resolution%", ai.Resolution);
 
             pattern = this.MappingHelperMy.ReplacePatternAudio(ai.Index, pattern);
 
@@ -220,9 +220,9 @@ namespace TDMakerLib
                 string vi = GetVideoInfo(mFileVideoInfo, mf); // this is our %Video_Info%
                 string ai = GetAudioInfo(mFileAudioInfo, mf); // this is our %Audio_Info%
 
-                pattern = Regex.Replace(pattern, "%General_Info%", gi, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%Video_Info%", vi, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%Audio_Info%", ai, RegexOptions.IgnoreCase);
+                pattern = pattern.ReplaceCode("%General_Info%", gi);
+                pattern = pattern.ReplaceCode("%Video_Info%", vi);
+                pattern = pattern.ReplaceCode("%Audio_Info%", ai);
 
                 pattern = GetStringFromAnyPattern(pattern, mf);
                 pattern = GetStyles(pattern); // apply any formatting
@@ -250,7 +250,7 @@ namespace TDMakerLib
             {
                 pattern = GetStringFromAudio(pattern, mf.Audio[0]);
             }
-            pattern = Regex.Replace(pattern, "%FileName%", mf.FileName);
+            pattern = pattern.ReplaceCode("%FileName%", mf.FileName);
 
             return pattern;
         }
@@ -259,12 +259,12 @@ namespace TDMakerLib
         {
             try
             {
-                pattern = Regex.Replace(pattern, "%Title%", mi.Title, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%Source%", mi.Source, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%Disc_Menu%", mi.Menu, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%Disc_Extras%", mi.Extras, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%Disc_Authoring%", mi.Authoring, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%WebLink%", mi.WebLink, RegexOptions.IgnoreCase);
+                pattern = pattern.ReplaceCode("%Title%", mi.Title);
+                pattern = pattern.ReplaceCode("%Source%", mi.Source);
+                pattern = pattern.ReplaceCode("%Disc_Menu%", mi.Menu);
+                pattern = pattern.ReplaceCode("%Disc_Extras%", mi.Extras);
+                pattern = pattern.ReplaceCode("%Disc_Authoring%", mi.Authoring);
+                pattern = pattern.ReplaceCode("%WebLink%", mi.WebLink);
             }
             catch (Exception)
             {
@@ -283,9 +283,9 @@ namespace TDMakerLib
                 string vi = GetVideoInfo(mDiscVideoInfo, mi.Overall);
                 string ai = GetAudioInfo(mDiscAudioInfo, mi.Overall);
 
-                pattern = Regex.Replace(pattern, "%General_Info%", gi, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%Video_Info%", vi, RegexOptions.IgnoreCase);
-                pattern = Regex.Replace(pattern, "%Audio_Info%", ai, RegexOptions.IgnoreCase);
+                pattern = pattern.ReplaceCode("%General_Info%", gi);
+                pattern = pattern.ReplaceCode("%Video_Info%", vi);
+                pattern = pattern.ReplaceCode("%Audio_Info%", ai);
 
                 pattern = GetStringFromAnyPattern(pattern, mi.Overall);
                 pattern = GetStyles(pattern); // apply any formatting
@@ -315,10 +315,10 @@ namespace TDMakerLib
             int fontSizeBody = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
                 App.Settings.FontSizeBody + App.Settings.FontSizeIncr : App.Settings.FontSizeBody);
 
-            pattern = Regex.Replace(pattern, "%FontSize_Body%", fontSizeBody.ToString(), RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%FontSize_Heading1%", fontSizeHeading1.ToString(), RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%FontSize_Heading2%", fontSizeHeading2.ToString(), RegexOptions.IgnoreCase);
-            pattern = Regex.Replace(pattern, "%FontSize_Heading3%", fontSizeHeading3.ToString(), RegexOptions.IgnoreCase);
+            pattern = pattern.ReplaceCode("%FontSize_Body%", fontSizeBody.ToString());
+            pattern = pattern.ReplaceCode("%FontSize_Heading1%", fontSizeHeading1.ToString());
+            pattern = pattern.ReplaceCode("%FontSize_Heading2%", fontSizeHeading2.ToString());
+            pattern = pattern.ReplaceCode("%FontSize_Heading3%", fontSizeHeading3.ToString());
 
             return pattern;
         }

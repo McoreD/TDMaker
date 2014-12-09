@@ -38,11 +38,10 @@ namespace TDMakerLib
             return Convert.ToInt32(str);
         }
 
-        public static string Replace(this string input, string what, string with, string orWith = "")
+        public static string ReplaceCode(this string input, string what, string with)
         {
-            input = Regex.Replace(input, what, with, RegexOptions.IgnoreCase);
-            input = Regex.Replace(input, what, orWith, RegexOptions.IgnoreCase);
-            return input;
+            return Regex.Replace(input, what, with, RegexOptions.IgnoreCase);
+            ;
         }
 
         public static int Mid(this int number, int min, int max)
