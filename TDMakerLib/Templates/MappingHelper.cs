@@ -10,9 +10,7 @@ namespace TDMakerLib
     public class MappingHelper
     {
         private Dictionary<string, string> MappingsGeneral { get; set; }
-
         private Dictionary<string, string> MappingsVideo { get; set; }
-
         private List<Dictionary<string, string>> MappingsAudio { get; set; }
 
         public MappingHelper(string summary)
@@ -77,7 +75,7 @@ namespace TDMakerLib
                     }
                     else
                     {
-                        Debug.WriteLine(string.Format("Error TemplateReader2.cs: {0}, {1}", line, prefix));
+                        Debug.WriteLine(string.Format("Error TemplateReader.cs: {0}, {1}", line, prefix));
                     }
                 }
             }

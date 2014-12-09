@@ -55,6 +55,8 @@ namespace TDMakerLib
 
         public List<string> FileCollection { get; set; }
 
+        public MappingHelper Info { get; set; }
+
         /// <summary>
         /// Folder Path of the Template
         /// </summary>
@@ -314,8 +316,8 @@ namespace TDMakerLib
         public string ToStringMedia(PublishOptionsPacket pop)
         {
             int fontSizeHeading1 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
-        App.Settings.FontSizeHeading1 + App.Settings.FontSizeIncr :
-        App.Settings.FontSizeHeading1);
+                App.Settings.FontSizeHeading1 + App.Settings.FontSizeIncr :
+                App.Settings.FontSizeHeading1);
 
             int fontSizeHeading2 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
                 App.Settings.FontSizeHeading2 + App.Settings.FontSizeIncr :

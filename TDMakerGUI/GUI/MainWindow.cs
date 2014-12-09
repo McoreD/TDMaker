@@ -714,6 +714,8 @@ namespace TDMaker
 
         private void UpdateGuiControls()
         {
+            gbDVD.Visible = gbSource.Visible = App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo;
+
             btnCreateTorrent.Enabled = !bwApp.IsBusy && lbPublish.Items.Count > 0;
             btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
 
@@ -1517,6 +1519,11 @@ namespace TDMaker
                 cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
                 cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
             }
+        }
+
+        private void pgProfileOptions_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            UpdateGuiControls();
         }
     }
 }

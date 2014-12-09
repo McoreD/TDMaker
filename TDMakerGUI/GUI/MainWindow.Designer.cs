@@ -91,6 +91,7 @@ namespace TDMaker
             this.tlpMediaInfo = new System.Windows.Forms.TableLayoutPanel();
             this.lbMediaInfo = new System.Windows.Forms.ListBox();
             this.txtMediaInfo = new System.Windows.Forms.TextBox();
+            this.flpMediaInfoOptions = new System.Windows.Forms.FlowLayoutPanel();
             this.chkMediaInfoComplete = new System.Windows.Forms.CheckBox();
             this.tpScreenshots = new System.Windows.Forms.TabPage();
             this.tlpScreenshots = new System.Windows.Forms.TableLayoutPanel();
@@ -102,13 +103,14 @@ namespace TDMaker
             this.tcPublish = new System.Windows.Forms.TabControl();
             this.tpPublishGeneral = new System.Windows.Forms.TabPage();
             this.tlpPublish = new System.Windows.Forms.TableLayoutPanel();
+            this.txtPublish = new System.Windows.Forms.TextBox();
+            this.lbPublish = new System.Windows.Forms.ListBox();
+            this.flpPublishQuickOptions = new System.Windows.Forms.FlowLayoutPanel();
             this.chkQuickPre = new System.Windows.Forms.CheckBox();
             this.chkQuickAlignCenter = new System.Windows.Forms.CheckBox();
             this.chkQuickFullPicture = new System.Windows.Forms.CheckBox();
             this.cboQuickPublishType = new System.Windows.Forms.ComboBox();
             this.cboQuickTemplate = new System.Windows.Forms.ComboBox();
-            this.txtPublish = new System.Windows.Forms.TextBox();
-            this.lbPublish = new System.Windows.Forms.ListBox();
             this.tpPublishTemplates = new System.Windows.Forms.TabPage();
             this.cboPublishType = new System.Windows.Forms.ComboBox();
             this.chkTemplatesMode = new System.Windows.Forms.CheckBox();
@@ -160,8 +162,6 @@ namespace TDMaker
             this.tscMain = new System.Windows.Forms.ToolStripContainer();
             this.flpButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.tttvMain = new HelpersLib.TabToTreeView();
-            this.flpMediaInfoOptions = new System.Windows.Forms.FlowLayoutPanel();
-            this.flpPublishQuickOptions = new System.Windows.Forms.FlowLayoutPanel();
             this.ssMain.SuspendLayout();
             this.msMain.SuspendLayout();
             this.tcMain.SuspendLayout();
@@ -172,6 +172,7 @@ namespace TDMaker
             ((System.ComponentModel.ISupportInitialize)(this.pbLogo)).BeginInit();
             this.tpMediaInfo.SuspendLayout();
             this.tlpMediaInfo.SuspendLayout();
+            this.flpMediaInfoOptions.SuspendLayout();
             this.tpScreenshots.SuspendLayout();
             this.tlpScreenshots.SuspendLayout();
             this.tlpScreenshotProps.SuspendLayout();
@@ -179,6 +180,7 @@ namespace TDMaker
             this.tcPublish.SuspendLayout();
             this.tpPublishGeneral.SuspendLayout();
             this.tlpPublish.SuspendLayout();
+            this.flpPublishQuickOptions.SuspendLayout();
             this.tpPublishTemplates.SuspendLayout();
             this.gbTemplatesInternal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudFontSizeIncr)).BeginInit();
@@ -200,8 +202,6 @@ namespace TDMaker
             this.tscMain.TopToolStripPanel.SuspendLayout();
             this.tscMain.SuspendLayout();
             this.flpButtons.SuspendLayout();
-            this.flpMediaInfoOptions.SuspendLayout();
-            this.flpPublishQuickOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // bwApp
@@ -806,6 +806,15 @@ namespace TDMaker
             this.txtMediaInfo.Size = new System.Drawing.Size(692, 479);
             this.txtMediaInfo.TabIndex = 1;
             // 
+            // flpMediaInfoOptions
+            // 
+            this.flpMediaInfoOptions.Controls.Add(this.chkMediaInfoComplete);
+            this.flpMediaInfoOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpMediaInfoOptions.Location = new System.Drawing.Point(177, 488);
+            this.flpMediaInfoOptions.Name = "flpMediaInfoOptions";
+            this.flpMediaInfoOptions.Size = new System.Drawing.Size(692, 26);
+            this.flpMediaInfoOptions.TabIndex = 2;
+            // 
             // chkMediaInfoComplete
             // 
             this.chkMediaInfoComplete.AutoSize = true;
@@ -945,6 +954,46 @@ namespace TDMaker
             this.tlpPublish.Size = new System.Drawing.Size(858, 485);
             this.tlpPublish.TabIndex = 0;
             // 
+            // txtPublish
+            // 
+            this.txtPublish.AcceptsReturn = true;
+            this.txtPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPublish.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPublish.Location = new System.Drawing.Point(174, 3);
+            this.txtPublish.Multiline = true;
+            this.txtPublish.Name = "txtPublish";
+            this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtPublish.Size = new System.Drawing.Size(681, 447);
+            this.txtPublish.TabIndex = 1;
+            this.txtPublish.WordWrap = false;
+            this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
+            // 
+            // lbPublish
+            // 
+            this.lbPublish.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbPublish.FormattingEnabled = true;
+            this.lbPublish.IntegralHeight = false;
+            this.lbPublish.Location = new System.Drawing.Point(3, 3);
+            this.lbPublish.Name = "lbPublish";
+            this.lbPublish.Size = new System.Drawing.Size(165, 447);
+            this.lbPublish.TabIndex = 0;
+            this.lbPublish.SelectedIndexChanged += new System.EventHandler(this.LbPublishSelectedIndexChanged);
+            // 
+            // flpPublishQuickOptions
+            // 
+            this.flpPublishQuickOptions.Controls.Add(this.chkQuickPre);
+            this.flpPublishQuickOptions.Controls.Add(this.chkQuickAlignCenter);
+            this.flpPublishQuickOptions.Controls.Add(this.chkQuickFullPicture);
+            this.flpPublishQuickOptions.Controls.Add(this.cboQuickPublishType);
+            this.flpPublishQuickOptions.Controls.Add(this.cboQuickTemplate);
+            this.flpPublishQuickOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpPublishQuickOptions.Location = new System.Drawing.Point(174, 456);
+            this.flpPublishQuickOptions.Name = "flpPublishQuickOptions";
+            this.flpPublishQuickOptions.Size = new System.Drawing.Size(681, 26);
+            this.flpPublishQuickOptions.TabIndex = 3;
+            // 
             // chkQuickPre
             // 
             this.chkQuickPre.AutoSize = true;
@@ -999,33 +1048,6 @@ namespace TDMaker
             this.cboQuickTemplate.Size = new System.Drawing.Size(121, 21);
             this.cboQuickTemplate.TabIndex = 4;
             this.cboQuickTemplate.SelectedIndexChanged += new System.EventHandler(this.cboQuickTemplate_SelectedIndexChanged);
-            // 
-            // txtPublish
-            // 
-            this.txtPublish.AcceptsReturn = true;
-            this.txtPublish.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPublish.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPublish.Location = new System.Drawing.Point(174, 3);
-            this.txtPublish.Multiline = true;
-            this.txtPublish.Name = "txtPublish";
-            this.txtPublish.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtPublish.Size = new System.Drawing.Size(681, 447);
-            this.txtPublish.TabIndex = 1;
-            this.txtPublish.WordWrap = false;
-            this.txtPublish.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPublish_KeyPress);
-            // 
-            // lbPublish
-            // 
-            this.lbPublish.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbPublish.FormattingEnabled = true;
-            this.lbPublish.IntegralHeight = false;
-            this.lbPublish.Location = new System.Drawing.Point(3, 3);
-            this.lbPublish.Name = "lbPublish";
-            this.lbPublish.Size = new System.Drawing.Size(165, 447);
-            this.lbPublish.TabIndex = 0;
-            this.lbPublish.SelectedIndexChanged += new System.EventHandler(this.LbPublishSelectedIndexChanged);
             // 
             // tpPublishTemplates
             // 
@@ -1488,6 +1510,7 @@ namespace TDMaker
             this.pgProfileOptions.Size = new System.Drawing.Size(724, 396);
             this.pgProfileOptions.TabIndex = 3;
             this.pgProfileOptions.ToolbarVisible = false;
+            this.pgProfileOptions.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgProfileOptions_PropertyValueChanged);
             // 
             // tpSettingsProxy
             // 
@@ -1660,28 +1683,6 @@ namespace TDMaker
             this.tttvMain.TreeViewFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.tttvMain.TreeViewSize = 150;
             // 
-            // flpMediaInfoOptions
-            // 
-            this.flpMediaInfoOptions.Controls.Add(this.chkMediaInfoComplete);
-            this.flpMediaInfoOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpMediaInfoOptions.Location = new System.Drawing.Point(177, 488);
-            this.flpMediaInfoOptions.Name = "flpMediaInfoOptions";
-            this.flpMediaInfoOptions.Size = new System.Drawing.Size(692, 26);
-            this.flpMediaInfoOptions.TabIndex = 2;
-            // 
-            // flpPublishQuickOptions
-            // 
-            this.flpPublishQuickOptions.Controls.Add(this.chkQuickPre);
-            this.flpPublishQuickOptions.Controls.Add(this.chkQuickAlignCenter);
-            this.flpPublishQuickOptions.Controls.Add(this.chkQuickFullPicture);
-            this.flpPublishQuickOptions.Controls.Add(this.cboQuickPublishType);
-            this.flpPublishQuickOptions.Controls.Add(this.cboQuickTemplate);
-            this.flpPublishQuickOptions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpPublishQuickOptions.Location = new System.Drawing.Point(174, 456);
-            this.flpPublishQuickOptions.Name = "flpPublishQuickOptions";
-            this.flpPublishQuickOptions.Size = new System.Drawing.Size(681, 26);
-            this.flpPublishQuickOptions.TabIndex = 3;
-            // 
             // MainWindow
             // 
             this.AcceptButton = this.btnBrowse;
@@ -1716,6 +1717,8 @@ namespace TDMaker
             this.tpMediaInfo.ResumeLayout(false);
             this.tlpMediaInfo.ResumeLayout(false);
             this.tlpMediaInfo.PerformLayout();
+            this.flpMediaInfoOptions.ResumeLayout(false);
+            this.flpMediaInfoOptions.PerformLayout();
             this.tpScreenshots.ResumeLayout(false);
             this.tlpScreenshots.ResumeLayout(false);
             this.tlpScreenshotProps.ResumeLayout(false);
@@ -1724,6 +1727,8 @@ namespace TDMaker
             this.tpPublishGeneral.ResumeLayout(false);
             this.tlpPublish.ResumeLayout(false);
             this.tlpPublish.PerformLayout();
+            this.flpPublishQuickOptions.ResumeLayout(false);
+            this.flpPublishQuickOptions.PerformLayout();
             this.tpPublishTemplates.ResumeLayout(false);
             this.tpPublishTemplates.PerformLayout();
             this.gbTemplatesInternal.ResumeLayout(false);
@@ -1753,10 +1758,6 @@ namespace TDMaker
             this.tscMain.ResumeLayout(false);
             this.tscMain.PerformLayout();
             this.flpButtons.ResumeLayout(false);
-            this.flpMediaInfoOptions.ResumeLayout(false);
-            this.flpMediaInfoOptions.PerformLayout();
-            this.flpPublishQuickOptions.ResumeLayout(false);
-            this.flpPublishQuickOptions.PerformLayout();
             this.ResumeLayout(false);
 
         }

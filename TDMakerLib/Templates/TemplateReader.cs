@@ -21,8 +21,6 @@ namespace TDMakerLib
 
         public string PublishInfo { get; private set; }
 
-        private MappingHelper MappingHelperMy = null;
-
         private string mDiscAudioInfo = "";
         private string mDiscVideoInfo = "";
         private string mFileAudioInfo = "";
@@ -40,7 +38,7 @@ namespace TDMakerLib
         {
             this.Location = loc;
             this.TorrentInfo = ti;
-            this.MappingHelperMy = new MappingHelper(ti.Media.Overall.Summary);
+            TorrentInfo.Media.Info = new MappingHelper(ti.Media.Overall.Summary);
             // this.MappingHelperMy.ListFieldsAll();
 
             // Read the files in Location
@@ -150,7 +148,7 @@ namespace TDMakerLib
             pattern = pattern.ReplaceCode("%EncodedApplication%", mf.EncodedApplication);
             pattern = pattern.ReplaceCode("%EncodedDate%", mf.EncodedDate);
 
-            pattern = this.MappingHelperMy.ReplacePatternGeneral(pattern);
+            pattern = TorrentInfo.Media.Info.ReplacePatternGeneral(pattern);
 
             return pattern;
         }
@@ -170,7 +168,7 @@ namespace TDMakerLib
             pattern = pattern.ReplaceCode("%Video_Resolution%", mf.Video.Resolution);
             pattern = pattern.ReplaceCode("%Video_EncodedLibrarySettings%", mf.Video.EncodedLibrarySettings);
 
-            pattern = this.MappingHelperMy.ReplacePatternVideo(pattern);
+            pattern = TorrentInfo.Media.Info.ReplacePatternVideo(pattern);
 
             return pattern;
         }
@@ -201,7 +199,7 @@ namespace TDMakerLib
             pattern = pattern.ReplaceCode("%Audio_SamplingRate%", ai.SamplingRate);
             pattern = pattern.ReplaceCode("%Audio_Resolution%", ai.Resolution);
 
-            pattern = this.MappingHelperMy.ReplacePatternAudio(ai.Index, pattern);
+            pattern = TorrentInfo.Media.Info.ReplacePatternAudio(ai.Index, pattern);
 
             return pattern;
         }
