@@ -1,4 +1,4 @@
-﻿using HelpersLib;
+﻿using ShareX.HelpersLib;
 using TDMakerLib;
 
 namespace TDMaker
@@ -97,7 +97,7 @@ namespace TDMaker
             this.tlpScreenshots = new System.Windows.Forms.TableLayoutPanel();
             this.lbScreenshots = new System.Windows.Forms.ListBox();
             this.tlpScreenshotProps = new System.Windows.Forms.TableLayoutPanel();
-            this.pbScreenshot = new HelpersLib.MyPictureBox();
+            this.pbScreenshot = new ShareX.HelpersLib.MyPictureBox();
             this.pgScreenshot = new System.Windows.Forms.PropertyGrid();
             this.tpPublish = new System.Windows.Forms.TabPage();
             this.tcPublish = new System.Windows.Forms.TabControl();
@@ -161,7 +161,7 @@ namespace TDMaker
             this.txtProxyUsername = new System.Windows.Forms.TextBox();
             this.tscMain = new System.Windows.Forms.ToolStripContainer();
             this.flpButtons = new System.Windows.Forms.FlowLayoutPanel();
-            this.tttvMain = new HelpersLib.TabToTreeView();
+            this.tttvMain = new ShareX.HelpersLib.TabToTreeView();
             this.ssMain.SuspendLayout();
             this.msMain.SuspendLayout();
             this.tcMain.SuspendLayout();

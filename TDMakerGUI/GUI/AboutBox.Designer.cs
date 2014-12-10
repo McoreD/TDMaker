@@ -1,4 +1,5 @@
-﻿using HelpersLib;
+﻿using ShareX.HelpersLib;
+
 namespace TDMaker
 {
     partial class AboutBox
@@ -34,7 +35,7 @@ namespace TDMaker
             this.labelCopyright = new System.Windows.Forms.Label();
             this.textBoxDescription = new System.Windows.Forms.RichTextBox();
             this.okButton = new System.Windows.Forms.Button();
-            this.uclUpdate = new HelpersLib.UpdateCheckerLabel();
+            this.uclUpdate = new ShareX.HelpersLib.UpdateCheckerLabel();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             this.SuspendLayout();
             // 

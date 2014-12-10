@@ -1,10 +1,11 @@
-﻿using HelpersLib;
+﻿using ShareX.HelpersLib;
 using Mono.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using TDMakerLib;
 using UploadersLib;
+using ShareX.UploadersLib;
 
 namespace TDMakerCLI
 {
@@ -30,17 +31,17 @@ namespace TDMakerCLI
 
             var p = new OptionSet()
             {
-                { "c", "Treat multiple files as a collection", v => mFileCollection = v != null},
+                { "c", "Treat multiple files as a collection", v => mFileCollection = v != null },
                 { "m|media=", "Location of the media file/folder", v => mMediaLoc = v },
                 { "o|options=", "Location of the settings file", v => mSettingsFilePath = v },
                 { "rd=", "Root directory for screenshots, torrent and all other output files. Overrides all other custom folders.", v => dirRoot = v },
-                { "s", "Create screenshots", v => mScreenshotsCreate = v != null},
+                { "s", "Create screenshots", v => mScreenshotsCreate = v != null },
                 { "sd=", "Create screenshots in a custom folder and upload", v => dirImages = v },
-                { "t", "Create torrent file in the parent folder of the media file", v => mTorrentCreate = v != null},
-                { "td=", "Create torrent file in a custom folder", v => dirTorrents = v},
-                { "u", "Upload screenshots", v => mScreenshotsUpload = v != null},
-                { "x|xml",  "Folder path of the XML torrent description file", v => mXmlCreate = v != null },
-                { "h|help",  "Show this message and exit", v => mShowHelp = v != null }
+                { "t", "Create torrent file in the parent folder of the media file", v => mTorrentCreate = v != null },
+                { "td=", "Create torrent file in a custom folder", v => dirTorrents = v },
+                { "u", "Upload screenshots", v => mScreenshotsUpload = v != null },
+                { "x|xml", "Folder path of the XML torrent description file", v => mXmlCreate = v != null },
+                { "h|help", "Show this message and exit", v => mShowHelp = v != null }
             };
 
             if (args.Length == 0)

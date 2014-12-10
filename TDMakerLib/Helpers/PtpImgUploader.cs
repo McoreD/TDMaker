@@ -23,6 +23,7 @@
 
 #endregion License Information (GPL v3)
 
+using ShareX.UploadersLib;
 using System.Collections.Generic;
 using System.IO;
 

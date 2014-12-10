@@ -23,7 +23,7 @@
 
 #endregion License Information (GPL v2)
 
-using HelpersLib;
+using ShareX.HelpersLib;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -178,7 +178,7 @@ namespace TDMakerLib
         public static string GetDVDString(string p)
         {
             string ss = "DVD";
-            double size = 0.0;      // size in Bytes
+            double size = 0.0; // size in Bytes
             if (MediaIsDisc(p))
             {
                 string[] files = Directory.GetFiles(p, "*.*", SearchOption.AllDirectories);
@@ -227,7 +227,8 @@ namespace TDMakerLib
                     break;
             }
 
-            ti.Media.ReleaseDescription = Adapter.StripImg(pt).Trim(); ;
+            ti.Media.ReleaseDescription = Adapter.StripImg(pt).Trim();
+            ;
 
             return pt;
         }

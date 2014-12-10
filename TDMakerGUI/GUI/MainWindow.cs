@@ -1,5 +1,7 @@
 ﻿using BDInfo;
-using HelpersLib;
+using ShareX.HelpersLib;
+using ShareX.UploadersLib;
+using ShareX.UploadersLib.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

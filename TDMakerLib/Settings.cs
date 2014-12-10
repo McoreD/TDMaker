@@ -1,5 +1,5 @@
-﻿using HelpersLib;
-using HelpersLib.UITypeEditors;
+﻿using ShareX.HelpersLib;
+using ShareX.HelpersLib.UITypeEditors;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -86,11 +86,11 @@ namespace TDMakerLib
         public StringCollection MediaSources { get; set; }
 
         [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor)),
-        Description("Supported file types by MediaInfo and MTN. Add more file types only if you are absolutely sure both MediaInfo and MTN can handle those.")]
+         Description("Supported file types by MediaInfo and MTN. Add more file types only if you are absolutely sure both MediaInfo and MTN can handle those.")]
         public StringCollection SupportedFileExtVideo { get; set; }
 
         [Category(ComponentModelStrings.InputMedia), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor)),
-        Description("Supported file types by TDMaker to create a Music Album NFO file. Add more file types only if you are absolutely sure both MediaInfo and MTN can handle those.")]
+         Description("Supported file types by TDMaker to create a Music Album NFO file. Add more file types only if you are absolutely sure both MediaInfo and MTN can handle those.")]
         public StringCollection SupportedFileExtAudio { get; set; }
 
         [Category(ComponentModelStrings.Input), DefaultValue(true), Description("Write debug information into a log file.")]

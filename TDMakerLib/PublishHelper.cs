@@ -1,4 +1,9 @@
-﻿using HelpersLib;
+﻿using ShareX.HelpersLib;
+using ShareX.UploadersLib;
+using ShareX.UploadersLib.FileUploaders;
+using ShareX.UploadersLib.GUI;
+using ShareX.UploadersLib.HelperClasses;
+using ShareX.UploadersLib.ImageUploaders;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -8,8 +13,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using UploadersLib;
-using UploadersLib.FileUploaders;
-using UploadersLib.GUI;
 using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
 
@@ -511,9 +514,8 @@ namespace TDMakerLib
                         if (Media.Options.UploadScreenshots)
                         {
                             sbPublish.AppendLine();
-    sbPublish.AppendLine(mf.GetScreenshotString(pop));
+                            sbPublish.AppendLine(mf.GetScreenshotString(pop));
                         }
-                        
                     }
 
                     break;

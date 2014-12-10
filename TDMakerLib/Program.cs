@@ -1,4 +1,5 @@
-﻿using HelpersLib;
+﻿using ShareX.HelpersLib;
+using ShareX.UploadersLib;
 using System;
 using System.Diagnostics;
 using System.IO;
