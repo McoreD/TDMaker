@@ -365,11 +365,7 @@ namespace TDMaker
         {
             StringBuilder sbMsg = new StringBuilder();
 
-            // checks
-            if (string.IsNullOrEmpty(cboSource.Text) && App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo)
-            {
-                sbMsg.AppendLine("Source information is mandatory. Use the Source drop down menu to select the correct source type.");
-            }
+            // keep this method to validate something uselfuul.
 
             if (sbMsg.Length > 0)
             {

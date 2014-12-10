@@ -98,11 +98,7 @@ namespace TDMakerLib
 
         private string ReplacePattern(Dictionary<string, string> dic, string pattern)
         {
-            foreach (var pair in dic)
-            {
-                pattern = Regex.Replace(pattern, pair.Key, pair.Value, RegexOptions.IgnoreCase);
-            }
-            return pattern;
+            return dic.Aggregate(pattern, (current, pair) => Regex.Replace(current, pair.Key, pair.Value, RegexOptions.IgnoreCase));
         }
 
         public string GetValueGeneral(string field)

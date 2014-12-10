@@ -60,7 +60,7 @@ namespace TDMakerLib
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {
                 string mediaFileName = Path.GetFileNameWithoutExtension(MediaFile.FilePath);
-                worker.ReportProgress((int)ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Taking Screenshot {0} of {1} for {2}", i + 1, Options.ScreenshotCount, mediaFileName));
+                worker.ReportProgress((int)ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Taking screenshot {0} of {1} for {2}", i + 1, Options.ScreenshotCount, mediaFileName));
 
                 int timeSliceElapsed = Options.RandomFrame ? GetRandomTimeSlice(i) : TimeSlice * (i + 1);
                 string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.{2}", mediaFileName, timeSliceElapsed, Options.FFmpegThumbnailExtension));
