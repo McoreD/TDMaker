@@ -63,7 +63,7 @@ namespace TDMakerLib
                 worker.ReportProgress((int)ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Taking screenshot {0} of {1} for {2}", i + 1, Options.ScreenshotCount, mediaFileName));
 
                 int timeSliceElapsed = Options.RandomFrame ? GetRandomTimeSlice(i) : TimeSlice * (i + 1);
-                string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.{2}", mediaFileName, timeSliceElapsed, Options.FFmpegThumbnailExtension));
+                string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.", mediaFileName, timeSliceElapsed));
 
                 ProcessStartInfo psi = new ProcessStartInfo(ThumbnailerPath);
                 psi.WindowStyle = ProcessWindowStyle.Minimized;
@@ -71,10 +71,12 @@ namespace TDMakerLib
                 switch (App.Settings.ThumbnailerType)
                 {
                     case ThumbnailerType.MPlayer:
+                        tempScreenshotPath += "png"; // MPlayer only supports png reliably
                         psi.Arguments = string.Format("-nosound -ss {0} -zoom -vf screenshot -frames 1 -vo png:z=9:outdir=\\\"{1}\\\" \"{2}\"",
                             timeSliceElapsed, ScreenshotDir, MediaFile.FilePath);
                         break;
                     case ThumbnailerType.FFmpeg:
+                        tempScreenshotPath += Options.FFmpegThumbnailExtension;
                         psi.Arguments = string.Format("-ss {0} -i \"{1}\" -f image2 -vframes 1 -y \"{2}\"", timeSliceElapsed, MediaFile.FilePath, tempScreenshotPath);
                         break;
                 }
@@ -117,10 +119,21 @@ namespace TDMakerLib
             {
                 if (Options.CombineScreenshots)
                 {
+                    string temp_fp = "";
                     using (Image img = CombineScreenshots(TempScreenshots))
                     {
-                        string temp_fp = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + "_s.png");
-                        img.Save(temp_fp, ImageFormat.Png);
+                        switch (App.Settings.ThumbnailerType)
+                        {
+                            case ThumbnailerType.FFmpeg:
+                                temp_fp = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + "_s." + Options.FFmpegThumbnailExtension);
+                                img.Save(temp_fp, ImageFormat.Png);
+                                break;
+                            case ThumbnailerType.MPlayer:
+                                temp_fp = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + "_s.png");
+                                img.Save(temp_fp, ImageFormat.Png);
+                                break;
+                        }
+
                         Screenshots.Add(new ScreenshotInfo(temp_fp) { Args = TempScreenshots[0].Args });
                     }
                 }
