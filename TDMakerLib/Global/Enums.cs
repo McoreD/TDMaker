@@ -77,4 +77,12 @@ namespace TDMakerLib
         [Description("MPlayer")]
         MPlayer
     }
+
+    public enum ThumbnailExtension
+    {
+        [Description("png")]
+        png,
+        [Description("jpg")]
+        jpg
+    }
 }
