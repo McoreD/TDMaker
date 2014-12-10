@@ -40,8 +40,7 @@ namespace TDMakerLib
 
         public static string ReplaceCode(this string input, string what, string with)
         {
-            if (string.IsNullOrEmpty(input)) return null;
-            if (string.IsNullOrEmpty(with)) return null;
+            if (string.IsNullOrEmpty(with)) return input;
             return Regex.Replace(input, what, with, RegexOptions.IgnoreCase);
         }
 

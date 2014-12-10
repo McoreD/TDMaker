@@ -110,11 +110,13 @@ namespace TDMakerLib
                 pattern = GetSourceInfo(pattern, TorrentInfo.Media);
                 pattern = pattern.ReplaceCode("%NewLine%", Environment.NewLine);
 
+                if (string.IsNullOrEmpty(pattern)) return;
+
                 string[] lines = Regex.Split(pattern.Trim(), Environment.NewLine);
 
                 StringBuilder sbPublishInfo = new StringBuilder();
 
-                foreach (string line in lines.Where(line => !Regex.Match(line, "%*%").Success))
+                foreach (string line in lines.Where(line => !Regex.Match(line, "%(.*?)%").Success))
                 {
                     sbPublishInfo.AppendLine(line);
                 }
@@ -142,7 +144,6 @@ namespace TDMakerLib
                         sbLinksThumbs.AppendLine(string.Format("[img]{0}[/img]", ss.LinkedThumbnail));
                         sbLinksFull.AppendLine();
                     }
-
                 }
                 pattern = pattern.ReplaceCode("%ScreenshotFull%", sbLinksFull.ToString().Trim());
                 pattern = pattern.ReplaceCode("%ScreenshotForums%", sbLinksThumbs.ToString().Trim());
@@ -153,6 +154,8 @@ namespace TDMakerLib
 
         private string GetGeneralInfo(string pattern, MediaFile mf)
         {
+            if (string.IsNullOrEmpty(pattern)) return null;
+
             pattern = pattern.ReplaceCode("%Format%", mf.Format);
             pattern = pattern.ReplaceCode("%Bitrate%", mf.BitrateOverall);
             pattern = pattern.ReplaceCode("%FileSize%", mf.FileSizeString);
@@ -168,6 +171,8 @@ namespace TDMakerLib
 
         private string GetVideoInfo(string pattern, MediaFile mf)
         {
+            if (string.IsNullOrEmpty(pattern)) return null;
+
             pattern = pattern.ReplaceCode("%Video_Codec%", mf.Video.Codec);
             pattern = pattern.ReplaceCode("%Video_Format%", mf.Video.Format);
             pattern = pattern.ReplaceCode("%Video_Bitrate%", mf.Video.Bitrate);
@@ -188,6 +193,8 @@ namespace TDMakerLib
 
         private string GetAudioInfo(string pattern, MediaFile mf)
         {
+            if (string.IsNullOrEmpty(pattern)) return null;
+
             StringBuilder sbAudio = new StringBuilder();
 
             for (int i = 0; i < mf.Audio.Count; i++)
@@ -204,6 +211,8 @@ namespace TDMakerLib
 
         private string GetStringFromAudio(string pattern, AudioInfo ai)
         {
+            if (string.IsNullOrEmpty(pattern)) return null;
+
             pattern = pattern.ReplaceCode("%Audio_Format%", ai.Format);
             pattern = pattern.ReplaceCode("%Audio_%Format%", ai.Format);
             pattern = pattern.ReplaceCode("%Audio_Bitrate%", ai.Bitrate);

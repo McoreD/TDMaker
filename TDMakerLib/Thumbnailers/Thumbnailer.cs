@@ -126,7 +126,16 @@ namespace TDMakerLib
                         {
                             case ThumbnailerType.FFmpeg:
                                 temp_fp = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + "_s." + Options.FFmpegThumbnailExtension);
-                                img.Save(temp_fp, ImageFormat.Png);
+                                switch (Options.FFmpegThumbnailExtension)
+                                {
+                                    case "png":
+                                        img.Save(temp_fp, ImageFormat.Png);
+                                        break;
+                                    case "jpg":
+                                        img.Save(temp_fp, ImageFormat.Jpeg);
+                                        break;
+                                }
+
                                 break;
                             case ThumbnailerType.MPlayer:
                                 temp_fp = Path.Combine(ScreenshotDir, Path.GetFileNameWithoutExtension(MediaFile.FilePath) + "_s.png");
