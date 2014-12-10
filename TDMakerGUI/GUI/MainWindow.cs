@@ -57,6 +57,18 @@ namespace TDMaker
             rtbDebugLog.Text = DebugHelper.Logger.ToString();
             DebugHelper.Logger.MessageAdded += Logger_MessageAdded;
 
+            ValidateThumbnailerPaths(sender, e);
+
+            if (ProgramUI.ExplorerFilePaths.Count > 0)
+            {
+                LoadMedia(ProgramUI.ExplorerFilePaths.ToArray());
+            }
+
+            IsGuiReady = true;
+        }
+
+        public void ValidateThumbnailerPaths(object sender, EventArgs e)
+        {
             switch (App.Settings.ThumbnailerType)
             {
                 case ThumbnailerType.FFmpeg:
@@ -102,13 +114,6 @@ namespace TDMaker
                     }
                     break;
             }
-
-            if (ProgramUI.ExplorerFilePaths.Count > 0)
-            {
-                LoadMedia(ProgramUI.ExplorerFilePaths.ToArray());
-            }
-
-            IsGuiReady = true;
         }
 
         private void Logger_MessageAdded(string message)
@@ -1161,6 +1166,7 @@ namespace TDMaker
             if (IsGuiReady)
             {
                 LoadSettingsToControls();
+                ValidateThumbnailerPaths(s, e);
 
                 if (File.Exists(App.Settings.CustomUploadersConfigPath))
                 {

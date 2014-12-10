@@ -18,6 +18,9 @@ namespace TDMakerLib
         [Editor(typeof(DirectoryNameEditor), typeof(UITypeEditor))]
         public string DefaultMediaDirectory { get; set; }
 
+        [Category(ComponentModelStrings.Screenshots), DefaultValue("png"), Description("FFmpeg thumbnail extension e.g. png or jpg")]
+        public string FFmpegThumbnailExtension { get; set; }
+
         [Category(ComponentModelStrings.Screenshots), DefaultValue(3), Description("Maximum number of screenshots to take")]
         public int ScreenshotCount { get; set; }
 
