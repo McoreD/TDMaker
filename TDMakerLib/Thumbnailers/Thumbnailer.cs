@@ -177,7 +177,10 @@ namespace TDMakerLib
                 if (Options.AddMovieInfo)
                 {
                     infoString = MediaFile.GetMTNString();
-                    infoStringHeight = 80 + MediaFile.Audio.Count * 8;
+                    using (Font font = new Font("Arial", 14))
+                    {
+                        infoStringHeight = Helpers.MeasureText(infoString, font).Height;
+                    }
                 }
 
                 foreach (ScreenshotInfo screenshot in screenshots)
