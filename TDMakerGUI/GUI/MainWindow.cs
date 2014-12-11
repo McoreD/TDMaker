@@ -710,14 +710,20 @@ namespace TDMaker
 
         private void UpdateGuiControls()
         {
-            gbDVD.Enabled = gbSource.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo;
+            if (IsGuiReady)
+            {
+                gbDVD.Enabled = gbSource.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo;
 
-            btnCreateTorrent.Enabled = !bwApp.IsBusy && lbPublish.Items.Count > 0;
-            btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
+                btnCreateTorrent.Enabled = !bwApp.IsBusy && lbPublish.Items.Count > 0;
+                btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
 
-            btnPublish.Enabled = !bwApp.IsBusy && !string.IsNullOrEmpty(txtPublish.Text);
+                btnPublish.Enabled = !bwApp.IsBusy && !string.IsNullOrEmpty(txtPublish.Text);
 
-            gbTemplatesInternal.Enabled = !chkTemplatesMode.Checked;
+                gbTemplatesInternal.Enabled = !chkTemplatesMode.Checked;
+
+                cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
+                cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
+            }
         }
 
         private void bwApp_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -992,6 +998,7 @@ namespace TDMaker
         private void cboTemplate_SelectedIndexChanged(object sender, EventArgs e)
         {
             App.Settings.ProfileActive.ExternalTemplateIndex = cboTemplate.SelectedIndex;
+            pgProfileOptions.SelectedObject = App.Settings.ProfileActive;
         }
 
         private void cboScreenshotDest_SelectedIndexChanged(object sender, EventArgs e)
@@ -1371,6 +1378,8 @@ namespace TDMaker
             cboTemplate.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate;
             gbTemplatesInternal.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
             gbFonts.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
+
+            pgProfileOptions.SelectedObject = App.Settings.ProfileActive;
         }
 
         private void lbFiles_KeyDown(object sender, KeyEventArgs e)
