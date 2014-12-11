@@ -177,7 +177,7 @@ namespace TDMakerLib
                 if (Options.AddMovieInfo)
                 {
                     infoString = MediaFile.GetMTNString();
-                    infoStringHeight = 80;
+                    infoStringHeight = 80 + MediaFile.Audio.Count * 8;
                 }
 
                 foreach (ScreenshotInfo screenshot in screenshots)

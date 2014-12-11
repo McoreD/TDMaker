@@ -531,13 +531,6 @@ namespace TDMakerLib
             return publishInfo;
         }
 
-        /// <summary>
-        /// Create Publish based on Default (built-in) Template.
-        /// Uses ToString() method of MediaInfo2
-        /// </summary>
-        /// <param name="ti"></param>
-        /// <param name="options"></param>
-        /// <returns></returns>
         public string CreatePublishInternal(PublishOptionsPacket pop)
         {
             StringBuilder sbPublish = new StringBuilder();

@@ -516,7 +516,7 @@ namespace TDMakerLib
             int aiCount = 1;
             foreach (AudioInfo ai in this.Audio)
             {
-                sb.AppendLine(string.Format("Audio {0}: {1}, {2}, {3}, {4}", aiCount++, ai.Codec, ai.SamplingRate, ai.Channels, ai.Bitrate));
+                sb.AppendLine(string.Format("Audio {0}: {1}, {2}, {3}, {4}", aiCount++, ai.Format, ai.SamplingRate, ai.Channels, ai.Bitrate));
             }
 
             return sb.ToString();
