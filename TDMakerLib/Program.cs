@@ -19,7 +19,15 @@ namespace TDMakerLib
         public static bool Portable = Directory.Exists(Path.Combine(Application.StartupPath, PortableRootFolder));
 
         public static readonly string LogsDir = Path.Combine(RootAppFolder, "Logs");
-        public static readonly string PicturesDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), mProductName);
+
+        public static string PicturesDir
+        {
+            get
+            {
+                return Settings != null && Directory.Exists(Settings.CustomScreenshotsDir) && Settings.ProfileActive.ScreenshotsLocation == LocationType.CustomFolder ? Settings.CustomScreenshotsDir : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), mProductName);
+            }
+        }
+
         public static readonly string SettingsDir = Path.Combine(RootAppFolder, "Settings");
         public static readonly string ToolsDir = Path.Combine(RootAppFolder, "Tools");
         public static string TemplatesDir
@@ -60,26 +68,6 @@ namespace TDMakerLib
             bool b = os.Contains("Unix");
             IsUNIX = b;
             return IsUNIX;
-        }
-
-        public static void ClearScreenshots()
-        {
-            if (!App.Settings.KeepScreenshots)
-            {
-                // delete if option set to temporary location
-                string[] files = Directory.GetFiles(App.TempDir, "*.*", SearchOption.AllDirectories);
-                foreach (string screenshot in files)
-                {
-                    try
-                    {
-                        File.Delete(screenshot);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.Message);
-                    }
-                }
-            }
         }
 
         /// <summary>

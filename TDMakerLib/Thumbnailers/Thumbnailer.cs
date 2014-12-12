@@ -145,6 +145,7 @@ namespace TDMakerLib
 
                         Screenshots.Add(new ScreenshotInfo(temp_fp) { Args = TempScreenshots[0].Args });
                     }
+                    TempScreenshots.ForEach(x => Adapter.ScheduleFileForDeletion(x.LocalPath));
                 }
                 else
                 {

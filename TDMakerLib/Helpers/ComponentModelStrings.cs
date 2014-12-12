@@ -8,7 +8,8 @@
         public const string Paths = "Paths";
         public const string Proxy = "Proxy";
         public const string Publish = "Publish";
-        public const string PublishFontSizes = Publish + " / Font Sizes";
+        public const string PublishTemplates = Publish + " / Templates";
+        public const string PublishTemplatesFontSizes = PublishTemplates + " / Font Sizes";
         public const string Screenshots = "Screenshots";
         public const string ScreenshotsCombine = Screenshots + " / Combined";
         public const string ScreenshotsImageUploaders = Screenshots + " / Uploaders";

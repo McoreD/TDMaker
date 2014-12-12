@@ -98,22 +98,6 @@ namespace TDMakerLib
 
         #endregion Input
 
-        #region Screenshots
-
-        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Create screenshots using thumbnailer")]
-        public bool CreateScreenshots { get; set; }
-
-        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Use full image URL in the torrent description.")]
-        public bool UseFullPicture { get; set; }
-
-        [Category(ComponentModelStrings.Screenshots), DefaultValue(LocationType.KnownFolder), Description("Create screenshots in the same folders as the media file, default torrent folder or in a custom folder")]
-        public LocationType ScreenshotsLocation { get; set; }
-
-        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Keep or delete screenshots after processing files")]
-        public bool KeepScreenshots { get; set; }
-
-        #endregion Screenshots
-
         #region Screenshots / Thumbnailers
 
         [Category(ComponentModelStrings.Thumbnailers), DefaultValue(ThumbnailerType.FFmpeg), Description("Chooser thumbnailer application to take screenshots.")]
@@ -141,37 +125,6 @@ namespace TDMakerLib
         public double BufferSizePower { get; set; }
 
         #endregion Screenshots / Uploaders
-
-        #region Publish
-
-        [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Setting true will center align the description")]
-        public bool AlignCenter { get; set; }
-
-        [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Setting true will retain the formatting on some message boards")]
-        public bool PreText { get; set; }
-
-        [Category(ComponentModelStrings.Publish), DefaultValue(false), Description("Write the torrent description to file")]
-        public bool WritePublish { get; set; }
-
-        [Category(ComponentModelStrings.Publish), DefaultValue(true), Description("Have larger text when [pre] tag is set")]
-        public bool LargerPreText { get; set; }
-
-        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(5), Description("Font Size for Heading 1")]
-        public int FontSizeHeading1 { get; set; }
-
-        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(4), Description("Font Size for Heading 2")]
-        public int FontSizeHeading2 { get; set; }
-
-        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(3), Description("Font Size for Heading 3")]
-        public int FontSizeHeading3 { get; set; }
-
-        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(2), Description("Font Size for Body")]
-        public int FontSizeBody { get; set; }
-
-        [Category(ComponentModelStrings.PublishFontSizes), DefaultValue(1), Description("Font Size increment")]
-        public int FontSizeIncr { get; set; }
-
-        #endregion Publish
 
         #region Paths
 

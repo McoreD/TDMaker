@@ -24,9 +24,12 @@
 #endregion License Information (GPL v2)
 
 using ShareX.HelpersLib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TDMakerLib
@@ -102,16 +105,9 @@ namespace TDMakerLib
             return dir;
         }
 
-        public static MediaWizardOptions GetMediaType(List<string> FileOrDirPaths)
-        {
-            return GetMediaType(FileOrDirPaths, false);
-        }
-
-        public static MediaWizardOptions GetMediaType(List<string> FileOrDirPaths, bool silent)
+        public static MediaWizardOptions GetMediaType(List<string> FileOrDirPaths, bool silent = false)
         {
             MediaWizardOptions mwo = new MediaWizardOptions() { MediaTypeChoice = MediaType.MediaIndiv };
-
-            bool showWizard = false;
 
             if (FileOrDirPaths.Count == 1 && File.Exists(FileOrDirPaths[0]))
             {
@@ -131,40 +127,26 @@ namespace TDMakerLib
                     }
                     if (dirCount > 1) break;
                 }
-                if (bDirFound)
+                if (bDirFound && dirCount == 1)
                 {
-                    if (dirCount == 1)
+                    string dir = FileOrDirPaths[0];
+                    if (MediaIsDisc(dir))
                     {
-                        string dir = FileOrDirPaths[0];
-                        if (MediaIsDisc(dir))
-                        {
-                            mwo.MediaTypeChoice = MediaType.MediaDisc;
-                        }
-                        else if (MediaIsAudio(dir))
-                        {
-                            mwo.MediaTypeChoice = MediaType.MusicAudioAlbum;
-                        }
-                        else if (!silent)
-                        {
-                            showWizard = true;
-                        }
+                        mwo.MediaTypeChoice = MediaType.MediaDisc;
+                    }
+                    else if (MediaIsAudio(dir))
+                    {
+                        mwo.MediaTypeChoice = MediaType.MusicAudioAlbum;
+                    }
+                    else if (!silent)
+                    {
+                        mwo.ShowWizard = true;
                     }
                 }
                 else if (!silent) // no dir found
                 {
-                    showWizard = true;
+                    mwo.ShowWizard = true;
                 }
-            }
-
-            if (showWizard)
-            {
-                MediaWizard mw = new MediaWizard(FileOrDirPaths);
-                mwo.DialogResult = mw.ShowDialog();
-                if (mwo.DialogResult == DialogResult.OK)
-                {
-                    mwo = mw.Options;
-                }
-                mwo.PromptShown = true;
             }
 
             DebugHelper.WriteLine("Determined media type as: " + mwo.MediaTypeChoice.ToString());
@@ -193,6 +175,24 @@ namespace TDMakerLib
                 }
             }
             return ss;
+        }
+
+        public static void ScheduleFileForDeletion(string ssPath)
+        {
+            new Thread(() =>
+            {
+                if (!App.Settings.ProfileActive.KeepScreenshots)
+                {
+                    try
+                    {
+                        File.Delete(ssPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        DebugHelper.WriteException(ex, "Error deleting file.");
+                    }
+                }
+            }).Start();
         }
 
         #region Publish

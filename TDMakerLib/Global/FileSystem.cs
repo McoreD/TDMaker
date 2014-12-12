@@ -88,29 +88,19 @@ namespace TDMakerLib
 
         public static string GetScreenShotsDir(string mediaFilePath)
         {
-            switch (App.Settings.ScreenshotsLocation)
+            switch (App.Settings.ProfileActive.ScreenshotsLocation)
             {
-                case LocationType.CustomFolder:
-                    return Directory.Exists(App.Settings.CustomScreenshotsDir) ? App.Settings.CustomScreenshotsDir : App.PicturesDir;
                 case LocationType.ParentFolder:
-                    if (string.IsNullOrEmpty(mediaFilePath))
-                    {
-                        if (App.Settings.ScreenshotsLocation == LocationType.CustomFolder && Directory.Exists(App.Settings.CustomScreenshotsDir))
-                        {
-                            return App.Settings.CustomScreenshotsDir;
-                        }
-                        else
-                        {
-                            return App.PicturesDir;
-                        }
-                    }
-                    else
+                    if (File.Exists(mediaFilePath))
                     {
                         return Path.GetDirectoryName(mediaFilePath);
                     }
-                case LocationType.KnownFolder:
+                    else
+                    {
+                        return App.PicturesDir;
+                    }
                 default:
-                    return App.Settings.KeepScreenshots ? App.PicturesDir : App.TempDir;
+                    return App.PicturesDir;
             }
         }
 

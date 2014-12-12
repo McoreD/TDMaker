@@ -180,6 +180,7 @@ namespace TDMakerLib
                     if (!string.IsNullOrEmpty(ur.URL))
                     {
                         ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploaded {0}.", Path.GetFileName(ssPath)));
+                        Adapter.ScheduleFileForDeletion(ssPath);
                     }
                 }
                 else
@@ -188,6 +189,7 @@ namespace TDMakerLib
                     Success = false;
                 }
             }
+
             return ur;
         }
 

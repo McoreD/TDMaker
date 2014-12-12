@@ -188,11 +188,11 @@ namespace TDMaker
                 GuessSource(txtTitle.Text);
             }
 
-            if (!App.Settings.WritePublish && ps.Length > 1)
+            if (!App.Settings.ProfileActive.WritePublish && ps.Length > 1)
             {
                 if (MessageBox.Show(Resources.MainWindow_LoadMedia_, Application.ProductName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    App.Settings.WritePublish = true;
+                    App.Settings.ProfileActive.WritePublish = true;
                 }
             }
 
@@ -248,6 +248,11 @@ namespace TDMaker
 
             MediaWizardOptions mwo = Adapter.GetMediaType(wt.FileOrDirPaths);
 
+            if (mwo.ShowWizard)
+            {
+                ShowMediaWizard(ref mwo, wt.FileOrDirPaths);
+            }
+
             wt.MediaOptions = mwo;
             if (mwo.PromptShown)
             {
@@ -258,7 +263,7 @@ namespace TDMaker
             {
                 // fill previous settings
                 wt.MediaOptions.CreateTorrent = App.Settings.ProfileActive.CreateTorrent;
-                wt.MediaOptions.CreateScreenshots = App.Settings.CreateScreenshots;
+                wt.MediaOptions.CreateScreenshots = App.Settings.ProfileActive.CreateScreenshots;
                 wt.MediaOptions.UploadScreenshots = App.Settings.ProfileActive.UploadScreenshots;
             }
 
@@ -326,6 +331,18 @@ namespace TDMaker
 
                 UpdateGuiControls();
             }
+        }
+
+        private static MediaWizardOptions ShowMediaWizard(ref MediaWizardOptions mwo, List<string> FileOrDirPaths)
+        {
+            MediaWizard mw = new MediaWizard(FileOrDirPaths);
+            mwo.DialogResult = mw.ShowDialog();
+            if (mwo.DialogResult == DialogResult.OK)
+            {
+                mwo = mw.Options;
+            }
+            mwo.PromptShown = true;
+            return mwo;
         }
 
         private string BDInfo(string p)
@@ -484,7 +501,7 @@ namespace TDMaker
 
         private void LoadSettingsScreenshotControls()
         {
-            chkUploadScreenshots.Checked = App.Settings.CreateScreenshots;
+            chkUploadScreenshots.Checked = App.Settings.ProfileActive.CreateScreenshots;
             btnUploadersConfig.Visible = cboFileUploader.Visible = cboImageUploader.Visible = string.IsNullOrEmpty(App.Settings.PtpImgCode);
             chkUploadScreenshots.Text = string.IsNullOrEmpty(App.Settings.PtpImgCode) ? "Upload screenshot to:" : "Upload screenshots to ptpimg.me";
 
@@ -589,17 +606,17 @@ namespace TDMaker
         private void LoadSettingsPublishTemplatesControls()
         {
             cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
-            chkUploadFullScreenshot.Checked = App.Settings.UseFullPicture;
+            chkUploadFullScreenshot.Checked = App.Settings.ProfileActive.UseFullPictureURL;
 
-            chkAlignCenter.Checked = App.Settings.AlignCenter;
-            chkPre.Checked = App.Settings.PreText;
-            chkPreIncreaseFontSize.Checked = App.Settings.LargerPreText;
+            chkAlignCenter.Checked = App.Settings.ProfileActive.AlignCenter;
+            chkPre.Checked = App.Settings.ProfileActive.PreText;
+            chkPreIncreaseFontSize.Checked = App.Settings.ProfileActive.LargerPreText;
 
-            nudFontSizeIncr.Value = (decimal)App.Settings.FontSizeIncr;
-            nudHeading1Size.Value = (decimal)App.Settings.FontSizeHeading1;
-            nudHeading2Size.Value = (decimal)App.Settings.FontSizeHeading2;
-            nudHeading3Size.Value = (decimal)App.Settings.FontSizeHeading3;
-            nudBodySize.Value = (decimal)App.Settings.FontSizeBody;
+            nudFontSizeIncr.Value = (decimal)App.Settings.ProfileActive.FontSizeIncr;
+            nudHeading1Size.Value = (decimal)App.Settings.ProfileActive.FontSizeHeading1;
+            nudHeading2Size.Value = (decimal)App.Settings.ProfileActive.FontSizeHeading2;
+            nudHeading3Size.Value = (decimal)App.Settings.ProfileActive.FontSizeHeading3;
+            nudBodySize.Value = (decimal)App.Settings.ProfileActive.FontSizeBody;
 
             // Proxy
             cbProxyMethod.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<ProxyMethod>());
@@ -614,9 +631,9 @@ namespace TDMaker
         private string CreatePublishInitial(TorrentInfo ti)
         {
             PublishOptionsPacket pop = new PublishOptionsPacket();
-            pop.AlignCenter = App.Settings.AlignCenter;
-            pop.FullPicture = ti.Media.Options.UploadScreenshots && App.Settings.UseFullPicture;
-            pop.PreformattedText = App.Settings.PreText;
+            pop.AlignCenter = App.Settings.ProfileActive.AlignCenter;
+            pop.FullPicture = ti.Media.Options.UploadScreenshots && App.Settings.ProfileActive.UseFullPictureURL;
+            pop.PreformattedText = App.Settings.ProfileActive.PreText;
             pop.PublishInfoTypeChoice = App.Settings.ProfileActive.PublishInfoTypeChoice;
             ti.PublishOptions = pop;
 
@@ -655,7 +672,7 @@ namespace TDMaker
                 ti.PublishString = CreatePublishInitial(ti);
                 bwApp.ReportProgress((int)ProgressType.REPORT_TORRENTINFO, ti);
 
-                if (App.Settings.WritePublish)
+                if (App.Settings.ProfileActive.WritePublish)
                 {
                     // create textFiles of MediaInfo
                     string txtPath = Path.Combine(mi.TorrentCreateInfo.TorrentFolder, mi.Overall.FileName) + ".txt";
@@ -842,9 +859,9 @@ namespace TDMaker
                         lbPublish.Items.Add(ti);
 
                         // initialize quick publish checkboxes
-                        chkQuickFullPicture.Checked = App.Settings.UseFullPicture;
-                        chkQuickAlignCenter.Checked = App.Settings.AlignCenter;
-                        chkQuickPre.Checked = App.Settings.PreText;
+                        chkQuickFullPicture.Checked = App.Settings.ProfileActive.UseFullPictureURL;
+                        chkQuickAlignCenter.Checked = App.Settings.ProfileActive.AlignCenter;
+                        chkQuickPre.Checked = App.Settings.ProfileActive.PreText;
                         cboQuickPublishType.SelectedIndex = cboPublishType.SelectedIndex;
                         cboQuickTemplate.SelectedIndex = cboTemplate.SelectedIndex;
                         break;
@@ -1238,52 +1255,51 @@ namespace TDMaker
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             SettingsWrite();
-            App.ClearScreenshots();
         }
 
         private void chkUploadFullScreenshot_CheckedChanged(object sender, EventArgs e)
         {
-            App.Settings.UseFullPicture = chkUploadFullScreenshot.Checked;
+            App.Settings.ProfileActive.UseFullPictureURL = chkUploadFullScreenshot.Checked;
         }
 
         private void chkAlignCenter_CheckedChanged(object sender, EventArgs e)
         {
-            App.Settings.AlignCenter = chkAlignCenter.Checked;
+            App.Settings.ProfileActive.AlignCenter = chkAlignCenter.Checked;
         }
 
         private void chkPre_CheckedChanged(object sender, EventArgs e)
         {
-            App.Settings.PreText = chkPre.Checked;
+            App.Settings.ProfileActive.PreText = chkPre.Checked;
         }
 
         private void chkPreIncreaseFontSize_CheckedChanged(object sender, EventArgs e)
         {
-            App.Settings.LargerPreText = chkPreIncreaseFontSize.Checked;
+            App.Settings.ProfileActive.LargerPreText = chkPreIncreaseFontSize.Checked;
         }
 
         private void nudFontSizeIncr_ValueChanged(object sender, EventArgs e)
         {
-            App.Settings.FontSizeIncr = (int)nudFontSizeIncr.Value;
+            App.Settings.ProfileActive.FontSizeIncr = (int)nudFontSizeIncr.Value;
         }
 
         private void nudFontSizeHeading1_ValueChanged(object sender, EventArgs e)
         {
-            App.Settings.FontSizeHeading1 = (int)nudHeading1Size.Value;
+            App.Settings.ProfileActive.FontSizeHeading1 = (int)nudHeading1Size.Value;
         }
 
         private void nudHeading2Size_ValueChanged(object sender, EventArgs e)
         {
-            App.Settings.FontSizeHeading2 = (int)nudHeading2Size.Value;
+            App.Settings.ProfileActive.FontSizeHeading2 = (int)nudHeading2Size.Value;
         }
 
         private void nudHeading3Size_ValueChanged(object sender, EventArgs e)
         {
-            App.Settings.FontSizeHeading3 = (int)nudHeading3Size.Value;
+            App.Settings.ProfileActive.FontSizeHeading3 = (int)nudHeading3Size.Value;
         }
 
         private void nudBodyText_ValueChanged(object sender, EventArgs e)
         {
-            App.Settings.FontSizeBody = (int)nudBodySize.Value;
+            App.Settings.ProfileActive.FontSizeBody = (int)nudBodySize.Value;
         }
 
         private void lbScreenshots_SelectedIndexChanged(object sender, EventArgs e)

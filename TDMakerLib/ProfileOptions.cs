@@ -20,6 +20,8 @@ namespace TDMakerLib
         [Editor(typeof(DirectoryNameEditor), typeof(UITypeEditor))]
         public string DefaultMediaDirectory { get; set; }
 
+        #region Screenshots
+
         [Category(ComponentModelStrings.Screenshots), DefaultValue(ThumbnailExtension.png), Description("FFmpeg thumbnail extension e.g. png or jpg")]
         public ThumbnailExtension FFmpegThumbnailExtension { get; set; }
 
@@ -32,10 +34,17 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Upload screenshots")]
         public bool UploadScreenshots { get; set; }
 
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Keep or delete screenshots after processing files")]
+        public bool KeepScreenshots { get; set; }
+
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(true), Description("Create screenshots using thumbnailer")]
+        public bool CreateScreenshots { get; set; }
+
+        [Category(ComponentModelStrings.Screenshots), DefaultValue(LocationType.KnownFolder), Description("Create screenshots in the same folders as the media file, default torrent folder or in a custom folder")]
+        public LocationType ScreenshotsLocation { get; set; }
+
         [Category(ComponentModelStrings.Screenshots), DefaultValue(0), Description("Maximum thumbnail width size, 0 means don't resize")]
         public int MaxThumbnailWidth { get; set; }
-
-        #region Screenshots / Combine
 
         [Category(ComponentModelStrings.ScreenshotsCombine), DefaultValue(false), Description("Combine all screenshots to one large screenshot")]
         public bool CombineScreenshots { get; set; }
@@ -68,8 +77,38 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Publish), DefaultValue(PublishInfoType.MediaInfo), Description("Use internal template, external templates or information in MediaInfo in the torrent description in Publish tab")]
         public PublishInfoType PublishInfoTypeChoice { get; set; }
 
+        [Category(ComponentModelStrings.Publish), DefaultValue(true), Description("Use full image URL in the torrent description.")]
+        public bool UseFullPictureURL { get; set; }
+
         [Category(ComponentModelStrings.Publish), DefaultValue(0), Description("External template index")]
         public int ExternalTemplateIndex { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplates), DefaultValue(false), Description("Setting true will center align the description")]
+        public bool AlignCenter { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplates), DefaultValue(false), Description("Setting true will retain the formatting on some message boards")]
+        public bool PreText { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplates), DefaultValue(false), Description("Write the torrent description to file")]
+        public bool WritePublish { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplates), DefaultValue(true), Description("Have larger text when [pre] tag is set")]
+        public bool LargerPreText { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplatesFontSizes), DefaultValue(5), Description("Font Size for Heading 1")]
+        public int FontSizeHeading1 { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplatesFontSizes), DefaultValue(4), Description("Font Size for Heading 2")]
+        public int FontSizeHeading2 { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplatesFontSizes), DefaultValue(3), Description("Font Size for Heading 3")]
+        public int FontSizeHeading3 { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplatesFontSizes), DefaultValue(2), Description("Font Size for Body")]
+        public int FontSizeBody { get; set; }
+
+        [Category(ComponentModelStrings.PublishTemplatesFontSizes), DefaultValue(1), Description("Font Size increment")]
+        public int FontSizeIncr { get; set; }
 
         #endregion Publish
 

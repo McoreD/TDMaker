@@ -323,17 +323,17 @@ namespace TDMakerLib
 
         private string GetStyles(string pattern)
         {
-            int fontSizeHeading1 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
-                App.Settings.FontSizeHeading1 + App.Settings.FontSizeIncr : App.Settings.FontSizeHeading1);
+            int fontSizeHeading1 = (int)(App.Settings.ProfileActive.PreText && App.Settings.ProfileActive.LargerPreText == true ?
+                App.Settings.ProfileActive.FontSizeHeading1 + App.Settings.ProfileActive.FontSizeIncr : App.Settings.ProfileActive.FontSizeHeading1);
 
-            int fontSizeHeading2 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
-                App.Settings.FontSizeHeading2 + App.Settings.FontSizeIncr : App.Settings.FontSizeHeading2);
+            int fontSizeHeading2 = (int)(App.Settings.ProfileActive.PreText && App.Settings.ProfileActive.LargerPreText == true ?
+                App.Settings.ProfileActive.FontSizeHeading2 + App.Settings.ProfileActive.FontSizeIncr : App.Settings.ProfileActive.FontSizeHeading2);
 
-            int fontSizeHeading3 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
-                App.Settings.FontSizeHeading3 + App.Settings.FontSizeIncr : App.Settings.FontSizeHeading3);
+            int fontSizeHeading3 = (int)(App.Settings.ProfileActive.PreText && App.Settings.ProfileActive.LargerPreText == true ?
+                App.Settings.ProfileActive.FontSizeHeading3 + App.Settings.ProfileActive.FontSizeIncr : App.Settings.ProfileActive.FontSizeHeading3);
 
-            int fontSizeBody = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
-                App.Settings.FontSizeBody + App.Settings.FontSizeIncr : App.Settings.FontSizeBody);
+            int fontSizeBody = (int)(App.Settings.ProfileActive.PreText && App.Settings.ProfileActive.LargerPreText == true ?
+                App.Settings.ProfileActive.FontSizeBody + App.Settings.ProfileActive.FontSizeIncr : App.Settings.ProfileActive.FontSizeBody);
 
             pattern = pattern.ReplaceCode("%FontSize_Body%", fontSizeBody.ToString());
             pattern = pattern.ReplaceCode("%FontSize_Heading1%", fontSizeHeading1.ToString());

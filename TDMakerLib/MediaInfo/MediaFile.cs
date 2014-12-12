@@ -335,13 +335,13 @@ namespace TDMakerLib
         /// <returns></returns>
         public string ToStringPublish(PublishOptionsPacket pop)
         {
-            int fontSizeHeading3 = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
-                App.Settings.FontSizeHeading3 + App.Settings.FontSizeIncr :
-                App.Settings.FontSizeHeading3);
+            int fontSizeHeading3 = (int)(App.Settings.ProfileActive.PreText && App.Settings.ProfileActive.LargerPreText == true ?
+                App.Settings.ProfileActive.FontSizeHeading3 + App.Settings.ProfileActive.FontSizeIncr :
+                App.Settings.ProfileActive.FontSizeHeading3);
 
-            int fontSizeBody = (int)(App.Settings.PreText && App.Settings.LargerPreText == true ?
-                App.Settings.FontSizeBody + App.Settings.FontSizeIncr :
-                App.Settings.FontSizeBody);
+            int fontSizeBody = (int)(App.Settings.ProfileActive.PreText && App.Settings.ProfileActive.LargerPreText == true ?
+                App.Settings.ProfileActive.FontSizeBody + App.Settings.ProfileActive.FontSizeIncr :
+                App.Settings.ProfileActive.FontSizeBody);
 
             StringBuilder sbBody = new StringBuilder();
 

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using TDMakerLib;
 
-namespace TDMakerLib
+namespace TDMaker
 {
     public partial class MediaWizard : Form
     {
@@ -92,7 +93,7 @@ namespace TDMakerLib
             }
 
             chkCreateTorrent.Checked = App.Settings.ProfileActive.CreateTorrent;
-            chkScreenshotsCreate.Checked = App.Settings.CreateScreenshots;
+            chkScreenshotsCreate.Checked = App.Settings.ProfileActive.CreateScreenshots;
             chkScreenshotsUpload.Checked = App.Settings.ProfileActive.UploadScreenshots;
             gbQuestion.Enabled = this.Options.MediaTypeChoice != MediaType.MediaDisc;
         }

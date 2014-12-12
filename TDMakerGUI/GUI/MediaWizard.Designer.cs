@@ -1,4 +1,4 @@
-﻿namespace TDMakerLib
+﻿namespace TDMaker
 {
     partial class MediaWizard
     {

@@ -153,9 +153,9 @@ namespace TDMakerCLI
         {
             PublishOptionsPacket pop = new PublishOptionsPacket()
             {
-                AlignCenter = App.Settings.AlignCenter,
-                FullPicture = App.Settings.UseFullPicture,
-                PreformattedText = App.Settings.PreText,
+                AlignCenter = App.Settings.ProfileActive.AlignCenter,
+                FullPicture = App.Settings.ProfileActive.UseFullPictureURL,
+                PreformattedText = App.Settings.ProfileActive.PreText,
                 PublishInfoTypeChoice = App.Settings.ProfileActive.PublishInfoTypeChoice,
                 TemplateLocation = Path.Combine(App.TemplatesDir, "BTN")
             };
