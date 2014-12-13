@@ -36,6 +36,7 @@ namespace TDMakerLib
                         ScreenshotCount = 16,
                         ColumnCount = 4,
                         MaxThumbnailWidth = 256,
+                        KeepScreenshots = false,
                         FFmpegThumbnailExtension = ThumbnailExtension.jpg
                     });
                 }

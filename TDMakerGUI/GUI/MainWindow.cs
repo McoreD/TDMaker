@@ -50,8 +50,6 @@ namespace TDMaker
             tttvMain.MainTabControl = tcMain;
 
             Icon = Resources.GenuineAdvIcon;
-
-            UpdateGuiControls();
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)
@@ -67,6 +65,8 @@ namespace TDMaker
             }
 
             IsGuiReady = true;
+
+            UpdateGuiControls();
         }
 
         public void ValidateThumbnailerPaths(object sender, EventArgs e)
