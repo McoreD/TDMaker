@@ -88,6 +88,7 @@
     <Compile Include="Helpers\BbCode.cs" />
     <Compile Include="Helpers\Options.cs" />
     <Compile Include="Helpers\Structs.cs" />
+    <Compile Include="Templates\TemplateNameConverter.cs" />
     <Compile Include="Torrents\TorrentCreator.cs" />
     <Compile Include="Helpers\WorkerTask.cs" />
     <Compile Include="Helpers\ImageFile.cs" />
@@ -210,9 +211,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Forms\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

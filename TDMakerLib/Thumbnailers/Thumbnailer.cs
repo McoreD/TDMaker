@@ -66,7 +66,7 @@ namespace TDMakerLib
                 string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.", mediaFileName, timeSliceElapsed.ToString("00000")));
 
                 ProcessStartInfo psi = new ProcessStartInfo(ThumbnailerPath);
-                psi.WindowStyle = ProcessWindowStyle.Minimized;
+                psi.WindowStyle = ProcessWindowStyle.Hidden;
 
                 switch (App.Settings.ThumbnailerType)
                 {

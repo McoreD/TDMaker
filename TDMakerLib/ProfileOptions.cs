@@ -77,11 +77,11 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.Publish), DefaultValue(PublishInfoType.MediaInfo), Description("Use internal template, external templates or information in MediaInfo in the torrent description in Publish tab")]
         public PublishInfoType PublishInfoTypeChoice { get; set; }
 
-        [Category(ComponentModelStrings.Publish), DefaultValue(true), Description("Use full image URL in the torrent description.")]
+        [Category(ComponentModelStrings.Publish), DefaultValue(true), Description("Use full image URL (instead of thumbnail URL) in the torrent description.")]
         public bool UseFullPictureURL { get; set; }
 
-        [Category(ComponentModelStrings.Publish), DefaultValue(0), Description("External template index")]
-        public int ExternalTemplateIndex { get; set; }
+        [Category(ComponentModelStrings.Publish), TypeConverter(typeof(StringListConverter))]
+        public string ExternaTemplateName { get; set; }
 
         [Category(ComponentModelStrings.PublishTemplates), DefaultValue(false), Description("Setting true will center align the description")]
         public bool AlignCenter { get; set; }

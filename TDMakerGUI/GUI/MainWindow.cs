@@ -437,7 +437,7 @@ namespace TDMaker
 
             if (App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate)
             {
-                mi.TemplateLocation = Path.Combine(App.TemplatesDir, cboTemplate.Text);
+                mi.TemplateLocation = Path.Combine(App.TemplatesDir, App.Settings.ProfileActive.ExternaTemplateName);
             }
 
             return mi;
@@ -467,15 +467,9 @@ namespace TDMaker
                 {
                     templateNames[i] = Path.GetFileName(dirs[i]);
                 }
-                cboTemplate.Items.Clear();
                 cboQuickTemplate.Items.Clear();
-                cboTemplate.Items.AddRange(templateNames);
                 cboQuickTemplate.Items.AddRange(templateNames);
-            }
-            if (cboTemplate.Items.Count > 0)
-            {
-                cboTemplate.SelectedIndex = Math.Max(App.Settings.ProfileActive.ExternalTemplateIndex, 0);
-                cboQuickTemplate.SelectedIndex = Math.Max(App.Settings.ProfileActive.ExternalTemplateIndex, 0);
+                cboQuickTemplate.Text = App.Settings.ProfileActive.ExternaTemplateName;
             }
         }
 
@@ -601,27 +595,12 @@ namespace TDMaker
             if (cboQuickPublishType.Items.Count == 0)
             {
                 cboQuickPublishType.Items.AddRange(Enum.GetNames(typeof(PublishInfoType)));
-                cboPublishType.Items.AddRange(Enum.GetNames(typeof(PublishInfoType)));
             }
-            cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
             cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
         }
 
         private void LoadSettingsPublishTemplatesControls()
         {
-            cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
-            chkUploadFullScreenshot.Checked = App.Settings.ProfileActive.UseFullPictureURL;
-
-            chkAlignCenter.Checked = App.Settings.ProfileActive.AlignCenter;
-            chkPre.Checked = App.Settings.ProfileActive.PreText;
-            chkPreIncreaseFontSize.Checked = App.Settings.ProfileActive.LargerPreText;
-
-            nudFontSizeIncr.Value = (decimal)App.Settings.ProfileActive.FontSizeIncr;
-            nudHeading1Size.Value = (decimal)App.Settings.ProfileActive.FontSizeHeading1;
-            nudHeading2Size.Value = (decimal)App.Settings.ProfileActive.FontSizeHeading2;
-            nudHeading3Size.Value = (decimal)App.Settings.ProfileActive.FontSizeHeading3;
-            nudBodySize.Value = (decimal)App.Settings.ProfileActive.FontSizeBody;
-
             // Proxy
             cbProxyMethod.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<ProxyMethod>());
             cbProxyMethod.SelectedIndex = (int)App.Settings.ProxySettings.ProxyMethod;
@@ -739,11 +718,6 @@ namespace TDMaker
                 btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
 
                 btnPublish.Enabled = !bwApp.IsBusy && !string.IsNullOrEmpty(txtPublish.Text);
-
-                gbTemplatesInternal.Enabled = !chkTemplatesMode.Checked;
-
-                cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
-                cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
             }
         }
 
@@ -866,8 +840,8 @@ namespace TDMaker
                         chkQuickFullPicture.Checked = App.Settings.ProfileActive.UseFullPictureURL;
                         chkQuickAlignCenter.Checked = App.Settings.ProfileActive.AlignCenter;
                         chkQuickPre.Checked = App.Settings.ProfileActive.PreText;
-                        cboQuickPublishType.SelectedIndex = cboPublishType.SelectedIndex;
-                        cboQuickTemplate.SelectedIndex = cboTemplate.SelectedIndex;
+                        cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
+                        cboQuickTemplate.Text = App.Settings.ProfileActive.ExternaTemplateName;
                         break;
 
                     case ProgressType.UPDATE_PROGRESSBAR_MAX:
@@ -894,7 +868,6 @@ namespace TDMaker
 
         private void chkScreenshotUpload_CheckedChanged(object sender, EventArgs e)
         {
-            chkUploadFullScreenshot.Enabled = chkUploadScreenshots.Checked;
             App.Settings.ProfileActive.UploadScreenshots = chkUploadScreenshots.Checked;
         }
 
@@ -1004,22 +977,6 @@ namespace TDMaker
                 tb.SelectAll();
                 e.Handled = true;
             }
-        }
-
-        private void chkTemplatesMode_CheckedChanged(object sender, EventArgs e)
-        {
-            chkTemplatesMode.CheckState = CheckState.Indeterminate;
-        }
-
-        private void tsmLogsDir_Click(object sender, EventArgs e)
-        {
-            FileSystem.OpenDirLogs();
-        }
-
-        private void cboTemplate_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.ExternalTemplateIndex = cboTemplate.SelectedIndex;
-            pgProfileOptions.SelectedObject = App.Settings.ProfileActive;
         }
 
         private void cboScreenshotDest_SelectedIndexChanged(object sender, EventArgs e)
@@ -1261,51 +1218,6 @@ namespace TDMaker
             SettingsWrite();
         }
 
-        private void chkUploadFullScreenshot_CheckedChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.UseFullPictureURL = chkUploadFullScreenshot.Checked;
-        }
-
-        private void chkAlignCenter_CheckedChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.AlignCenter = chkAlignCenter.Checked;
-        }
-
-        private void chkPre_CheckedChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.PreText = chkPre.Checked;
-        }
-
-        private void chkPreIncreaseFontSize_CheckedChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.LargerPreText = chkPreIncreaseFontSize.Checked;
-        }
-
-        private void nudFontSizeIncr_ValueChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.FontSizeIncr = (int)nudFontSizeIncr.Value;
-        }
-
-        private void nudFontSizeHeading1_ValueChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.FontSizeHeading1 = (int)nudHeading1Size.Value;
-        }
-
-        private void nudHeading2Size_ValueChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.FontSizeHeading2 = (int)nudHeading2Size.Value;
-        }
-
-        private void nudHeading3Size_ValueChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.FontSizeHeading3 = (int)nudHeading3Size.Value;
-        }
-
-        private void nudBodyText_ValueChanged(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.FontSizeBody = (int)nudBodySize.Value;
-        }
-
         private void lbScreenshots_SelectedIndexChanged(object sender, EventArgs e)
         {
             int sel = lbScreenshots.SelectedIndex;
@@ -1390,16 +1302,6 @@ namespace TDMaker
         {
             CreatePublishUser();
             cboQuickTemplate.Enabled = (PublishInfoType)cboQuickPublishType.SelectedIndex == PublishInfoType.ExternalTemplate;
-        }
-
-        private void cboPublishType_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            App.Settings.ProfileActive.PublishInfoTypeChoice = (PublishInfoType)cboPublishType.SelectedIndex;
-            cboTemplate.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate;
-            gbTemplatesInternal.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
-            gbFonts.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.InternalTemplate;
-
-            pgProfileOptions.SelectedObject = App.Settings.ProfileActive;
         }
 
         private void lbFiles_KeyDown(object sender, KeyEventArgs e)
@@ -1543,8 +1445,6 @@ namespace TDMaker
                 chkUploadScreenshots.Checked = App.Settings.ProfileActive.UploadScreenshots;
                 cboImageUploader.SelectedIndex = (int)App.Settings.ProfileActive.ImageUploaderType;
                 cboFileUploader.SelectedIndex = (int)App.Settings.ProfileActive.ImageFileUploaderType;
-                cboPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
-                cboTemplate.SelectedIndex = App.Settings.ProfileActive.ExternalTemplateIndex;
             }
         }
 
