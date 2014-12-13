@@ -385,7 +385,7 @@ namespace TDMaker
             StringBuilder sbMsg = new StringBuilder();
 
             // checks
-            if (string.IsNullOrEmpty(cboSource.Text) && App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo)
+            if (string.IsNullOrEmpty(cboSource.Text) && App.Settings.ProfileActive.Publisher != PublishInfoType.MediaInfo)
             {
                 sbMsg.AppendLine("Source information is mandatory. Use the Source drop down menu to select the correct source type.");
             }
@@ -435,9 +435,9 @@ namespace TDMaker
             mi.WebLink = txtWebLink.Text;
             mi.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, p);
 
-            if (App.Settings.ProfileActive.PublishInfoTypeChoice == PublishInfoType.ExternalTemplate)
+            if (App.Settings.ProfileActive.Publisher == PublishInfoType.ExternalTemplate)
             {
-                mi.TemplateLocation = Path.Combine(App.TemplatesDir, App.Settings.ProfileActive.ExternaTemplateName);
+                mi.TemplateLocation = Path.Combine(App.TemplatesDir, App.Settings.ProfileActive.PublisherExternalTemplateName);
             }
 
             return mi;
@@ -469,7 +469,7 @@ namespace TDMaker
                 }
                 cboQuickTemplate.Items.Clear();
                 cboQuickTemplate.Items.AddRange(templateNames);
-                cboQuickTemplate.Text = App.Settings.ProfileActive.ExternaTemplateName;
+                cboQuickTemplate.Text = App.Settings.ProfileActive.PublisherExternalTemplateName;
             }
         }
 
@@ -596,7 +596,7 @@ namespace TDMaker
             {
                 cboQuickPublishType.Items.AddRange(Enum.GetNames(typeof(PublishInfoType)));
             }
-            cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
+            cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.Publisher;
         }
 
         private void LoadSettingsPublishTemplatesControls()
@@ -617,7 +617,7 @@ namespace TDMaker
             pop.AlignCenter = App.Settings.ProfileActive.AlignCenter;
             pop.FullPicture = ti.Media.Options.UploadScreenshots && App.Settings.ProfileActive.UseFullPictureURL;
             pop.PreformattedText = App.Settings.ProfileActive.PreText;
-            pop.PublishInfoTypeChoice = App.Settings.ProfileActive.PublishInfoTypeChoice;
+            pop.PublishInfoTypeChoice = App.Settings.ProfileActive.Publisher;
             ti.PublishOptions = pop;
 
             return Adapter.CreatePublish(ti, pop);
@@ -712,7 +712,7 @@ namespace TDMaker
         {
             if (IsGuiReady)
             {
-                gbDVD.Enabled = gbSource.Enabled = App.Settings.ProfileActive.PublishInfoTypeChoice != PublishInfoType.MediaInfo;
+                gbDVD.Enabled = gbSource.Enabled = App.Settings.ProfileActive.Publisher != PublishInfoType.MediaInfo;
 
                 btnCreateTorrent.Enabled = !bwApp.IsBusy && lbPublish.Items.Count > 0;
                 btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
@@ -840,8 +840,8 @@ namespace TDMaker
                         chkQuickFullPicture.Checked = App.Settings.ProfileActive.UseFullPictureURL;
                         chkQuickAlignCenter.Checked = App.Settings.ProfileActive.AlignCenter;
                         chkQuickPre.Checked = App.Settings.ProfileActive.PreText;
-                        cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.PublishInfoTypeChoice;
-                        cboQuickTemplate.Text = App.Settings.ProfileActive.ExternaTemplateName;
+                        cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.Publisher;
+                        cboQuickTemplate.Text = App.Settings.ProfileActive.PublisherExternalTemplateName;
                         break;
 
                     case ProgressType.UPDATE_PROGRESSBAR_MAX:

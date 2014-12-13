@@ -156,7 +156,7 @@ namespace TDMakerCLI
                 AlignCenter = App.Settings.ProfileActive.AlignCenter,
                 FullPicture = App.Settings.ProfileActive.UseFullPictureURL,
                 PreformattedText = App.Settings.ProfileActive.PreText,
-                PublishInfoTypeChoice = App.Settings.ProfileActive.PublishInfoTypeChoice,
+                PublishInfoTypeChoice = App.Settings.ProfileActive.Publisher,
                 TemplateLocation = Path.Combine(App.TemplatesDir, "BTN")
             };
             ti.PublishString = Adapter.CreatePublish(ti, pop);
