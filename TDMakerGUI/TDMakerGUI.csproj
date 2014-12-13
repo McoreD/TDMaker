@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F3519E2C-4C9F-4EED-8EDA-78FED87BC10F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -56,7 +56,6 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
@@ -151,24 +150,6 @@
     <None Include="Resources\layout-design.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShareX\ShareX.HelpersLib\ShareX.HelpersLib.csproj">
-      <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
-      <Name>HelpersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ShareX\ShareX.UploadersLib\ShareX.UploadersLib.csproj">
-      <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>
-      <Name>UploadersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lib\BDInfo\BDInfo\BDInfo.csproj">
-      <Project>{3209af1d-4762-4960-9de5-13e90e77ee96}</Project>
-      <Name>BDInfo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TDMakerLib\TDMakerLib.csproj">
-      <Project>{6023302C-5D3C-494A-B7D1-95A0BED8CA22}</Project>
-      <Name>TDMakerLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -201,4 +182,22 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ProjectReference Include="..\TDMakerLib\TDMakerLib.csproj">
+      <Project>{6023302C-5D3C-494A-B7D1-95A0BED8CA22}</Project>
+      <Name>TDMakerLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ShareX\ShareX.HelpersLib\ShareX.HelpersLib.csproj">
+      <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
+      <Name>ShareX.HelpersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\BDInfo\BDInfo\BDInfo.csproj">
+      <Project>{3209AF1D-4762-4960-9DE5-13E90E77EE96}</Project>
+      <Name>BDInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ShareX\ShareX.UploadersLib\ShareX.UploadersLib.csproj">
+      <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
+      <Name>ShareX.UploadersLib</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

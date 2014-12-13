@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDMakerGUI", "TDMakerMonoGUI\TDMakerGUI.csproj", "{98A5898D-0908-4726-AB4C-CC86FBBEF5B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareX.HelpersLib", "..\ShareX\ShareX.HelpersLib\ShareX.HelpersLib.csproj", "{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Greenshot.ImageEditor", "..\ShareX\Greenshot.ImageEditor\Greenshot.ImageEditor.csproj", "{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDMakerLib", "TDMakerLib\TDMakerLib.csproj", "{6023302C-5D3C-494A-B7D1-95A0BED8CA22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareX.UploadersLib", "..\ShareX\ShareX.UploadersLib\ShareX.UploadersLib.csproj", "{E1C94415-3424-4517-A2A1-B2FDD1F59C67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDInfo", "Lib\BDInfo\BDInfo\BDInfo.csproj", "{3209AF1D-4762-4960-9DE5-13E90E77EE96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDMakerCLI", "TDMakerMonoCLI\TDMakerCLI.csproj", "{9E01E72C-F42D-4EE1-BA45-27F4BA74BECB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3209AF1D-4762-4960-9DE5-13E90E77EE96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3209AF1D-4762-4960-9DE5-13E90E77EE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3209AF1D-4762-4960-9DE5-13E90E77EE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3209AF1D-4762-4960-9DE5-13E90E77EE96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6023302C-5D3C-494A-B7D1-95A0BED8CA22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6023302C-5D3C-494A-B7D1-95A0BED8CA22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6023302C-5D3C-494A-B7D1-95A0BED8CA22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6023302C-5D3C-494A-B7D1-95A0BED8CA22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98A5898D-0908-4726-AB4C-CC86FBBEF5B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98A5898D-0908-4726-AB4C-CC86FBBEF5B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98A5898D-0908-4726-AB4C-CC86FBBEF5B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98A5898D-0908-4726-AB4C-CC86FBBEF5B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E01E72C-F42D-4EE1-BA45-27F4BA74BECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E01E72C-F42D-4EE1-BA45-27F4BA74BECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E01E72C-F42D-4EE1-BA45-27F4BA74BECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E01E72C-F42D-4EE1-BA45-27F4BA74BECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD642BF4-D815-4D67-A0B5-C69F0B8231AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1C94415-3424-4517-A2A1-B2FDD1F59C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1C94415-3424-4517-A2A1-B2FDD1F59C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1C94415-3424-4517-A2A1-B2FDD1F59C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1C94415-3424-4517-A2A1-B2FDD1F59C67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = TDMakerMonoGUI\TDMakerGUI.csproj
+	EndGlobalSection
+EndGlobal

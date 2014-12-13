@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{6023302C-5D3C-494A-B7D1-95A0BED8CA22}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -55,21 +55,18 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MegaApiClient, Version=1.0.4.0, Culture=neutral, PublicKeyToken=0480d311efbeb4e2, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MegaApiClient.1.0.4\lib\MegaApiClient.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoTorrent, Version=0.70.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\MonoTorrent.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="taglib-sharp, Version=2.0.3.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="MegaApiClient">
+      <HintPath>..\packages\MegaApiClient.1.0.4\lib\MegaApiClient.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoTorrent">
+      <HintPath>..\Lib\MonoTorrent.dll</HintPath>
+    </Reference>
+    <Reference Include="taglib-sharp">
       <HintPath>..\Lib\taglib-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -198,16 +195,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShareX\ShareX.HelpersLib\ShareX.HelpersLib.csproj">
-      <Project>{327750e1-9fb7-4cc3-8aea-9bc42180cad3}</Project>
-      <Name>HelpersLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ShareX\ShareX.UploadersLib\ShareX.UploadersLib.csproj">
-      <Project>{e1c94415-3424-4517-a2a1-b2fdd1f59c67}</Project>
-      <Name>UploadersLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -224,4 +211,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\ShareX\ShareX.HelpersLib\ShareX.HelpersLib.csproj">
+      <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
+      <Name>ShareX.HelpersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ShareX\ShareX.UploadersLib\ShareX.UploadersLib.csproj">
+      <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>
+      <Name>ShareX.UploadersLib</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
