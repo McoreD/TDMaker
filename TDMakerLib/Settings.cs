@@ -29,7 +29,15 @@ namespace TDMakerLib
                 if (Profiles.Count == 0)
                 {
                     Profiles.Add(new ProfileOptions() { Name = "Movies Profile" });
-                    Profiles.Add(new ProfileOptions() { Name = "Music Videos Profile", CombineScreenshots = true, ScreenshotCount = 16, ColumnCount = 4, MaxThumbnailWidth = 256 });
+                    Profiles.Add(new ProfileOptions()
+                    {
+                        Name = "Music Videos Profile",
+                        CombineScreenshots = true,
+                        ScreenshotCount = 16,
+                        ColumnCount = 4,
+                        MaxThumbnailWidth = 256,
+                        FFmpegThumbnailExtension = ThumbnailExtension.jpg
+                    });
                 }
 
                 ProfileOptions profile = Profiles[0];
