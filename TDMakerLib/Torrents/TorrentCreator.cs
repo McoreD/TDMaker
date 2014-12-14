@@ -37,13 +37,6 @@ namespace TDMakerLib
             }
         }
 
-        public void SetTorrentFilePath(string fileName, string trackerName)
-        {
-            string torrentDir = Profile.OrganizeTorrentsByTracker ? Path.Combine(TorrentFolder, trackerName) : TorrentFolder;
-
-            TorrentFilePath = Path.Combine(torrentDir, fileName);
-        }
-
         /// <summary>
         /// Create torrent without progress
         /// </summary>
@@ -76,8 +69,8 @@ namespace TDMakerLib
                     tc.Announces.Add(temp);
 
                     var uri = new Uri(tracker);
-                    string torrentFileName = string.Format("{0} - {1}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)), uri.Host);
-                    this.SetTorrentFilePath(torrentFileName, uri.Host);
+                    string torrentFileName = string.Format("{0}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)));
+                    TorrentFilePath = Path.Combine(Path.Combine(TorrentFolder, uri.Host), torrentFileName);
 
                     ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
 
@@ -86,7 +79,7 @@ namespace TDMakerLib
                         ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_Cumulative, e.OverallCompletion);
                     };
 
-                    ShareX.HelpersLib.Helpers.CreateDirectoryIfNotExist(this.TorrentFilePath);
+                    Helpers.CreateDirectoryIfNotExist(this.TorrentFilePath);
                     tc.Create(this.TorrentFilePath);
                     ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Created {0}", this.TorrentFilePath));
                 }

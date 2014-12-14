@@ -1,10 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TDMakerMonoGUI\Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TDMakerMonoGUI\MainWindow.cs">
     <Files>
-      <File FileName="TDMakerMonoCLI\Program.cs" Line="3" Column="3" />
-      <File FileName="TDMakerMonoGUI\MainWindow.cs" Line="3" Column="3" />
+      <File FileName="TDMakerMonoCLI\Program.cs" Line="1" Column="1" />
+      <File FileName="TDMakerMonoGUI\MainWindow.cs" Line="15" Column="15" />
       <File FileName="TDMakerMonoGUI\Program.cs" Line="1" Column="1" />
+      <File FileName="TDMakerLib\ProfileOptions.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
