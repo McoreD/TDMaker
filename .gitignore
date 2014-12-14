@@ -216,3 +216,5 @@ pip-log.txt
 *.jrs
 *.chk
 *.ide
+*.userprefs
+*.userprefs

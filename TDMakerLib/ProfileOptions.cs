@@ -1,5 +1,4 @@
 ﻿using ShareX.HelpersLib;
-using ShareX.HelpersLib;
 using ShareX.UploadersLib;
 using System.Collections.Specialized;
 using System.ComponentModel;

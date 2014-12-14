@@ -112,16 +112,9 @@ namespace TDMakerLib
 
                 if (string.IsNullOrEmpty(pattern)) return;
 
-                string[] lines = Regex.Split(pattern.Trim(), Environment.NewLine);
+                pattern = Regex.Replace(pattern, ".*?%.+?%.*?\\r\\n", "");
 
-                StringBuilder sbPublishInfo = new StringBuilder();
-
-                foreach (string line in lines.Where(line => !Regex.Match(line, "%(.*?)%").Success))
-                {
-                    sbPublishInfo.AppendLine(line);
-                }
-
-                PublishInfo = sbPublishInfo.ToString();
+                PublishInfo = pattern.Trim();
             }
         }
 
