@@ -142,7 +142,7 @@ namespace TDMakerLib
 
         public ProxyInfo ProxySettings = new ProxyInfo();
 
-        #endregion Proxy
+        #endregion App
 
         #region Paths
 
@@ -173,7 +173,5 @@ namespace TDMakerLib
         public string CustomScreenshotsDir { get; set; }
 
         #endregion Paths
-
-
     }
 }
