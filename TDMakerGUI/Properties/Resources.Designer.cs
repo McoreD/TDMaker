@@ -259,6 +259,16 @@ namespace TDMakerGUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A newer version of TDMaker is available. 
+        ///Would you like to download and install it?.
+        /// </summary>
+        internal static string MainWindow_CheckUpdate_ {
+            get {
+                return ResourceManager.GetString("MainWindow_CheckUpdate_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to download FFmpeg..
         /// </summary>
         internal static string MainWindow_DownloaderForm_InstallRequested_Failed_to_download_FFmpeg_ {

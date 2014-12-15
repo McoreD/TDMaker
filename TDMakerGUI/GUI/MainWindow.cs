@@ -67,6 +67,8 @@ namespace TDMaker
             IsGuiReady = true;
 
             UpdateGuiControls();
+
+            CheckUpdate();
         }
 
         public void ValidateThumbnailerPaths(object sender, EventArgs e)
@@ -115,6 +117,27 @@ namespace TDMaker
                         }
                     }
                     break;
+            }
+        }
+
+        private void CheckUpdate()
+        {
+            UpdateChecker updateChecker = AboutBox.CheckUpdate();
+
+            if (updateChecker != null && updateChecker.Status == UpdateStatus.UpdateAvailable &&
+                MessageBox.Show(Resources.MainWindow_CheckUpdate_,
+                    string.Format("{0} {1} is available", Application.ProductName, updateChecker.LatestVersion),
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            {
+                using (DownloaderForm updaterForm = new DownloaderForm(updateChecker))
+                {
+                    updaterForm.ShowDialog();
+
+                    if (updaterForm.Status == DownloaderFormStatus.InstallStarted)
+                    {
+                        Application.Exit();
+                    }
+                }
             }
         }
 
