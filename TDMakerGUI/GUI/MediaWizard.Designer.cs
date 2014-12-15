@@ -104,7 +104,7 @@
             this.flpTasks.Location = new System.Drawing.Point(8, 24);
             this.flpTasks.Name = "flpTasks";
             this.flpTasks.Size = new System.Drawing.Size(440, 90);
-            this.flpTasks.TabIndex = 2;
+            this.flpTasks.TabIndex = 0;
             // 
             // chkScreenshotsCreate
             // 
@@ -113,7 +113,7 @@
             this.chkScreenshotsCreate.Location = new System.Drawing.Point(3, 3);
             this.chkScreenshotsCreate.Name = "chkScreenshotsCreate";
             this.chkScreenshotsCreate.Size = new System.Drawing.Size(145, 22);
-            this.chkScreenshotsCreate.TabIndex = 1;
+            this.chkScreenshotsCreate.TabIndex = 0;
             this.chkScreenshotsCreate.Text = "Create screenshots";
             this.chkScreenshotsCreate.UseVisualStyleBackColor = true;
             this.chkScreenshotsCreate.CheckedChanged += new System.EventHandler(this.chkScreenshotsInclude_CheckedChanged);
@@ -125,7 +125,7 @@
             this.chkScreenshotsUpload.Location = new System.Drawing.Point(3, 31);
             this.chkScreenshotsUpload.Name = "chkScreenshotsUpload";
             this.chkScreenshotsUpload.Size = new System.Drawing.Size(148, 22);
-            this.chkScreenshotsUpload.TabIndex = 2;
+            this.chkScreenshotsUpload.TabIndex = 1;
             this.chkScreenshotsUpload.Text = "Upload screenshots";
             this.chkScreenshotsUpload.UseVisualStyleBackColor = true;
             this.chkScreenshotsUpload.CheckedChanged += new System.EventHandler(this.chkScreenshotsUpload_CheckedChanged);
@@ -137,7 +137,7 @@
             this.chkCreateTorrent.Location = new System.Drawing.Point(3, 59);
             this.chkCreateTorrent.Name = "chkCreateTorrent";
             this.chkCreateTorrent.Size = new System.Drawing.Size(125, 22);
-            this.chkCreateTorrent.TabIndex = 0;
+            this.chkCreateTorrent.TabIndex = 2;
             this.chkCreateTorrent.Text = "Create a torrent";
             this.chkCreateTorrent.UseVisualStyleBackColor = true;
             this.chkCreateTorrent.CheckedChanged += new System.EventHandler(this.chkCreateTorrent_CheckedChanged);
@@ -149,7 +149,7 @@
             this.lblUserActionMsg.Location = new System.Drawing.Point(16, 16);
             this.lblUserActionMsg.Name = "lblUserActionMsg";
             this.lblUserActionMsg.Size = new System.Drawing.Size(130, 18);
-            this.lblUserActionMsg.TabIndex = 3;
+            this.lblUserActionMsg.TabIndex = 0;
             this.lblUserActionMsg.Text = "You about to import";
             // 
             // btnOK
@@ -158,7 +158,7 @@
             this.btnOK.Location = new System.Drawing.Point(312, 311);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 4;
+            this.btnOK.TabIndex = 3;
             this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -170,7 +170,7 @@
             this.gbTasks.Location = new System.Drawing.Point(8, 152);
             this.gbTasks.Name = "gbTasks";
             this.gbTasks.Size = new System.Drawing.Size(464, 136);
-            this.gbTasks.TabIndex = 5;
+            this.gbTasks.TabIndex = 2;
             this.gbTasks.TabStop = false;
             this.gbTasks.Text = "Tasks";
             // 
@@ -180,7 +180,7 @@
             this.btnCancel.Location = new System.Drawing.Point(392, 311);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 6;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);

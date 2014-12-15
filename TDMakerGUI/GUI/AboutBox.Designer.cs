@@ -57,7 +57,7 @@ namespace TDMaker
             this.labelProductName.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelProductName.Name = "labelProductName";
             this.labelProductName.Size = new System.Drawing.Size(75, 13);
-            this.labelProductName.TabIndex = 19;
+            this.labelProductName.TabIndex = 0;
             this.labelProductName.Text = "Product Name";
             this.labelProductName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -69,7 +69,7 @@ namespace TDMaker
             this.labelVersion.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelVersion.Name = "labelVersion";
             this.labelVersion.Size = new System.Drawing.Size(42, 13);
-            this.labelVersion.TabIndex = 0;
+            this.labelVersion.TabIndex = 1;
             this.labelVersion.Text = "Version";
             this.labelVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -81,7 +81,7 @@ namespace TDMaker
             this.labelCopyright.MaximumSize = new System.Drawing.Size(0, 17);
             this.labelCopyright.Name = "labelCopyright";
             this.labelCopyright.Size = new System.Drawing.Size(51, 13);
-            this.labelCopyright.TabIndex = 21;
+            this.labelCopyright.TabIndex = 2;
             this.labelCopyright.Text = "Copyright";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -96,7 +96,7 @@ namespace TDMaker
             this.textBoxDescription.Name = "textBoxDescription";
             this.textBoxDescription.ReadOnly = true;
             this.textBoxDescription.Size = new System.Drawing.Size(472, 177);
-            this.textBoxDescription.TabIndex = 23;
+            this.textBoxDescription.TabIndex = 4;
             this.textBoxDescription.TabStop = false;
             this.textBoxDescription.Text = "Description";
             // 
@@ -107,7 +107,7 @@ namespace TDMaker
             this.okButton.Location = new System.Drawing.Point(408, 328);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 24;
+            this.okButton.TabIndex = 5;
             this.okButton.Text = "&OK";
             // 
             // uclUpdate
@@ -116,7 +116,7 @@ namespace TDMaker
             this.uclUpdate.Margin = new System.Windows.Forms.Padding(4);
             this.uclUpdate.Name = "uclUpdate";
             this.uclUpdate.Size = new System.Drawing.Size(224, 24);
-            this.uclUpdate.TabIndex = 25;
+            this.uclUpdate.TabIndex = 3;
             // 
             // AboutBox
             // 

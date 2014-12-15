@@ -111,7 +111,6 @@ namespace TDMaker
             this.chkQuickFullPicture = new System.Windows.Forms.CheckBox();
             this.cboQuickPublishType = new System.Windows.Forms.ComboBox();
             this.cboQuickTemplate = new System.Windows.Forms.ComboBox();
-            this.btnTemplatesRewrite = new System.Windows.Forms.Button();
             this.tpDebug = new System.Windows.Forms.TabPage();
             this.rtbDebugLog = new System.Windows.Forms.RichTextBox();
             this.tpSettings = new System.Windows.Forms.TabPage();
@@ -123,6 +122,7 @@ namespace TDMaker
             this.btnAddScreenshotProfile = new System.Windows.Forms.Button();
             this.listBoxProfiles = new System.Windows.Forms.ListBox();
             this.gbUploadScreenshots = new System.Windows.Forms.GroupBox();
+            this.btnTemplatesRewrite = new System.Windows.Forms.Button();
             this.cboFileUploader = new System.Windows.Forms.ComboBox();
             this.btnDownloadFFmpeg = new System.Windows.Forms.Button();
             this.btnUploadersConfig = new System.Windows.Forms.Button();
@@ -967,7 +967,7 @@ namespace TDMaker
             this.flpPublishQuickOptions.Location = new System.Drawing.Point(175, 460);
             this.flpPublishQuickOptions.Name = "flpPublishQuickOptions";
             this.flpPublishQuickOptions.Size = new System.Drawing.Size(684, 26);
-            this.flpPublishQuickOptions.TabIndex = 3;
+            this.flpPublishQuickOptions.TabIndex = 2;
             // 
             // chkQuickPre
             // 
@@ -1023,18 +1023,6 @@ namespace TDMaker
             this.cboQuickTemplate.Size = new System.Drawing.Size(121, 21);
             this.cboQuickTemplate.TabIndex = 4;
             this.cboQuickTemplate.SelectedIndexChanged += new System.EventHandler(this.cboQuickTemplate_SelectedIndexChanged);
-            // 
-            // btnTemplatesRewrite
-            // 
-            this.btnTemplatesRewrite.AutoSize = true;
-            this.btnTemplatesRewrite.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnTemplatesRewrite.Location = new System.Drawing.Point(560, 46);
-            this.btnTemplatesRewrite.Name = "btnTemplatesRewrite";
-            this.btnTemplatesRewrite.Size = new System.Drawing.Size(145, 23);
-            this.btnTemplatesRewrite.TabIndex = 6;
-            this.btnTemplatesRewrite.Text = "&Rewrite default templates...";
-            this.btnTemplatesRewrite.UseVisualStyleBackColor = true;
-            this.btnTemplatesRewrite.Click += new System.EventHandler(this.btnTemplatesRewrite_Click);
             // 
             // tpDebug
             // 
@@ -1167,6 +1155,18 @@ namespace TDMaker
             this.gbUploadScreenshots.TabStop = false;
             this.gbUploadScreenshots.Text = "Options";
             // 
+            // btnTemplatesRewrite
+            // 
+            this.btnTemplatesRewrite.AutoSize = true;
+            this.btnTemplatesRewrite.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnTemplatesRewrite.Location = new System.Drawing.Point(560, 46);
+            this.btnTemplatesRewrite.Name = "btnTemplatesRewrite";
+            this.btnTemplatesRewrite.Size = new System.Drawing.Size(145, 23);
+            this.btnTemplatesRewrite.TabIndex = 5;
+            this.btnTemplatesRewrite.Text = "&Rewrite default templates...";
+            this.btnTemplatesRewrite.UseVisualStyleBackColor = true;
+            this.btnTemplatesRewrite.Click += new System.EventHandler(this.btnTemplatesRewrite_Click);
+            // 
             // cboFileUploader
             // 
             this.cboFileUploader.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1185,7 +1185,7 @@ namespace TDMaker
             this.btnDownloadFFmpeg.Location = new System.Drawing.Point(560, 18);
             this.btnDownloadFFmpeg.Name = "btnDownloadFFmpeg";
             this.btnDownloadFFmpeg.Size = new System.Drawing.Size(106, 23);
-            this.btnDownloadFFmpeg.TabIndex = 3;
+            this.btnDownloadFFmpeg.TabIndex = 2;
             this.btnDownloadFFmpeg.Text = "Download FFmpeg";
             this.btnDownloadFFmpeg.UseVisualStyleBackColor = true;
             this.btnDownloadFFmpeg.Click += new System.EventHandler(this.btnDownloadFFmpeg_Click);
@@ -1195,7 +1195,7 @@ namespace TDMaker
             this.btnUploadersConfig.Location = new System.Drawing.Point(350, 19);
             this.btnUploadersConfig.Name = "btnUploadersConfig";
             this.btnUploadersConfig.Size = new System.Drawing.Size(160, 24);
-            this.btnUploadersConfig.TabIndex = 2;
+            this.btnUploadersConfig.TabIndex = 3;
             this.btnUploadersConfig.Text = "Uploaders configuration...";
             this.btnUploadersConfig.UseVisualStyleBackColor = true;
             this.btnUploadersConfig.Click += new System.EventHandler(this.btnUploadersConfig_Click);
