@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using TDMakerGUI.Properties;
 using TDMakerLib;
@@ -68,7 +69,7 @@ namespace TDMaker
 
             UpdateGuiControls();
 
-            CheckUpdate();
+            AutoCheckUpdate();
         }
 
         public void ValidateThumbnailerPaths(object sender, EventArgs e)
@@ -120,26 +121,36 @@ namespace TDMaker
             }
         }
 
-        private void CheckUpdate()
+        private void AutoCheckUpdate()
         {
-            UpdateChecker updateChecker = AboutBox.CheckUpdate();
-
-            if (updateChecker != null && updateChecker.Status == UpdateStatus.UpdateAvailable &&
-                MessageBox.Show(Resources.MainWindow_CheckUpdate_,
-                    string.Format("{0} {1} is available", Application.ProductName, updateChecker.LatestVersion),
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+            if (App.Settings.AutoCheckUpdate)
             {
-                using (DownloaderForm updaterForm = new DownloaderForm(updateChecker))
+                Thread updateThread = new Thread(() =>
                 {
-                    updaterForm.ShowDialog();
+                    UpdateChecker updateChecker = AboutBox.CheckUpdate();
 
-                    if (updaterForm.Status == DownloaderFormStatus.InstallStarted)
+                    if (updateChecker != null && updateChecker.Status == UpdateStatus.UpdateAvailable &&
+                        MessageBox.Show(Resources.MainWindow_CheckUpdate_,
+                            string.Format("{0} {1} is available", Application.ProductName, updateChecker.LatestVersion),
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                     {
-                        Application.Exit();
+                        using (DownloaderForm updaterForm = new DownloaderForm(updateChecker))
+                        {
+                            updaterForm.ShowDialog();
+
+                            if (updaterForm.Status == DownloaderFormStatus.InstallStarted)
+                            {
+                                Application.Exit();
+                            }
+                        }
                     }
-                }
+                });
+                updateThread.IsBackground = true;
+                updateThread.Start();
             }
         }
+
+
 
         private void Logger_MessageAdded(string message)
         {

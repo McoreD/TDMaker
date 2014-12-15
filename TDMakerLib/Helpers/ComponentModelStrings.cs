@@ -5,7 +5,8 @@
         public const string General = "General";
         public const string Input = "Input";
         public const string InputMedia = Input + " / Media";
-        public const string Paths = "Paths";
+        public const string App = "Application";
+        public const string AppPaths = App + " / Paths";
         public const string Proxy = "Proxy";
         public const string Publish = "Publish";
         public const string PublishTemplates = Publish + " / Templates";

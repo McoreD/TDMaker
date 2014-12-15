@@ -135,40 +135,45 @@ namespace TDMakerLib
 
         #endregion Screenshots / Uploaders
 
+        #region App
+
+        [Category(ComponentModelStrings.App), DefaultValue(true), Description("Automatically check updates at startup.")]
+        public bool AutoCheckUpdate { get; set; }
+
+        public ProxyInfo ProxySettings = new ProxyInfo();
+
+        #endregion Proxy
+
         #region Paths
 
-        [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure the MediaInfo.dll folder path")]
+        [Category(ComponentModelStrings.AppPaths), Description("Browse to reconfigure the MediaInfo.dll folder path")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomMediaInfoDllDir { get; set; }
 
-        [Category(ComponentModelStrings.Paths), DefaultValue(false), Description("Use custom Templates directory")]
+        [Category(ComponentModelStrings.AppPaths), DefaultValue(false), Description("Use custom Templates directory")]
         public bool UseCustomTemplatesDir { get; set; }
 
-        [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure UploadersConfig file path")]
+        [Category(ComponentModelStrings.AppPaths), Description("Browse to reconfigure UploadersConfig file path")]
         [EditorAttribute(typeof(JsonFileNameEditor), typeof(UITypeEditor))]
         public string CustomUploadersConfigPath { get; set; }
 
-        [Category(ComponentModelStrings.Paths), Description("Browse to reconfigure the Templates folder path")]
+        [Category(ComponentModelStrings.AppPaths), Description("Browse to reconfigure the Templates folder path")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomTemplatesDir { get; set; }
 
-        [Category(ComponentModelStrings.Paths), DefaultValue(false), Description("Use custom Torrents directory")]
+        [Category(ComponentModelStrings.AppPaths), DefaultValue(false), Description("Use custom Torrents directory")]
         public bool UseCustomTorrentsDir { get; set; }
 
-        [Category(ComponentModelStrings.Paths), Description("Browse to change where torrent files are saved")]
+        [Category(ComponentModelStrings.AppPaths), Description("Browse to change where torrent files are saved")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomTorrentsDir { get; set; }
 
-        [Category(ComponentModelStrings.Paths), Description("Browse to change where screenshots are saved")]
+        [Category(ComponentModelStrings.AppPaths), Description("Browse to change where screenshots are saved")]
         [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
         public string CustomScreenshotsDir { get; set; }
 
         #endregion Paths
 
-        #region Proxy
 
-        public ProxyInfo ProxySettings = new ProxyInfo();
-
-        #endregion Proxy
     }
 }
