@@ -59,10 +59,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BDInfo, Version=0.5.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\BDInfo.exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -187,6 +183,10 @@
   </Target>
   -->
   <ItemGroup>
+    <ProjectReference Include="..\Lib\BDInfo\BDInfo.csproj">
+      <Project>{3209af1d-4762-4960-9de5-13e90e77ee96}</Project>
+      <Name>BDInfo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TDMakerLib\TDMakerLib.csproj">
       <Project>{6023302C-5D3C-494A-B7D1-95A0BED8CA22}</Project>
       <Name>TDMakerLib</Name>

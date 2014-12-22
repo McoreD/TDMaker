@@ -31,6 +31,7 @@ namespace BDInfo
     public partial class FormReport : Form
     {
         private List<TSPlaylistFile> Playlists;
+        public string report = "";
 
         public FormReport()
         {
@@ -50,12 +51,11 @@ namespace BDInfo
                 string reportName = string.Format(
                     "BDINFO.{0}.txt",
                     BDROM.VolumeLabel);
-                
+
                 reportFile = File.CreateText(Path.Combine(Environment.CurrentDirectory, reportName));
             }
             textBoxReport.Text = "";
 
-            string report = "";
             string protection = (BDROM.IsBDPlus ? "BD+" : "AACS");
             string bdjava = (BDROM.IsBDJava ? "Yes" : "No");
 
@@ -123,7 +123,7 @@ namespace BDInfo
                     report += string.Format(
                         "{0}\r\n", fileException.StackTrace);
                 }
-            }            
+            }
 
             foreach (TSPlaylistFile playlist in playlists)
             {
@@ -207,7 +207,7 @@ namespace BDInfo
                             angleTimeSpan.Minutes,
                             angleTimeSpan.Seconds,
                             angleTimeSpan.Milliseconds));
-                        
+
                         angleTotalSizes.Add(string.Format(
                             "{0:N0}", angleTotalSize));
 
@@ -250,14 +250,14 @@ namespace BDInfo
 
                     audio1 = string.Format(
                         "{0} {1}",
-                        audioStream.CodecAltName, 
+                        audioStream.CodecAltName,
                         audioStream.ChannelDescription);
 
                     if (audioStream.BitRate > 0)
                     {
                         audio1 += string.Format(
                             " {0}Kbps",
-                            (int)Math.Round((double)audioStream.BitRate/ 1000));
+                            (int)Math.Round((double)audioStream.BitRate / 1000));
                     }
 
                     if (audioStream.SampleRate > 0 &&
@@ -742,7 +742,7 @@ namespace BDInfo
                 double chapterMaxFrameSize = 0;
                 double chapterMaxFrameLocation = 0;
 
-                ushort diagPID  = playlist.VideoStreams[0].PID;
+                ushort diagPID = playlist.VideoStreams[0].PID;
 
                 int chapterIndex = 0;
                 int clipIndex = 0;
@@ -947,7 +947,7 @@ namespace BDInfo
                 }
 
                 if (BDInfoSettings.GenerateStreamDiagnostics)
-                {                        
+                {
                     report += "\r\n";
                     report += "STREAM DIAGNOSTICS:\r\n";
                     report += "\r\n";
@@ -991,7 +991,7 @@ namespace BDInfo
                         {
                             if (!playlist.Streams.ContainsKey(clipStream.PID)) continue;
 
-                            TSStream playlistStream = 
+                            TSStream playlistStream =
                                 playlist.Streams[clipStream.PID];
 
                             string clipBitRate = "0";
@@ -1019,7 +1019,7 @@ namespace BDInfo
                                 string.Format("{0} (0x{1:X})", clipStream.PID, clipStream.PID),
                                 string.Format("0x{0:X2}", (byte)clipStream.StreamType),
                                 clipStream.CodecShortName,
-                                language,                                
+                                language,
                                 clipSeconds,
                                 clipBitRate,
                                 clipStream.PayloadBytes.ToString("N0"),
@@ -1054,7 +1054,6 @@ namespace BDInfo
             {
                 try { reportFile.Write(report); }
                 catch { }
-
             }
             textBoxReport.Text += report;
 
@@ -1069,14 +1068,14 @@ namespace BDInfo
         }
 
         private void buttonCopy_Click(
-            object sender, 
+            object sender,
             EventArgs e)
         {
             Clipboard.SetText(textBoxReport.Text);
         }
 
         private void textBoxReport_KeyDown(
-            object sender, 
+            object sender,
             KeyEventArgs e)
         {
             if (e.Control && (e.KeyCode == System.Windows.Forms.Keys.A))
@@ -1117,7 +1116,7 @@ namespace BDInfo
         }
 
         private void buttonChart_Click(
-            object sender, 
+            object sender,
             EventArgs e)
         {
             if (Playlists == null ||
@@ -1129,7 +1128,7 @@ namespace BDInfo
                 return;
             }
 
-            TSPlaylistFile playlist = 
+            TSPlaylistFile playlist =
                 (TSPlaylistFile)comboBoxPlaylist.SelectedItem;
             TSVideoStream videoStream =
                 (TSVideoStream)comboBoxStream.SelectedItem;
@@ -1146,7 +1145,7 @@ namespace BDInfo
         }
 
         private void FormReport_FormClosed(
-            object sender, 
+            object sender,
             FormClosedEventArgs e)
         {
             GC.Collect();
