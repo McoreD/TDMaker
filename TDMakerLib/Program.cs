@@ -177,7 +177,7 @@ namespace TDMakerLib
 
         public static void TurnOff()
         {
-            FileSystem.WriteDebugFile();
+            DebugHelper.Logger.SaveLog(FileSystem.LogFilePath);
         }
 
         public static void LoadProxySettings()

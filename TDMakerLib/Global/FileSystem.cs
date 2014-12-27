@@ -8,7 +8,7 @@ namespace TDMakerLib
 {
     public static class FileSystem
     {
-        public static string DebugLogFilePath = Path.Combine(App.LogsDir, string.Format("{0}-{1}-debug.txt", Application.ProductName, DateTime.Now.ToString("yyyyMMdd")));
+        public static string LogFilePath = Path.Combine(App.LogsDir, string.Format("{0}-{1}-debug.log", Application.ProductName, DateTime.Now.ToString("yyyyMMdd")));
 
         public static void OpenDirTorrents()
         {
@@ -52,28 +52,9 @@ namespace TDMakerLib
 
         public static void OpenFileDebug()
         {
-            if (File.Exists(DebugLogFilePath))
+            if (File.Exists(LogFilePath))
             {
-                Process.Start(DebugLogFilePath);
-            }
-        }
-
-        public static void WriteDebugFile()
-        {
-            if (!string.IsNullOrEmpty(App.LogsDir))
-            {
-                string dir = App.LogsDir;
-                if (App.Portable)
-                {
-                    dir = Path.Combine(Application.StartupPath, App.LogsDir);
-                }
-                string fpDebug = Path.Combine(dir, string.Format("{0}-{1}-debug.txt", Application.ProductName, DateTime.Now.ToString("yyyyMMdd")));
-                DebugHelper.WriteLine("Writing Debug file: " + fpDebug);
-
-                if (App.Settings.WriteDebugFile)
-                {
-                    DebugHelper.Logger.SaveLog(fpDebug);
-                }
+                Process.Start(LogFilePath);
             }
         }
 
