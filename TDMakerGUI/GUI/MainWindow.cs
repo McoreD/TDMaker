@@ -69,7 +69,9 @@ namespace TDMaker
 
             UpdateGuiControls();
 
+#if !DEBUG
             AutoCheckUpdate();
+#endif
         }
 
         public void ValidateThumbnailerPaths(object sender, EventArgs e)
@@ -81,11 +83,11 @@ namespace TDMaker
                     {
                         DialogResult result = MessageBox.Show(Resources.MainWindow_MainWindow_Shown_, Application.ProductName, MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-                        if (result == System.Windows.Forms.DialogResult.Yes)
+                        if (result == DialogResult.Yes)
                         {
                             btnDownloadFFmpeg_Click(sender, e);
                         }
-                        else if (result == System.Windows.Forms.DialogResult.No)
+                        else if (result == DialogResult.No)
                         {
                             OpenFileDialog dlg = new OpenFileDialog();
                             dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
@@ -125,32 +127,17 @@ namespace TDMaker
         {
             if (App.Settings.AutoCheckUpdate)
             {
-                Thread updateThread = new Thread(() =>
-                {
-                    UpdateChecker updateChecker = AboutBox.CheckUpdate();
-
-                    if (updateChecker != null && updateChecker.Status == UpdateStatus.UpdateAvailable &&
-                        MessageBox.Show(Resources.MainWindow_CheckUpdate_,
-                            string.Format("{0} {1} is available", Application.ProductName, updateChecker.LatestVersion),
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
-                    {
-                        using (DownloaderForm updaterForm = new DownloaderForm(updateChecker))
-                        {
-                            updaterForm.ShowDialog();
-
-                            if (updaterForm.Status == DownloaderFormStatus.InstallStarted)
-                            {
-                                Application.Exit();
-                            }
-                        }
-                    }
-                });
+                Thread updateThread = new Thread(CheckUpdate);
                 updateThread.IsBackground = true;
                 updateThread.Start();
             }
         }
 
-
+        private void CheckUpdate()
+        {
+            UpdateChecker updateChecker = AboutBox.CheckUpdate();
+            UpdateMessageBox.Start(updateChecker);
+        }
 
         private void Logger_MessageAdded(string message)
         {

@@ -125,6 +125,7 @@ namespace TDMaker
         public static UpdateChecker CheckUpdate()
         {
             UpdateChecker updateChecker = new GitHubUpdateChecker("McoreD", "TDMaker");
+            updateChecker.IsBeta = false;
             updateChecker.Proxy = ProxyInfo.Current.GetWebProxy();
             updateChecker.CheckUpdate();
 

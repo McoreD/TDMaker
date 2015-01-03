@@ -237,8 +237,4 @@ Are you sure?</value>
   <data name="MainWindow_DownloaderForm_InstallRequested_Failed_to_download_FFmpeg_" xml:space="preserve">
     <value>Failed to download FFmpeg.</value>
   </data>
-  <data name="MainWindow_CheckUpdate_" xml:space="preserve">
-    <value>A newer version of TDMaker is available. 
-Would you like to download and install it?</value>
-  </data>
 </root>
