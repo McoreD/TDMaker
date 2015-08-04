@@ -218,7 +218,7 @@ namespace TDMakerLib
                             albumID = App.UploadersConfig.ImgurSelectedAlbum.id;
                         }
 
-                        imageUploader = new Imgur_v3(App.UploadersConfig.ImgurOAuth2Info)
+                        imageUploader = new Imgur(App.UploadersConfig.ImgurOAuth2Info)
                         {
                             UploadMethod = App.UploadersConfig.ImgurAccountType,
                             DirectLink = App.UploadersConfig.ImgurDirectLink,
@@ -320,9 +320,6 @@ namespace TDMakerLib
                         IsPublic = App.UploadersConfig.GoogleDriveIsPublic,
                         FolderID = App.UploadersConfig.GoogleDriveUseFolder ? App.UploadersConfig.GoogleDriveFolderID : null
                     };
-                    break;
-                case FileDestination.RapidShare:
-                    fileUploader = new RapidShare(App.UploadersConfig.RapidShareUsername, App.UploadersConfig.RapidSharePassword, App.UploadersConfig.RapidShareFolderID);
                     break;
                 case FileDestination.SendSpace:
                     fileUploader = new SendSpace(APIKeys.SendSpaceKey);
@@ -436,12 +433,6 @@ namespace TDMakerLib
                 case FileDestination.Pushbullet:
                     fileUploader = new Pushbullet(App.UploadersConfig.PushbulletSettings);
                     break;
-                case FileDestination.MediaCrush:
-                    fileUploader = new MediaCrushUploader()
-                    {
-                        DirectLink = App.UploadersConfig.MediaCrushDirectLink
-                    };
-                    break;
                 case FileDestination.MediaFire:
                     fileUploader = new MediaFire(APIKeys.MediaFireAppId, APIKeys.MediaFireApiKey, App.UploadersConfig.MediaFireUsername, App.UploadersConfig.MediaFirePassword)
                     {
@@ -449,9 +440,7 @@ namespace TDMakerLib
                         UseLongLink = App.UploadersConfig.MediaFireUseLongLink
                     };
                     break;
-                case FileDestination.Pomf:
-                    fileUploader = new Pomf();
-                    break;
+           
             }
 
             if (fileUploader != null)

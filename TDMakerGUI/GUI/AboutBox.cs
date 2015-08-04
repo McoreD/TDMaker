@@ -126,14 +126,14 @@ namespace TDMaker
         {
             UpdateChecker updateChecker = new GitHubUpdateChecker("McoreD", "TDMaker");
             updateChecker.IsBeta = false;
-            updateChecker.Proxy = ProxyInfo.Current.GetWebProxy();
+            updateChecker.Proxy = HelpersOptions.CurrentProxy.GetWebProxy();
             updateChecker.CheckUpdate();
 
             // Fallback if GitHub API fails
             if (updateChecker.Status == UpdateStatus.None || updateChecker.Status == UpdateStatus.UpdateCheckFailed)
             {
                 updateChecker = new XMLUpdateChecker(URL_UPDATE, "TDMaker");
-                updateChecker.Proxy = ProxyInfo.Current.GetWebProxy();
+                updateChecker.Proxy = HelpersOptions.CurrentProxy.GetWebProxy();
                 updateChecker.CheckUpdate();
             }
 

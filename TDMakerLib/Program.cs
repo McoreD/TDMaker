@@ -182,7 +182,7 @@ namespace TDMakerLib
 
         public static void LoadProxySettings()
         {
-            ProxyInfo.Current = App.Settings.ProxySettings;
+            HelpersOptions.CurrentProxy = App.Settings.ProxySettings;
         }
 
         public static void LoadSettings()

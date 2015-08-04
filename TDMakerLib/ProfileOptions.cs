@@ -10,7 +10,7 @@ namespace TDMakerLib
     public class ProfileOptions : SettingsBase<ProfileOptions>
     {
         public ImageDestination ImageUploaderType = ImageDestination.Imgur;
-        public FileDestination ImageFileUploaderType = FileDestination.Pomf;
+        public FileDestination ImageFileUploaderType = FileDestination.MaxFile;
 
         [Category(ComponentModelStrings.General), DefaultValue("Default"), Description("Profile name")]
         public string Name { get; set; }
