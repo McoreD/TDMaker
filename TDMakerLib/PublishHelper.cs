@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using UploadersLib.ImageUploaders;
 
@@ -76,10 +77,7 @@ namespace TDMakerLib
             {
                 case MediaType.MediaCollection:
                 case MediaType.MediaIndiv:
-                    foreach (MediaFile mf in this.Media.MediaFiles)
-                    {
-                        TakeScreenshot(mf, ssDir);
-                    }
+                    Parallel.ForEach<MediaFile>(Media.MediaFiles, mf => { TakeScreenshot(mf, ssDir); });
                     break;
 
                 case MediaType.MediaDisc:
@@ -142,24 +140,25 @@ namespace TDMakerLib
         {
             if (Media.Options.UploadScreenshots)
             {
-                for (int i = 0; i < mf.Thumbnailer.Screenshots.Count; i++)
+                int i = 0;
+                Parallel.ForEach<ScreenshotInfo>(mf.Thumbnailer.Screenshots, ss =>
                 {
-                    ScreenshotInfo ss = mf.Thumbnailer.Screenshots[i];
-                    if (ss == null) continue;
-                    ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0} ({1} of {2})", Path.GetFileName(ss.LocalPath), i + 1, mf.Thumbnailer.Screenshots.Count));
-                    UploadResult ur = UploadScreenshot(ss.LocalPath);
-
-                    if (ur == null) continue;
-                    if (!string.IsNullOrEmpty(ur.URL))
+                    if (ss != null)
                     {
-                        ss.FullImageLink = ur.URL;
-                        ss.LinkedThumbnail = ur.ThumbnailURL;
+                        ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0} ({1} of {2})", Path.GetFileName(ss.LocalPath), ++i, mf.Thumbnailer.Screenshots.Count));
+                        UploadResult ur = UploadScreenshot(ss.LocalPath);
+
+                        if (ur != null && !string.IsNullOrEmpty(ur.URL))
+                        {
+                            ss.FullImageLink = ur.URL;
+                            ss.LinkedThumbnail = ur.ThumbnailURL;
+                        }
                     }
                     else
                     {
                         Success = false;
                     }
-                }
+                });
             }
         }
 

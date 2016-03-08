@@ -22,7 +22,7 @@ namespace TDMaker
 {
     public partial class MainWindow : Form
     {
-        private bool IsGuiReady = false;
+        private bool IsGuiReady, IsClosing = false;
 
         public MainWindow()
         {
@@ -141,16 +141,16 @@ namespace TDMaker
 
         private void Logger_MessageAdded(string message)
         {
-            if (!rtbDebugLog.IsDisposed)
+            if (!IsClosing && !rtbDebugLog.IsDisposed)
             {
                 MethodInvoker method = delegate
                 {
                     rtbDebugLog.AppendText(message + Environment.NewLine);
                 };
 
-                if (this.InvokeRequired)
+                if (InvokeRequired)
                 {
-                    this.Invoke(method);
+                    Invoke(method);
                 }
                 else
                 {
@@ -1472,6 +1472,11 @@ namespace TDMaker
         private void pgProfileOptions_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             UpdateGuiControls();
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            IsClosing = true;
         }
     }
 }

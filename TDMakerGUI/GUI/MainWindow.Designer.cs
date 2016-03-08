@@ -427,7 +427,7 @@ namespace TDMaker
             // 
             this.miHelpVersionHistory.Image = global::TDMakerGUI.Properties.Resources.application_task;
             this.miHelpVersionHistory.Name = "miHelpVersionHistory";
-            this.miHelpVersionHistory.Size = new System.Drawing.Size(161, 22);
+            this.miHelpVersionHistory.Size = new System.Drawing.Size(160, 22);
             this.miHelpVersionHistory.Text = "&Version history...";
             this.miHelpVersionHistory.Click += new System.EventHandler(this.miHelpVersionHistory_Click);
             // 
@@ -435,7 +435,7 @@ namespace TDMaker
             // 
             this.tsmiAbout.Image = global::TDMakerGUI.Properties.Resources.crown;
             this.tsmiAbout.Name = "tsmiAbout";
-            this.tsmiAbout.Size = new System.Drawing.Size(161, 22);
+            this.tsmiAbout.Size = new System.Drawing.Size(160, 22);
             this.tsmiAbout.Text = "&About...";
             this.tsmiAbout.Click += new System.EventHandler(this.tsmiAbout_Click);
             // 
@@ -1420,6 +1420,7 @@ namespace TDMaker
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TDMaker";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
