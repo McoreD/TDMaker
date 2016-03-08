@@ -55,14 +55,19 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MegaApiClient, Version=1.2.0.124, Culture=neutral, PublicKeyToken=0480d311efbeb4e2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MegaApiClient.1.2.0\lib\net40\MegaApiClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="MegaApiClient">
-      <HintPath>..\packages\MegaApiClient.1.0.4\lib\MegaApiClient.dll</HintPath>
-    </Reference>
     <Reference Include="MonoTorrent">
       <HintPath>..\Lib\MonoTorrent.dll</HintPath>
     </Reference>
@@ -215,6 +220,10 @@
     <ProjectReference Include="..\..\ShareX\ShareX.HelpersLib\ShareX.HelpersLib.csproj">
       <Project>{327750E1-9FB7-4CC3-8AEA-9BC42180CAD3}</Project>
       <Name>ShareX.HelpersLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ShareX\ShareX.MediaLib\ShareX.MediaLib.csproj">
+      <Project>{1a190e53-1419-4cc2-b0e5-3bc7ea861c8b}</Project>
+      <Name>ShareX.MediaLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\ShareX\ShareX.UploadersLib\ShareX.UploadersLib.csproj">
       <Project>{E1C94415-3424-4517-A2A1-B2FDD1F59C67}</Project>

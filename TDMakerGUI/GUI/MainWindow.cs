@@ -681,7 +681,7 @@ namespace TDMaker
                     // create textFiles of MediaInfo
                     string txtPath = Path.Combine(mi.TorrentCreateInfo.TorrentFolder, mi.Overall.FileName) + ".txt";
 
-                    Helpers.CreateDirectoryIfNotExist(mi.TorrentCreateInfo.TorrentFolder);
+                    Helpers.CreateDirectoryFromDirectoryPath(mi.TorrentCreateInfo.TorrentFolder);
 
                     using (StreamWriter sw = new StreamWriter(txtPath))
                     {

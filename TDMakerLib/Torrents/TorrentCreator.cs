@@ -1,5 +1,5 @@
-﻿using ShareX.HelpersLib;
-using MonoTorrent.Common;
+﻿using MonoTorrent.Common;
+using ShareX.HelpersLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -74,12 +74,12 @@ namespace TDMakerLib
 
                     ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
 
-                    tc.Hashed += delegate(object o, TorrentCreatorEventArgs e)
+                    tc.Hashed += delegate (object o, TorrentCreatorEventArgs e)
                     {
                         ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_Cumulative, e.OverallCompletion);
                     };
 
-                    Helpers.CreateDirectoryIfNotExist(this.TorrentFilePath);
+                    Helpers.CreateDirectoryFromFilePath(this.TorrentFilePath);
                     tc.Create(this.TorrentFilePath);
                     ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Created {0}", this.TorrentFilePath));
                 }

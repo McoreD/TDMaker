@@ -1,19 +1,15 @@
 ﻿using ShareX.HelpersLib;
 using ShareX.UploadersLib;
 using ShareX.UploadersLib.FileUploaders;
-using ShareX.UploadersLib.GUI;
 using ShareX.UploadersLib.HelperClasses;
 using ShareX.UploadersLib.ImageUploaders;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using UploadersLib;
-using UploadersLib.HelperClasses;
 using UploadersLib.ImageUploaders;
 
 namespace TDMakerLib
@@ -245,18 +241,6 @@ namespace TDMakerLib
                         OAuthInfo twitterOAuth = App.UploadersConfig.TwitterOAuthInfoList.ReturnIfValidIndex(App.UploadersConfig.TwitterSelectedAccount);
                         imageUploader = new Twitter(twitterOAuth);
                         break;
-                    case ImageDestination.Chevereto:
-                        imageUploader = new Chevereto(App.UploadersConfig.CheveretoWebsite, App.UploadersConfig.CheveretoAPIKey)
-                        {
-                            DirectURL = App.UploadersConfig.CheveretoDirectURL
-                        };
-                        break;
-                    case ImageDestination.HizliResim:
-                        imageUploader = new HizliResim()
-                        {
-                            DirectURL = true
-                        };
-                        break;
                     case ImageDestination.CustomImageUploader:
                         if (App.UploadersConfig.CustomUploadersList.IsValidIndex(App.UploadersConfig.CustomImageUploaderSelected))
                         {
@@ -440,7 +424,6 @@ namespace TDMakerLib
                         UseLongLink = App.UploadersConfig.MediaFireUseLongLink
                     };
                     break;
-           
             }
 
             if (fileUploader != null)

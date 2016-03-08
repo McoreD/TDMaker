@@ -1,11 +1,11 @@
-﻿using ShareX.HelpersLib;
-using Mono.Options;
+﻿using Mono.Options;
+using ShareX.HelpersLib;
+using ShareX.UploadersLib;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using TDMakerLib;
 using UploadersLib;
-using ShareX.UploadersLib;
 
 namespace TDMakerCLI
 {
@@ -168,7 +168,7 @@ namespace TDMakerCLI
         {
             if (mTorrentCreate)
             {
-                Helpers.CreateDirectoryIfNotExist(mTorrentsDir);
+                Helpers.CreateDirectoryFromDirectoryPath(mTorrentsDir);
                 ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, mMediaLoc);
                 if (Directory.Exists(mTorrentsDir))
                 {

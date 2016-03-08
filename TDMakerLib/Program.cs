@@ -98,7 +98,7 @@ namespace TDMakerLib
                 string dPrefix = string.Format("Templates.{0}.", name);
                 string tDir = Path.Combine(TemplatesDir, name);
 
-                Helpers.CreateDirectoryIfNotExist(tDir, false);
+                Helpers.CreateDirectoryFromDirectoryPath(tDir);
 
                 string[] tFiles = new string[] { "Disc.txt", "File.txt", "DiscAudioInfo.txt", "FileAudioInfo.txt", "GeneralInfo.txt", "FileVideoInfo.txt", "DiscVideoInfo.txt" };
 
@@ -149,7 +149,7 @@ namespace TDMakerLib
         public static void InitializeDefaultFolderPaths()
         {
             AppDirs = new[] { LogsDir, PicturesDir, SettingsDir, ToolsDir };
-            AppDirs.ForEach(x => Helpers.CreateDirectoryIfNotExist(x));
+            AppDirs.ForEach(x => Helpers.CreateDirectoryFromDirectoryPath(x));
         }
 
         public static string GetProductName()
@@ -160,7 +160,7 @@ namespace TDMakerLib
         public static void TurnOn()
         {
             DetectUnix();
-
+            DebugHelper.Init(FileSystem.LogFilePath);
             DebugHelper.WriteLine("Operating System: " + Environment.OSVersion.VersionString);
             DebugHelper.WriteLine("Product Version: " + mAppInfo.GetApplicationTitleFull());
 
@@ -173,11 +173,6 @@ namespace TDMakerLib
 
             App.InitializeDefaultFolderPaths(); // happens before Settings is readed
             App.LoadSettings();
-        }
-
-        public static void TurnOff()
-        {
-            DebugHelper.Logger.SaveLog(FileSystem.LogFilePath);
         }
 
         public static void LoadProxySettings()

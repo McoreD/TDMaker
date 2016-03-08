@@ -32,7 +32,6 @@ namespace TDMaker
 
             App.TurnOn();
             Application.Run(new MainWindow());
-            App.TurnOff();
         }
     }
 }

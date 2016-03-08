@@ -10,7 +10,7 @@ namespace TDMakerLib
     public class ProfileOptions : SettingsBase<ProfileOptions>
     {
         public ImageDestination ImageUploaderType = ImageDestination.Imgur;
-        public FileDestination ImageFileUploaderType = FileDestination.MaxFile;
+        public FileDestination ImageFileUploaderType = FileDestination.Lambda;
 
         [Category(ComponentModelStrings.General), DefaultValue("Default"), Description("Profile name")]
         public string Name { get; set; }
@@ -66,7 +66,7 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.ScreenshotsCombine), DefaultValue(true), Description("Draw rectangle shadow behind thumbnails")]
         public bool DrawShadow { get; set; }
 
-        #endregion Screenshots / Combine
+        #endregion Screenshots
 
         #region Publish
 
