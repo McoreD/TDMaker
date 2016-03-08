@@ -1,6 +1,0 @@
-[b][u]General:[/u][/b]      
-Format: %Format%
-File Size: %FileSize%
-Duration: %Duration%
-Bitrate: %Bitrate%
-Subtitles: %Subtitles%

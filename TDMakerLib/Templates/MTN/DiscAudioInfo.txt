@@ -1,1 +1,0 @@
-﻿Audio %AudioID%: %Audio_%Format%, %Audio_SamplingRate%, %Audio_Channels%, %Audio_Bitrate%

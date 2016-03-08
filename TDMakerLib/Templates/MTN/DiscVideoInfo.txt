@@ -1,1 +1,0 @@
-﻿Video: %Video_Format%, %Video_Width%x%Video_Height% %Video_Standard%, %Video_Bitrate%, %Video_FrameRate%

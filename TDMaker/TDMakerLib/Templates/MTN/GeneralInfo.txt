@@ -1,0 +1,1 @@
+﻿Size: %FileSize%, Duration: %Duration%, Average Bitrate: %Bitrate%

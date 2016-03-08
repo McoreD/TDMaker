@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="crown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\crown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder-open-document-text" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\folder-open-document-text.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="disk-return" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\disk-return.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="document-copy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\document-copy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenuineAdvIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GenuineAdv.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GenuineAdvLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GenuineAdv.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="info_16_xp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\info-16-xp.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="disk--pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\disk--pencil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder-open" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\folder-open.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="application-monitor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\application-monitor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Torrent Description Maker</value>
+  </data>
+  <data name="application-task" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\application-task.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="application-cloud" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\application-cloud.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="cross" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\cross.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder-open-film" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\folder-open-film.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="images" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\images.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="wrench-screwdriver" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\wrench-screwdriver.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="layout-design" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\layout-design.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MainWindow_MainWindow_Shown_Browse_for_mplayer_exe_or_download_from_" xml:space="preserve">
+    <value>Browse for mplayer.exe or download from </value>
+  </data>
+  <data name="MainWindow_MainWindow_Shown_Applications__mplayer_exe__mplayer_exe" xml:space="preserve">
+    <value>Applications (mplayer.exe)|mplayer.exe</value>
+  </data>
+  <data name="MainWindow_MainWindow_Shown_Browse_for_ffmpeg_exe" xml:space="preserve">
+    <value>Browse for ffmpeg.exe</value>
+  </data>
+  <data name="MainWindow_MainWindow_Shown_Applications__ffmpeg_exe__ffmpeg_exe" xml:space="preserve">
+    <value>Applications (ffmpeg.exe)|ffmpeg.exe</value>
+  </data>
+  <data name="MainWindow_MainWindow_Shown_" xml:space="preserve">
+    <value>FFmpeg is not configured. 
+
+Would you like to download the latest FFmpeg?</value>
+  </data>
+  <data name="MainWindow_OpenFile_Browse_for_Media_file___" xml:space="preserve">
+    <value>Browse for Media file...</value>
+  </data>
+  <data name="MainWindow_OpenFolder_Browse_for_media_disc_folder___" xml:space="preserve">
+    <value>Browse for media disc folder...</value>
+  </data>
+  <data name="MainWindow_LoadMedia_" xml:space="preserve">
+    <value>Writing Publish info to File is recommended when analysing multiple files or folders. 
+
+Would you like to turn this feature on?</value>
+  </data>
+  <data name="MainWindow_ValidateInput_" xml:space="preserve">
+    <value>The following errors were found:
+
+</value>
+  </data>
+  <data name="MainWindow_bwApp_RunWorkerCompleted_Ready_" xml:space="preserve">
+    <value>Ready.</value>
+  </data>
+  <data name="MainWindow_bwApp_RunWorkerCompleted_Ready__One_or_more_tasks_failed_" xml:space="preserve">
+    <value>Ready. One or more tasks failed.</value>
+  </data>
+  <data name="MainWindow_tmrStatus_Tick_Create__description" xml:space="preserve">
+    <value>Create &amp;description</value>
+  </data>
+  <data name="MainWindow_tmrStatus_Tick_Create__torrent" xml:space="preserve">
+    <value>Create &amp;torrent</value>
+  </data>
+  <data name="MainWindow_btnTemplatesRewrite_Click_" xml:space="preserve">
+    <value>This will rewrite old copies of TDMaker created Templates. Your own templates will not be affected. 
+
+Are you sure?</value>
+  </data>
+  <data name="MainWindow_WriteMediaInfo_Text_Files____txt____txt" xml:space="preserve">
+    <value>Text Files (*.txt)|*.txt</value>
+  </data>
+  <data name="MainWindow_tcMain_SelectedIndexChanged__Save_Media_Info_As___" xml:space="preserve">
+    <value>&amp;Save Media Info As...</value>
+  </data>
+  <data name="MainWindow_tcMain_SelectedIndexChanged__Save_Publish_Info_As___" xml:space="preserve">
+    <value>&amp;Save Publish Info As...</value>
+  </data>
+  <data name="MainWindow_DownloaderForm_InstallRequested_Successfully_downloaded_FFmpeg_" xml:space="preserve">
+    <value>Successfully downloaded FFmpeg.</value>
+  </data>
+  <data name="MainWindow_DownloaderForm_InstallRequested_Failed_to_download_FFmpeg_" xml:space="preserve">
+    <value>Failed to download FFmpeg.</value>
+  </data>
+</root>
