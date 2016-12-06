@@ -116,11 +116,6 @@ namespace TDMaker
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tcSettings = new System.Windows.Forms.TabControl();
             this.tpSettingsGeneral = new System.Windows.Forms.TabPage();
-            this.pgApp = new System.Windows.Forms.PropertyGrid();
-            this.tpSettingsProfiles = new System.Windows.Forms.TabPage();
-            this.btnRemoveScreenshotProfile = new System.Windows.Forms.Button();
-            this.btnAddScreenshotProfile = new System.Windows.Forms.Button();
-            this.listBoxProfiles = new System.Windows.Forms.ListBox();
             this.gbUploadScreenshots = new System.Windows.Forms.GroupBox();
             this.btnTemplatesRewrite = new System.Windows.Forms.Button();
             this.cboFileUploader = new System.Windows.Forms.ComboBox();
@@ -128,6 +123,11 @@ namespace TDMaker
             this.btnUploadersConfig = new System.Windows.Forms.Button();
             this.cboImageUploader = new System.Windows.Forms.ComboBox();
             this.chkUploadScreenshots = new System.Windows.Forms.CheckBox();
+            this.pgApp = new System.Windows.Forms.PropertyGrid();
+            this.tpSettingsProfiles = new System.Windows.Forms.TabPage();
+            this.btnRemoveScreenshotProfile = new System.Windows.Forms.Button();
+            this.btnAddScreenshotProfile = new System.Windows.Forms.Button();
+            this.listBoxProfiles = new System.Windows.Forms.ListBox();
             this.pgProfileOptions = new System.Windows.Forms.PropertyGrid();
             this.tpSettingsProxy = new System.Windows.Forms.TabPage();
             this.lblProxyHost = new System.Windows.Forms.Label();
@@ -166,8 +166,8 @@ namespace TDMaker
             this.tpSettings.SuspendLayout();
             this.tcSettings.SuspendLayout();
             this.tpSettingsGeneral.SuspendLayout();
-            this.tpSettingsProfiles.SuspendLayout();
             this.gbUploadScreenshots.SuspendLayout();
+            this.tpSettingsProfiles.SuspendLayout();
             this.tpSettingsProxy.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudProxyPort)).BeginInit();
             this.tscMain.BottomToolStripPanel.SuspendLayout();
@@ -873,6 +873,7 @@ namespace TDMaker
             // 
             this.pgScreenshot.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pgScreenshot.HelpVisible = false;
+            this.pgScreenshot.LineColor = System.Drawing.SystemColors.ControlDark;
             this.pgScreenshot.Location = new System.Drawing.Point(3, 419);
             this.pgScreenshot.Name = "pgScreenshot";
             this.pgScreenshot.PropertySort = System.Windows.Forms.PropertySort.NoSort;
@@ -1075,69 +1076,13 @@ namespace TDMaker
             // tpSettingsGeneral
             // 
             this.tpSettingsGeneral.Controls.Add(this.pgApp);
+            this.tpSettingsGeneral.Controls.Add(this.gbUploadScreenshots);
             this.tpSettingsGeneral.Location = new System.Drawing.Point(4, 22);
             this.tpSettingsGeneral.Name = "tpSettingsGeneral";
             this.tpSettingsGeneral.Padding = new System.Windows.Forms.Padding(3);
             this.tpSettingsGeneral.Size = new System.Drawing.Size(868, 495);
             this.tpSettingsGeneral.TabIndex = 0;
             this.tpSettingsGeneral.UseVisualStyleBackColor = true;
-            // 
-            // pgApp
-            // 
-            this.pgApp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgApp.Location = new System.Drawing.Point(3, 3);
-            this.pgApp.Name = "pgApp";
-            this.pgApp.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.pgApp.Size = new System.Drawing.Size(862, 489);
-            this.pgApp.TabIndex = 0;
-            this.pgApp.ToolbarVisible = false;
-            this.pgApp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgApp_PropertyValueChanged);
-            // 
-            // tpSettingsProfiles
-            // 
-            this.tpSettingsProfiles.Controls.Add(this.btnRemoveScreenshotProfile);
-            this.tpSettingsProfiles.Controls.Add(this.btnAddScreenshotProfile);
-            this.tpSettingsProfiles.Controls.Add(this.listBoxProfiles);
-            this.tpSettingsProfiles.Controls.Add(this.gbUploadScreenshots);
-            this.tpSettingsProfiles.Controls.Add(this.pgProfileOptions);
-            this.tpSettingsProfiles.Location = new System.Drawing.Point(4, 22);
-            this.tpSettingsProfiles.Name = "tpSettingsProfiles";
-            this.tpSettingsProfiles.Padding = new System.Windows.Forms.Padding(3);
-            this.tpSettingsProfiles.Size = new System.Drawing.Size(868, 495);
-            this.tpSettingsProfiles.TabIndex = 5;
-            this.tpSettingsProfiles.Text = "Profiles";
-            this.tpSettingsProfiles.UseVisualStyleBackColor = true;
-            // 
-            // btnRemoveScreenshotProfile
-            // 
-            this.btnRemoveScreenshotProfile.Location = new System.Drawing.Point(67, 6);
-            this.btnRemoveScreenshotProfile.Name = "btnRemoveScreenshotProfile";
-            this.btnRemoveScreenshotProfile.Size = new System.Drawing.Size(64, 23);
-            this.btnRemoveScreenshotProfile.TabIndex = 1;
-            this.btnRemoveScreenshotProfile.Text = "Remove";
-            this.btnRemoveScreenshotProfile.UseVisualStyleBackColor = true;
-            this.btnRemoveScreenshotProfile.Click += new System.EventHandler(this.btnRemoveScreenshotProfile_Click);
-            // 
-            // btnAddScreenshotProfile
-            // 
-            this.btnAddScreenshotProfile.Location = new System.Drawing.Point(6, 6);
-            this.btnAddScreenshotProfile.Name = "btnAddScreenshotProfile";
-            this.btnAddScreenshotProfile.Size = new System.Drawing.Size(55, 23);
-            this.btnAddScreenshotProfile.TabIndex = 0;
-            this.btnAddScreenshotProfile.Text = "Add";
-            this.btnAddScreenshotProfile.UseVisualStyleBackColor = true;
-            this.btnAddScreenshotProfile.Click += new System.EventHandler(this.btnAddScreenshotProfile_Click);
-            // 
-            // listBoxProfiles
-            // 
-            this.listBoxProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.listBoxProfiles.FormattingEnabled = true;
-            this.listBoxProfiles.Location = new System.Drawing.Point(6, 32);
-            this.listBoxProfiles.Name = "listBoxProfiles";
-            this.listBoxProfiles.Size = new System.Drawing.Size(125, 368);
-            this.listBoxProfiles.TabIndex = 2;
-            this.listBoxProfiles.SelectedIndexChanged += new System.EventHandler(this.listBoxProfiles_SelectedIndexChanged);
             // 
             // gbUploadScreenshots
             // 
@@ -1153,7 +1098,7 @@ namespace TDMaker
             this.gbUploadScreenshots.Size = new System.Drawing.Size(862, 80);
             this.gbUploadScreenshots.TabIndex = 4;
             this.gbUploadScreenshots.TabStop = false;
-            this.gbUploadScreenshots.Text = "Options";
+            this.gbUploadScreenshots.Text = "Screenshots and other settings";
             // 
             // btnTemplatesRewrite
             // 
@@ -1223,11 +1168,69 @@ namespace TDMaker
             this.chkUploadScreenshots.UseVisualStyleBackColor = true;
             this.chkUploadScreenshots.CheckedChanged += new System.EventHandler(this.chkScreenshotUpload_CheckedChanged);
             // 
+            // pgApp
+            // 
+            this.pgApp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgApp.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.pgApp.Location = new System.Drawing.Point(3, 3);
+            this.pgApp.Name = "pgApp";
+            this.pgApp.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            this.pgApp.Size = new System.Drawing.Size(862, 409);
+            this.pgApp.TabIndex = 0;
+            this.pgApp.ToolbarVisible = false;
+            this.pgApp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgApp_PropertyValueChanged);
+            // 
+            // tpSettingsProfiles
+            // 
+            this.tpSettingsProfiles.Controls.Add(this.btnRemoveScreenshotProfile);
+            this.tpSettingsProfiles.Controls.Add(this.btnAddScreenshotProfile);
+            this.tpSettingsProfiles.Controls.Add(this.listBoxProfiles);
+            this.tpSettingsProfiles.Controls.Add(this.pgProfileOptions);
+            this.tpSettingsProfiles.Location = new System.Drawing.Point(4, 22);
+            this.tpSettingsProfiles.Name = "tpSettingsProfiles";
+            this.tpSettingsProfiles.Padding = new System.Windows.Forms.Padding(3);
+            this.tpSettingsProfiles.Size = new System.Drawing.Size(868, 495);
+            this.tpSettingsProfiles.TabIndex = 5;
+            this.tpSettingsProfiles.Text = "Profiles";
+            this.tpSettingsProfiles.UseVisualStyleBackColor = true;
+            // 
+            // btnRemoveScreenshotProfile
+            // 
+            this.btnRemoveScreenshotProfile.Location = new System.Drawing.Point(67, 6);
+            this.btnRemoveScreenshotProfile.Name = "btnRemoveScreenshotProfile";
+            this.btnRemoveScreenshotProfile.Size = new System.Drawing.Size(64, 23);
+            this.btnRemoveScreenshotProfile.TabIndex = 1;
+            this.btnRemoveScreenshotProfile.Text = "Remove";
+            this.btnRemoveScreenshotProfile.UseVisualStyleBackColor = true;
+            this.btnRemoveScreenshotProfile.Click += new System.EventHandler(this.btnRemoveScreenshotProfile_Click);
+            // 
+            // btnAddScreenshotProfile
+            // 
+            this.btnAddScreenshotProfile.Location = new System.Drawing.Point(6, 6);
+            this.btnAddScreenshotProfile.Name = "btnAddScreenshotProfile";
+            this.btnAddScreenshotProfile.Size = new System.Drawing.Size(55, 23);
+            this.btnAddScreenshotProfile.TabIndex = 0;
+            this.btnAddScreenshotProfile.Text = "Add";
+            this.btnAddScreenshotProfile.UseVisualStyleBackColor = true;
+            this.btnAddScreenshotProfile.Click += new System.EventHandler(this.btnAddScreenshotProfile_Click);
+            // 
+            // listBoxProfiles
+            // 
+            this.listBoxProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.listBoxProfiles.FormattingEnabled = true;
+            this.listBoxProfiles.Location = new System.Drawing.Point(6, 32);
+            this.listBoxProfiles.Name = "listBoxProfiles";
+            this.listBoxProfiles.Size = new System.Drawing.Size(125, 368);
+            this.listBoxProfiles.TabIndex = 2;
+            this.listBoxProfiles.SelectedIndexChanged += new System.EventHandler(this.listBoxProfiles_SelectedIndexChanged);
+            // 
             // pgProfileOptions
             // 
             this.pgProfileOptions.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pgProfileOptions.LineColor = System.Drawing.SystemColors.ControlDark;
             this.pgProfileOptions.Location = new System.Drawing.Point(137, 6);
             this.pgProfileOptions.Name = "pgProfileOptions";
             this.pgProfileOptions.PropertySort = System.Windows.Forms.PropertySort.Categorized;
@@ -1458,9 +1461,9 @@ namespace TDMaker
             this.tpSettings.ResumeLayout(false);
             this.tcSettings.ResumeLayout(false);
             this.tpSettingsGeneral.ResumeLayout(false);
-            this.tpSettingsProfiles.ResumeLayout(false);
             this.gbUploadScreenshots.ResumeLayout(false);
             this.gbUploadScreenshots.PerformLayout();
+            this.tpSettingsProfiles.ResumeLayout(false);
             this.tpSettingsProxy.ResumeLayout(false);
             this.tpSettingsProxy.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudProxyPort)).EndInit();
