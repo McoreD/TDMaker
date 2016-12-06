@@ -139,7 +139,6 @@ namespace TDMaker
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "AboutBox";
-            this.Shown += new System.EventHandler(this.AboutBox_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

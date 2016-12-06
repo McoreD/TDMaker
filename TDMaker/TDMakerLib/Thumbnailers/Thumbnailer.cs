@@ -255,8 +255,8 @@ namespace TDMakerLib
 
                                 using (Font font = new Font("Arial", 12))
                                 {
-                                    ImageHelpers.DrawTextWithShadow(g, screenshots[i].Timestamp.ToString(),
-                                        new Point(offsetX + timestampOffset, offsetY + timestampOffset), font, Color.White, Color.Black);
+                                    g.DrawTextWithShadow(screenshots[i].Timestamp.ToString(),
+                                        new Point(offsetX + timestampOffset, offsetY + timestampOffset), font, Brushes.White, Brushes.Black);
                                 }
                             }
 

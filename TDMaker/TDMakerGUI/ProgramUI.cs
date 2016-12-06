@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShareX.HelpersLib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -10,6 +11,7 @@ namespace TDMaker
     internal static class ProgramUI
     {
         public static List<string> ExplorerFilePaths = new List<string>();
+        public static GitHubUpdateManager UpdateManager { get; private set; }
 
         public static TaskType CurrentTask { get; set; }
 
@@ -30,6 +32,7 @@ namespace TDMaker
                 }
             }
 
+            UpdateManager = new GitHubUpdateManager("McoreD", "TDMaker", beta: false, portable: false);
             App.TurnOn();
             Application.Run(new MainWindow());
         }

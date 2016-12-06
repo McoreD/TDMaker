@@ -33,7 +33,8 @@ namespace TDMaker
             sbDesc.AppendLine(mi.Option("Info_Version") + ": http://sourceforge.net/projects/mediainfo");
             textBoxDescription.Text = sbDesc.ToString();
 
-            uclUpdate.CheckUpdate(CheckUpdate);
+            UpdateChecker updateChecker = ProgramUI.UpdateManager.CreateUpdateChecker();
+            uclUpdate.CheckUpdate(updateChecker);
         }
 
         #region Assembly Attribute Accessors
@@ -116,11 +117,6 @@ namespace TDMaker
         }
 
         #endregion Assembly Attribute Accessors
-
-        private void AboutBox_Shown(object sender, EventArgs e)
-        {
-            this.ShowActivate();
-        }
 
         public static UpdateChecker CheckUpdate()
         {

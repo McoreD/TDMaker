@@ -1,7 +1,6 @@
 ﻿using ShareX.HelpersLib;
 using ShareX.UploadersLib;
 using ShareX.UploadersLib.FileUploaders;
-using ShareX.UploadersLib.HelperClasses;
 using ShareX.UploadersLib.ImageUploaders;
 using System;
 using System.ComponentModel;
@@ -255,7 +254,7 @@ namespace TDMakerLib
             {
                 PrepareUploader(imageUploader);
 
-                return imageUploader.Upload(ssPath);
+                return imageUploader.UploadFile(ssPath);
             }
 
             return null;
@@ -283,18 +282,12 @@ namespace TDMakerLib
             switch (App.Settings.ProfileActive.ImageFileUploaderType)
             {
                 case FileDestination.Dropbox:
-                    fileUploader = new Dropbox(App.UploadersConfig.DropboxOAuth2Info, App.UploadersConfig.DropboxAccountInfo)
+                    fileUploader = new Dropbox(App.UploadersConfig.DropboxOAuth2Info)
                     {
-                        UploadPath = NameParser.Parse(NameParserType.URL, Dropbox.TidyUploadPath(App.UploadersConfig.DropboxUploadPath)),
+                        UploadPath = NameParser.Parse(NameParserType.URL, Dropbox.VerifyPath(App.UploadersConfig.DropboxUploadPath)),
                         AutoCreateShareableLink = App.UploadersConfig.DropboxAutoCreateShareableLink,
-                        ShareURLType = App.UploadersConfig.DropboxURLType
-                    };
-                    break;
-                case FileDestination.Copy:
-                    fileUploader = new Copy(App.UploadersConfig.CopyOAuthInfo, App.UploadersConfig.CopyAccountInfo)
-                    {
-                        UploadPath = NameParser.Parse(NameParserType.URL, Copy.TidyUploadPath(App.UploadersConfig.CopyUploadPath)),
-                        URLType = App.UploadersConfig.CopyURLType
+                        ShareURLType = App.UploadersConfig.DropboxURLType,
+                        AccountInfo = App.UploadersConfig.DropboxAccountInfo
                     };
                     break;
                 case FileDestination.GoogleDrive:
@@ -404,15 +397,6 @@ namespace TDMakerLib
                 case FileDestination.AmazonS3:
                     fileUploader = new AmazonS3(App.UploadersConfig.AmazonS3Settings);
                     break;
-                case FileDestination.OwnCloud:
-                    fileUploader = new OwnCloud(App.UploadersConfig.OwnCloudHost, App.UploadersConfig.OwnCloudUsername, App.UploadersConfig.OwnCloudPassword)
-                    {
-                        Path = App.UploadersConfig.OwnCloudPath,
-                        CreateShare = App.UploadersConfig.OwnCloudCreateShare,
-                        DirectLink = App.UploadersConfig.OwnCloudDirectLink,
-                        IgnoreInvalidCert = App.UploadersConfig.OwnCloudIgnoreInvalidCert
-                    };
-                    break;
                 case FileDestination.Pushbullet:
                     fileUploader = new Pushbullet(App.UploadersConfig.PushbulletSettings);
                     break;
@@ -428,7 +412,7 @@ namespace TDMakerLib
             if (fileUploader != null)
             {
                 ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0}.", Path.GetFileName(ssPath)));
-                return fileUploader.Upload(ssPath);
+                return fileUploader.UploadFile(ssPath);
             }
 
             return null;

@@ -1,7 +1,7 @@
 ﻿using BDInfo;
 using ShareX.HelpersLib;
+using ShareX.MediaLib;
 using ShareX.UploadersLib;
-using ShareX.UploadersLib.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1266,13 +1266,16 @@ namespace TDMaker
         private void pbScreenshot_MouseDown(object sender, MouseEventArgs e)
         {
             ScreenshotInfo ss = pbScreenshot.Tag as ScreenshotInfo;
-            if (ss != null && File.Exists(ss.LocalPath))
+            if (ss != null)
             {
-                Helpers.OpenFile(ss.LocalPath);
-            }
-            else if (!string.IsNullOrEmpty(ss.FullImageLink))
-            {
-                URLHelpers.OpenURL(ss.FullImageLink);
+                if (File.Exists(ss.LocalPath))
+                {
+                    Helpers.OpenFile(ss.LocalPath);
+                }
+                else if (!string.IsNullOrEmpty(ss.FullImageLink))
+                {
+                    URLHelpers.OpenURL(ss.FullImageLink);
+                }
             }
         }
 
@@ -1339,8 +1342,9 @@ namespace TDMaker
 
         private void btnUploadersConfig_Click(object sender, EventArgs e)
         {
-            UploadersConfigForm form = new UploadersConfigForm(App.UploadersConfig);
-            form.Show();
+            bool firstInstance;
+            UploadersConfigForm form = UploadersConfigForm.GetFormInstance(App.UploadersConfig, out firstInstance);
+            form.ShowDialog();
         }
 
         private void chkMediaInfoComplete_CheckedChanged(object sender, EventArgs e)
