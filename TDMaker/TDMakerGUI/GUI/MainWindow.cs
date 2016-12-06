@@ -1266,7 +1266,7 @@ namespace TDMaker
         private void pbScreenshot_MouseDown(object sender, MouseEventArgs e)
         {
             ScreenshotInfo ss = pbScreenshot.Tag as ScreenshotInfo;
-            if (ss != null)
+            if (ss != null) // fixed issue #10
             {
                 if (File.Exists(ss.LocalPath))
                 {
