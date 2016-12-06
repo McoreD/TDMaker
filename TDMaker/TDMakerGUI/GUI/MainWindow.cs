@@ -746,32 +746,35 @@ namespace TDMaker
         {
             WorkerTask wt = e.Result as WorkerTask;
 
-            pBar.Style = ProgressBarStyle.Continuous;
-            pBar.Value = 0;
-
-            bool success = true;
-            wt.MediaList.ForEach(x => success &= x.Success);
-
-            if (success)
+            if (wt != null)
             {
-                foreach (string p in wt.FileOrDirPaths)
+                pBar.Style = ProgressBarStyle.Continuous;
+                pBar.Value = 0;
+
+                bool success = true;
+                wt.MediaList.ForEach(x => success &= x.Success);
+
+                if (success)
                 {
-                    lbFiles.Items.Remove(p);
+                    foreach (string p in wt.FileOrDirPaths)
+                    {
+                        lbFiles.Items.Remove(p);
+                    }
+
+                    lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
+                    sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready_;
+                }
+                else
+                {
+                    sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready__One_or_more_tasks_failed_;
                 }
 
-                lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
-                sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready_;
-            }
-            else
-            {
-                sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready__One_or_more_tasks_failed_;
-            }
+                UpdateGuiControls();
 
-            UpdateGuiControls();
-
-            if (lbFiles.Items.Count > 0)
-            {
-                btnAnalyze_Click(sender, e);
+                if (lbFiles.Items.Count > 0)
+                {
+                    btnAnalyze_Click(sender, e);
+                }
             }
         }
 
