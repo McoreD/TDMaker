@@ -123,14 +123,6 @@
     <None Include="Resources\info-16-xp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Lib\7z-x64.dll">
-      <Link>7z-x64.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Lib\7z.dll">
-      <Link>7z.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="GenuineAdv.ico" />
     <EmbeddedResource Include="GUI\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
