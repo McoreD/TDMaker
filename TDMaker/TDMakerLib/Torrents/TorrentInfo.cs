@@ -16,20 +16,8 @@ namespace TDMakerLib
 {
     public class TorrentInfo
     {
-        /// <summary>
-        /// MediaInfo2 Object
-        /// </summary>
         public MediaInfo2 Media { get; set; }
-
-        /// <summary>
-        /// String Representation of Publish tab
-        /// ToString() should be called at least once
-        /// </summary>
         public string PublishString { get; set; }
-
-        /// <summary>
-        /// Options for Publishing
-        /// </summary>
         public PublishOptionsPacket PublishOptions { get; set; }
 
         private BackgroundWorker worker;

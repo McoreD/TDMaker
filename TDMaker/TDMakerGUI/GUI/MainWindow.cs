@@ -217,16 +217,12 @@ namespace TDMaker
                 }
             }
 
-            List<TorrentCreateInfo> tps = new List<TorrentCreateInfo>();
-
             foreach (string p in ps)
             {
                 if (File.Exists(p) || Directory.Exists(p))
                 {
                     DebugHelper.WriteLine(string.Format("Queued {0} to create a torrent", p));
                     lbFiles.Items.Add(p);
-                    TorrentCreateInfo tp = new TorrentCreateInfo(App.Settings.ProfileActive, p);
-                    tps.Add(tp);
 
                     UpdateGuiControls();
                 }
