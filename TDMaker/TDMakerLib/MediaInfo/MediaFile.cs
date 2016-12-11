@@ -64,7 +64,8 @@ namespace TDMakerLib
 
         public string FormatInfo { get; set; }
 
-        public Thumbnailer Thumbnailer = null;
+        public List<ScreenshotInfo> TempScreenshots = new List<ScreenshotInfo>();
+        public List<ScreenshotInfo> Screenshots = new List<ScreenshotInfo>();
 
         public string WritingLibrary { get; set; }
 
@@ -333,7 +334,7 @@ namespace TDMakerLib
         /// Returns a Publish layout of Media Info that has Audio and Video
         /// </summary>
         /// <returns></returns>
-        public string ToStringPublish(PublishOptionsPacket pop)
+        public string ToStringPublish(PublishOptions pop)
         {
             int fontSizeHeading3 = (int)(App.Settings.ProfileActive.PreText && App.Settings.ProfileActive.LargerPreText == true ?
                 App.Settings.ProfileActive.FontSizeHeading3 + App.Settings.ProfileActive.FontSizeIncr :
@@ -378,7 +379,7 @@ namespace TDMakerLib
 
             sbBody.AppendLine(BbCode.Size(fontSizeBody, sbGeneral.ToString()));
 
-            if (this.Thumbnailer != null)
+            if (Screenshots.Count > 0)
             {
                 string ss = this.GetScreenshotString(pop);
                 if (ss.Length > 0)
@@ -480,11 +481,11 @@ namespace TDMakerLib
             return sbBody.ToString();
         }
 
-        public string GetScreenshotString(PublishOptionsPacket pop)
+        public string GetScreenshotString(PublishOptions pop)
         {
             StringBuilder sbPublish = new StringBuilder();
 
-            foreach (ScreenshotInfo ss in this.Thumbnailer.Screenshots)
+            foreach (ScreenshotInfo ss in this.Screenshots)
             {
                 if (!string.IsNullOrEmpty(ss.FullImageLink) && pop.FullPicture)
                 {

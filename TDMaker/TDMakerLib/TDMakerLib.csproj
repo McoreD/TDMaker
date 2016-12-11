@@ -90,9 +90,12 @@
     <Compile Include="Helpers\BbCode.cs" />
     <Compile Include="Helpers\Options.cs" />
     <Compile Include="Helpers\Structs.cs" />
+    <Compile Include="TaskInfo.cs" />
+    <Compile Include="TaskManager.cs" />
+    <Compile Include="TaskSettings.cs" />
     <Compile Include="Templates\TemplateNameConverter.cs" />
     <Compile Include="Torrents\TorrentCreator.cs" />
-    <Compile Include="Helpers\WorkerTask.cs" />
+    <Compile Include="WorkerTask.cs" />
     <Compile Include="Helpers\ImageFile.cs" />
     <Compile Include="Helpers\Kernel32Helper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />

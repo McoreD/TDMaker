@@ -197,7 +197,7 @@ namespace TDMakerLib
 
         #region Publish
 
-        public static string CreatePublish(TorrentInfo ti, PublishOptionsPacket pop)
+        public static string CreatePublish(TorrentInfo ti, PublishOptions pop)
         {
             string pt = "";
 

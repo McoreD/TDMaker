@@ -182,7 +182,7 @@ namespace TDMakerLib
                 switch (mi.Options.MediaTypeChoice)
                 {
                     case MediaType.MediaDisc:
-                        foreach (ScreenshotInfo ss in mi.Overall.Thumbnailer.Screenshots)
+                        foreach (ScreenshotInfo ss in mi.Overall.Screenshots)
                         {
                             xmlUpload.Screenshots.Add(ss.FullImageLink);
                         }
@@ -191,7 +191,7 @@ namespace TDMakerLib
                     default:
                         foreach (MediaFile mf in mi.MediaFiles)
                         {
-                            foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
+                            foreach (ScreenshotInfo ss in mf.Screenshots)
                             {
                                 xmlUpload.Screenshots.Add(ss.FullImageLink);
                             }

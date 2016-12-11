@@ -10,16 +10,16 @@ namespace TDMakerLib
 {
     public class TorrentCreateInfo
     {
-        public ProfileOptions Profile { get; private set; }
+        private ProfileOptions Profile { get; set; }
         public string MediaLocation { get; private set; }
         public string TorrentFolder { get; set; }
         public string TorrentFilePath { get; private set; }
 
         public TorrentCreateInfo(ProfileOptions profile, string mediaLoc)
         {
-            this.Profile = profile;
-            this.MediaLocation = mediaLoc;
-            this.TorrentFolder = DefaultTorrentFolder;
+            Profile = profile;
+            MediaLocation = mediaLoc;
+            TorrentFolder = DefaultTorrentFolder;
         }
 
         private string DefaultTorrentFolder
@@ -30,7 +30,7 @@ namespace TDMakerLib
 
                 if (this.Profile.TorrentsFolder == LocationType.ParentFolder)
                 {
-                    dir = Path.GetDirectoryName(this.MediaLocation);
+                    dir = Path.GetDirectoryName(MediaLocation);
                 }
 
                 return dir;
@@ -51,7 +51,7 @@ namespace TDMakerLib
         /// <param name="workerMy"></param>
         public void CreateTorrent(BackgroundWorker workerMy)
         {
-            string p = this.MediaLocation;
+            string p = MediaLocation;
             if (this.Profile != null && this.Profile.Trackers != null && (File.Exists(p) || Directory.Exists(p)))
             {
                 foreach (string tracker in this.Profile.Trackers)

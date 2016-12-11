@@ -70,7 +70,7 @@ namespace TDMakerLib
             Overall = new MediaFile(loc, this.Source);
 
             // this could be a file path or a directory
-            this.Location = loc;
+            Location = loc;
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace TDMakerLib
             return new NfoReport(this.Location, null).ToString();
         }
 
-        public string ToStringMedia(PublishOptionsPacket pop)
+        public string ToStringMedia(PublishOptions pop)
         {
             int fontSizeHeading1 = (int)(App.Settings.ProfileActive.PreText && App.Settings.ProfileActive.LargerPreText == true ?
                 App.Settings.ProfileActive.FontSizeHeading1 + App.Settings.ProfileActive.FontSizeIncr :
@@ -377,7 +377,7 @@ namespace TDMakerLib
 
             if (this.MediaFiles.Count > 1 && this.Options.MediaTypeChoice == MediaType.MediaDisc)
 
-                // is a DVD so need Overall Info only
+            // is a DVD so need Overall Info only
             {
                 sbBody.AppendLine(this.Overall.ToStringPublish(pop));
             }
@@ -407,7 +407,7 @@ namespace TDMakerLib
             }
             foreach (MediaFile mf in this.MediaFiles)
             {
-                if (mf.Thumbnailer != null)
+                if (mf.Screenshots.Count > 0)
                 {
                     sbBody.AppendLine(mf.GetScreenshotString(pop));
                 }
@@ -542,7 +542,7 @@ namespace TDMakerLib
             bool hasSs = false;
             foreach (MediaFile mf in this.MediaFiles)
             {
-                if (mf.Thumbnailer != null && mf.Thumbnailer.Screenshots.Count > 0 && !string.IsNullOrEmpty(mf.Thumbnailer.Screenshots[0].FullImageLink))
+                if (mf.Screenshots.Count > 0 && !string.IsNullOrEmpty(mf.Screenshots[0].FullImageLink))
                 {
                     hasSs = true;
                     return hasSs;

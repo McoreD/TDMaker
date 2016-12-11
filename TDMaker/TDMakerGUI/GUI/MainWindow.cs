@@ -230,9 +230,7 @@ namespace TDMaker
 
             if (App.Settings.AnalyzeAuto)
             {
-                WorkerTask wt = new WorkerTask(bwApp, TaskType.ANALYZE_MEDIA);
-                wt.FileOrDirPaths = new List<string>(ps);
-                AnalyzeMedia(wt);
+                AnalyzeMedia(ps);
             }
         }
 
@@ -256,95 +254,99 @@ namespace TDMaker
             }
         }
 
-        private void AnalyzeMedia(WorkerTask wt)
+        private void AnalyzeMedia(string[] files)
+        {
+            List<string> fd = new List<string>();
+            fd.AddRange(files);
+            AnalyzeMedia(fd);
+        }
+
+        private void AnalyzeMedia(List<string> files)
         {
             if (!ValidateInput()) return;
 
             DialogResult dlgResult = DialogResult.OK;
-            List<MediaInfo2> miList = new List<MediaInfo2>();
+            List<TaskSettings> taskSettingsList = new List<TaskSettings>();
 
-            MediaWizardOptions mwo = Adapter.GetMediaType(wt.FileOrDirPaths);
+            MediaWizardOptions mo = Adapter.GetMediaType(files);
 
-            if (mwo.ShowWizard)
+            if (mo.ShowWizard)
             {
-                ShowMediaWizard(ref mwo, wt.FileOrDirPaths);
+                ShowMediaWizard(ref mo, files);
             }
 
-            wt.MediaOptions = mwo;
-            if (mwo.PromptShown)
+            if (mo.PromptShown)
             {
-                wt.MediaOptions = mwo;
-                dlgResult = mwo.DialogResult;
+                dlgResult = mo.DialogResult;
             }
             else
             {
                 // fill previous settings
-                wt.MediaOptions.CreateTorrent = App.Settings.ProfileActive.CreateTorrent;
-                wt.MediaOptions.CreateScreenshots = App.Settings.ProfileActive.CreateScreenshots;
-                wt.MediaOptions.UploadScreenshots = App.Settings.ProfileActive.UploadScreenshots;
+                mo.CreateTorrent = App.Settings.ProfileActive.CreateTorrent;
+                mo.CreateScreenshots = App.Settings.ProfileActive.CreateScreenshots;
+                mo.UploadScreenshots = App.Settings.ProfileActive.UploadScreenshots;
             }
 
-            if (!mwo.PromptShown && App.Settings.ShowMediaWizardAlways)
+            if (!mo.PromptShown && App.Settings.ShowMediaWizardAlways)
             {
-                MediaWizard mw = new MediaWizard(wt);
+                MediaWizard mw = new MediaWizard(files);
                 dlgResult = mw.ShowDialog();
                 if (dlgResult == DialogResult.OK)
                 {
-                    wt.MediaOptions = mw.Options;
+                    mo = mw.Options;
                 }
             }
 
             if (dlgResult == DialogResult.OK)
             {
-                if (wt.MediaOptions.MediaTypeChoice == MediaType.MediaCollection)
+                if (mo.MediaTypeChoice == MediaType.MediaCollection)
                 {
-                    wt.FileOrDirPaths.Sort();
-                    string firstPath = wt.FileOrDirPaths[0];
-                    MediaInfo2 mi = this.PrepareNewMedia(wt, File.Exists(firstPath) ? Path.GetDirectoryName(wt.FileOrDirPaths[0]) : firstPath);
-                    foreach (string p in wt.FileOrDirPaths)
+                    TaskSettings ts = new TaskSettings();
+                    ts.MediaOptions = mo;
+
+                    files.Sort();
+                    string firstPath = files[0];
+                    PrepareNewMedia(ts, File.Exists(firstPath) ? Path.GetDirectoryName(files[0]) : firstPath);
+                    foreach (string p in files)
                     {
                         if (File.Exists(p))
                         {
-                            mi.FileCollection.Add(p);
+                            ts.Media.FileCollection.Add(p);
                         }
                     }
-                    miList.Add(mi);
+                    taskSettingsList.Add(ts);
                 }
                 else
                 {
-                    foreach (string fd in wt.FileOrDirPaths)
+                    foreach (string fd in files)
                     {
                         if (File.Exists(fd) || Directory.Exists(fd))
                         {
                             MakeGuiReadyForAnalysis();
 
-                            MediaInfo2 mi = this.PrepareNewMedia(wt, fd);
+                            TaskSettings ts = new TaskSettings();
+                            ts.MediaOptions = mo;
 
-                            mi.DiscType = MediaHelper.GetSourceType(fd);
+                            PrepareNewMedia(ts, fd);
+                            ts.Media.DiscType = MediaHelper.GetSourceType(fd);
 
-                            if (mi.DiscType == SourceType.Bluray)
+                            if (ts.Media.DiscType == SourceType.Bluray)
                             {
-                                mi.Overall = new MediaFile(FileSystemHelper.GetLargestFilePathFromDir(fd), cboSource.Text);
-                                mi.Overall.Summary = BDInfo(fd);
+                                ts.Media.Overall = new MediaFile(FileSystemHelper.GetLargestFilePathFromDir(fd), cboSource.Text);
+                                ts.Media.Overall.Summary = BDInfo(fd);
                             }
 
-                            if (wt.IsSingleTask() && !string.IsNullOrEmpty(txtTitle.Text))
+                            if (!string.IsNullOrEmpty(txtTitle.Text))
                             {
-                                mi.SetTitle(txtTitle.Text);
+                                ts.Media.SetTitle(txtTitle.Text);
                             }
-                            miList.Add(mi);
+
+                            taskSettingsList.Add(ts);
                         }
                     }
                 }
 
-                // Attach the MediaInfo2 object in to TorrentInfo
-                var tiList = miList.Select(mi => new TorrentInfo(bwApp, mi)).ToList();
-                wt.MediaList = tiList;
-
-                if (!bwApp.IsBusy)
-                {
-                    bwApp.RunWorkerAsync(wt);
-                }
+                taskSettingsList.ForEach(ts => TaskManager.Start(WorkerTask.CreateTask(ts)));
 
                 UpdateGuiControls();
             }
@@ -434,10 +436,10 @@ namespace TDMaker
             return fl;
         }
 
-        private MediaInfo2 PrepareNewMedia(WorkerTask wt, string p)
+        private void PrepareNewMedia(TaskSettings taskSettings, string p)
         {
-            MediaType mt = wt.MediaOptions.MediaTypeChoice;
-            MediaInfo2 mi = new MediaInfo2(wt.MediaOptions, p);
+            MediaInfo2 mi = new MediaInfo2(taskSettings.MediaOptions, p);
+
             mi.Extras = cboExtras.Text;
             if (cboSource.Text == "DVD")
             {
@@ -457,7 +459,7 @@ namespace TDMaker
                 mi.TemplateLocation = Path.Combine(App.TemplatesDir, App.Settings.ProfileActive.PublisherExternalTemplateName);
             }
 
-            return mi;
+            taskSettings.Media = mi;
         }
 
         private void btnCreateTorrent_Click(object sender, EventArgs e)
@@ -630,7 +632,7 @@ namespace TDMaker
 
         private string CreatePublishInitial(TorrentInfo ti)
         {
-            PublishOptionsPacket pop = new PublishOptionsPacket();
+            PublishOptions pop = new PublishOptions();
             pop.AlignCenter = App.Settings.ProfileActive.AlignCenter;
             pop.FullPicture = ti.Media.Options.UploadScreenshots && App.Settings.ProfileActive.UseFullPictureURL;
             pop.PreformattedText = App.Settings.ProfileActive.PreText;
@@ -659,14 +661,14 @@ namespace TDMaker
                 }
 
                 // creates screenshot
-                if (wt.MediaOptions.UploadScreenshots)
+                if (wt.Info.TaskSettings.MediaOptions.UploadScreenshots)
                 {
-                    ti.CreateScreenshots();
-                    ti.UploadScreenshots();
+                    // ti.CreateScreenshots();
+                    // TODO: ti.UploadScreenshots();
                 }
-                else if (wt.MediaOptions.CreateScreenshots)
+                else if (wt.Info.TaskSettings.MediaOptions.CreateScreenshots)
                 {
-                    ti.CreateScreenshots();
+                    //  ti.CreateScreenshots();
                 }
 
                 ti.PublishString = CreatePublishInitial(ti);
@@ -685,7 +687,7 @@ namespace TDMaker
                     }
                 }
 
-                if (wt.MediaOptions.CreateTorrent)
+                if (wt.Info.TaskSettings.MediaOptions.CreateTorrent)
                 {
                     mi.TorrentCreateInfo.CreateTorrent(bwApp);
                 }
@@ -709,7 +711,7 @@ namespace TDMaker
                 foreach (TorrentInfo ti in wt.MediaList)
                 {
                     TorrentCreateInfo tci = ti.Media.TorrentCreateInfo;
-                    tci.CreateTorrent(wt.MyWorker);
+                    // TODO:   tci.CreateTorrent(wt.MyWorker);
                     if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
                     {
                         string fp = Path.Combine(tci.TorrentFolder, MediaHelper.GetMediaName(tci.MediaLocation)) + ".xml";
@@ -752,9 +754,9 @@ namespace TDMaker
 
                 if (success)
                 {
-                    foreach (string p in wt.FileOrDirPaths)
+                    foreach (MediaFile mf in wt.Info.TaskSettings.Media.MediaFiles)
                     {
-                        lbFiles.Items.Remove(p);
+                        lbFiles.Items.Remove(mf.FilePath);
                     }
 
                     lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
@@ -898,9 +900,7 @@ namespace TDMaker
             {
                 files[i] = lbFiles.Items[i].ToString();
             }
-            WorkerTask wt = new WorkerTask(bwApp, TaskType.ANALYZE_MEDIA);
-            wt.FileOrDirPaths = new List<string>(files);
-            this.AnalyzeMedia(wt);
+            AnalyzeMedia(files);
         }
 
         private void ShowAboutWindow()
@@ -922,7 +922,7 @@ namespace TDMaker
                 }
                 if (tps.Count > 0)
                 {
-                    var wt = new WorkerTask(bwApp, TaskType.CREATE_TORRENT);
+                    var wt = new WorkerTask(TaskType.CREATE_TORRENT, bwApp);
                     wt.MediaList = tiList;
                     wt.TorrentPackets = tps;
                     bwApp.RunWorkerAsync(wt);
@@ -949,7 +949,7 @@ namespace TDMaker
                 TorrentInfo ti = GetTorrentInfo();
                 if (ti != null)
                 {
-                    var pop = new PublishOptionsPacket
+                    var pop = new PublishOptions
                     {
                         AlignCenter = chkQuickAlignCenter.Checked,
                         FullPicture = chkQuickFullPicture.Checked,

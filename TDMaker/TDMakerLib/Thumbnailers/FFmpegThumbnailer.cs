@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShareX.HelpersLib;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -14,7 +15,7 @@ namespace TDMakerLib
         }
 
         // This method is experimental.
-        public override void TakeScreenshots(BackgroundWorker worker)
+        public override void TakeScreenshots(ThreadWorker worker)
         {
             ProcessStartInfo psi = new ProcessStartInfo(ThumbnailerPath);
             psi.WindowStyle = ProcessWindowStyle.Minimized;
@@ -40,7 +41,7 @@ namespace TDMakerLib
                         Timestamp = TimeSpan.FromSeconds(TimeSlice * i)
                     };
 
-                    TempScreenshots.Add(screenshotInfo);
+                    MediaFile.TempScreenshots.Add(screenshotInfo);
                 }
             }
 

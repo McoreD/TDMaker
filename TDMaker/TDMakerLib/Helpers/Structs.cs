@@ -3,7 +3,7 @@
     /// <summary>
     /// Options regard Publish
     /// </summary>
-    public struct PublishOptionsPacket
+    public struct PublishOptions
     {
         public bool AlignCenter { get; set; }
         public bool PreformattedText { get; set; }

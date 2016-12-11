@@ -151,7 +151,7 @@ namespace TDMakerCLI
 
         private static void CreatePublish(TorrentInfo ti)
         {
-            PublishOptionsPacket pop = new PublishOptionsPacket()
+            PublishOptions pop = new PublishOptions()
             {
                 AlignCenter = App.Settings.ProfileActive.AlignCenter,
                 FullPicture = App.Settings.ProfileActive.UseFullPictureURL,

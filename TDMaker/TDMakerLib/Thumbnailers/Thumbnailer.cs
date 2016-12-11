@@ -18,8 +18,6 @@ namespace TDMakerLib
         protected MediaFile MediaFile { get; set; }
         protected string ScreenshotDir { get; set; }
 
-        protected List<ScreenshotInfo> TempScreenshots = new List<ScreenshotInfo>();
-        public List<ScreenshotInfo> Screenshots = new List<ScreenshotInfo>();
         protected int TimeSlice;
         protected List<int> MediaSeekTimes = new List<int>();
 
@@ -30,6 +28,7 @@ namespace TDMakerLib
         public Thumbnailer(MediaFile mf, string ssDir, ProfileOptions options)
         {
             MediaFile = mf;
+
             ScreenshotDir = ssDir;
             Options = options;
 
@@ -40,7 +39,7 @@ namespace TDMakerLib
             }
         }
 
-        public virtual void TakeScreenshots(BackgroundWorker worker)
+        public virtual void TakeScreenshots(ThreadWorker worker)
         {
             string MPlayerTempFp = Path.Combine(ScreenshotDir, "00000001.png"); // MPlayer creates this file by default
 
@@ -60,7 +59,7 @@ namespace TDMakerLib
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {
                 string mediaFileName = Path.GetFileNameWithoutExtension(MediaFile.FilePath);
-                worker.ReportProgress((int)ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Taking screenshot {0} of {1} for {2}", i + 1, Options.ScreenshotCount, mediaFileName));
+                // worker.ReportProgress((int)ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Taking screenshot {0} of {1} for {2}", i + 1, Options.ScreenshotCount, mediaFileName));
 
                 int timeSliceElapsed = Options.RandomFrame ? GetRandomTimeSlice(i) : TimeSlice * (i + 1);
                 string tempScreenshotPath = Path.Combine(ScreenshotDir, string.Format("{0}-{1}.", mediaFileName, timeSliceElapsed.ToString("00000")));
@@ -106,7 +105,7 @@ namespace TDMakerLib
                         Timestamp = TimeSpan.FromSeconds(timeSliceElapsed)
                     };
 
-                    TempScreenshots.Add(screenshotInfo);
+                    MediaFile.TempScreenshots.Add(screenshotInfo);
                 }
             }
 
@@ -115,12 +114,12 @@ namespace TDMakerLib
 
         protected virtual void Finish()
         {
-            if (TempScreenshots != null && TempScreenshots.Count > 0)
+            if (MediaFile.TempScreenshots != null && MediaFile.TempScreenshots.Count > 0)
             {
                 if (Options.CombineScreenshots)
                 {
                     string temp_fp = "";
-                    using (Image img = CombineScreenshots(TempScreenshots))
+                    using (Image img = CombineScreenshots(MediaFile.TempScreenshots))
                     {
                         switch (App.Settings.ThumbnailerType)
                         {
@@ -143,13 +142,13 @@ namespace TDMakerLib
                                 break;
                         }
 
-                        Screenshots.Add(new ScreenshotInfo(temp_fp) { Args = TempScreenshots[0].Args });
+                        MediaFile.Screenshots.Add(new ScreenshotInfo(temp_fp) { Args = MediaFile.TempScreenshots[0].Args });
                     }
-                    TempScreenshots.ForEach(x => Adapter.ScheduleFileForDeletion(x.LocalPath));
+                    MediaFile.TempScreenshots.ForEach(x => Adapter.ScheduleFileForDeletion(x.LocalPath));
                 }
                 else
                 {
-                    Screenshots.AddRange(TempScreenshots);
+                    MediaFile.Screenshots.AddRange(MediaFile.TempScreenshots);
                 }
             }
         }

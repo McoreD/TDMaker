@@ -90,7 +90,7 @@ namespace TDMakerLib
             }
         }
 
-        public void CreateInfo(PublishOptionsPacket options)
+        public void CreateInfo(PublishOptions options)
         {
             SetFullScreenshot(options.FullPicture);
 
@@ -123,9 +123,9 @@ namespace TDMakerLib
             StringBuilder sbLinksFull = new StringBuilder();
             StringBuilder sbLinksThumbs = new StringBuilder();
 
-            if (mf.Thumbnailer != null && mf.Thumbnailer.Screenshots != null)
+            if (mf.Screenshots.Count > 0)
             {
-                foreach (ScreenshotInfo ss in mf.Thumbnailer.Screenshots)
+                foreach (ScreenshotInfo ss in mf.Screenshots)
                 {
                     if (!string.IsNullOrEmpty(ss.FullImageLink))
                     {
@@ -304,7 +304,7 @@ namespace TDMakerLib
                 pattern = GetStyles(pattern); // apply any formatting
                 foreach (MediaFile mf in mi.MediaFiles)
                 {
-                    if (mf.Thumbnailer != null)
+                    if (mf.Screenshots.Count > 0)
                     {
                         pattern = GetScreenshotInfo(pattern, mf);
                         break;

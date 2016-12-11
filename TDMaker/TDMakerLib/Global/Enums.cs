@@ -70,6 +70,15 @@ namespace TDMakerLib
         CREATE_TORRENT
     }
 
+    public enum TaskStatus
+    {
+        InQueue,
+        Preparing,
+        Working,
+        Stopping,
+        Completed
+    }
+
     public enum ThumbnailerType
     {
         [Description("FFmpeg")]

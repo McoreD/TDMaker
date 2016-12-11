@@ -20,12 +20,6 @@ namespace TDMaker
             PrepareUserActionMsg(FileOrDirPaths);
         }
 
-        public MediaWizard(WorkerTask wt)
-            : this()
-        {
-            PrepareUserActionMsg(wt.FileOrDirPaths);
-        }
-
         private void PrepareUserActionMsg(List<string> list_fd)
         {
             if (list_fd.Count == 1 && File.Exists(list_fd[0]))
