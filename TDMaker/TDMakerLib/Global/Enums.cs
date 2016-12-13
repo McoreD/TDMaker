@@ -60,7 +60,6 @@ namespace TDMakerLib
         UPDATE_PROGRESSBAR_MAX,
         UPDATE_PROGRESSBAR_Cumulative,
         UPDATE_PROGRESSBAR_ProgressManager,
-        UPDATE_SCREENSHOTS_LIST,
         UPDATE_STATUSBAR_DEBUG
     }
 

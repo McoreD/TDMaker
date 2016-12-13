@@ -115,27 +115,6 @@ namespace TDMakerLib
             return sbPublish.ToString().Trim();
         }
 
-        private void ReportProgress(ProgressType percentProgress, object userState)
-        {
-            if (worker != null)
-            {
-                worker.ReportProgress((int)percentProgress, userState);
-            }
-            else
-            {
-                switch (percentProgress)
-                {
-                    case ProgressType.UPDATE_STATUSBAR_DEBUG:
-                        Debug.WriteLine((string)userState);
-                        break;
-                    case ProgressType.UPDATE_SCREENSHOTS_LIST:
-                        ScreenshotInfo ss = userState as ScreenshotInfo;
-                        Debug.WriteLine("Screenshot: " + ss.FullImageLink);
-                        break;
-                }
-            }
-        }
-
         private string BbFormat(string p, PublishOptions options)
         {
             StringBuilder sbPublish = new StringBuilder();

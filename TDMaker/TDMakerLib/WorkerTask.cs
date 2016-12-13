@@ -13,13 +13,12 @@ namespace TDMakerLib
     public class WorkerTask
     {
         public delegate void TaskEventHandler(WorkerTask task);
+        public delegate void ScreenshotInfoEventHandler(ScreenshotInfo si);
         public delegate void UploaderServiceEventHandler(IUploaderService uploaderService);
 
-        public event TaskEventHandler StatusChanged;
-        public event TaskEventHandler UploadStarted;
-        public event TaskEventHandler UploadProgressChanged;
-        public event TaskEventHandler UploadCompleted;
-        public event TaskEventHandler TaskCompleted;
+        public event TaskEventHandler StatusChanged, UploadStarted, UploadProgressChanged, UploadCompleted, TaskCompleted;
+        public event TaskEventHandler MediaLoaded;
+        public event ScreenshotInfoEventHandler ScreenshotUploaded;
         public event UploaderServiceEventHandler UploadersConfigWindowRequested;
 
         public TaskInfo Info { get; set; }
@@ -83,8 +82,8 @@ namespace TDMakerLib
 
         private void ThreadDoWork()
         {
-            // read media
             Info.TaskSettings.Media.ReadMedia();
+            OnMediaLoaded();
 
             if (Info.TaskSettings.MediaOptions.UploadScreenshots)
             {
@@ -96,7 +95,7 @@ namespace TDMakerLib
                 CreateScreenshots();
             }
 
-            // create torrent
+            OnUploadCompleted();
         }
 
         private void ThreadCompleted()
@@ -109,9 +108,9 @@ namespace TDMakerLib
             Status = TaskStatus.Preparing;
         }
 
-        public static WorkerTask CreateTask(TaskSettings taskSettings)
+        public static WorkerTask CreateTask(TaskSettings ts)
         {
-            WorkerTask task = new WorkerTask(taskSettings);
+            WorkerTask task = new WorkerTask(ts);
             return task;
         }
 
@@ -120,15 +119,13 @@ namespace TDMakerLib
             switch (Info.TaskSettings.Media.Options.MediaTypeChoice)
             {
                 case MediaType.MediaDisc:
-                    if (TakeScreenshot(Info.TaskSettings.Media.Overall, FileSystem.GetScreenShotsDir(Info.TaskSettings.Media.Overall.FilePath)))
-                        AddScreenshot(Info.TaskSettings.Media.Overall);
+                    TakeScreenshot(Info.TaskSettings.Media.Overall, FileSystem.GetScreenShotsDir(Info.TaskSettings.Media.Overall.FilePath));
                     break;
 
                 default:
                     foreach (MediaFile mf in Info.TaskSettings.Media.MediaFiles)
                     {
-                        if (TakeScreenshot(mf, FileSystem.GetScreenShotsDir(mf.FilePath)))
-                            AddScreenshot(mf);
+                        TakeScreenshot(mf, FileSystem.GetScreenShotsDir(mf.FilePath));
                     }
                     break;
             }
@@ -158,27 +155,22 @@ namespace TDMakerLib
             try
             {
                 thumb.TakeScreenshots(threadWorker);
-                // ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, "Done taking Screenshot for " + Path.GetFileName(mediaFilePath));
+                ReportProgress("Done taking Screenshot for " + Path.GetFileName(mediaFilePath));
             }
             catch (Exception ex)
             {
                 Success = false;
                 Debug.WriteLine(ex.ToString());
-                // ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, ex.Message + " for " + Path.GetFileName(mediaFilePath));
+                ReportProgress(ex.Message + " for " + Path.GetFileName(mediaFilePath));
             }
 
             return Success;
         }
 
-        private void AddScreenshot(MediaFile mf)
+        private void ReportProgress(string msg)
         {
-            foreach (ScreenshotInfo ss in mf.Screenshots)
-            {
-                if (ss != null)
-                {
-                    //  ReportProgress(ProgressType.UPDATE_SCREENSHOTS_LIST, ss);
-                }
-            }
+            Info.Status = msg;
+            OnStatusChanged();
         }
 
         public void UploadScreenshots()
@@ -206,17 +198,18 @@ namespace TDMakerLib
             if (Info.TaskSettings.Media.Options.UploadScreenshots)
             {
                 int i = 0;
-                Parallel.ForEach<ScreenshotInfo>(mf.Screenshots, ss =>
+                Parallel.ForEach<ScreenshotInfo>(mf.Screenshots, si =>
                 {
-                    if (ss != null)
+                    if (si != null)
                     {
-                        // ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploading {0} ({1} of {2})", Path.GetFileName(ss.LocalPath), ++i, mf.Screenshots.Count));
-                        UploadResult ur = UploadScreenshot(ss.LocalPath);
+                        ReportProgress(string.Format("Uploading {0} ({1} of {2})", Path.GetFileName(si.LocalPath), ++i, mf.Screenshots.Count));
+                        UploadResult ur = UploadScreenshot(si.LocalPath);
 
                         if (ur != null && !string.IsNullOrEmpty(ur.URL))
                         {
-                            ss.FullImageLink = ur.URL;
-                            ss.LinkedThumbnail = ur.ThumbnailURL;
+                            si.FullImageLink = ur.URL;
+                            si.LinkedThumbnail = ur.ThumbnailURL;
+                            OnScreenshotUploaded(si);
                         }
                     }
                     else
@@ -242,14 +235,14 @@ namespace TDMakerLib
                 {
                     if (!string.IsNullOrEmpty(ur.URL))
                     {
-                        // ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Uploaded {0}.", Path.GetFileName(ssPath)));
+                        ReportProgress(string.Format("Uploaded {0}.", Path.GetFileName(ssPath)));
                         Adapter.ScheduleFileForDeletion(ssPath);
                     }
                 }
                 else
                 {
-                    // ReportProgress(ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Failed uploading {0}. Try again later.", Path.GetFileName(ssPath)));
-                    // Success = false;
+                    ReportProgress(string.Format("Failed uploading {0}. Try again later.", Path.GetFileName(ssPath)));
+                    Success = false;
                 }
             }
 
@@ -337,11 +330,35 @@ namespace TDMakerLib
             }
         }
 
+        private void OnUploadCompleted()
+        {
+            if (UploadCompleted != null)
+            {
+                threadWorker.InvokeAsync(() => UploadCompleted(this));
+            }
+        }
+
         private void OnUploadProgressChanged()
         {
             if (UploadProgressChanged != null)
             {
                 threadWorker.InvokeAsync(() => UploadProgressChanged(this));
+            }
+        }
+
+        private void OnMediaLoaded()
+        {
+            if (MediaLoaded != null)
+            {
+                threadWorker.InvokeAsync(() => MediaLoaded(this));
+            }
+        }
+
+        private void OnScreenshotUploaded(ScreenshotInfo si)
+        {
+            if (ScreenshotUploaded != null)
+            {
+                threadWorker.InvokeAsync(() => ScreenshotUploaded(si));
             }
         }
 

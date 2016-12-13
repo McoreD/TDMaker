@@ -346,10 +346,40 @@ namespace TDMaker
                     }
                 }
 
-                taskSettingsList.ForEach(ts => TaskManager.Start(WorkerTask.CreateTask(ts)));
+                foreach (TaskSettings ts in taskSettingsList)
+                {
+                    WorkerTask task = WorkerTask.CreateTask(ts);
+                    task.MediaLoaded += Task_MediaLoaded;
+                    task.StatusChanged += Task_StatusChanged;
+                    task.UploadCompleted += Task_UploadCompleted;
+                    task.ScreenshotUploaded += Task_ScreenshotUploaded;
+                    TaskManager.Start(task);
+                }
 
                 UpdateGuiControls();
             }
+        }
+
+        private void Task_ScreenshotUploaded(ScreenshotInfo si)
+        {
+            lbScreenshots.Items.Add(si);
+            lbScreenshots.SelectedIndex = lbScreenshots.Items.Count - 1;
+        }
+
+        private void Task_MediaLoaded(WorkerTask task)
+        {
+            MediaInfo2 mi = task.Info.TaskSettings.Media;
+            gbDVD.Enabled = (mi.Options.MediaTypeChoice == MediaType.MediaDisc);
+            foreach (MediaFile mf in mi.MediaFiles)
+            {
+                lbMediaInfo.Items.Add(mf);
+                lbMediaInfo.SelectedIndex = lbMediaInfo.Items.Count - 1;
+            }
+        }
+
+        private void Task_StatusChanged(WorkerTask task)
+        {
+            sBar.Text = task.Info.Status;
         }
 
         private static MediaWizardOptions ShowMediaWizard(ref MediaWizardOptions mwo, List<string> FileOrDirPaths)
@@ -844,16 +874,6 @@ namespace TDMaker
                         pBar.Value = Convert.ToInt16(e.UserState);
                         break;
 
-                    case ProgressType.REPORT_MEDIAINFO_SUMMARY:
-                        MediaInfo2 mi = (MediaInfo2)e.UserState;
-                        gbDVD.Enabled = (mi.Options.MediaTypeChoice == MediaType.MediaDisc);
-                        foreach (MediaFile mf in mi.MediaFiles)
-                        {
-                            lbMediaInfo.Items.Add(mf);
-                            lbMediaInfo.SelectedIndex = lbMediaInfo.Items.Count - 1;
-                        }
-                        break;
-
                     case ProgressType.REPORT_TORRENTINFO:
                         TorrentInfo ti = e.UserState as TorrentInfo;
                         lbPublish.Items.Add(ti);
@@ -869,15 +889,6 @@ namespace TDMaker
                     case ProgressType.UPDATE_PROGRESSBAR_MAX:
                         pBar.Style = ProgressBarStyle.Continuous;
                         pBar.Maximum = (int)e.UserState;
-                        break;
-
-                    case ProgressType.UPDATE_SCREENSHOTS_LIST:
-                        ScreenshotInfo sp = (ScreenshotInfo)e.UserState;
-                        if (sp != null && !string.IsNullOrEmpty(sp.LocalPath))
-                        {
-                            lbScreenshots.Items.Add(sp);
-                            lbScreenshots.SelectedIndex = lbScreenshots.Items.Count - 1;
-                        }
                         break;
 
                     case ProgressType.UPDATE_STATUSBAR_DEBUG:
