@@ -19,6 +19,7 @@ namespace TDMakerLib
         public Stopwatch UploadDuration { get; set; }
         public UploadResult Result { get; set; }
         public ProgressManager Progress { get; set; }
+        public ProgressManager TorrentProgress { get; set; }
 
         public TaskInfo(TaskSettings taskSettings)
         {

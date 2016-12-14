@@ -354,16 +354,28 @@ namespace TDMaker
                 foreach (TaskSettings ts in taskSettingsList)
                 {
                     WorkerTask task = WorkerTask.CreateTask(ts);
+                    task.UploadProgressChanged += Task_UploadProgressChanged;
                     task.MediaLoaded += Task_MediaLoaded;
                     task.StatusChanged += Task_StatusChanged;
                     task.ScreenshotUploaded += Task_ScreenshotUploaded;
                     task.TorrentInfoCreated += Task_TorrentInfoCreated;
+                    task.TorrentProgressChanged += Task_TorrentProgressChanged;
                     task.TaskCompleted += Task_TaskCompleted;
                     TaskManager.Start(task);
                 }
 
                 UpdateGuiControls();
             }
+        }
+
+        private void Task_TorrentProgressChanged(WorkerTask task)
+        {
+            pBar.Value = (int)task.Info.TorrentProgress.Percentage;
+        }
+
+        private void Task_UploadProgressChanged(WorkerTask task)
+        {
+            pBar.Value = TaskManager.GetAverageProgress();
         }
 
         private void Task_TaskCompleted(WorkerTask task)
@@ -450,23 +462,6 @@ namespace TDMaker
             pBar.Value = 0;
         }
 
-        private void bwApp_DoWork(object sender, DoWorkEventArgs e)
-        {
-            // start of the magic :)
-
-            WorkerTask wt = (WorkerTask)e.Argument;
-
-            switch (wt.Task)
-            {
-                case TaskType.ANALYZE_MEDIA:
-                    break;
-
-                case TaskType.CREATE_TORRENT:
-                    WorkerCreateTorrents(wt);
-                    break;
-            }
-        }
-
         private bool ValidateInput()
         {
             StringBuilder sbMsg = new StringBuilder();
@@ -486,11 +481,6 @@ namespace TDMaker
             return true;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="p">File or Folder</param>
-        /// <returns></returns>
         private List<string> CreateFileList(string p)
         {
             List<string> fl = new List<string>();
@@ -520,7 +510,6 @@ namespace TDMaker
             mi.Menu = cboDiscMenu.Text;
             mi.Authoring = cboAuthoring.Text;
             mi.WebLink = txtWebLink.Text;
-            mi.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, p);
 
             if (App.Settings.ProfileActive.Publisher == PublishInfoType.ExternalTemplate)
             {
@@ -560,6 +549,8 @@ namespace TDMaker
             }
         }
 
+        #region Load settings
+
         private void LoadSettingsToControls()
         {
             LoadSettingsInputControls();
@@ -575,7 +566,7 @@ namespace TDMaker
             pgApp.SelectedObject = App.Settings;
         }
 
-        private static void LoadSettingsMediaInfoControls()
+        private void LoadSettingsMediaInfoControls()
         {
             if (string.IsNullOrEmpty(App.Settings.CustomMediaInfoDllDir))
             {
@@ -698,24 +689,16 @@ namespace TDMaker
             UpdateProxyControls();
         }
 
-        private object WorkerCreateTorrents(WorkerTask wt)
-        {
-            try
-            {
-                TorrentCreateInfo tci = wt.Info.TaskSettings.Media.TorrentCreateInfo;
-                tci.CreateTorrent();
-                if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
-                {
-                    string fp = Path.Combine(tci.TorrentFolder, MediaHelper.GetMediaName(tci.MediaLocation)) + ".xml";
-                    FileSystem.GetXMLTorrentUpload(wt.Info.TaskSettings).Write(fp);
-                }
-            }
-            catch (Exception ex)
-            {
-                bwApp.ReportProgress((int)ProgressType.UPDATE_STATUSBAR_DEBUG, ex.Message);
-            }
+        #endregion Load settings
 
-            return null;
+        private void WorkerCreateTorrents(WorkerTask task)
+        {
+            task.CreateTorrent();
+            if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
+            {
+                string fp = Path.Combine(task.Info.TaskSettings.TorrentFolder, MediaHelper.GetMediaName(task.Info.TaskSettings.Media.Location)) + ".xml";
+                FileSystem.GetXMLTorrentUpload(task.Info.TaskSettings).Write(fp);
+            }
         }
 
         private void UpdateGuiControls()
@@ -724,10 +707,10 @@ namespace TDMaker
             {
                 gbDVD.Enabled = gbSource.Enabled = App.Settings.ProfileActive.Publisher != PublishInfoType.MediaInfo;
 
-                btnCreateTorrent.Enabled = !bwApp.IsBusy && lbPublish.Items.Count > 0;
-                btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
+                btnCreateTorrent.Enabled = !TaskManager.IsBusy && lbPublish.Items.Count > 0;
+                btnAnalyze.Enabled = !TaskManager.IsBusy && lbFiles.Items.Count > 0;
 
-                btnPublish.Enabled = !bwApp.IsBusy && !string.IsNullOrEmpty(txtPublish.Text);
+                btnPublish.Enabled = !TaskManager.IsBusy && !string.IsNullOrEmpty(txtPublish.Text);
             }
         }
 
@@ -739,12 +722,12 @@ namespace TDMaker
 
         private void tmrStatus_Tick(object sender, EventArgs e)
         {
-            tssPerc.Text = (bwApp.IsBusy ? string.Format("{0}%", (100.0 * (double)pBar.Value / (double)pBar.Maximum).ToString("0")) : "");
+            tssPerc.Text = (TaskManager.IsBusy ? string.Format("{0}%", (100.0 * (double)pBar.Value / (double)pBar.Maximum).ToString("0")) : "");
             btnAnalyze.Text = Resources.MainWindow_tmrStatus_Tick_Create__description + (lbFiles.SelectedItems.Count > 1 ? "s" : "");
             btnCreateTorrent.Text = Resources.MainWindow_tmrStatus_Tick_Create__torrent + (lbPublish.SelectedItems.Count > 1 ? "s" : "");
-            btnBrowse.Enabled = !bwApp.IsBusy;
-            btnBrowseDir.Enabled = !bwApp.IsBusy;
-            btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
+            btnBrowse.Enabled = !TaskManager.IsBusy;
+            btnBrowseDir.Enabled = !TaskManager.IsBusy;
+            btnAnalyze.Enabled = !TaskManager.IsBusy && lbFiles.Items.Count > 0;
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -763,53 +746,6 @@ namespace TDMaker
         private void btnPublish_Click(object sender, EventArgs e)
         {
             CopyPublish();
-        }
-
-        private void bwApp_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            if (e.UserState != null)
-            {
-                string msg = "";
-                if (e.UserState is string)
-                {
-                    msg = e.UserState.ToString();
-                }
-
-                ProgressType perc = (ProgressType)e.ProgressPercentage;
-
-                switch (perc)
-                {
-                    case ProgressType.INCREMENT_PROGRESS_WITH_MSG:
-                        pBar.Style = ProgressBarStyle.Continuous;
-                        pBar.Increment(1);
-                        sBar.Text = msg;
-                        break;
-
-                    case ProgressType.UPDATE_PROGRESSBAR_ProgressManager:
-                        ProgressManager progress = e.UserState as ProgressManager;
-                        pBar.Style = ProgressBarStyle.Continuous;
-                        pBar.Maximum = 100;
-                        pBar.Value = (int)progress.Percentage;
-                        Debug.WriteLine(progress.Percentage);
-                        break;
-
-                    case ProgressType.UPDATE_PROGRESSBAR_Cumulative:
-                        pBar.Style = ProgressBarStyle.Continuous;
-                        pBar.Maximum = 100;
-                        pBar.Value = Convert.ToInt16(e.UserState);
-                        break;
-
-                    case ProgressType.UPDATE_PROGRESSBAR_MAX:
-                        pBar.Style = ProgressBarStyle.Continuous;
-                        pBar.Maximum = (int)e.UserState;
-                        break;
-
-                    case ProgressType.UPDATE_STATUSBAR_DEBUG:
-                        sBar.Text = msg;
-                        DebugHelper.WriteLine(msg);
-                        break;
-                }
-            }
         }
 
         private void chkScreenshotUpload_CheckedChanged(object sender, EventArgs e)
@@ -835,22 +771,10 @@ namespace TDMaker
 
         private void CreateTorrentButton()
         {
-            if (!bwApp.IsBusy)
+            foreach (WorkerTask task in lbPublish.SelectedItems)
             {
-                List<TorrentCreateInfo> tps = new List<TorrentCreateInfo>();
-
-                foreach (WorkerTask ti in lbPublish.SelectedItems)
-                {
-                    tps.Add(new TorrentCreateInfo(App.Settings.ProfileActive, ti.Info.TaskSettings.Media.Location));
-                }
-                if (tps.Count > 0)
-                {
-                    var wt = new WorkerTask(TaskType.CREATE_TORRENT, bwApp);
-                    wt.TorrentPackets = tps;
-                    bwApp.RunWorkerAsync(wt);
-
-                    btnCreateTorrent.Enabled = false;
-                }
+                WorkerCreateTorrents(task);
+                btnCreateTorrent.Enabled = false;
             }
         }
 
@@ -866,7 +790,7 @@ namespace TDMaker
 
         private void CreatePublishUser()
         {
-            if (!bwApp.IsBusy)
+            if (!TaskManager.IsBusy)
             {
                 WorkerTask task = GetTask();
                 if (task != null)
@@ -943,33 +867,6 @@ namespace TDMaker
         private void cboQuickTemplate_SelectedIndexChanged(object sender, EventArgs e)
         {
             CreatePublishUser();
-        }
-
-        private string GetHexColor()
-        {
-            string hexColor = "";
-            ColorDialog cd = new ColorDialog();
-            if (cd.ShowDialog() == DialogResult.OK)
-            {
-                hexColor = string.Format("0x{0:X8}", cd.Color.ToArgb());
-                hexColor = hexColor.Substring(hexColor.Length - 6, 6);
-            }
-            return hexColor;
-        }
-
-        private void SetComboBoxTextColor(ref ComboBox cbo)
-        {
-            ColorDialog cd = new ColorDialog();
-            cd.FullOpen = true;
-            cd.AnyColor = true;
-
-            if (cd.ShowDialog() == DialogResult.OK)
-            {
-                var hexColor = string.Format("0x{0:X8}", cd.Color.ToArgb());
-                hexColor = hexColor.Substring(hexColor.Length - 6, 6);
-                cbo.Text = hexColor;
-                cbo.BackColor = cd.Color;
-            }
         }
 
         private void WriteMediaInfo(string info)

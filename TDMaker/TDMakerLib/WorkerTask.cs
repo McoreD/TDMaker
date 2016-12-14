@@ -1,4 +1,5 @@
-﻿using ShareX.HelpersLib;
+﻿using MonoTorrent.Common;
+using ShareX.HelpersLib;
 using ShareX.UploadersLib;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TDMakerLib
 {
@@ -17,7 +19,7 @@ namespace TDMakerLib
         public delegate void UploaderServiceEventHandler(IUploaderService uploaderService);
 
         public event TaskEventHandler StatusChanged, UploadStarted, UploadProgressChanged, UploadCompleted, TaskCompleted;
-        public event TaskEventHandler MediaLoaded, TorrentInfoCreated;
+        public event TaskEventHandler MediaLoaded, TorrentInfoCreated, TorrentProgressChanged;
         public event ScreenshotInfoEventHandler ScreenshotUploaded;
         public event UploaderServiceEventHandler UploadersConfigWindowRequested;
 
@@ -44,19 +46,10 @@ namespace TDMakerLib
         public bool StopRequested { get; private set; }
         public bool RequestSettingUpdate { get; private set; }
 
-        public TaskType Task { get; private set; }
-
-        public List<TorrentCreateInfo> TorrentPackets { get; set; }
-
         public ThreadWorker threadWorker { get; private set; }
         private GenericUploader uploader;
 
         public bool Success { get; private set; }
-
-        public WorkerTask(TaskType task, BackgroundWorker worker = null)
-        {
-            Task = task;
-        }
 
         public WorkerTask(TaskSettings taskSettings)
         {
@@ -103,9 +96,9 @@ namespace TDMakerLib
             // create textFiles of MediaInfo
             if (App.Settings.ProfileActive.WritePublish)
             {
-                string txtPath = Path.Combine(Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder, Info.TaskSettings.Media.Overall.FileName) + ".txt";
+                string txtPath = Path.Combine(Info.TaskSettings.TorrentFolder, Info.TaskSettings.Media.Overall.FileName) + ".txt";
 
-                Helpers.CreateDirectoryFromDirectoryPath(Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder);
+                Helpers.CreateDirectoryFromDirectoryPath(Info.TaskSettings.TorrentFolder);
 
                 using (StreamWriter sw = new StreamWriter(txtPath))
                 {
@@ -116,13 +109,13 @@ namespace TDMakerLib
             // create torrent
             if (Info.TaskSettings.MediaOptions.CreateTorrent)
             {
-                Info.TaskSettings.Media.TorrentCreateInfo.CreateTorrent();
+                CreateTorrent();
             }
 
             // create xml info
             if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
             {
-                string fp = Path.Combine(Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(Info.TaskSettings.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
+                string fp = Path.Combine(Info.TaskSettings.TorrentFolder, MediaHelper.GetMediaName(Info.TaskSettings.Media.Location)) + ".xml";
                 FileSystem.GetXMLTorrentUpload(Info.TaskSettings).Write2(fp);
             }
         }
@@ -222,6 +215,8 @@ namespace TDMakerLib
 
         public void UploadScreenshots()
         {
+            Status = TaskStatus.Working;
+
             if (Info.TaskSettings.MediaOptions.UploadScreenshots)
             {
                 switch (Info.TaskSettings.MediaOptions.MediaTypeChoice)
@@ -257,11 +252,8 @@ namespace TDMakerLib
                             si.FullImageLink = ur.URL;
                             si.LinkedThumbnail = ur.ThumbnailURL;
                             OnScreenshotUploaded(si);
+                            Success = true;
                         }
-                    }
-                    else
-                    {
-                        Success = false;
                     }
                 });
             }
@@ -363,6 +355,51 @@ namespace TDMakerLib
 
         #endregion Upload Screenshots
 
+        public void CreateTorrent()
+        {
+            string p = Info.TaskSettings.Media.Location;
+            if (Info.TaskSettings.Profile != null && Info.TaskSettings.Profile.Trackers != null && (File.Exists(p) || Directory.Exists(p)))
+            {
+                foreach (string tracker in Info.TaskSettings.Profile.Trackers)
+                {
+                    TorrentCreator tc = new TorrentCreator();
+                    tc.CreatedBy = Application.ProductName;
+                    tc.Private = true;
+                    tc.Comment = MediaHelper.GetMediaName(p);
+                    tc.Path = p;
+                    tc.PublisherUrl = "https://github.com/McoreD/TDMaker";
+                    tc.Publisher = Application.ProductName;
+                    tc.StoreMD5 = false; // delays torrent creation
+                    List<string> temp = new List<string>();
+                    temp.Add(tracker);
+                    tc.Announces.Add(temp);
+
+                    var uri = new Uri(tracker);
+                    string torrentFileName = string.Format("{0}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)));
+                    Info.TaskSettings.TorrentFilePath = Path.Combine(Path.Combine(Info.TaskSettings.TorrentFolder, uri.Host), torrentFileName);
+
+                    //  ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
+
+                    ProgressManager progress = new ProgressManager(tc.PieceLength);
+
+                    tc.Hashed += delegate (object o, TorrentCreatorEventArgs e)
+                    {
+                        progress.UpdateProgress(e.FileBytesHashed);
+                        Info.TorrentProgress = progress;
+                        OnTorrentProgressChanged();
+                    };
+
+                    Helpers.CreateDirectoryFromFilePath(Info.TaskSettings.TorrentFilePath);
+                    tc.Create(Info.TaskSettings.TorrentFilePath);
+                    ReportProgress(string.Format("Created {0}", Info.TaskSettings.TorrentFilePath));
+                }
+            }
+            else
+            {
+                DebugHelper.WriteLine("There were no active trackers configured to create a torrent.");
+            }
+        }
+
         #region Task Events
 
         private void OnStatusChanged()
@@ -394,6 +431,14 @@ namespace TDMakerLib
             if (UploadProgressChanged != null)
             {
                 threadWorker.InvokeAsync(() => UploadProgressChanged(this));
+            }
+        }
+
+        private void OnTorrentProgressChanged()
+        {
+            if (TorrentProgressChanged != null)
+            {
+                threadWorker.InvokeAsync(() => TorrentProgressChanged(this));
             }
         }
 

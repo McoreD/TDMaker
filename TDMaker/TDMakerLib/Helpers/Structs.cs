@@ -11,4 +11,9 @@
         public PublishInfoType PublishInfoTypeChoice { get; set; }
         public string TemplateLocation { get; set; }
     }
+
+    public struct TorrentOptions
+    {
+        public string MediaLocation { get; set; }
+    }
 }

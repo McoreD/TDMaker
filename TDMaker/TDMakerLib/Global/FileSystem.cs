@@ -168,7 +168,7 @@ namespace TDMakerLib
 
             XMLTorrentUpload xmlUpload = new XMLTorrentUpload()
             {
-                TorrentFilePath = mi.TorrentCreateInfo.TorrentFilePath,
+                TorrentFilePath = ts.TorrentFilePath,
                 ReleaseDescription = mi.ReleaseDescription,
                 MediaInfoSummary = mi.Overall.Summary,
                 Format = format,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -13,11 +14,18 @@ namespace TDMakerLib
         public PublishOptions PublishOptions { get; set; }
         public MediaWizardOptions MediaOptions { get; set; }
 
+        public string TorrentFolder { get; set; }
+        public string TorrentFilePath { get; set; }
+
         public TaskSettings()
         {
             Profile = App.Settings.ProfileActive;
             PublishOptions = new PublishOptions();
             MediaOptions = new MediaWizardOptions();
+            if (Media != null && Profile.TorrentsFolder == LocationType.ParentFolder)
+            {
+                TorrentFolder = Path.GetDirectoryName(Media.Location);
+            }
         }
 
         public string ToStringMedia()

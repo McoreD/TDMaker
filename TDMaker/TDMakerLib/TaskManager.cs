@@ -52,5 +52,24 @@ namespace TDMakerLib
                 }
             }
         }
+
+        public static int GetAverageProgress()
+        {
+            double averageProgress = 0;
+
+            IEnumerable<WorkerTask> workingTasks = Tasks.Where(x => x != null && x.Status == TaskStatus.Working && x.Info != null);
+
+            if (workingTasks.Count() > 0)
+            {
+                workingTasks = workingTasks.Where(x => x.Info.Progress != null);
+
+                if (workingTasks.Count() > 0)
+                {
+                    averageProgress = workingTasks.Average(x => x.Info.Progress.Percentage);
+                }
+            }
+
+            return (int)averageProgress;
+        }
     }
 }

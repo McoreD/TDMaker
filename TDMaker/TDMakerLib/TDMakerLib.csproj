@@ -94,7 +94,6 @@
     <Compile Include="TaskManager.cs" />
     <Compile Include="TaskSettings.cs" />
     <Compile Include="Templates\TemplateNameConverter.cs" />
-    <Compile Include="Torrents\TorrentCreator.cs" />
     <Compile Include="WorkerTask.cs" />
     <Compile Include="Helpers\ImageFile.cs" />
     <Compile Include="Helpers\Kernel32Helper.cs" />

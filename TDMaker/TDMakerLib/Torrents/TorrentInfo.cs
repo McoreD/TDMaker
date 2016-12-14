@@ -1,20 +1,10 @@
-﻿using ShareX.HelpersLib;
-using ShareX.UploadersLib;
-using ShareX.UploadersLib.FileUploaders;
-using ShareX.UploadersLib.ImageUploaders;
-using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using UploadersLib.ImageUploaders;
 
 namespace TDMakerLib
 {
-    public class TorrentInfo
+    public static class TorrentInfo
     {
         public static string ToStringPublishExternal(PublishOptions options, TemplateReader tr)
         {

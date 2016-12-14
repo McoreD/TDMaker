@@ -23,11 +23,6 @@ namespace TDMakerLib
         public SourceType DiscType { get; set; }
 
         /// <summary>
-        /// Packet that contains Tracker Information
-        /// </summary>
-        public TorrentCreateInfo TorrentCreateInfo { get; set; }
-
-        /// <summary>
         /// FilePath or DirectoryPath of the Media
         /// </summary>
         public string Location { get; private set; }

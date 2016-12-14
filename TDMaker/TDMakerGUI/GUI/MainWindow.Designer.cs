@@ -33,7 +33,6 @@ namespace TDMaker
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.bwApp = new System.ComponentModel.BackgroundWorker();
             this.ssMain = new System.Windows.Forms.StatusStrip();
             this.sbarIcon = new System.Windows.Forms.ToolStripStatusLabel();
             this.sBar = new System.Windows.Forms.ToolStripStatusLabel();
@@ -116,6 +115,7 @@ namespace TDMaker
             this.tpSettings = new System.Windows.Forms.TabPage();
             this.tcSettings = new System.Windows.Forms.TabControl();
             this.tpSettingsGeneral = new System.Windows.Forms.TabPage();
+            this.pgApp = new System.Windows.Forms.PropertyGrid();
             this.gbUploadScreenshots = new System.Windows.Forms.GroupBox();
             this.btnTemplatesRewrite = new System.Windows.Forms.Button();
             this.cboFileUploader = new System.Windows.Forms.ComboBox();
@@ -123,7 +123,6 @@ namespace TDMaker
             this.btnUploadersConfig = new System.Windows.Forms.Button();
             this.cboImageUploader = new System.Windows.Forms.ComboBox();
             this.chkUploadScreenshots = new System.Windows.Forms.CheckBox();
-            this.pgApp = new System.Windows.Forms.PropertyGrid();
             this.tpSettingsProfiles = new System.Windows.Forms.TabPage();
             this.btnRemoveScreenshotProfile = new System.Windows.Forms.Button();
             this.btnAddScreenshotProfile = new System.Windows.Forms.Button();
@@ -176,12 +175,6 @@ namespace TDMaker
             this.tscMain.SuspendLayout();
             this.flpButtons.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // bwApp
-            // 
-            this.bwApp.WorkerReportsProgress = true;
-            this.bwApp.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwApp_DoWork);
-            this.bwApp.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwApp_ProgressChanged);
             // 
             // ssMain
             // 
@@ -1083,6 +1076,18 @@ namespace TDMaker
             this.tpSettingsGeneral.TabIndex = 0;
             this.tpSettingsGeneral.UseVisualStyleBackColor = true;
             // 
+            // pgApp
+            // 
+            this.pgApp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgApp.LineColor = System.Drawing.SystemColors.ControlDark;
+            this.pgApp.Location = new System.Drawing.Point(3, 3);
+            this.pgApp.Name = "pgApp";
+            this.pgApp.PropertySort = System.Windows.Forms.PropertySort.Categorized;
+            this.pgApp.Size = new System.Drawing.Size(862, 409);
+            this.pgApp.TabIndex = 0;
+            this.pgApp.ToolbarVisible = false;
+            this.pgApp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgApp_PropertyValueChanged);
+            // 
             // gbUploadScreenshots
             // 
             this.gbUploadScreenshots.Controls.Add(this.btnTemplatesRewrite);
@@ -1166,18 +1171,6 @@ namespace TDMaker
             this.chkUploadScreenshots.Text = "Upload screenshot to:";
             this.chkUploadScreenshots.UseVisualStyleBackColor = true;
             this.chkUploadScreenshots.CheckedChanged += new System.EventHandler(this.chkScreenshotUpload_CheckedChanged);
-            // 
-            // pgApp
-            // 
-            this.pgApp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pgApp.LineColor = System.Drawing.SystemColors.ControlDark;
-            this.pgApp.Location = new System.Drawing.Point(3, 3);
-            this.pgApp.Name = "pgApp";
-            this.pgApp.PropertySort = System.Windows.Forms.PropertySort.Categorized;
-            this.pgApp.Size = new System.Drawing.Size(862, 409);
-            this.pgApp.TabIndex = 0;
-            this.pgApp.ToolbarVisible = false;
-            this.pgApp.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.pgApp_PropertyValueChanged);
             // 
             // tpSettingsProfiles
             // 
@@ -1479,8 +1472,6 @@ namespace TDMaker
         }
 
         #endregion
-
-        private System.ComponentModel.BackgroundWorker bwApp;
         private System.Windows.Forms.StatusStrip ssMain;
         private System.Windows.Forms.ToolStripStatusLabel sbarIcon;
         private System.Windows.Forms.ToolStripStatusLabel sBar;

@@ -170,19 +170,18 @@ namespace TDMakerCLI
             if (mTorrentCreate)
             {
                 Helpers.CreateDirectoryFromDirectoryPath(mTorrentsDir);
-                task.Info.TaskSettings.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, mMediaLoc);
                 if (Directory.Exists(mTorrentsDir))
                 {
-                    task.Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
+                    task.Info.TaskSettings.TorrentFolder = mTorrentsDir;
                 }
 
-                task.Info.TaskSettings.Media.TorrentCreateInfo.CreateTorrent();
+                task.CreateTorrent();
 
                 // create xml file
                 if (mXmlCreate)
                 {
-                    string fp = Path.Combine(task.Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder,
-                        MediaHelper.GetMediaName(task.Info.TaskSettings.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
+                    string fp = Path.Combine(task.Info.TaskSettings.TorrentFolder,
+                        MediaHelper.GetMediaName(task.Info.TaskSettings.Media.Location)) + ".xml";
                     FileSystem.GetXMLTorrentUpload(task.Info.TaskSettings).Write2(fp);
                 }
             }
