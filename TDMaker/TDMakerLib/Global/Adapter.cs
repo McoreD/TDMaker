@@ -197,7 +197,7 @@ namespace TDMakerLib
 
         #region Publish
 
-        public static string CreatePublish(TaskSettings ts, PublishOptions pop)
+        public static string ToPublishString(TaskSettings ts, PublishOptions pop)
         {
             string pt = "";
 

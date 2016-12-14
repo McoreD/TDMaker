@@ -13,8 +13,6 @@ namespace TDMaker
         public static List<string> ExplorerFilePaths = new List<string>();
         public static GitHubUpdateManager UpdateManager { get; private set; }
 
-        public static TaskType CurrentTask { get; set; }
-
         [STAThread]
         private static void Main(string[] args)
         {

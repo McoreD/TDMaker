@@ -45,13 +45,11 @@ namespace TDMakerLib
         public bool RequestSettingUpdate { get; private set; }
 
         public TaskType Task { get; private set; }
-        public List<TorrentInfo> MediaList { get; set; }
 
         public List<TorrentCreateInfo> TorrentPackets { get; set; }
 
         public ThreadWorker threadWorker { get; private set; }
         private GenericUploader uploader;
-        private TaskReferenceHelper taskReferenceHelper;
 
         public bool Success { get; private set; }
 
@@ -138,7 +136,7 @@ namespace TDMakerLib
             pop.PublishInfoTypeChoice = App.Settings.ProfileActive.Publisher;
             ts.PublishOptions = pop;
 
-            return Adapter.CreatePublish(ts, pop);
+            return Adapter.ToPublishString(ts, pop);
         }
 
         private void ThreadCompleted()
@@ -312,7 +310,7 @@ namespace TDMakerLib
                 return GetInvalidConfigResult(service);
             }
 
-            uploader = service.CreateUploader(App.UploadersConfig, taskReferenceHelper);
+            uploader = service.CreateUploader(App.UploadersConfig, new TaskReferenceHelper());
 
             if (uploader != null)
             {

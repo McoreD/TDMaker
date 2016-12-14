@@ -113,12 +113,12 @@ namespace TDMakerCLI
 
                 if (mScreenshotsUpload)
                 {
-                    task.TakeScreenshots();
+                    TakeScreenshots(task);
                     task.UploadScreenshots();
                 }
                 else if (mScreenshotsCreate)
                 {
-                    task.TakeScreenshots();
+                    TakeScreenshots(task);
                 }
 
                 //  CreatePublish(ti);
@@ -139,19 +139,19 @@ namespace TDMakerCLI
             Console.WriteLine();
         }
 
-        private static void CreateScreenshots(TorrentInfo ti)
+        private static void TakeScreenshots(WorkerTask task)
         {
             if (Directory.Exists(mScreenshotDir))
             {
-                // ti.CreateScreenshots(mScreenshotDir);
+                task.TakeScreenshots(mScreenshotDir);
             }
             else
             {
-                //  ti.CreateScreenshots();
+                task.TakeScreenshots();
             }
         }
 
-        private static void CreatePublish(TorrentInfo ti)
+        private static void CreatePublish(WorkerTask ti)
         {
             PublishOptions pop = new PublishOptions()
             {
@@ -161,28 +161,29 @@ namespace TDMakerCLI
                 PublishInfoTypeChoice = App.Settings.ProfileActive.Publisher,
                 TemplateLocation = Path.Combine(App.TemplatesDir, "BTN")
             };
-            // TODO  ti.PublishString = Adapter.CreatePublish(ti, pop);
 
-            Console.WriteLine(ti.PublishString);
+            Console.WriteLine(Adapter.ToPublishString(ti.Info.TaskSettings, pop));
         }
 
-        private static void CreateTorrent(TorrentInfo ti)
+        private static void CreateTorrent(WorkerTask task)
         {
             if (mTorrentCreate)
             {
                 Helpers.CreateDirectoryFromDirectoryPath(mTorrentsDir);
-                /// TODO  ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, mMediaLoc);
+                task.Info.TaskSettings.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, mMediaLoc);
                 if (Directory.Exists(mTorrentsDir))
                 {
-                    // TODO     ti.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
+                    task.Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
                 }
-                // TODO    ti.Media.TorrentCreateInfo.CreateTorrent();
+
+                task.Info.TaskSettings.Media.TorrentCreateInfo.CreateTorrent();
 
                 // create xml file
                 if (mXmlCreate)
                 {
-                    // TODO        string fp = Path.Combine(ti.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
-                    // TODO      FileSystem.GetXMLTorrentUpload(ti.Media).Write2(fp);
+                    string fp = Path.Combine(task.Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder,
+                        MediaHelper.GetMediaName(task.Info.TaskSettings.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
+                    FileSystem.GetXMLTorrentUpload(task.Info.TaskSettings).Write2(fp);
                 }
             }
         }

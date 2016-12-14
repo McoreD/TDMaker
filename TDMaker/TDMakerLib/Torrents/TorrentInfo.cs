@@ -16,15 +16,6 @@ namespace TDMakerLib
 {
     public class TorrentInfo
     {
-        public string PublishString { get; set; }
-
-        public bool Success { get; set; }
-
-        /// <summary>
-        /// Create Publish based on a Template
-        /// </summary>
-        /// <param name="tr"></param>
-        /// <returns></returns>
         public static string ToStringPublishExternal(PublishOptions options, TemplateReader tr)
         {
             tr.CreateInfo(options);

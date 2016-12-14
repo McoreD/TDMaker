@@ -48,7 +48,7 @@ namespace TDMakerLib
             {
                 foreach (string tracker in this.Profile.Trackers)
                 {
-                    MonoTorrent.Common.TorrentCreator tc = new MonoTorrent.Common.TorrentCreator();
+                    TorrentCreator tc = new TorrentCreator();
                     tc.CreatedBy = Application.ProductName;
                     tc.Private = true;
                     tc.Comment = MediaHelper.GetMediaName(p);

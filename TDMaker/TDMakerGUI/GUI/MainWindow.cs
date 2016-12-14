@@ -24,6 +24,8 @@ namespace TDMaker
     {
         private bool IsGuiReady, IsClosing = false;
 
+        #region Main Window events
+
         public MainWindow()
         {
             InitializeComponent();
@@ -55,6 +57,7 @@ namespace TDMaker
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
+            App.LoadProxySettings();
             rtbDebugLog.Text = DebugHelper.Logger.ToString();
             DebugHelper.Logger.MessageAdded += Logger_MessageAdded;
 
@@ -74,7 +77,9 @@ namespace TDMaker
 #endif
         }
 
-        public void ValidateThumbnailerPaths(object sender, EventArgs e)
+        #endregion Main Window events
+
+        private void ValidateThumbnailerPaths(object sender, EventArgs e)
         {
             switch (App.Settings.ThumbnailerType)
             {
@@ -353,11 +358,35 @@ namespace TDMaker
                     task.StatusChanged += Task_StatusChanged;
                     task.ScreenshotUploaded += Task_ScreenshotUploaded;
                     task.TorrentInfoCreated += Task_TorrentInfoCreated;
+                    task.TaskCompleted += Task_TaskCompleted;
                     TaskManager.Start(task);
                 }
 
                 UpdateGuiControls();
             }
+        }
+
+        private void Task_TaskCompleted(WorkerTask task)
+        {
+            if (task.Success)
+            {
+                foreach (MediaFile mf in task.Info.TaskSettings.Media.MediaFiles)
+                {
+                    lbFiles.Items.Remove(mf.FilePath);
+                }
+
+                lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
+                sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready_;
+            }
+            else
+            {
+                sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready__One_or_more_tasks_failed_;
+            }
+
+            pBar.Style = ProgressBarStyle.Continuous;
+            pBar.Value = 0;
+
+            UpdateGuiControls();
         }
 
         private void Task_TorrentInfoCreated(WorkerTask task)
@@ -427,12 +456,9 @@ namespace TDMaker
 
             WorkerTask wt = (WorkerTask)e.Argument;
 
-            ProgramUI.CurrentTask = wt.Task;
-
             switch (wt.Task)
             {
                 case TaskType.ANALYZE_MEDIA:
-                    e.Result = WorkerAnalyzeMedia(wt);
                     break;
 
                 case TaskType.CREATE_TORRENT:
@@ -672,33 +698,16 @@ namespace TDMaker
             UpdateProxyControls();
         }
 
-        private WorkerTask WorkerAnalyzeMedia(WorkerTask wt)
-        {
-            App.LoadProxySettings();
-
-            bwApp.ReportProgress((int)ProgressType.UPDATE_PROGRESSBAR_MAX, wt.MediaList.Count);
-
-            foreach (TorrentInfo ti in wt.MediaList)
-            {
-                // WorkerTask
-            }
-
-            return wt;
-        }
-
         private object WorkerCreateTorrents(WorkerTask wt)
         {
             try
             {
-                foreach (TorrentInfo ti in wt.MediaList)
+                TorrentCreateInfo tci = wt.Info.TaskSettings.Media.TorrentCreateInfo;
+                tci.CreateTorrent();
+                if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
                 {
-                    TorrentCreateInfo tci = wt.Info.TaskSettings.Media.TorrentCreateInfo;
-                    tci.CreateTorrent();
-                    if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
-                    {
-                        string fp = Path.Combine(tci.TorrentFolder, MediaHelper.GetMediaName(tci.MediaLocation)) + ".xml";
-                        FileSystem.GetXMLTorrentUpload(wt.Info.TaskSettings).Write(fp);
-                    }
+                    string fp = Path.Combine(tci.TorrentFolder, MediaHelper.GetMediaName(tci.MediaLocation)) + ".xml";
+                    FileSystem.GetXMLTorrentUpload(wt.Info.TaskSettings).Write(fp);
                 }
             }
             catch (Exception ex)
@@ -719,42 +728,6 @@ namespace TDMaker
                 btnAnalyze.Enabled = !bwApp.IsBusy && lbFiles.Items.Count > 0;
 
                 btnPublish.Enabled = !bwApp.IsBusy && !string.IsNullOrEmpty(txtPublish.Text);
-            }
-        }
-
-        private void bwApp_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            WorkerTask wt = e.Result as WorkerTask;
-
-            if (wt != null)
-            {
-                pBar.Style = ProgressBarStyle.Continuous;
-                pBar.Value = 0;
-
-                bool success = true;
-                wt.MediaList.ForEach(x => success &= x.Success);
-
-                if (success)
-                {
-                    foreach (MediaFile mf in wt.Info.TaskSettings.Media.MediaFiles)
-                    {
-                        lbFiles.Items.Remove(mf.FilePath);
-                    }
-
-                    lbPublish.SelectedIndex = lbPublish.Items.Count - 1;
-                    sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready_;
-                }
-                else
-                {
-                    sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready__One_or_more_tasks_failed_;
-                }
-
-                UpdateGuiControls();
-
-                if (lbFiles.Items.Count > 0)
-                {
-                    btnAnalyze_Click(sender, e);
-                }
             }
         }
 
@@ -865,16 +838,14 @@ namespace TDMaker
             if (!bwApp.IsBusy)
             {
                 List<TorrentCreateInfo> tps = new List<TorrentCreateInfo>();
-                List<TorrentInfo> tiList = new List<TorrentInfo>();
-                foreach (TorrentInfo ti in lbPublish.SelectedItems)
+
+                foreach (WorkerTask ti in lbPublish.SelectedItems)
                 {
-                    // TODO: tps.Add(new TorrentCreateInfo(App.Settings.ProfileActive, wt.Info.TaskSettings.Media.Location));
-                    tiList.Add(ti);
+                    tps.Add(new TorrentCreateInfo(App.Settings.ProfileActive, ti.Info.TaskSettings.Media.Location));
                 }
                 if (tps.Count > 0)
                 {
                     var wt = new WorkerTask(TaskType.CREATE_TORRENT, bwApp);
-                    wt.MediaList = tiList;
                     wt.TorrentPackets = tps;
                     bwApp.RunWorkerAsync(wt);
 
@@ -909,7 +880,7 @@ namespace TDMaker
                         TemplateLocation = Path.Combine(App.TemplatesDir, cboQuickTemplate.Text)
                     };
 
-                    txtPublish.Text = Adapter.CreatePublish(task.Info.TaskSettings, pop);
+                    txtPublish.Text = Adapter.ToPublishString(task.Info.TaskSettings, pop);
 
                     if (task.Info.TaskSettings.MediaOptions.MediaTypeChoice == MediaType.MusicAudioAlbum)
                     {
