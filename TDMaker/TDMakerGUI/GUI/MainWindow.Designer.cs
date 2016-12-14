@@ -220,7 +220,6 @@ namespace TDMaker
             // tmrStatus
             // 
             this.tmrStatus.Enabled = true;
-            this.tmrStatus.Interval = 1000;
             this.tmrStatus.Tick += new System.EventHandler(this.tmrStatus_Tick);
             // 
             // txtWebLink

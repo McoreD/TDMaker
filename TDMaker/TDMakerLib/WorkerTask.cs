@@ -18,9 +18,11 @@ namespace TDMakerLib
         public delegate void ScreenshotInfoEventHandler(ScreenshotInfo si);
         public delegate void UploaderServiceEventHandler(IUploaderService uploaderService);
 
+        public event TaskEventHandler MediaLoaded;
         public event TaskEventHandler StatusChanged, UploadStarted, UploadProgressChanged, UploadCompleted, TaskCompleted;
-        public event TaskEventHandler MediaLoaded, TorrentInfoCreated, TorrentProgressChanged;
         public event ScreenshotInfoEventHandler ScreenshotUploaded;
+        public event TaskEventHandler TorrentInfoCreated, TorrentProgressChanged;
+
         public event UploaderServiceEventHandler UploadersConfigWindowRequested;
 
         public TaskInfo Info { get; set; }
@@ -378,20 +380,18 @@ namespace TDMakerLib
                     string torrentFileName = string.Format("{0}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)));
                     Info.TaskSettings.TorrentFilePath = Path.Combine(Path.Combine(Info.TaskSettings.TorrentFolder, uri.Host), torrentFileName);
 
-                    //  ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
-
-                    ProgressManager progress = new ProgressManager(tc.PieceLength);
+                    ReportProgress(string.Format("Creating {0}", Info.TaskSettings.TorrentFilePath));
 
                     tc.Hashed += delegate (object o, TorrentCreatorEventArgs e)
                     {
-                        progress.UpdateProgress(e.FileBytesHashed);
-                        Info.TorrentProgress = progress;
+                        Info.TorrentProgress = e.OverallCompletion;
                         OnTorrentProgressChanged();
                     };
 
                     Helpers.CreateDirectoryFromFilePath(Info.TaskSettings.TorrentFilePath);
                     tc.Create(Info.TaskSettings.TorrentFilePath);
                     ReportProgress(string.Format("Created {0}", Info.TaskSettings.TorrentFilePath));
+                    Success = true;
                 }
             }
             else

@@ -327,8 +327,6 @@ namespace TDMaker
                     {
                         if (File.Exists(fd) || Directory.Exists(fd))
                         {
-                            MakeGuiReadyForAnalysis();
-
                             TaskSettings ts = new TaskSettings();
                             ts.MediaOptions = mo;
 
@@ -365,12 +363,13 @@ namespace TDMaker
                 }
 
                 UpdateGuiControls();
+                pBar.Value = 0;
             }
         }
 
         private void Task_TorrentProgressChanged(WorkerTask task)
         {
-            pBar.Value = (int)task.Info.TorrentProgress.Percentage;
+            pBar.Value = (int)task.Info.TorrentProgress;
         }
 
         private void Task_UploadProgressChanged(WorkerTask task)
@@ -394,9 +393,6 @@ namespace TDMaker
             {
                 sBar.Text = Resources.MainWindow_bwApp_RunWorkerCompleted_Ready__One_or_more_tasks_failed_;
             }
-
-            pBar.Style = ProgressBarStyle.Continuous;
-            pBar.Value = 0;
 
             UpdateGuiControls();
         }
@@ -455,11 +451,6 @@ namespace TDMaker
             info.ShowDialog(this);
 
             return info.Report;
-        }
-
-        private void MakeGuiReadyForAnalysis()
-        {
-            pBar.Value = 0;
         }
 
         private bool ValidateInput()
