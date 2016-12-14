@@ -77,6 +77,11 @@ namespace TDMaker
 #endif
         }
 
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            IsClosing = true;
+        }
+
         #endregion Main Window events
 
         private void ValidateThumbnailerPaths(object sender, EventArgs e)
@@ -367,6 +372,8 @@ namespace TDMaker
             }
         }
 
+        #region WorkerTask events
+
         private void Task_TorrentProgressChanged(WorkerTask task)
         {
             pBar.Value = (int)task.Info.TorrentProgress;
@@ -430,6 +437,8 @@ namespace TDMaker
         {
             sBar.Text = task.Info.Status;
         }
+
+        #endregion WorkerTask events
 
         private static MediaWizardOptions ShowMediaWizard(ref MediaWizardOptions mwo, List<string> FileOrDirPaths)
         {
@@ -682,16 +691,6 @@ namespace TDMaker
 
         #endregion Load settings
 
-        private void WorkerCreateTorrents(WorkerTask task)
-        {
-            task.CreateTorrent();
-            if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
-            {
-                string fp = Path.Combine(task.Info.TaskSettings.TorrentFolder, MediaHelper.GetMediaName(task.Info.TaskSettings.Media.Location)) + ".xml";
-                FileSystem.GetXMLTorrentUpload(task.Info.TaskSettings).Write(fp);
-            }
-        }
-
         private void UpdateGuiControls()
         {
             if (IsGuiReady)
@@ -764,8 +763,13 @@ namespace TDMaker
         {
             foreach (WorkerTask task in lbPublish.SelectedItems)
             {
-                WorkerCreateTorrents(task);
-                btnCreateTorrent.Enabled = false;
+                task.CreateTorrent();
+
+                if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
+                {
+                    string fp = Path.Combine(task.Info.TaskSettings.TorrentFolder, MediaHelper.GetMediaName(task.Info.TaskSettings.Media.Location)) + ".xml";
+                    FileSystem.GetXMLTorrentUpload(task.Info.TaskSettings).Write(fp);
+                }
             }
         }
 
@@ -1285,11 +1289,6 @@ namespace TDMaker
         private void pgProfileOptions_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             UpdateGuiControls();
-        }
-
-        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            IsClosing = true;
         }
     }
 }

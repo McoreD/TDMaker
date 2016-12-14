@@ -150,6 +150,12 @@ namespace TDMakerLib
             return task;
         }
 
+        private void ReportProgress(string msg)
+        {
+            Info.Status = msg;
+            OnStatusChanged();
+        }
+
         #region Take Screenshots
 
         public void TakeScreenshots()
@@ -206,12 +212,6 @@ namespace TDMakerLib
         }
 
         #endregion Take Screenshots
-
-        private void ReportProgress(string msg)
-        {
-            Info.Status = msg;
-            OnStatusChanged();
-        }
 
         #region Upload Screenshots
 
