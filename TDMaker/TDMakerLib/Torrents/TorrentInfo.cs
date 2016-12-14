@@ -16,49 +16,33 @@ namespace TDMakerLib
 {
     public class TorrentInfo
     {
-        public MediaInfo2 Media { get; set; }
         public string PublishString { get; set; }
-        public PublishOptions PublishOptions { get; set; }
-
-        private BackgroundWorker worker;
 
         public bool Success { get; set; }
-
-        public TorrentInfo(MediaInfo2 mi)
-        {
-            Media = mi;
-            Success = true; // set to false if error
-        }
-
-        public TorrentInfo(BackgroundWorker bwApp, MediaInfo2 mi)
-            : this(mi)
-        {
-            worker = bwApp;
-        }
 
         /// <summary>
         /// Create Publish based on a Template
         /// </summary>
         /// <param name="tr"></param>
         /// <returns></returns>
-        public string CreatePublishExternal(PublishOptions options, TemplateReader tr)
+        public static string ToStringPublishExternal(PublishOptions options, TemplateReader tr)
         {
             tr.CreateInfo(options);
 
             return BbFormat(tr.PublishInfo, options);
         }
 
-        public string CreatePublishMediaInfo(PublishOptions pop)
+        public static string ToStringPublishMediaInfo(TaskSettings ts)
         {
             StringBuilder sbPublish = new StringBuilder();
 
-            switch (Media.Options.MediaTypeChoice)
+            switch (ts.Media.Options.MediaTypeChoice)
             {
                 case MediaType.MediaDisc:
                     StringBuilder sbMediaInfo = new StringBuilder();
-                    if (Media.MediaFiles.Count > 0)
+                    if (ts.Media.MediaFiles.Count > 0)
                     {
-                        foreach (MediaFile mf in Media.MediaFiles)
+                        foreach (MediaFile mf in ts.Media.MediaFiles)
                         {
                             sbMediaInfo.AppendLine(BbCode.Bold(mf.FileName));
                             sbMediaInfo.AppendLine(mf.Summary.Trim());
@@ -67,29 +51,29 @@ namespace TDMakerLib
                     }
                     else
                     {
-                        sbMediaInfo.AppendLine(Media.Overall.Summary.Trim());
+                        sbMediaInfo.AppendLine(ts.Media.Overall.Summary.Trim());
                         sbMediaInfo.AppendLine();
                     }
 
-                    sbPublish.AppendLine(BbFormat(sbMediaInfo.ToString(), pop));
+                    sbPublish.AppendLine(BbFormat(sbMediaInfo.ToString(), ts.PublishOptions));
 
-                    if (Media.Options.UploadScreenshots)
-                        sbPublish.AppendLine(Media.Overall.GetScreenshotString(pop));
+                    if (ts.Media.Options.UploadScreenshots)
+                        sbPublish.AppendLine(ts.Media.Overall.GetScreenshotString(ts.PublishOptions));
 
                     break;
                 default:
-                    foreach (MediaFile mf in Media.MediaFiles)
+                    foreach (MediaFile mf in ts.Media.MediaFiles)
                     {
                         sbMediaInfo = new StringBuilder();
                         sbMediaInfo.AppendLine(mf.Summary.Trim());
                         sbMediaInfo.AppendLine();
 
-                        sbPublish.AppendLine(BbFormat(sbMediaInfo.ToString(), pop));
+                        sbPublish.AppendLine(BbFormat(sbMediaInfo.ToString(), ts.PublishOptions));
 
-                        if (Media.Options.UploadScreenshots)
+                        if (ts.Media.Options.UploadScreenshots)
                         {
                             sbPublish.AppendLine();
-                            sbPublish.AppendLine(mf.GetScreenshotString(pop));
+                            sbPublish.AppendLine(mf.GetScreenshotString(ts.PublishOptions));
                         }
                     }
 
@@ -106,16 +90,16 @@ namespace TDMakerLib
             return publishInfo;
         }
 
-        public string CreatePublishInternal(PublishOptions pop)
+        public static string ToStringPublishInternal(TaskSettings ts)
         {
             StringBuilder sbPublish = new StringBuilder();
-            string info = Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum ? Media.ToStringAudio() : Media.ToStringMedia(pop);
-            sbPublish.Append(BbFormat(info, pop));
+            string info = ts.Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum ? ts.Media.ToStringAudio() : ts.ToStringMedia();
+            sbPublish.Append(BbFormat(info, ts.PublishOptions));
 
             return sbPublish.ToString().Trim();
         }
 
-        private string BbFormat(string p, PublishOptions options)
+        private static string BbFormat(string p, PublishOptions options)
         {
             StringBuilder sbPublish = new StringBuilder();
 
@@ -134,11 +118,6 @@ namespace TDMakerLib
             }
 
             return sbPublish.ToString().Trim();
-        }
-
-        public override string ToString()
-        {
-            return Path.GetFileName(Media.Location);
         }
     }
 }

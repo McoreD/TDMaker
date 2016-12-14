@@ -105,14 +105,14 @@ namespace TDMakerCLI
                 MediaInfo2 mi = new MediaInfo2(mwo, mMediaLoc);
                 mi.ReadMedia();
 
-                TorrentInfo ti = new TorrentInfo(mi);
+                TorrentInfo ti = new TorrentInfo();
 
                 mi.Options.UploadScreenshots = mScreenshotsUpload;
 
                 if (mScreenshotsUpload)
                 {
                     CreateScreenshots(ti);
-                    ti.UploadScreenshots();
+                    //  ti.UploadScreenshots();
                 }
                 else if (mScreenshotsCreate)
                 {
@@ -141,11 +141,11 @@ namespace TDMakerCLI
         {
             if (Directory.Exists(mScreenshotDir))
             {
-                ti.CreateScreenshots(mScreenshotDir);
+                // ti.CreateScreenshots(mScreenshotDir);
             }
             else
             {
-                ti.CreateScreenshots();
+                //  ti.CreateScreenshots();
             }
         }
 
@@ -159,7 +159,7 @@ namespace TDMakerCLI
                 PublishInfoTypeChoice = App.Settings.ProfileActive.Publisher,
                 TemplateLocation = Path.Combine(App.TemplatesDir, "BTN")
             };
-            ti.PublishString = Adapter.CreatePublish(ti, pop);
+            // TODO  ti.PublishString = Adapter.CreatePublish(ti, pop);
 
             Console.WriteLine(ti.PublishString);
         }
@@ -169,18 +169,18 @@ namespace TDMakerCLI
             if (mTorrentCreate)
             {
                 Helpers.CreateDirectoryFromDirectoryPath(mTorrentsDir);
-                ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, mMediaLoc);
+                /// TODO  ti.Media.TorrentCreateInfo = new TorrentCreateInfo(App.Settings.ProfileActive, mMediaLoc);
                 if (Directory.Exists(mTorrentsDir))
                 {
-                    ti.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
+                    // TODO     ti.Media.TorrentCreateInfo.TorrentFolder = mTorrentsDir;
                 }
-                ti.Media.TorrentCreateInfo.CreateTorrent();
+                // TODO    ti.Media.TorrentCreateInfo.CreateTorrent();
 
                 // create xml file
                 if (mXmlCreate)
                 {
-                    string fp = Path.Combine(ti.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
-                    FileSystem.GetXMLTorrentUpload(ti.Media).Write2(fp);
+                    // TODO        string fp = Path.Combine(ti.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(ti.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
+                    // TODO      FileSystem.GetXMLTorrentUpload(ti.Media).Write2(fp);
                 }
             }
         }

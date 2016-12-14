@@ -17,7 +17,7 @@ namespace TDMakerLib
         public delegate void UploaderServiceEventHandler(IUploaderService uploaderService);
 
         public event TaskEventHandler StatusChanged, UploadStarted, UploadProgressChanged, UploadCompleted, TaskCompleted;
-        public event TaskEventHandler MediaLoaded;
+        public event TaskEventHandler MediaLoaded, TorrentInfoCreated;
         public event ScreenshotInfoEventHandler ScreenshotUploaded;
         public event UploaderServiceEventHandler UploadersConfigWindowRequested;
 
@@ -82,20 +82,63 @@ namespace TDMakerLib
 
         private void ThreadDoWork()
         {
-            Info.TaskSettings.Media.ReadMedia();
-            OnMediaLoaded();
+            if (Info.TaskSettings.Media.DiscType != SourceType.Bluray)
+            {
+                ReportProgress("Reading " + Path.GetFileName(Info.TaskSettings.Media.Location) + " using MediaInfo...");
+                Info.TaskSettings.Media.ReadMedia();
+                OnMediaLoaded();
+            }
 
             if (Info.TaskSettings.MediaOptions.UploadScreenshots)
             {
-                CreateScreenshots();
+                TakeScreenshots();
                 UploadScreenshots();
             }
             else if (Info.TaskSettings.MediaOptions.CreateScreenshots)
             {
-                CreateScreenshots();
+                TakeScreenshots();
             }
 
-            OnUploadCompleted();
+            string PublishString = CreatePublishInitial(Info.TaskSettings);
+            OnTorrentInfoCreated();
+
+            // create textFiles of MediaInfo
+            if (App.Settings.ProfileActive.WritePublish)
+            {
+                string txtPath = Path.Combine(Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder, Info.TaskSettings.Media.Overall.FileName) + ".txt";
+
+                Helpers.CreateDirectoryFromDirectoryPath(Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder);
+
+                using (StreamWriter sw = new StreamWriter(txtPath))
+                {
+                    sw.WriteLine(PublishString);
+                }
+            }
+
+            // create torrent
+            if (Info.TaskSettings.MediaOptions.CreateTorrent)
+            {
+                Info.TaskSettings.Media.TorrentCreateInfo.CreateTorrent();
+            }
+
+            // create xml info
+            if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
+            {
+                string fp = Path.Combine(Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(Info.TaskSettings.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
+                FileSystem.GetXMLTorrentUpload(Info.TaskSettings.Media).Write2(fp);
+            }
+        }
+
+        private string CreatePublishInitial(TaskSettings ts)
+        {
+            PublishOptions pop = new PublishOptions();
+            pop.AlignCenter = App.Settings.ProfileActive.AlignCenter;
+            pop.FullPicture = ts.MediaOptions.UploadScreenshots && App.Settings.ProfileActive.UseFullPictureURL;
+            pop.PreformattedText = App.Settings.ProfileActive.PreText;
+            pop.PublishInfoTypeChoice = App.Settings.ProfileActive.Publisher;
+            ts.PublishOptions = pop;
+
+            return Adapter.CreatePublish(ts, pop);
         }
 
         private void ThreadCompleted()
@@ -114,39 +157,41 @@ namespace TDMakerLib
             return task;
         }
 
-        public void CreateScreenshots()
+        #region Take Screenshots
+
+        public void TakeScreenshots()
         {
             switch (Info.TaskSettings.Media.Options.MediaTypeChoice)
             {
                 case MediaType.MediaDisc:
-                    TakeScreenshot(Info.TaskSettings.Media.Overall, FileSystem.GetScreenShotsDir(Info.TaskSettings.Media.Overall.FilePath));
+                    TakeScreenshots(Info.TaskSettings.Media.Overall, FileSystem.GetScreenShotsDir(Info.TaskSettings.Media.Overall.FilePath));
                     break;
 
                 default:
                     foreach (MediaFile mf in Info.TaskSettings.Media.MediaFiles)
                     {
-                        TakeScreenshot(mf, FileSystem.GetScreenShotsDir(mf.FilePath));
+                        TakeScreenshots(mf, FileSystem.GetScreenShotsDir(mf.FilePath));
                     }
                     break;
             }
         }
 
-        public void CreateScreenshots(string ssDir)
+        public void TakeScreenshots(string ssDir)
         {
             switch (Info.TaskSettings.Media.Options.MediaTypeChoice)
             {
                 case MediaType.MediaCollection:
                 case MediaType.MediaIndiv:
-                    Parallel.ForEach<MediaFile>(Info.TaskSettings.Media.MediaFiles, mf => { TakeScreenshot(mf, ssDir); });
+                    Parallel.ForEach<MediaFile>(Info.TaskSettings.Media.MediaFiles, mf => { TakeScreenshots(mf, ssDir); });
                     break;
 
                 case MediaType.MediaDisc:
-                    TakeScreenshot(Info.TaskSettings.Media.Overall, ssDir);
+                    TakeScreenshots(Info.TaskSettings.Media.Overall, ssDir);
                     break;
             }
         }
 
-        private bool TakeScreenshot(MediaFile mf, string ssDir)
+        private bool TakeScreenshots(MediaFile mf, string ssDir)
         {
             String mediaFilePath = mf.FilePath;
 
@@ -167,11 +212,15 @@ namespace TDMakerLib
             return Success;
         }
 
+        #endregion Take Screenshots
+
         private void ReportProgress(string msg)
         {
             Info.Status = msg;
             OnStatusChanged();
         }
+
+        #region Upload Screenshots
 
         public void UploadScreenshots()
         {
@@ -314,6 +363,10 @@ namespace TDMakerLib
             }
         }
 
+        #endregion Upload Screenshots
+
+        #region Task Events
+
         private void OnStatusChanged()
         {
             if (StatusChanged != null)
@@ -362,6 +415,14 @@ namespace TDMakerLib
             }
         }
 
+        private void OnTorrentInfoCreated()
+        {
+            if (TorrentInfoCreated != null)
+            {
+                threadWorker.InvokeAsync(() => TorrentInfoCreated(this));
+            }
+        }
+
         private void OnTaskCompleted()
         {
             Info.TaskEndTime = DateTime.UtcNow;
@@ -385,8 +446,15 @@ namespace TDMakerLib
             Dispose();
         }
 
+        #endregion Task Events
+
         public void Dispose()
         {
+        }
+
+        public override string ToString()
+        {
+            return Path.GetFileName(Info.TaskSettings.Media.Location);
         }
     }
 }

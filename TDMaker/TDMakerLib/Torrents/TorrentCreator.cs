@@ -38,18 +38,10 @@ namespace TDMakerLib
         }
 
         /// <summary>
-        /// Create torrent without progress
-        /// </summary>
-        public void CreateTorrent()
-        {
-            CreateTorrent(null);
-        }
-
-        /// <summary>
         /// Create torrent with progress
         /// </summary>
         /// <param name="workerMy"></param>
-        public void CreateTorrent(BackgroundWorker workerMy)
+        public void CreateTorrent()
         {
             string p = MediaLocation;
             if (this.Profile != null && this.Profile.Trackers != null && (File.Exists(p) || Directory.Exists(p)))
@@ -72,16 +64,16 @@ namespace TDMakerLib
                     string torrentFileName = string.Format("{0}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)));
                     TorrentFilePath = Path.Combine(Path.Combine(TorrentFolder, uri.Host), torrentFileName);
 
-                    ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
+                    //  ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Creating {0}", this.TorrentFilePath));
 
                     tc.Hashed += delegate (object o, TorrentCreatorEventArgs e)
                     {
-                        ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_Cumulative, e.OverallCompletion);
+                        //  ReportProgress(workerMy, ProgressType.UPDATE_PROGRESSBAR_Cumulative, e.OverallCompletion);
                     };
 
                     Helpers.CreateDirectoryFromFilePath(this.TorrentFilePath);
                     tc.Create(this.TorrentFilePath);
-                    ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Created {0}", this.TorrentFilePath));
+                    // ReportProgress(workerMy, ProgressType.UPDATE_STATUSBAR_DEBUG, string.Format("Created {0}", this.TorrentFilePath));
                 }
             }
             else

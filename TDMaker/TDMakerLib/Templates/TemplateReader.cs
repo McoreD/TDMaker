@@ -18,7 +18,7 @@ namespace TDMakerLib
         /// </summary>
         public string Location { get; private set; }
 
-        public TorrentInfo TorrentInfo { get; private set; }
+        public TaskSettings TorrentInfo { get; private set; }
 
         public string PublishInfo { get; private set; }
 
@@ -35,11 +35,11 @@ namespace TDMakerLib
         /// </summary>
         /// <param name="loc">Directory Path of the Template</param>
         /// <param name="ti">TorrentInfo object that has MediaInfo</param>
-        public TemplateReader(string loc, TorrentInfo ti)
+        public TemplateReader(string loc, TaskSettings ts)
         {
-            this.Location = loc;
-            this.TorrentInfo = ti;
-            TorrentInfo.Media.Info = new MappingHelper(ti.Media.Overall.Summary);
+            Location = loc;
+            this.TorrentInfo = ts;
+            TorrentInfo.Media.Info = new MappingHelper(ts.Media.Overall.Summary);
             // this.MappingHelperMy.ListFieldsAll();
 
             // Read the files in Location

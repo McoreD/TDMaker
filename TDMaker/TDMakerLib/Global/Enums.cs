@@ -55,8 +55,6 @@ namespace TDMakerLib
     {
         INCREMENT_PROGRESS_WITH_MSG,
         PREVIEW_SCREENSHOT,
-        REPORT_MEDIAINFO_SUMMARY,
-        REPORT_TORRENTINFO,
         UPDATE_PROGRESSBAR_MAX,
         UPDATE_PROGRESSBAR_Cumulative,
         UPDATE_PROGRESSBAR_ProgressManager,

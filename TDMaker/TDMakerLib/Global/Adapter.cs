@@ -197,7 +197,7 @@ namespace TDMakerLib
 
         #region Publish
 
-        public static string CreatePublish(TorrentInfo ti, PublishOptions pop)
+        public static string CreatePublish(TaskSettings ts, PublishOptions pop)
         {
             string pt = "";
 
@@ -206,28 +206,28 @@ namespace TDMakerLib
                 case PublishInfoType.ExternalTemplate:
                     if (Directory.Exists(pop.TemplateLocation))
                     {
-                        pt = ti.CreatePublishExternal(pop, new TemplateReader(pop.TemplateLocation, ti));
+                        pt = TorrentInfo.ToStringPublishExternal(pop, new TemplateReader(pop.TemplateLocation, ts));
                     }
-                    else if (Directory.Exists(ti.Media.TemplateLocation))
+                    else if (Directory.Exists(ts.Media.TemplateLocation))
                     {
-                        pt = ti.CreatePublishExternal(pop, new TemplateReader(ti.Media.TemplateLocation, ti));
+                        pt = TorrentInfo.ToStringPublishExternal(pop, new TemplateReader(ts.Media.TemplateLocation, ts));
                     }
                     else
                     {
-                        pt = ti.CreatePublishInternal(pop);
+                        pt = TorrentInfo.ToStringPublishInternal(ts);
                     }
                     break;
 
                 case PublishInfoType.InternalTemplate:
-                    pt = ti.CreatePublishInternal(pop);
+                    pt = TorrentInfo.ToStringPublishInternal(ts);
                     break;
 
                 case PublishInfoType.MediaInfo:
-                    pt = ti.CreatePublishMediaInfo(pop);
+                    pt = TorrentInfo.ToStringPublishMediaInfo(ts);
                     break;
             }
 
-            ti.Media.ReleaseDescription = Adapter.StripImg(pt).Trim();
+            ts.Media.ReleaseDescription = Adapter.StripImg(pt).Trim();
             ;
 
             return pt;

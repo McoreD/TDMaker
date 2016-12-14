@@ -351,13 +351,25 @@ namespace TDMaker
                     WorkerTask task = WorkerTask.CreateTask(ts);
                     task.MediaLoaded += Task_MediaLoaded;
                     task.StatusChanged += Task_StatusChanged;
-                    task.UploadCompleted += Task_UploadCompleted;
                     task.ScreenshotUploaded += Task_ScreenshotUploaded;
+                    task.TorrentInfoCreated += Task_TorrentInfoCreated;
                     TaskManager.Start(task);
                 }
 
                 UpdateGuiControls();
             }
+        }
+
+        private void Task_TorrentInfoCreated(WorkerTask task)
+        {
+            lbPublish.Items.Add(task);
+
+            // initialize quick publish checkboxes
+            chkQuickFullPicture.Checked = App.Settings.ProfileActive.UseFullPictureURL;
+            chkQuickAlignCenter.Checked = App.Settings.ProfileActive.AlignCenter;
+            chkQuickPre.Checked = App.Settings.ProfileActive.PreText;
+            cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.Publisher;
+            cboQuickTemplate.Text = App.Settings.ProfileActive.PublisherExternalTemplateName;
         }
 
         private void Task_ScreenshotUploaded(ScreenshotInfo si)
@@ -660,18 +672,6 @@ namespace TDMaker
             UpdateProxyControls();
         }
 
-        private string CreatePublishInitial(TorrentInfo ti)
-        {
-            PublishOptions pop = new PublishOptions();
-            pop.AlignCenter = App.Settings.ProfileActive.AlignCenter;
-            pop.FullPicture = ti.Media.Options.UploadScreenshots && App.Settings.ProfileActive.UseFullPictureURL;
-            pop.PreformattedText = App.Settings.ProfileActive.PreText;
-            pop.PublishInfoTypeChoice = App.Settings.ProfileActive.Publisher;
-            ti.PublishOptions = pop;
-
-            return Adapter.CreatePublish(ti, pop);
-        }
-
         private WorkerTask WorkerAnalyzeMedia(WorkerTask wt)
         {
             App.LoadProxySettings();
@@ -680,55 +680,7 @@ namespace TDMaker
 
             foreach (TorrentInfo ti in wt.MediaList)
             {
-                MediaInfo2 mi = ti.Media;
-
-                bwApp.ReportProgress((int)ProgressType.UPDATE_STATUSBAR_DEBUG, "Reading " + Path.GetFileName(mi.Location) + " using MediaInfo...");
-
-                if (mi.DiscType != SourceType.Bluray)
-                {
-                    mi.ReadMedia();
-                    bwApp.ReportProgress((int)ProgressType.REPORT_MEDIAINFO_SUMMARY, mi);
-                }
-
-                // creates screenshot
-                if (wt.Info.TaskSettings.MediaOptions.UploadScreenshots)
-                {
-                    // ti.CreateScreenshots();
-                    // TODO: ti.UploadScreenshots();
-                }
-                else if (wt.Info.TaskSettings.MediaOptions.CreateScreenshots)
-                {
-                    //  ti.CreateScreenshots();
-                }
-
-                ti.PublishString = CreatePublishInitial(ti);
-                bwApp.ReportProgress((int)ProgressType.REPORT_TORRENTINFO, ti);
-
-                if (App.Settings.ProfileActive.WritePublish)
-                {
-                    // create textFiles of MediaInfo
-                    string txtPath = Path.Combine(mi.TorrentCreateInfo.TorrentFolder, mi.Overall.FileName) + ".txt";
-
-                    Helpers.CreateDirectoryFromDirectoryPath(mi.TorrentCreateInfo.TorrentFolder);
-
-                    using (StreamWriter sw = new StreamWriter(txtPath))
-                    {
-                        sw.WriteLine(ti.PublishString);
-                    }
-                }
-
-                if (wt.Info.TaskSettings.MediaOptions.CreateTorrent)
-                {
-                    mi.TorrentCreateInfo.CreateTorrent(bwApp);
-                }
-
-                if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
-                {
-                    string fp = Path.Combine(mi.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(mi.TorrentCreateInfo.MediaLocation)) + ".xml";
-                    FileSystem.GetXMLTorrentUpload(mi).Write2(fp);
-                }
-
-                bwApp.ReportProgress((int)ProgressType.INCREMENT_PROGRESS_WITH_MSG, mi.Title);
+                // WorkerTask
             }
 
             return wt;
@@ -740,12 +692,12 @@ namespace TDMaker
             {
                 foreach (TorrentInfo ti in wt.MediaList)
                 {
-                    TorrentCreateInfo tci = ti.Media.TorrentCreateInfo;
-                    // TODO:   tci.CreateTorrent(wt.MyWorker);
+                    TorrentCreateInfo tci = wt.Info.TaskSettings.Media.TorrentCreateInfo;
+                    tci.CreateTorrent();
                     if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
                     {
                         string fp = Path.Combine(tci.TorrentFolder, MediaHelper.GetMediaName(tci.MediaLocation)) + ".xml";
-                        FileSystem.GetXMLTorrentUpload(ti.Media).Write(fp);
+                        FileSystem.GetXMLTorrentUpload(wt.Info.TaskSettings.Media).Write(fp);
                     }
                 }
             }
@@ -874,18 +826,6 @@ namespace TDMaker
                         pBar.Value = Convert.ToInt16(e.UserState);
                         break;
 
-                    case ProgressType.REPORT_TORRENTINFO:
-                        TorrentInfo ti = e.UserState as TorrentInfo;
-                        lbPublish.Items.Add(ti);
-
-                        // initialize quick publish checkboxes
-                        chkQuickFullPicture.Checked = App.Settings.ProfileActive.UseFullPictureURL;
-                        chkQuickAlignCenter.Checked = App.Settings.ProfileActive.AlignCenter;
-                        chkQuickPre.Checked = App.Settings.ProfileActive.PreText;
-                        cboQuickPublishType.SelectedIndex = (int)App.Settings.ProfileActive.Publisher;
-                        cboQuickTemplate.Text = App.Settings.ProfileActive.PublisherExternalTemplateName;
-                        break;
-
                     case ProgressType.UPDATE_PROGRESSBAR_MAX:
                         pBar.Style = ProgressBarStyle.Continuous;
                         pBar.Maximum = (int)e.UserState;
@@ -928,7 +868,7 @@ namespace TDMaker
                 List<TorrentInfo> tiList = new List<TorrentInfo>();
                 foreach (TorrentInfo ti in lbPublish.SelectedItems)
                 {
-                    tps.Add(new TorrentCreateInfo(App.Settings.ProfileActive, ti.Media.Location));
+                    // TODO: tps.Add(new TorrentCreateInfo(App.Settings.ProfileActive, wt.Info.TaskSettings.Media.Location));
                     tiList.Add(ti);
                 }
                 if (tps.Count > 0)
@@ -943,22 +883,22 @@ namespace TDMaker
             }
         }
 
-        private TorrentInfo GetTorrentInfo()
+        private WorkerTask GetTask()
         {
-            TorrentInfo ti = null;
+            WorkerTask task = null;
             if (lbPublish.SelectedIndex > -1)
             {
-                ti = lbPublish.Items[lbPublish.SelectedIndex] as TorrentInfo;
+                task = lbPublish.Items[lbPublish.SelectedIndex] as WorkerTask;
             }
-            return ti;
+            return task;
         }
 
         private void CreatePublishUser()
         {
             if (!bwApp.IsBusy)
             {
-                TorrentInfo ti = GetTorrentInfo();
-                if (ti != null)
+                WorkerTask task = GetTask();
+                if (task != null)
                 {
                     var pop = new PublishOptions
                     {
@@ -969,17 +909,17 @@ namespace TDMaker
                         TemplateLocation = Path.Combine(App.TemplatesDir, cboQuickTemplate.Text)
                     };
 
-                    txtPublish.Text = Adapter.CreatePublish(ti, pop);
+                    txtPublish.Text = Adapter.CreatePublish(task.Info.TaskSettings, pop);
 
-                    if (ti.Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum)
+                    if (task.Info.TaskSettings.Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum)
                     {
-                        txtPublish.BackColor = System.Drawing.Color.Black;
-                        txtPublish.ForeColor = System.Drawing.Color.White;
+                        txtPublish.BackColor = Color.Black;
+                        txtPublish.ForeColor = Color.White;
                     }
                     else
                     {
-                        txtPublish.BackColor = System.Drawing.SystemColors.Window;
-                        txtPublish.ForeColor = System.Drawing.SystemColors.WindowText;
+                        txtPublish.BackColor = SystemColors.Window;
+                        txtPublish.ForeColor = SystemColors.WindowText;
                     }
                 }
             }
@@ -1063,11 +1003,11 @@ namespace TDMaker
 
         private void WriteMediaInfo(string info)
         {
-            if (GetTorrentInfo() != null)
+            if (GetTask() != null)
             {
                 SaveFileDialog dlg = new SaveFileDialog();
                 dlg.Filter = Resources.MainWindow_WriteMediaInfo_Text_Files____txt____txt;
-                dlg.FileName = GetTorrentInfo().Media.Title;
+                dlg.FileName = GetTask().Info.TaskSettings.Media.Title;
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {

@@ -19,5 +19,10 @@ namespace TDMakerLib
             PublishOptions = new PublishOptions();
             MediaOptions = new MediaWizardOptions();
         }
+
+        public string ToStringMedia()
+        {
+            return Media.ToStringMedia(PublishOptions);
+        }
     }
 }
