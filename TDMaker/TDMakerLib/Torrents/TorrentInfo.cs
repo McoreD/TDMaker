@@ -36,7 +36,7 @@ namespace TDMakerLib
         {
             StringBuilder sbPublish = new StringBuilder();
 
-            switch (ts.Media.Options.MediaTypeChoice)
+            switch (ts.MediaOptions.MediaTypeChoice)
             {
                 case MediaType.MediaDisc:
                     StringBuilder sbMediaInfo = new StringBuilder();
@@ -57,7 +57,7 @@ namespace TDMakerLib
 
                     sbPublish.AppendLine(BbFormat(sbMediaInfo.ToString(), ts.PublishOptions));
 
-                    if (ts.Media.Options.UploadScreenshots)
+                    if (ts.MediaOptions.UploadScreenshots)
                         sbPublish.AppendLine(ts.Media.Overall.GetScreenshotString(ts.PublishOptions));
 
                     break;
@@ -70,7 +70,7 @@ namespace TDMakerLib
 
                         sbPublish.AppendLine(BbFormat(sbMediaInfo.ToString(), ts.PublishOptions));
 
-                        if (ts.Media.Options.UploadScreenshots)
+                        if (ts.MediaOptions.UploadScreenshots)
                         {
                             sbPublish.AppendLine();
                             sbPublish.AppendLine(mf.GetScreenshotString(ts.PublishOptions));
@@ -93,7 +93,7 @@ namespace TDMakerLib
         public static string ToStringPublishInternal(TaskSettings ts)
         {
             StringBuilder sbPublish = new StringBuilder();
-            string info = ts.Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum ? ts.Media.ToStringAudio() : ts.ToStringMedia();
+            string info = ts.MediaOptions.MediaTypeChoice == MediaType.MusicAudioAlbum ? ts.Media.ToStringAudio() : ts.ToStringMedia();
             sbPublish.Append(BbFormat(info, ts.PublishOptions));
 
             return sbPublish.ToString().Trim();

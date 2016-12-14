@@ -381,7 +381,7 @@ namespace TDMaker
         private void Task_MediaLoaded(WorkerTask task)
         {
             MediaInfo2 mi = task.Info.TaskSettings.Media;
-            gbDVD.Enabled = (mi.Options.MediaTypeChoice == MediaType.MediaDisc);
+            gbDVD.Enabled = (task.Info.TaskSettings.MediaOptions.MediaTypeChoice == MediaType.MediaDisc);
             foreach (MediaFile mf in mi.MediaFiles)
             {
                 lbMediaInfo.Items.Add(mf);
@@ -697,7 +697,7 @@ namespace TDMaker
                     if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
                     {
                         string fp = Path.Combine(tci.TorrentFolder, MediaHelper.GetMediaName(tci.MediaLocation)) + ".xml";
-                        FileSystem.GetXMLTorrentUpload(wt.Info.TaskSettings.Media).Write(fp);
+                        FileSystem.GetXMLTorrentUpload(wt.Info.TaskSettings).Write(fp);
                     }
                 }
             }
@@ -911,7 +911,7 @@ namespace TDMaker
 
                     txtPublish.Text = Adapter.CreatePublish(task.Info.TaskSettings, pop);
 
-                    if (task.Info.TaskSettings.Media.Options.MediaTypeChoice == MediaType.MusicAudioAlbum)
+                    if (task.Info.TaskSettings.MediaOptions.MediaTypeChoice == MediaType.MusicAudioAlbum)
                     {
                         txtPublish.BackColor = Color.Black;
                         txtPublish.ForeColor = Color.White;

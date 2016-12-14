@@ -102,25 +102,27 @@ namespace TDMakerCLI
                 {
                     mwo.MediaTypeChoice = MediaType.MediaCollection;
                 }
+
+                TaskSettings ts = new TaskSettings();
+                ts.MediaOptions.CreateScreenshots = mScreenshotsCreate;
+                ts.MediaOptions.UploadScreenshots = mScreenshotsUpload;
+
+                WorkerTask task = new WorkerTask(ts);
                 MediaInfo2 mi = new MediaInfo2(mwo, mMediaLoc);
                 mi.ReadMedia();
 
-                TorrentInfo ti = new TorrentInfo();
-
-                mi.Options.UploadScreenshots = mScreenshotsUpload;
-
                 if (mScreenshotsUpload)
                 {
-                    CreateScreenshots(ti);
-                    //  ti.UploadScreenshots();
+                    task.TakeScreenshots();
+                    task.UploadScreenshots();
                 }
                 else if (mScreenshotsCreate)
                 {
-                    CreateScreenshots(ti);
+                    task.TakeScreenshots();
                 }
 
-                CreatePublish(ti);
-                CreateTorrent(ti);
+                //  CreatePublish(ti);
+                //  CreateTorrent(ti);
             }
         }
 

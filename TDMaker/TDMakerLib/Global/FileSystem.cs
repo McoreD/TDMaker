@@ -85,13 +85,15 @@ namespace TDMakerLib
             }
         }
 
-        public static XMLTorrentUpload GetXMLTorrentUpload(MediaInfo2 mi)
+        public static XMLTorrentUpload GetXMLTorrentUpload(TaskSettings ts)
         {
+            MediaInfo2 mi = ts.Media;
+
             string format = string.Empty;
             string res = string.Empty;
             string media = mi.Source;
 
-            if (mi.Options.MediaTypeChoice == MediaType.MediaDisc)
+            if (ts.MediaOptions.MediaTypeChoice == MediaType.MediaDisc)
             {
                 format = mi.Source;
                 res = mi.Overall.Video.Standard;
@@ -177,9 +179,9 @@ namespace TDMakerLib
                 FileType = fileType
             };
 
-            if (mi.Options.UploadScreenshots)
+            if (ts.MediaOptions.UploadScreenshots)
             {
-                switch (mi.Options.MediaTypeChoice)
+                switch (ts.MediaOptions.MediaTypeChoice)
                 {
                     case MediaType.MediaDisc:
                         foreach (ScreenshotInfo ss in mi.Overall.Screenshots)

@@ -18,7 +18,7 @@ namespace TDMakerLib
         /// Create Screenshot, Torrent choice
         /// Disc property is set to true if the media is found to be DVD, BD, HDDVD source
         /// </summary>
-        public MediaWizardOptions Options { get; private set; }
+        private MediaWizardOptions Options { get; set; }
 
         public SourceType DiscType { get; set; }
 

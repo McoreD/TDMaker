@@ -125,7 +125,7 @@ namespace TDMakerLib
             if (App.Settings.ProfileActive.XMLTorrentUploadCreate)
             {
                 string fp = Path.Combine(Info.TaskSettings.Media.TorrentCreateInfo.TorrentFolder, MediaHelper.GetMediaName(Info.TaskSettings.Media.TorrentCreateInfo.MediaLocation)) + ".xml";
-                FileSystem.GetXMLTorrentUpload(Info.TaskSettings.Media).Write2(fp);
+                FileSystem.GetXMLTorrentUpload(Info.TaskSettings).Write2(fp);
             }
         }
 
@@ -161,7 +161,7 @@ namespace TDMakerLib
 
         public void TakeScreenshots()
         {
-            switch (Info.TaskSettings.Media.Options.MediaTypeChoice)
+            switch (Info.TaskSettings.MediaOptions.MediaTypeChoice)
             {
                 case MediaType.MediaDisc:
                     TakeScreenshots(Info.TaskSettings.Media.Overall, FileSystem.GetScreenShotsDir(Info.TaskSettings.Media.Overall.FilePath));
@@ -178,7 +178,7 @@ namespace TDMakerLib
 
         public void TakeScreenshots(string ssDir)
         {
-            switch (Info.TaskSettings.Media.Options.MediaTypeChoice)
+            switch (Info.TaskSettings.MediaOptions.MediaTypeChoice)
             {
                 case MediaType.MediaCollection:
                 case MediaType.MediaIndiv:
@@ -224,9 +224,9 @@ namespace TDMakerLib
 
         public void UploadScreenshots()
         {
-            if (Info.TaskSettings.Media.Options.UploadScreenshots)
+            if (Info.TaskSettings.MediaOptions.UploadScreenshots)
             {
-                switch (Info.TaskSettings.Media.Options.MediaTypeChoice)
+                switch (Info.TaskSettings.MediaOptions.MediaTypeChoice)
                 {
                     case MediaType.MediaDisc:
                         UploadScreenshots(Info.TaskSettings.Media.Overall);
@@ -244,7 +244,7 @@ namespace TDMakerLib
 
         private void UploadScreenshots(MediaFile mf)
         {
-            if (Info.TaskSettings.Media.Options.UploadScreenshots)
+            if (Info.TaskSettings.MediaOptions.UploadScreenshots)
             {
                 int i = 0;
                 Parallel.ForEach<ScreenshotInfo>(mf.Screenshots, si =>
