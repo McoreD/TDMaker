@@ -1155,8 +1155,7 @@ namespace TDMaker
 
         private void btnUploadersConfig_Click(object sender, EventArgs e)
         {
-            bool firstInstance;
-            UploadersConfigForm form = UploadersConfigForm.GetFormInstance(App.UploadersConfig, out firstInstance);
+            var form = UploadersConfigForm.GetFormInstance(App.UploadersConfig);
             form.ShowDialog();
         }
 

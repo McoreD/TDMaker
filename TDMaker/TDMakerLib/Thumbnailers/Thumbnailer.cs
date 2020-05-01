@@ -185,7 +185,7 @@ namespace TDMakerLib
 
                 foreach (ScreenshotInfo screenshot in screenshots)
                 {
-                    Image img = Image.FromFile(screenshot.LocalPath);
+                    var img = new Bitmap(screenshot.LocalPath);
 
                     if (Options.MaxThumbnailWidth > 0 && img.Width > Options.MaxThumbnailWidth)
                     {

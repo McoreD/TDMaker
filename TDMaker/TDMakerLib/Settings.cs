@@ -1,5 +1,4 @@
 ﻿using ShareX.HelpersLib;
-using ShareX.HelpersLib.UITypeEditors;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;

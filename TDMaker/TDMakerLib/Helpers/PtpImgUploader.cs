@@ -24,6 +24,7 @@
 #endregion License Information (GPL v3)
 
 using ShareX.UploadersLib;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -40,21 +41,8 @@ namespace UploadersLib.ImageUploaders
 
         public override UploadResult Upload(Stream stream, string fileName)
         {
-            Dictionary<string, string> arguments = new Dictionary<string, string>();
-
-            UploadResult result = UploadData(stream, "https://ptpimg.me/?type=uploadv7&key=" + APIKey, fileName, "uploadfile", arguments);
-
-            return ParseResult(result);
+            throw new NotImplementedException();
         }
 
-        private UploadResult ParseResult(UploadResult result)
-        {
-            if (result.IsSuccess)
-            {
-                result.URL = string.Concat("https://ptpimg.me/", result.Response);
-            }
-
-            return result;
-        }
     }
 }

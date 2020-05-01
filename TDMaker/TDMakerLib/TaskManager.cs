@@ -43,7 +43,16 @@ namespace TDMakerLib
                 }
                 else
                 {
-                    len = (UploadLimit - workingTasksCount).Between(0, inQueueTasks.Length);
+                    len = UploadLimit - workingTasksCount;
+
+                    if(len < 0)
+                    {
+                        len = 0;
+                    }
+                    else if(len > inQueueTasks.Length)
+                    {
+                        len = inQueueTasks.Length;
+                    }
                 }
 
                 for (int i = 0; i < len; i++)
