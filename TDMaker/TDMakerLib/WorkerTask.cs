@@ -1,4 +1,5 @@
-﻿using MonoTorrent.Common;
+﻿using MonoTorrent;
+using MonoTorrent.BEncoding;
 using ShareX.HelpersLib;
 using ShareX.UploadersLib;
 using System;
@@ -362,21 +363,29 @@ namespace TDMakerLib
         public void CreateTorrent()
         {
             string p = Info.TaskSettings.Media.Location;
-            if (Info.TaskSettings.Profile != null && Info.TaskSettings.Profile.Trackers != null && (File.Exists(p) || Directory.Exists(p)))
+            if (Info?.TaskSettings?.Profile?.Trackers != null && Info?.TaskSettings?.Profile?.Trackers.Count > 0
+                && (File.Exists(p) || Directory.Exists(p)))
             {
-                foreach (string tracker in Info.TaskSettings.Profile.Trackers)
+                var trackers = Info.TaskSettings.Profile.Trackers;
+                var trackerSourceFlags = Info.TaskSettings.Profile.TrackerSourceFlags;
+                for (int i = 0; i < trackers.Count; i++)
                 {
-                    TorrentCreator tc = new TorrentCreator();
+                    var tracker = trackers[i];
+                    var trackerSourceFlag = trackers.Count > i
+                        ? trackerSourceFlags[i]
+                        : string.Empty;
+
+                    var tc = new TorrentCreator();
                     tc.CreatedBy = Application.ProductName;
                     tc.Private = true;
                     tc.Comment = MediaHelper.GetMediaName(p);
-                    tc.Path = p;
                     tc.PublisherUrl = "https://github.com/McoreD/TDMaker";
                     tc.Publisher = Application.ProductName;
                     tc.StoreMD5 = false; // delays torrent creation
                     List<string> temp = new List<string>();
                     temp.Add(tracker);
-                    tc.Announces.Add(temp);
+                    tc.Announces.Add(new RawTrackerTier(temp));
+                    tc.SetCustomSecure("source", new BEncodedString(trackerSourceFlag));
 
                     var uri = new Uri(tracker);
                     string torrentFileName = string.Format("{0}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)));
@@ -391,14 +400,14 @@ namespace TDMakerLib
                     };
 
                     Helpers.CreateDirectoryFromFilePath(Info.TaskSettings.TorrentFilePath);
-                    tc.Create(Info.TaskSettings.TorrentFilePath);
+                    tc.Create(new TorrentFileSource(p), Info.TaskSettings.TorrentFilePath);
                     ReportProgress(string.Format("Created {0}", Info.TaskSettings.TorrentFilePath));
                     Success = true;
                 }
             }
             else
             {
-                DebugHelper.WriteLine("There were no active trackers configured to create a torrent.");
+                DebugHelper.WriteLine("There were no active trackers configured to create a torrent or the output dir did not exist.");
             }
         }
 
