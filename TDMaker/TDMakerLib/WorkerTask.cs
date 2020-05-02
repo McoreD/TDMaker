@@ -287,6 +287,10 @@ namespace TDMakerLib
                     Success = false;
                 }
             }
+            else
+            {
+                DebugHelper.WriteLine("Newly created screenshot not found during upload...");
+            }
 
             return ur;
         }
@@ -382,11 +386,16 @@ namespace TDMakerLib
                     tc.PublisherUrl = "https://github.com/McoreD/TDMaker";
                     tc.Publisher = Application.ProductName;
                     tc.StoreMD5 = false; // delays torrent creation
+                    if(Info.TaskSettings.Profile.TorrentPieceSize > 0)
+                    { 
+                        tc.PieceLength = Info.TaskSettings.Profile.TorrentPieceSize;
+                    }
+
                     List<string> temp = new List<string>();
                     temp.Add(tracker);
                     tc.Announces.Add(new RawTrackerTier(temp));
                     tc.SetCustomSecure("source", new BEncodedString(trackerSourceFlag));
-
+                    
                     var uri = new Uri(tracker);
                     string torrentFileName = string.Format("{0}.torrent", (File.Exists(p) ? Path.GetFileNameWithoutExtension(p) : MediaHelper.GetMediaName(p)));
                     Info.TaskSettings.TorrentFilePath = Path.Combine(Path.Combine(Info.TaskSettings.TorrentFolder, uri.Host), torrentFileName);

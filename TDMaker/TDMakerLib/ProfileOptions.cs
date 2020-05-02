@@ -124,7 +124,7 @@ namespace TDMakerLib
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(true), Description("Create torrent after analysing media.")]
         public bool CreateTorrent { get; set; }
 
-        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(4096), Description("Torrent piece size in KB.")]
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(0), Description("Torrent piece size in KB, auto piece sizing will be used when set to 0")]
         public int TorrentPieceSize { get; set; }
 
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(LocationType.KnownFolder), Description("Create torrents in the same folders as the media file, default torrent folder or in a custom folder")]
