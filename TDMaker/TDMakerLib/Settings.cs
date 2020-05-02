@@ -144,11 +144,6 @@ namespace TDMakerLib
         #endregion App
 
         #region Paths
-
-        [Category(ComponentModelStrings.AppPaths), Description("Browse to reconfigure the MediaInfo.dll folder path")]
-        [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
-        public string CustomMediaInfoDllDir { get; set; }
-
         [Category(ComponentModelStrings.AppPaths), DefaultValue(false), Description("Use custom Templates directory")]
         public bool UseCustomTemplatesDir { get; set; }
 

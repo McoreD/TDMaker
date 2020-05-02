@@ -102,6 +102,7 @@
     <Compile Include="Helpers\BbCode.cs" />
     <Compile Include="Helpers\Options.cs" />
     <Compile Include="Helpers\Structs.cs" />
+    <Compile Include="MediaInfo\MediaFile.cs" />
     <Compile Include="TaskInfo.cs" />
     <Compile Include="TaskManager.cs" />
     <Compile Include="TaskSettings.cs" />
@@ -110,9 +111,7 @@
     <Compile Include="Helpers\ImageFile.cs" />
     <Compile Include="Helpers\Kernel32Helper.cs" />
     <Compile Include="Helpers\MediaHelper.cs" />
-    <Compile Include="MediaInfo\MediaFile.cs" />
     <Compile Include="MediaInfo\MediaInfo2.cs" />
-    <Compile Include="MediaInfo\MediaInfoDLL.cs" />
     <Compile Include="MediaInfo\NfoReport.cs" />
     <Compile Include="MediaInfo\ScreenshotInfo.cs" />
     <Compile Include="Helpers\MediaWizardOptions.cs" />
