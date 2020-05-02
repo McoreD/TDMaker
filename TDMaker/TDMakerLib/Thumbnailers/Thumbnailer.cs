@@ -54,7 +54,11 @@ namespace TDMakerLib
                     break;
             }
 
-            if (!File.Exists(ThumbnailerPath)) return;
+            if (!File.Exists(ThumbnailerPath))
+            {
+                DebugHelper.WriteLine($"Thumnailer not found (path is '{ThumbnailerPath}')");
+                return;
+            }
 
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {

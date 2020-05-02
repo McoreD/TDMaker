@@ -301,6 +301,7 @@ namespace TDMakerLib
         {
             if (!service.CheckConfig(App.UploadersConfig))
             {
+                DebugHelper.WriteLine($"Invalid uploadersconfig for {service.ServiceName}");
                 return GetInvalidConfigResult(service);
             }
 
@@ -320,6 +321,7 @@ namespace TDMakerLib
                 return result;
             }
 
+            DebugHelper.WriteLine($"Could not create uploader for {service.ServiceName}");
             return null;
         }
 
