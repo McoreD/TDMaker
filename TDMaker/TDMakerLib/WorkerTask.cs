@@ -152,6 +152,7 @@ namespace TDMakerLib
 
         private void ReportProgress(string msg)
         {
+            DebugHelper.WriteLine(msg);
             Info.Status = msg;
             OnStatusChanged();
         }
@@ -193,7 +194,6 @@ namespace TDMakerLib
         private bool TakeScreenshots(MediaFile mf, string ssDir)
         {
             String mediaFilePath = mf.FilePath;
-
             Thumbnailer thumb = new Thumbnailer(mf, ssDir, App.Settings.ProfileActive);
 
             try
