@@ -84,6 +84,7 @@ namespace TDMakerCLI
             if (!File.Exists(mSettingsFilePath))
             {
                 mSettingsFilePath = App.SettingsFilePath;
+                Console.WriteLine("Custom settings file not found, using default settings file");
             }
 
             if (File.Exists(mSettingsFilePath))
@@ -95,6 +96,8 @@ namespace TDMakerCLI
             if (App.Settings != null)
             {
                 App.InitializeDefaultFolderPaths();
+                DebugHelper.Init(FileSystem.LogFilePath, logToConsole: true);
+                Console.WriteLine("Writing logs to " + FileSystem.LogFilePath);
 
                 List<string> listFileOrDir = new List<string>() { mMediaLoc };
                 MediaWizardOptions mwo = Adapter.GetMediaType(listFileOrDir, true);
@@ -106,11 +109,13 @@ namespace TDMakerCLI
                 TaskSettings ts = new TaskSettings();
                 ts.MediaOptions.CreateScreenshots = mScreenshotsCreate;
                 ts.MediaOptions.UploadScreenshots = mScreenshotsUpload;
-
-                WorkerTask task = new WorkerTask(ts);
+                
                 MediaInfo2 mi = new MediaInfo2(mwo, mMediaLoc);
                 mi.ReadMedia();
+                ts.Media = mi;
 
+                WorkerTask task = new WorkerTask(ts);
+                
                 if (mScreenshotsUpload)
                 {
                     TakeScreenshots(task);
@@ -121,8 +126,29 @@ namespace TDMakerCLI
                     TakeScreenshots(task);
                 }
 
-                //  CreatePublish(ti);
-                //  CreateTorrent(ti);
+                if(mTorrentCreate)
+                {
+                    SetCustomTorrentsDirIfSupplied(task);
+
+                    CreatePublish(task);
+                    CreateTorrent(task);
+                }
+            }
+        }
+
+        private static void SetCustomTorrentsDirIfSupplied(WorkerTask task)
+        {
+            if (!string.IsNullOrEmpty(mTorrentsDir))
+            {
+                Helpers.CreateDirectoryFromDirectoryPath(mTorrentsDir);
+                if (Directory.Exists(mTorrentsDir))
+                {
+                    task.Info.TaskSettings.TorrentFolder = mTorrentsDir;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Torrentfolder not found");
+                }
             }
         }
 
@@ -147,6 +173,7 @@ namespace TDMakerCLI
             }
             else
             {
+                Console.WriteLine("Custom screenshots dir not found, using default");
                 task.TakeScreenshots();
             }
         }
@@ -161,20 +188,17 @@ namespace TDMakerCLI
                 PublishInfoTypeChoice = App.Settings.ProfileActive.Publisher,
                 TemplateLocation = Path.Combine(App.TemplatesDir, "BTN")
             };
+            ti.Info.TaskSettings.PublishOptions = pop;
 
-            Console.WriteLine(Adapter.ToPublishString(ti.Info.TaskSettings, pop));
+            string publishTxt = Adapter.ToPublishString(ti.Info.TaskSettings, pop);
+            Console.WriteLine(publishTxt);
+            File.WriteAllText(Path.Combine(ti.Info.TaskSettings.TorrentFolder, MediaHelper.GetMediaName(ti.Info.TaskSettings.Media.Location) + "_pub.txt"), publishTxt);
         }
 
         private static void CreateTorrent(WorkerTask task)
         {
             if (mTorrentCreate)
             {
-                Helpers.CreateDirectoryFromDirectoryPath(mTorrentsDir);
-                if (Directory.Exists(mTorrentsDir))
-                {
-                    task.Info.TaskSettings.TorrentFolder = mTorrentsDir;
-                }
-
                 task.CreateTorrent();
 
                 // create xml file
@@ -186,5 +210,6 @@ namespace TDMakerCLI
                 }
             }
         }
+
     }
 }

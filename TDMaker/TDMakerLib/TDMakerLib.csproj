@@ -58,11 +58,11 @@
     <Reference Include="MediaInfoDotNet, Version=0.7.79.40925, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MediaInfoDotNet.0.7.79.40925\lib\net45\MediaInfoDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="MegaApiClient, Version=1.8.0.0, Culture=neutral, PublicKeyToken=0480d311efbeb4e2, processorArchitecture=MSIL">
-      <HintPath>..\packages\MegaApiClient.1.8.0\lib\net46\MegaApiClient.dll</HintPath>
+    <Reference Include="MegaApiClient, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0480d311efbeb4e2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MegaApiClient.1.8.1\lib\net46\MegaApiClient.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Nat, Version=2.0.0.0, Culture=neutral, PublicKeyToken=6c9468a3c21bc6d1, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mono.Nat.2.0.0\lib\netstandard2.0\Mono.Nat.dll</HintPath>
+      <HintPath>..\packages\Mono.Nat.2.0.1\lib\netstandard2.0\Mono.Nat.dll</HintPath>
     </Reference>
     <Reference Include="MonoTorrent, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MonoTorrent.1.0.21\lib\netstandard2.0\MonoTorrent.dll</HintPath>
@@ -71,7 +71,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="ReusableTasks, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\ReusableTasks.1.0.6\lib\netstandard2.0\ReusableTasks.dll</HintPath>
+      <HintPath>..\packages\ReusableTasks.1.0.7\lib\netstandard2.0\ReusableTasks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Design" />
