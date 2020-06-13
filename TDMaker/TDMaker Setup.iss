@@ -54,9 +54,6 @@ Source: TDMakerGUI\bin\Release\*.exe; Excludes: *.vshost.exe; DestDir: {app}; Fl
 Source: TDMakerGUI\bin\Release\*.dll; DestDir: {app}; Flags: ignoreversion
 Source: TDMakerGUI\bin\Release\*.pdb; DestDir: {app}; Flags: ignoreversion
 
-Source: "Lib\32-bit\MediaInfo.dll"; DestDir: "{app}"; Flags: ignoreversion; Check: Not IsWin64
-Source: "Lib\64-bit\MediaInfo.dll"; DestDir: "{app}"; Flags: ignoreversion; Check: IsWin64
-
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppMyAppName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppMyAppName}"; Tasks: desktopicon

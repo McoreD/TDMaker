@@ -160,7 +160,7 @@ namespace TDMakerLib
         public static void TurnOn()
         {
             DetectUnix();
-            DebugHelper.Init(FileSystem.LogFilePath, logToConsole: false);
+            DebugHelper.Init(FileSystem.LogFilePath);
             DebugHelper.WriteLine("Operating System: " + Environment.OSVersion.VersionString);
             DebugHelper.WriteLine("Product Version: " + mAppInfo.GetApplicationTitleFull());
 
