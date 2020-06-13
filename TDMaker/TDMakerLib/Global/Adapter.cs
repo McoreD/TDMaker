@@ -228,8 +228,7 @@ namespace TDMakerLib
             }
 
             ts.Media.ReleaseDescription = Adapter.StripImg(pt).Trim();
-            ;
-
+            
             return pt;
         }
 

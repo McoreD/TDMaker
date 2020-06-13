@@ -54,7 +54,11 @@ namespace TDMakerLib
                     break;
             }
 
-            if (!File.Exists(ThumbnailerPath)) return;
+            if (!File.Exists(ThumbnailerPath))
+            {
+                DebugHelper.WriteLine($"Thumnailer not found (path is '{ThumbnailerPath}')");
+                return;
+            }
 
             for (int i = 0; i < Options.ScreenshotCount; i++)
             {
@@ -185,7 +189,7 @@ namespace TDMakerLib
 
                 foreach (ScreenshotInfo screenshot in screenshots)
                 {
-                    Image img = Image.FromFile(screenshot.LocalPath);
+                    var img = new Bitmap(screenshot.LocalPath);
 
                     if (Options.MaxThumbnailWidth > 0 && img.Width > Options.MaxThumbnailWidth)
                     {

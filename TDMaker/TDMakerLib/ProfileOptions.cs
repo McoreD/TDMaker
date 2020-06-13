@@ -117,8 +117,15 @@ namespace TDMakerLib
          Description("Your personal Announce URL is usually shown in the upload page e.g. http://torrent.ubuntu.com:6969")]
         public StringCollection Trackers { get; set; }
 
+        [Category(ComponentModelStrings.TorrentCreator), Editor(ComponentModelStrings.UITypeEditor, typeof(System.Drawing.Design.UITypeEditor)),
+         Description("Source flags for the trackers defined, please use the same order as the Trackers")]
+        public StringCollection TrackerSourceFlags { get; set; }
+
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(true), Description("Create torrent after analysing media.")]
         public bool CreateTorrent { get; set; }
+
+        [Category(ComponentModelStrings.TorrentCreator), DefaultValue(0), Description("Torrent piece size in KB, auto piece sizing will be used when set to 0")]
+        public int TorrentPieceSize { get; set; }
 
         [Category(ComponentModelStrings.TorrentCreator), DefaultValue(LocationType.KnownFolder), Description("Create torrents in the same folders as the media file, default torrent folder or in a custom folder")]
         public LocationType TorrentsFolder { get; set; }
@@ -132,6 +139,7 @@ namespace TDMakerLib
         {
             this.ApplyDefaultPropertyValues();
             Trackers = new StringCollection();
+            TrackerSourceFlags = new StringCollection();
         }
 
         public override string ToString()

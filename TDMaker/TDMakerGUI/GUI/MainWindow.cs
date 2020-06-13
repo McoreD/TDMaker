@@ -556,23 +556,12 @@ namespace TDMaker
             LoadSettingsInputControls();
             LoadSettingsInputMediaControls();
 
-            LoadSettingsMediaInfoControls();
-
             LoadSettingsScreenshotControls();
 
             LoadSettingsPublishControls();
             LoadSettingsPublishTemplatesControls();
 
             pgApp.SelectedObject = App.Settings;
-        }
-
-        private void LoadSettingsMediaInfoControls()
-        {
-            if (string.IsNullOrEmpty(App.Settings.CustomMediaInfoDllDir))
-            {
-                App.Settings.CustomMediaInfoDllDir = Application.StartupPath;
-            }
-            Kernel32Helper.SetDllDirectory(App.Settings.CustomMediaInfoDllDir);
         }
 
         private void LoadSettingsScreenshotControls()
@@ -1155,8 +1144,7 @@ namespace TDMaker
 
         private void btnUploadersConfig_Click(object sender, EventArgs e)
         {
-            bool firstInstance;
-            UploadersConfigForm form = UploadersConfigForm.GetFormInstance(App.UploadersConfig, out firstInstance);
+            var form = UploadersConfigForm.GetFormInstance(App.UploadersConfig);
             form.ShowDialog();
         }
 

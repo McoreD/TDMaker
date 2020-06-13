@@ -26,11 +26,10 @@ namespace TDMaker
             sbDesc.AppendLine();
             sbDesc.AppendLine("Settings file:");
             sbDesc.AppendLine(App.SettingsFilePath);
-            MediaInfoLib.MediaInfo mi = new MediaInfoLib.MediaInfo();
             sbDesc.AppendLine();
             sbDesc.AppendLine("External libraries:");
             sbDesc.AppendLine("ShareX: http://getsharex.com");
-            sbDesc.AppendLine(mi.Option("Info_Version") + ": http://sourceforge.net/projects/mediainfo");
+            sbDesc.AppendLine("MediaInfo: http://sourceforge.net/projects/mediainfo");
             textBoxDescription.Text = sbDesc.ToString();
 
             UpdateChecker updateChecker = ProgramUI.UpdateManager.CreateUpdateChecker();

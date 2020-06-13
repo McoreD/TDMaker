@@ -218,3 +218,5 @@ pip-log.txt
 *.ide
 *.userprefs
 *.userprefs
+/TDMaker/.vs/TDMaker/v16/TestStore/0/testlog.manifest
+/TDMaker/.vs/TDMaker/v16/TestStore/0/000.testlog

@@ -1,5 +1,4 @@
 ﻿using ShareX.HelpersLib;
-using ShareX.HelpersLib.UITypeEditors;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -137,7 +136,7 @@ namespace TDMakerLib
 
         #region App
 
-        [Category(ComponentModelStrings.App), DefaultValue(true), Description("Automatically check updates at startup.")]
+        [Category(ComponentModelStrings.App), DefaultValue(false), Description("Automatically check updates at startup.")]
         public bool AutoCheckUpdate { get; set; }
 
         public ProxyInfo ProxySettings = new ProxyInfo();
@@ -145,11 +144,6 @@ namespace TDMakerLib
         #endregion App
 
         #region Paths
-
-        [Category(ComponentModelStrings.AppPaths), Description("Browse to reconfigure the MediaInfo.dll folder path")]
-        [EditorAttribute(typeof(FolderNameEditor), typeof(UITypeEditor))]
-        public string CustomMediaInfoDllDir { get; set; }
-
         [Category(ComponentModelStrings.AppPaths), DefaultValue(false), Description("Use custom Templates directory")]
         public bool UseCustomTemplatesDir { get; set; }
 
