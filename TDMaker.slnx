@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TDMaker.App/TDMaker.App.csproj" />
+    <Project Path="src/TDMaker.Cli/TDMaker.Cli.csproj" />
+    <Project Path="src/TDMaker.Core/TDMaker.Core.csproj" />
+    <Project Path="src/TDMaker.Infrastructure/TDMaker.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TDMaker.Core.Tests/TDMaker.Core.Tests.csproj" />
+  </Folder>
+</Solution>
