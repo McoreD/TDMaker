@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using TDMaker.Core.Abstractions;
 using TDMaker.Core.Models;
 
-public sealed class JsonSettingsStore(
+public sealed partial class JsonSettingsStore(
     IPlatformPaths platformPaths,
     ILogger<JsonSettingsStore> logger) : ISettingsStore
 {
@@ -29,7 +29,7 @@ public sealed class JsonSettingsStore(
         var loaded = await JsonSerializer.DeserializeAsync<AppSettings>(stream, SerializerOptions, cancellationToken)
             ?? new AppSettings();
 
-        logger.LogInformation("Loaded settings from {SettingsFilePath}", platformPaths.SettingsFilePath);
+        LogSettingsLoaded(logger, platformPaths.SettingsFilePath);
         return loaded;
     }
 
@@ -39,7 +39,7 @@ public sealed class JsonSettingsStore(
 
         await using var stream = File.Create(platformPaths.SettingsFilePath);
         await JsonSerializer.SerializeAsync(stream, settings, SerializerOptions, cancellationToken);
-        logger.LogInformation("Saved settings to {SettingsFilePath}", platformPaths.SettingsFilePath);
+        LogSettingsSaved(logger, platformPaths.SettingsFilePath);
     }
 
     private void EnsureDirectories()
@@ -49,4 +49,10 @@ public sealed class JsonSettingsStore(
         Directory.CreateDirectory(platformPaths.ToolsDirectory);
         Directory.CreateDirectory(platformPaths.DefaultWorkspaceDirectory);
     }
+
+    [LoggerMessage(EventId = 2001, Level = LogLevel.Information, Message = "Loaded settings from {SettingsFilePath}")]
+    private static partial void LogSettingsLoaded(ILogger logger, string settingsFilePath);
+
+    [LoggerMessage(EventId = 2002, Level = LogLevel.Information, Message = "Saved settings to {SettingsFilePath}")]
+    private static partial void LogSettingsSaved(ILogger logger, string settingsFilePath);
 }

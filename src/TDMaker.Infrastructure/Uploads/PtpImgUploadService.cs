@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using TDMaker.Core.Abstractions;
 using TDMaker.Core.Models;
 
-public sealed class PtpImgUploadService(
+public sealed partial class PtpImgUploadService(
     IHttpClientFactory httpClientFactory,
     ILogger<PtpImgUploadService> logger) : IImageUploadService
 {
@@ -54,7 +54,7 @@ public sealed class PtpImgUploadService(
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex, "Could not upload screenshot {Path} to ptpimg", screenshot.LocalPath);
+                LogUploadFailed(logger, screenshot.LocalPath, ex);
                 uploaded.Add(screenshot);
             }
         }
@@ -77,4 +77,7 @@ public sealed class PtpImgUploadService(
         var remoteUrl = $"https://ptpimg.me/{code}.{extension}";
         return (remoteUrl, remoteUrl);
     }
+
+    [LoggerMessage(EventId = 7001, Level = LogLevel.Warning, Message = "Could not upload screenshot {Path} to ptpimg")]
+    private static partial void LogUploadFailed(ILogger logger, string path, Exception exception);
 }

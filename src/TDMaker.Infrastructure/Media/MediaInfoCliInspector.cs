@@ -7,7 +7,7 @@ using TDMaker.Core.Abstractions;
 using TDMaker.Core.Models;
 using TDMaker.Infrastructure.Support;
 
-public sealed class MediaInfoCliInspector(
+public sealed partial class MediaInfoCliInspector(
     IExternalToolLocator toolLocator,
     IProcessRunner processRunner,
     ILogger<MediaInfoCliInspector> logger) : IMediaInspector
@@ -63,10 +63,7 @@ public sealed class MediaInfoCliInspector(
             inspection.DiscLabel = source;
         }
 
-        logger.LogInformation(
-            "Inspected {Count} media assets as {InputKind} using MediaInfo",
-            inspection.Assets.Count,
-            inspection.InputKind);
+        LogInspectionCompleted(logger, inspection.Assets.Count, inspection.InputKind);
 
         return inspection;
     }
@@ -74,7 +71,7 @@ public sealed class MediaInfoCliInspector(
     private async Task<MediaAsset> InspectFileAsync(
         string mediaInfoPath,
         string filePath,
-        IReadOnlyList<string> allFiles,
+        string[] allFiles,
         CancellationToken cancellationToken)
     {
         var jsonResult = await processRunner.RunAsync(
@@ -257,7 +254,7 @@ public sealed class MediaInfoCliInspector(
     }
 
     private static IEnumerable<string> EnumerateFiles(
-        IReadOnlyList<string> inputs,
+        string[] inputs,
         MediaInputKind inputKind,
         ReleaseProfile profile)
     {
@@ -318,14 +315,14 @@ public sealed class MediaInfoCliInspector(
             .Where(path => new[] { ".m2ts", ".mpls", ".vob", ".ifo" }.Contains(Path.GetExtension(path), StringComparer.OrdinalIgnoreCase));
     }
 
-    private static MediaInputKind DetermineInputKind(IReadOnlyList<string> inputs, ReleaseProfile profile)
+    private static MediaInputKind DetermineInputKind(string[] inputs, ReleaseProfile profile)
     {
-        if (inputs.Count == 1 && File.Exists(inputs[0]))
+        if (inputs.Length == 1 && File.Exists(inputs[0]))
         {
             return MediaInputKind.SingleFile;
         }
 
-        if (inputs.Count == 1 && Directory.Exists(inputs[0]))
+        if (inputs.Length == 1 && Directory.Exists(inputs[0]))
         {
             if (IsDisc(inputs[0]))
             {
@@ -343,7 +340,7 @@ public sealed class MediaInfoCliInspector(
             }
         }
 
-        if (inputs.Count > 0 && inputs.All(File.Exists))
+        if (inputs.Length > 0 && inputs.All(File.Exists))
         {
             return inputs.All(path => profile.AudioExtensions.Contains(Path.GetExtension(path), StringComparer.OrdinalIgnoreCase))
                 ? MediaInputKind.AudioAlbum
@@ -361,7 +358,7 @@ public sealed class MediaInfoCliInspector(
                || path.EndsWith("BDMV", StringComparison.OrdinalIgnoreCase);
     }
 
-    private static string GuessTitle(IReadOnlyList<string> inputs, MediaInputKind inputKind, MediaAsset primaryAsset)
+    private static string GuessTitle(string[] inputs, MediaInputKind inputKind, MediaAsset primaryAsset)
     {
         if (inputKind == MediaInputKind.SingleFile)
         {
@@ -377,7 +374,7 @@ public sealed class MediaInfoCliInspector(
                 : name;
         }
 
-        if (inputs.Count == 1 && Directory.Exists(inputs[0]))
+        if (inputs.Length == 1 && Directory.Exists(inputs[0]))
         {
             return new DirectoryInfo(inputs[0]).Name;
         }
@@ -386,7 +383,7 @@ public sealed class MediaInfoCliInspector(
     }
 
     private static string GuessSource(
-        IReadOnlyList<string> inputs,
+        string[] inputs,
         string title,
         MediaInputKind inputKind,
         string fallback)
@@ -448,4 +445,7 @@ public sealed class MediaInfoCliInspector(
     {
         return GetValue(track, "@type");
     }
+
+    [LoggerMessage(EventId = 3001, Level = LogLevel.Information, Message = "Inspected {Count} media assets as {InputKind} using MediaInfo")]
+    private static partial void LogInspectionCompleted(ILogger logger, int count, MediaInputKind inputKind);
 }

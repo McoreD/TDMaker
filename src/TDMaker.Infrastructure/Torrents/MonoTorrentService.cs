@@ -6,7 +6,7 @@ using TDMaker.Core.Abstractions;
 using TDMaker.Core.Models;
 using TDMaker.Infrastructure.Support;
 
-public sealed class MonoTorrentService(
+public sealed partial class MonoTorrentService(
     ILogger<MonoTorrentService> logger) : ITorrentService
 {
     public async Task<IReadOnlyList<string>> CreateAsync(
@@ -54,7 +54,7 @@ public sealed class MonoTorrentService(
             created.Add(torrentPath);
         }
 
-        logger.LogInformation("Created {Count} torrent files", created.Count);
+        LogTorrentFilesCreated(logger, created.Count);
         return created;
     }
 
@@ -88,4 +88,7 @@ public sealed class MonoTorrentService(
             }
         }
     }
+
+    [LoggerMessage(EventId = 6001, Level = LogLevel.Information, Message = "Created {Count} torrent files")]
+    private static partial void LogTorrentFilesCreated(ILogger logger, int count);
 }

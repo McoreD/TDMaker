@@ -1,5 +1,6 @@
 namespace TDMaker.Infrastructure.Publishing;
 
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
@@ -30,7 +31,7 @@ public sealed partial class LegacyTemplatePublishService(
         }
 
         content = RemoveUnresolvedTokens(content).Trim();
-        logger.LogInformation("Rendered publish text using preset {Preset}", profile.PublishPreset);
+        LogPublishRendered(logger, profile.PublishPreset);
         return Task.FromResult(content);
     }
 
@@ -66,7 +67,7 @@ public sealed partial class LegacyTemplatePublishService(
         return filePath;
     }
 
-    private string RenderDisc(MediaInspectionResult inspection, ReleaseProfile profile, string templateRoot)
+    private static string RenderDisc(MediaInspectionResult inspection, ReleaseProfile profile, string templateRoot)
     {
         var asset = inspection.PrimaryAsset;
         var parser = new LegacySummaryFieldParser(asset.SummaryText);
@@ -79,7 +80,7 @@ public sealed partial class LegacyTemplatePublishService(
         return ApplyPublishWrappers(template, profile);
     }
 
-    private string RenderFiles(MediaInspectionResult inspection, ReleaseProfile profile, string templateRoot)
+    private static string RenderFiles(MediaInspectionResult inspection, ReleaseProfile profile, string templateRoot)
     {
         var builder = new StringBuilder();
         foreach (var asset in inspection.Assets)
@@ -142,10 +143,10 @@ public sealed partial class LegacyTemplatePublishService(
             .Replace("%WebLink%", string.Empty, StringComparison.OrdinalIgnoreCase)
             .Replace("%ScreenshotFull%", BuildScreenshotMarkup(asset, profile.UseFullSizeImages), StringComparison.OrdinalIgnoreCase)
             .Replace("%ScreenshotForums%", BuildScreenshotMarkup(asset, false), StringComparison.OrdinalIgnoreCase)
-            .Replace("%FontSize_Heading1%", profile.Heading1FontSize.ToString(), StringComparison.OrdinalIgnoreCase)
-            .Replace("%FontSize_Heading2%", profile.Heading2FontSize.ToString(), StringComparison.OrdinalIgnoreCase)
-            .Replace("%FontSize_Heading3%", profile.Heading3FontSize.ToString(), StringComparison.OrdinalIgnoreCase)
-            .Replace("%FontSize_Body%", profile.BodyFontSize.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("%FontSize_Heading1%", profile.Heading1FontSize.ToString(CultureInfo.InvariantCulture), StringComparison.OrdinalIgnoreCase)
+            .Replace("%FontSize_Heading2%", profile.Heading2FontSize.ToString(CultureInfo.InvariantCulture), StringComparison.OrdinalIgnoreCase)
+            .Replace("%FontSize_Heading3%", profile.Heading3FontSize.ToString(CultureInfo.InvariantCulture), StringComparison.OrdinalIgnoreCase)
+            .Replace("%FontSize_Body%", profile.BodyFontSize.ToString(CultureInfo.InvariantCulture), StringComparison.OrdinalIgnoreCase)
             .Replace("%NewLine%", Environment.NewLine, StringComparison.OrdinalIgnoreCase);
 
         return template;
@@ -290,4 +291,7 @@ public sealed partial class LegacyTemplatePublishService(
 
     [GeneratedRegex("%[A-Za-z0-9_]+%")]
     private static partial Regex UnresolvedTokenRegex();
+
+    [LoggerMessage(EventId = 4001, Level = LogLevel.Information, Message = "Rendered publish text using preset {Preset}")]
+    private static partial void LogPublishRendered(ILogger logger, string preset);
 }

@@ -1,5 +1,6 @@
 namespace TDMaker.Infrastructure.Screenshots;
 
+using System.Globalization;
 using Microsoft.Extensions.Logging;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -8,7 +9,7 @@ using TDMaker.Core.Abstractions;
 using TDMaker.Core.Models;
 using TDMaker.Infrastructure.Support;
 
-public sealed class FFmpegScreenshotService(
+public sealed partial class FFmpegScreenshotService(
     IExternalToolLocator toolLocator,
     IProcessRunner processRunner,
     ILogger<FFmpegScreenshotService> logger) : IScreenshotService
@@ -51,7 +52,7 @@ public sealed class FFmpegScreenshotService(
                     "-loglevel",
                     "error",
                     "-ss",
-                    timestamp.ToString(@"hh\:mm\:ss\.fff"),
+                    timestamp.ToString(@"hh\:mm\:ss\.fff", CultureInfo.InvariantCulture),
                     "-i",
                     asset.FilePath,
                     "-frames:v",
@@ -71,11 +72,7 @@ public sealed class FFmpegScreenshotService(
             }
             else
             {
-                logger.LogWarning(
-                    "FFmpeg could not create screenshot {Index} for {File}: {Error}",
-                    index + 1,
-                    asset.FileName,
-                    result.StandardError);
+                LogScreenshotFailed(logger, index + 1, asset.FileName, result.StandardError);
             }
         }
 
@@ -110,7 +107,7 @@ public sealed class FFmpegScreenshotService(
 
     private static async Task<ScreenshotArtifact> CreateContactSheetAsync(
         MediaAsset asset,
-        IReadOnlyList<ScreenshotArtifact> screenshots,
+        List<ScreenshotArtifact> screenshots,
         ReleaseProfile profile,
         string screenshotDirectory,
         CancellationToken cancellationToken)
@@ -151,4 +148,7 @@ public sealed class FFmpegScreenshotService(
             Timestamp = screenshots[0].Timestamp
         };
     }
+
+    [LoggerMessage(EventId = 5001, Level = LogLevel.Warning, Message = "FFmpeg could not create screenshot {Index} for {File}: {Error}")]
+    private static partial void LogScreenshotFailed(ILogger logger, int index, string file, string? error);
 }

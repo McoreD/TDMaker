@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using TDMaker.Core.Abstractions;
 using TDMaker.Core.Models;
 
-public sealed class ReleaseWorkflow(
+public sealed partial class ReleaseWorkflow(
     IMediaInspector mediaInspector,
     IScreenshotService screenshotService,
     IImageUploadService imageUploadService,
@@ -93,7 +93,7 @@ public sealed class ReleaseWorkflow(
         }
 
         result.Warnings.AddRange(inspection.Warnings);
-        logger.LogInformation("Release workflow completed for {Title}", inspection.Title);
+        LogWorkflowCompleted(logger, inspection.Title);
 
         return result;
     }
@@ -122,8 +122,11 @@ public sealed class ReleaseWorkflow(
 
         var sourceRoot = request.Inputs.Count == 1 && File.Exists(request.Inputs[0])
             ? Path.GetDirectoryName(request.Inputs[0]) ?? Environment.CurrentDirectory
-            : request.Inputs.FirstOrDefault() ?? Environment.CurrentDirectory;
+            : request.Inputs.Count > 0 ? request.Inputs[0] : Environment.CurrentDirectory;
 
         return Path.Combine(sourceRoot, $"{inspection.OutputName}.tdmaker");
     }
+
+    [LoggerMessage(EventId = 1001, Level = LogLevel.Information, Message = "Release workflow completed for {Title}")]
+    private static partial void LogWorkflowCompleted(ILogger logger, string title);
 }
