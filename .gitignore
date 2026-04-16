@@ -40,6 +40,7 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+.vs/
 
 # Build results
 
@@ -220,3 +221,23 @@ pip-log.txt
 *.userprefs
 /TDMaker/.vs/TDMaker/v16/TestStore/0/testlog.manifest
 /TDMaker/.vs/TDMaker/v16/TestStore/0/000.testlog
+
+# Tracked release automation under the repo root build/ folder.
+!/build/
+/build/*
+!/build/package-release.ps1
+!/build/ci/
+/build/ci/*
+!/build/ci/validate_release_assets.py
+!/build/linux/
+/build/linux/*
+!/build/linux/package-linux.sh
+!/build/macos/
+/build/macos/*
+!/build/macos/package-macos.sh
+!/build/windows/
+/build/windows/*
+!/build/windows/package-windows.ps1
+
+# Release packaging output
+/artifacts/

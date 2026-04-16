@@ -1,0 +1,188 @@
+name: Release Build (Windows, Linux, macOS)
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate-version:
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      release_title: ${{ steps.version.outputs.release_title }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: version
+        name: Resolve version
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="$(grep -oPm1 '(?<=<Version>)[^<]+' Directory.Build.props | tr -d '[:space:]')"
+          if [[ -z "$VERSION" ]]; then
+            echo "Failed to resolve <Version> from Directory.Build.props"
+            exit 1
+          fi
+
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Version '$VERSION' must follow X.Y.Z format."
+            exit 1
+          fi
+
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            if [[ ! "${GITHUB_REF_NAME}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "Tag '${GITHUB_REF_NAME}' must follow vX.Y.Z format."
+              exit 1
+            fi
+
+            TAG_VERSION="${GITHUB_REF_NAME#v}"
+            if [[ "$VERSION" != "$TAG_VERSION" ]]; then
+              echo "Tag version '$TAG_VERSION' does not match Directory.Build.props version '$VERSION'"
+              exit 1
+            fi
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "release_title=TDMaker $VERSION" >> "$GITHUB_OUTPUT"
+
+  build-windows:
+    needs: validate-version
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build Windows release archive
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path build\logs | Out-Null
+          .\build\windows\package-windows.ps1 *>&1 | Tee-Object -FilePath build\logs\windows-build.log
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release
+          if-no-files-found: error
+          path: dist/TDMaker-${{ needs.validate-version.outputs.version }}-windows-x64.zip
+
+      - name: Upload Windows build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build-log
+          if-no-files-found: warn
+          path: build/logs/windows-build.log
+
+  build-linux:
+    needs: validate-version
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build Linux release archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/logs
+          chmod +x ./build/linux/package-linux.sh
+          ./build/linux/package-linux.sh 2>&1 | tee build/logs/linux-build.log
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-release
+          if-no-files-found: error
+          path: dist/TDMaker-${{ needs.validate-version.outputs.version }}-linux-x64.tar.gz
+
+      - name: Upload Linux build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build-log
+          if-no-files-found: warn
+          path: build/logs/linux-build.log
+
+  build-macos:
+    needs: validate-version
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build macOS release archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p build/logs
+          chmod +x ./build/macos/package-macos.sh
+          ./build/macos/package-macos.sh 2>&1 | tee build/logs/macos-build.log
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-release
+          if-no-files-found: error
+          path: dist/TDMaker-${{ needs.validate-version.outputs.version }}-macos-arm64.tar.gz
+
+      - name: Upload macOS build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-build-log
+          if-no-files-found: warn
+          path: build/logs/macos-build.log
+
+  release:
+    if: github.ref_type == 'tag'
+    needs:
+      - validate-version
+      - build-windows
+      - build-linux
+      - build-macos
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Validate release assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 build/ci/validate_release_assets.py \
+            --assets-dir release-assets \
+            --version "${{ needs.validate-version.outputs.version }}"
+
+      - name: Upload assets to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ needs.validate-version.outputs.release_title }}
+          files: |
+            release-assets/TDMaker-${{ needs.validate-version.outputs.version }}-windows-x64.zip
+            release-assets/TDMaker-${{ needs.validate-version.outputs.version }}-linux-x64.tar.gz
+            release-assets/TDMaker-${{ needs.validate-version.outputs.version }}-macos-arm64.tar.gz
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
