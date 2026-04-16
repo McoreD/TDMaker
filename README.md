@@ -1,13 +1,46 @@
 # TDMaker
 
-TDMaker is being rebuilt as a modern cross-platform toolkit for torrent-description workflows.
+TDMaker is a cross-platform release workbench for the original app's core job:
 
-The new repo layout is:
+- inspect media and disc structures
+- generate screenshots
+- render tracker publish text from templates
+- upload screenshots
+- create `.torrent` files
+- export legacy XML payloads
 
-- `src/TDMaker.Core`: shared domain models and workflow contracts used by both front ends
-- `src/TDMaker.Infrastructure`: cross-platform implementations for external tools, filesystem access, HTTP upload, and torrent output
-- `src/TDMaker.Cli`: automation-oriented command-line interface
-- `src/TDMaker.App`: Avalonia desktop application for Windows, macOS, and Linux
-- `tests/TDMaker.Core.Tests`: tests for shared behavior
+The modern repo is structured around one shared engine with two front ends:
 
-The legacy WinForms/WPF/Mono code remains in the repo during migration as a reference while the new implementation is brought to feature parity.
+- `src/TDMaker.Core`: shared domain models, workflow contracts, and release orchestration
+- `src/TDMaker.Infrastructure`: platform-aware implementations for tools, HTTP, filesystem, screenshots, publishing, and torrents
+- `src/TDMaker.Cli`: scriptable CLI built on the shared workflow
+- `src/TDMaker.App`: Avalonia desktop UI for Windows, macOS, and Linux
+- `tests/TDMaker.Core.Tests`: shared behavior tests
+- `docs`: architecture and tooling notes
+- `legacy`: archived WinForms/WPF/Mono implementation kept as migration reference
+
+## Build
+
+```powershell
+dotnet build TDMaker.slnx
+dotnet test TDMaker.slnx
+```
+
+## Run
+
+```powershell
+dotnet run --project src/TDMaker.Cli -- tools
+dotnet run --project src/TDMaker.Cli -- inspect --help
+dotnet run --project src/TDMaker.App
+```
+
+## External Tools
+
+The modern app keeps the binary surface deliberately small:
+
+- `ffmpeg`: required for screenshots
+- `mediainfo`: required for media inspection
+
+Legacy `mplayer` support is intentionally retired. The old repo supported both FFmpeg and MPlayer for screenshots, but the modern app standardizes on FFmpeg because it is current, cross-platform, and actively maintained.
+
+See [docs/architecture.md](docs/architecture.md) and [docs/tooling.md](docs/tooling.md) for the runtime model and current upstream tool decisions.
