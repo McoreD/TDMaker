@@ -1,0 +1,41 @@
+﻿%Title%
+
+General
+Format : %General_Format%
+File size : %General_FileSize% 
+Duration : %General_Duration% 
+Overall bit rate : %General_OverallBitRate% 
+Encoded date : %EncodedDate% 
+Writing application : %General_WritingApplication% 
+Writing library : %General_WritingLibrary% 
+
+Video
+ID : %Video_ID% 
+Format : %Video_Format% 
+Format/Info : %Video_FormatInfo% 
+Format profile : %Video_FormatProfile% 
+Format settings, CABAC : %Video_FormatSettingsCABAC% 
+Format settings, ReFrames : %Video_FormatSettingsReframes%
+Codec ID : %Video_CodecID% 
+Duration : %Video_Duration% 
+Width : %Video_Width% 
+Height : %Video_Height% 
+Display aspect ratio : %Video_DisplayAspectRatio% 
+Frame rate : %Video_FrameRate%
+Resolution : %Video_Resolution% 
+Scan type : %Video_ScanType% 
+Color primaries : %Video_ColorPrimaries% 
+Transfer characteristics : %Video_TransferCharacteristics% 
+Matrix coefficients : %Video_MatrixCoefficients% 
+
+Audio
+ID : %Audio_ID% 
+Format : %Audio_Format% 
+Format/Info : %Audio_FormatInfo% 
+Codec ID : %Audio_CodecID% 
+Duration : %Audio_Duration% 
+Channel(s) : %Audio_Channels%
+Channel positions : %Audio_ChannelPositions% 
+Sampling rate : %Audio_SamplingRate% 
+
+%ScreenshotFull%

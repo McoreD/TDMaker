@@ -1,18 +1,24 @@
-﻿using Avalonia;
-using System;
+using Avalonia;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using TDMaker.App.ViewModels;
+using TDMaker.Infrastructure.DependencyInjection;
 
 namespace TDMaker.App;
 
-sealed class Program
+internal static class Program
 {
-    // Initialization code. Don't use any Avalonia, third-party APIs or any
-    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-    // yet and stuff might break.
-    [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
-        .StartWithClassicDesktopLifetime(args);
+    public static IHost AppHost { get; private set; } = null!;
 
-    // Avalonia configuration, don't remove; also used by visual designer.
+    [STAThread]
+    public static void Main(string[] args)
+    {
+        AppHost = CreateHost(args);
+        BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+        AppHost.Dispose();
+    }
+
     public static AppBuilder BuildAvaloniaApp()
         => AppBuilder.Configure<App>()
             .UsePlatformDetect()
@@ -21,4 +27,15 @@ sealed class Program
 #endif
             .WithInterFont()
             .LogToTrace();
+
+    private static IHost CreateHost(string[] args)
+    {
+        var builder = Host.CreateApplicationBuilder(args);
+        builder.Logging.ClearProviders();
+        builder.Logging.AddDebug();
+        builder.Logging.AddSimpleConsole();
+        builder.Services.AddTDMakerInfrastructure();
+        builder.Services.AddSingleton<MainWindowViewModel>();
+        return builder.Build();
+    }
 }

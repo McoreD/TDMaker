@@ -1,15 +1,50 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="TDMaker.App.App"
-             xmlns:local="using:TDMaker.App"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
-
-    <Application.DataTemplates>
-        <local:ViewLocator/>
-    </Application.DataTemplates>
-  
     <Application.Styles>
         <FluentTheme />
+        <Style Selector="Window">
+            <Setter Property="Background">
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#07101D" Offset="0" />
+                    <GradientStop Color="#0C1B2F" Offset="0.55" />
+                    <GradientStop Color="#13253E" Offset="1" />
+                </LinearGradientBrush>
+            </Setter>
+        </Style>
+        <Style Selector="TextBlock.section-title">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#8BA6C7" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style Selector="TextBlock.value-title">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#F5F7FA" />
+        </Style>
+        <Style Selector="Border.panel">
+            <Setter Property="Background" Value="#101D31" />
+            <Setter Property="BorderBrush" Value="#253E5D" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="18" />
+            <Setter Property="Padding" Value="18" />
+        </Style>
+        <Style Selector="Border.metric-card">
+            <Setter Property="Background" Value="#12243B" />
+            <Setter Property="BorderBrush" Value="#29496C" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="14" />
+        </Style>
+        <Style Selector="TextBox.mono">
+            <Setter Property="FontFamily" Value="Consolas, Cascadia Code, Menlo, monospace" />
+        </Style>
+        <Style Selector="Button.accent">
+            <Setter Property="Background" Value="#58D4A7" />
+            <Setter Property="Foreground" Value="#06251B" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
     </Application.Styles>
 </Application>

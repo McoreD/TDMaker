@@ -1,20 +1,250 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:TDMaker.App.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="using:TDMaker.App.ViewModels"
         x:Class="TDMaker.App.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        Width="1440"
+        Height="920"
+        MinWidth="1180"
+        MinHeight="780"
+        Title="TDMaker"
         Icon="/Assets/avalonia-logo.ico"
-        Title="TDMaker.App">
+        mc:Ignorable="d">
+    <Grid ColumnDefinitions="300,4,*" Margin="20">
+        <Border Grid.Column="0" Classes="panel">
+            <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="18">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="TDMaker" FontSize="30" FontWeight="Bold" Foreground="#F8FBFF"/>
+                    <TextBlock Text="Cross-platform release workbench for MediaInfo, FFmpeg, publish templates, torrents, and XML exports."
+                               Classes="section-title"/>
+                </StackPanel>
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+                <Border Grid.Row="1" Classes="metric-card">
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="Session Status" Classes="section-title"/>
+                        <TextBlock Text="{Binding StatusMessage}" Classes="value-title" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Border Grid.Row="2" Classes="metric-card">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Profile" Classes="section-title"/>
+                        <ComboBox ItemsSource="{Binding Profiles}"
+                                  SelectedItem="{Binding SelectedProfile}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ProfileChoiceViewModel">
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
 
+                <Border Grid.Row="3" Classes="panel">
+                    <StackPanel Spacing="12">
+                        <TextBlock Text="Tool Status" Classes="section-title"/>
+                        <ItemsControl ItemsSource="{Binding ToolStatuses}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ToolStatusViewModel">
+                                    <Border Classes="metric-card" Margin="0,0,0,10">
+                                        <StackPanel Spacing="4">
+                                            <TextBlock Text="{Binding DisplayName}" Classes="value-title"/>
+                                            <TextBlock Text="{Binding Status}" Foreground="#58D4A7"/>
+                                            <TextBlock Text="{Binding Path}" TextWrapping="Wrap" Foreground="#B8C7DA"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Grid.Row="4" Spacing="10">
+                    <Button Classes="accent" Command="{Binding InspectCommand}" Content="Inspect Inputs" Height="40"/>
+                    <Button Command="{Binding RunWorkflowCommand}" Content="Run Full Workflow" Height="40"/>
+                    <Button Command="{Binding SaveSettingsCommand}" Content="Save Settings" Height="40"/>
+                    <Button Command="{Binding ReloadSettingsCommand}" Content="Reload Settings" Height="40"/>
+                    <Button Command="{Binding ClearSessionCommand}" Content="Clear Session" Height="40"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Background="#29496C"/>
+
+        <Grid Grid.Column="2" RowDefinitions="Auto,*" RowSpacing="18" Margin="20,0,0,0">
+            <Border Classes="panel">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Modern Avalonia Workbench" FontSize="24" FontWeight="Bold" Foreground="#F8FBFF"/>
+                        <TextBlock Text="The desktop shell and CLI share one engine. Configure tools and profile defaults once, then inspect or run from either surface."
+                                   Classes="section-title"/>
+                    </StackPanel>
+                    <Border Grid.Column="1" Classes="metric-card">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Queued Inputs" Classes="section-title"/>
+                            <TextBlock Text="{Binding InputPaths.Count}" FontSize="22" FontWeight="Bold" Foreground="#58D4A7"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <TabControl Grid.Row="1">
+                <TabItem Header="Workbench">
+                    <Grid ColumnDefinitions="360,4,*" Margin="0,18,0,0">
+                        <Border Grid.Column="0" Classes="panel">
+                            <ScrollViewer>
+                                <StackPanel Spacing="16">
+                                    <TextBlock Text="Inputs" Classes="section-title"/>
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                        <TextBox Text="{Binding DraftInputPath, Mode=TwoWay}" PlaceholderText="Paste a media file or directory path"/>
+                                        <Button Grid.Column="1" Command="{Binding AddInputCommand}" Content="Add"/>
+                                    </Grid>
+
+                                    <ListBox ItemsSource="{Binding InputPaths}"
+                                             SelectedItem="{Binding SelectedInput}"
+                                             MinHeight="180"/>
+                                    <Button Command="{Binding RemoveSelectedInputCommand}" Content="Remove Selected"/>
+
+                                    <TextBlock Text="Overrides" Classes="section-title"/>
+                                    <TextBox Text="{Binding TitleOverride, Mode=TwoWay}" PlaceholderText="Optional title override"/>
+                                    <TextBox Text="{Binding SourceOverride, Mode=TwoWay}" PlaceholderText="Optional source override"/>
+                                    <TextBox Text="{Binding ProfileOutputDirectory, Mode=TwoWay}" PlaceholderText="Optional profile output directory"/>
+
+                                    <TextBlock Text="Warnings" Classes="section-title"/>
+                                    <ItemsControl ItemsSource="{Binding Warnings}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Classes="metric-card" Margin="0,0,0,10">
+                                                    <TextBlock Text="{Binding .}" TextWrapping="Wrap"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+
+                        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Background="#29496C"/>
+
+                        <Grid Grid.Column="2" RowDefinitions="250,4,*" RowSpacing="10">
+                            <Border Classes="panel">
+                                <Grid RowDefinitions="Auto,*" RowSpacing="10">
+                                    <TextBlock Text="Inspected Assets" Classes="section-title"/>
+                                    <ListBox Grid.Row="1"
+                                             ItemsSource="{Binding Assets}"
+                                             SelectedItem="{Binding SelectedAsset}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:AssetSummaryViewModel">
+                                                <Border Classes="metric-card" Margin="0,0,0,8">
+                                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                                        <StackPanel Spacing="4">
+                                                            <TextBlock Text="{Binding FileName}" Classes="value-title"/>
+                                                            <TextBlock Text="{Binding Format}" Foreground="#8BA6C7"/>
+                                                            <TextBlock Text="{Binding Resolution}" Foreground="#8BA6C7"/>
+                                                        </StackPanel>
+                                                        <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                                            <TextBlock Text="{Binding Duration}" HorizontalAlignment="Right"/>
+                                                            <TextBlock Text="{Binding AudioCount, StringFormat='Audio: {0}'}" HorizontalAlignment="Right"/>
+                                                            <TextBlock Text="{Binding ScreenshotCount, StringFormat='Shots: {0}'}" HorizontalAlignment="Right"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </Grid>
+                            </Border>
+
+                            <GridSplitter Grid.Row="1" ResizeDirection="Rows" Background="#29496C"/>
+
+                            <Border Grid.Row="2" Classes="panel">
+                                <Grid RowDefinitions="Auto,*" RowSpacing="10">
+                                    <TextBlock Text="Detailed MediaInfo" Classes="section-title"/>
+                                    <TextBox Grid.Row="1"
+                                             Text="{Binding SelectedAssetSummary}"
+                                             Classes="mono"
+                                             AcceptsReturn="True"
+                                             TextWrapping="NoWrap"
+                                             IsReadOnly="True"
+                                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Publish">
+                    <Grid RowDefinitions="Auto,*" Margin="0,18,0,0" RowSpacing="12">
+                        <Border Classes="panel">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="16">
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="Output Directory" Classes="section-title"/>
+                                    <TextBlock Text="{Binding OutputDirectory}" Classes="value-title" TextWrapping="Wrap"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Spacing="4">
+                                    <TextBlock Text="Preview Length" Classes="section-title" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="{Binding PublishText.Length}" FontSize="22" FontWeight="Bold" Foreground="#58D4A7" HorizontalAlignment="Right"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="1" Classes="panel">
+                            <Grid RowDefinitions="Auto,*" RowSpacing="10">
+                                <TextBlock Text="Publish Text Preview" Classes="section-title"/>
+                                <TextBox Grid.Row="1"
+                                         Text="{Binding PublishText}"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         IsReadOnly="True"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                         Classes="mono"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Settings">
+                    <ScrollViewer Margin="0,18,0,0">
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="18">
+                            <Border Grid.Column="0" Classes="panel">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="External Tools" Classes="section-title"/>
+                                    <TextBox Text="{Binding FfmpegPath, Mode=TwoWay}" PlaceholderText="FFmpeg path or leave blank to resolve from PATH"/>
+                                    <TextBox Text="{Binding MediaInfoPath, Mode=TwoWay}" PlaceholderText="MediaInfo path or leave blank to resolve from PATH"/>
+
+                                    <TextBlock Text="Profile Rendering" Classes="section-title" Margin="0,12,0,0"/>
+                                    <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding PublishPreset}"/>
+                                    <TextBox Text="{Binding PtpImgApiKey, Mode=TwoWay}" PlaceholderText="ptpimg API key for uploads"/>
+                                    <CheckBox Content="Wrap publish text in [pre]" IsChecked="{Binding WrapPublishInPreBlock}"/>
+                                    <CheckBox Content="Center-align publish text" IsChecked="{Binding CenterPublishText}"/>
+                                    <CheckBox Content="Use full-size screenshot URLs" IsChecked="{Binding UseFullSizeImages}"/>
+                                    <CheckBox Content="Hide private complete paths" IsChecked="{Binding HidePrivatePaths}"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="1" Classes="panel">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="Workflow" Classes="section-title"/>
+                                    <CheckBox Content="Create screenshots" IsChecked="{Binding CreateScreenshots}"/>
+                                    <CheckBox Content="Upload screenshots when API key is set" IsChecked="{Binding UploadScreenshots}"/>
+                                    <CheckBox Content="Combine screenshots into a contact sheet" IsChecked="{Binding CombineScreenshots}"/>
+                                    <CheckBox Content="Create torrent files" IsChecked="{Binding CreateTorrent}"/>
+                                    <CheckBox Content="Write XML upload file" IsChecked="{Binding ExportXml}"/>
+                                    <CheckBox Content="Randomize screenshot frame selection" IsChecked="{Binding RandomizeScreenshotFrames}"/>
+
+                                    <TextBlock Text="Counts" Classes="section-title" Margin="0,12,0,0"/>
+                                    <NumericUpDown Minimum="1" Maximum="30" Value="{Binding ScreenshotCount}"/>
+                                    <NumericUpDown Minimum="1" Maximum="8" Value="{Binding ScreenshotColumns}"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
 </Window>
