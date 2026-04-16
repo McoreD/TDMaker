@@ -32,12 +32,16 @@ The Avalonia app in `src/TDMaker.App` is the interactive workbench.
 Workbench features:
 
 - queue one or more file or directory inputs
+- browse for input files and folders from the UI
 - add and remove inputs during a session
 - inspect without running the full workflow
 - run the full shared workflow from the UI
 - view resolved external tool status and paths
+- download a managed FFmpeg build into `TDMAKER_HOME/tools` when FFmpeg is missing
+- download a managed MediaInfo build into `TDMAKER_HOME/tools` when MediaInfo is missing
 - select an active profile from the settings model
 - override title, source label, and profile output directory per run
+- browse for output directories and external tool paths from the UI
 - inspect summarized asset cards for each discovered media file
 - view detailed MediaInfo text for the selected asset
 - preview generated publish text before posting it elsewhere
@@ -63,6 +67,8 @@ The CLI in `src/TDMaker.Cli` is built for repeatable terminal workflows and auto
 Commands:
 
 - `tools`: show resolved external tool paths and readiness
+- `install-ffmpeg`: download a managed FFmpeg build into the app tools directory
+- `install-mediainfo`: download a managed MediaInfo build into the app tools directory
 - `inspect`: inspect media and print a summary without producing full workflow output
 - `run`: execute the full shared release workflow
 
@@ -173,6 +179,10 @@ The modern app deliberately keeps the required external binary surface small:
 
 - `ffmpeg`: required for screenshot generation
 - `mediainfo`: required for media inspection
+
+TDMaker can automatically download a managed FFmpeg build for supported Windows, Linux, and macOS environments. The managed binary is stored under `TDMAKER_HOME/tools` and is picked up by the normal tool resolution flow.
+
+TDMaker can also automatically download a managed MediaInfo build for supported Windows, Linux, and macOS environments. Windows uses the official MediaArea CLI ZIP, macOS uses the official MediaArea CLI DMG, and Linux uses the official MediaArea Ubuntu 24.04 CLI/library packages extracted into the managed tools directory.
 
 No external torrent binary is required because torrent creation is handled in-process by `MonoTorrent`.
 

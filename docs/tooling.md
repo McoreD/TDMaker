@@ -17,17 +17,32 @@ Platform notes:
 - Windows: FFmpeg's official download page points to compiled builds from `gyan.dev` and `BtbN`
 - macOS: FFmpeg's official download page points to `evermeet.cx` static builds
 
+Automatic install notes:
+
+- TDMaker can download a managed FFmpeg build into `TDMAKER_HOME/tools`
+- Windows managed installs currently use the `gyan.dev` release essentials ZIP
+- Linux and macOS managed installs use Martin Riedl's scriptable release ZIP endpoints because they provide current amd64/arm64 artifacts suitable for unattended download flows
+- macOS auto-download intentionally uses the Martin Riedl arm64/x64 ZIP endpoints instead of `evermeet.cx`, because the Evermeet site explicitly does not provide native Apple Silicon builds
+
 ### MediaInfo CLI
 
 - Status: required
 - Purpose: structured media inspection and text summaries
 - Upstream: <https://mediaarea.net/en/MediaInfo>
-- Current CLI source release listed by MediaArea: `v26.01`
+- Current CLI release listed by MediaArea download pages: `v26.01`
 
 Platform notes:
 
-- Linux: use distro packages when available or build from the published CLI/source packages
-- Windows/macOS: use the official MediaArea downloads
+- Windows: the official MediaArea Windows download page publishes CLI ZIP packages, including x64 and ARM64 builds
+- macOS: the official MediaArea macOS download page publishes a CLI DMG
+- Linux: the official MediaArea Ubuntu download page publishes CLI, `libmediainfo0`, and `libzen0` packages for current amd64 and arm64 Ubuntu releases
+
+Automatic install notes:
+
+- TDMaker can download a managed MediaInfo build into `TDMAKER_HOME/tools`
+- Windows managed installs use the official MediaArea CLI ZIP (`MediaInfo_CLI_26.01_Windows_x64.zip` or `MediaInfo_CLI_26.01_Windows_ARM64.zip`)
+- macOS managed installs use the official MediaArea CLI DMG (`MediaInfo_CLI_26.01_Mac.dmg`) and copy the mounted payload into the managed tools directory
+- Linux managed installs currently use the official Ubuntu 24.04 amd64/arm64 `mediainfo`, `libmediainfo0`, and `libzen0` packages, extract them into `TDMAKER_HOME/tools/mediainfo-managed`, and launch the CLI through a wrapper that exports the correct library path
 
 ## Retired
 
