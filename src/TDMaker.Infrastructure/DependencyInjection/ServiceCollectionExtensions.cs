@@ -20,6 +20,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISettingsStore, JsonSettingsStore>();
         services.AddSingleton<IProcessRunner, ProcessRunner>();
         services.AddSingleton<IExternalToolLocator, ExternalToolLocator>();
+        services.AddSingleton<IFFmpegInstaller, FFmpegInstaller>();
+        services.AddSingleton<IMediaInfoInstaller, MediaInfoInstaller>();
         services.AddSingleton<IMediaInspector, MediaInfoCliInspector>();
         services.AddSingleton<IScreenshotService, FFmpegScreenshotService>();
         services.AddSingleton<IImageUploadService, PtpImgUploadService>();
