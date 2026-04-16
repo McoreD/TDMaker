@@ -126,7 +126,7 @@ On environments where `bash` is not available, execute the flow manually:
 
 ## Notes
 
-- TDMaker currently has historical GitHub tags and releases through `v4.1.0`, so the modern automation starts from versioned state rather than inventing a first tag.
+- TDMaker currently has historical GitHub tags and releases through `v4.1.0`, and the modern repo baseline is now `v5.0.0`.
 - The modern release workflow targets only Windows, Linux, and macOS.
 - Each platform asset contains both front ends:
   - `desktop/`: Avalonia desktop app
