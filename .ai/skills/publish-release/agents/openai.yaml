@@ -1,0 +1,3 @@
+interface:
+  display_name: "TDMaker Release Publish"
+  short_description: "Verify build, bump version, commit/push/tag, monitor the GitHub release workflow, verify Windows/Linux/macOS assets, and set pre-release by default"

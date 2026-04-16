@@ -203,6 +203,38 @@ Desktop app:
 dotnet run --project src/TDMaker.App
 ```
 
+## Release Automation
+
+TDMaker includes a repo-local publish skill at `.ai/skills/publish-release`.
+
+The release flow is designed to:
+
+- verify the release build
+- bump `<Version>` in tracked `Directory.Build.props` files
+- commit and tag `vX.Y.Z`
+- trigger the GitHub Actions release workflow
+- build separate archives for Windows, Linux, and macOS
+- attach those archives to the matching GitHub release
+
+Primary command:
+
+```bash
+./.ai/skills/publish-release/scripts/run-release-sequence.sh
+```
+
+Expected GitHub release assets:
+
+- `TDMaker-X.Y.Z-windows-x64.zip`
+- `TDMaker-X.Y.Z-linux-x64.tar.gz`
+- `TDMaker-X.Y.Z-macos-arm64.tar.gz`
+
+The packaging workflow builds both app surfaces into each asset:
+
+- `desktop/`: Avalonia desktop app
+- `cli/`: TDMaker CLI
+
+The tag-triggered workflow definition lives in `.github/workflows/release-build-all-platforms.yml`.
+
 ## Current Scope
 
 The modern stack already provides the shared workflow, desktop workbench, CLI, migrated publish templates, cross-platform tool discovery, settings persistence, and legacy archive.
