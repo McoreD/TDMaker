@@ -3,13 +3,23 @@ namespace TDMaker.App.ViewModels;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using TDMaker.App.Services;
 using TDMaker.Core.Abstractions;
 using TDMaker.Core.Models;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private static readonly StringComparer PathComparer =
+        OperatingSystem.IsWindows() ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal;
+    private static readonly StringComparison PathComparison =
+        OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+
     private readonly ISettingsStore _settingsStore;
     private readonly IExternalToolLocator _toolLocator;
+    private readonly IPathPickerService _pathPickerService;
+    private readonly IFFmpegInstaller _ffmpegInstaller;
+    private readonly IMediaInfoInstaller _mediaInfoInstaller;
+    private readonly IPlatformPaths _platformPaths;
     private readonly IMediaInspector _mediaInspector;
     private readonly IPublishService _publishService;
     private readonly IReleaseWorkflow _releaseWorkflow;
@@ -18,12 +28,20 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(
         ISettingsStore settingsStore,
         IExternalToolLocator toolLocator,
+        IPathPickerService pathPickerService,
+        IFFmpegInstaller ffmpegInstaller,
+        IMediaInfoInstaller mediaInfoInstaller,
+        IPlatformPaths platformPaths,
         IMediaInspector mediaInspector,
         IPublishService publishService,
         IReleaseWorkflow releaseWorkflow)
     {
         _settingsStore = settingsStore;
         _toolLocator = toolLocator;
+        _pathPickerService = pathPickerService;
+        _ffmpegInstaller = ffmpegInstaller;
+        _mediaInfoInstaller = mediaInfoInstaller;
+        _platformPaths = platformPaths;
         _mediaInspector = mediaInspector;
         _publishService = publishService;
         _releaseWorkflow = releaseWorkflow;
@@ -67,10 +85,28 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private bool randomizeScreenshotFrames = true;
     [ObservableProperty] private int screenshotCount = 6;
     [ObservableProperty] private int screenshotColumns = 3;
+    [ObservableProperty] private bool isDownloadingFfmpeg;
+    [ObservableProperty] private double ffmpegDownloadProgress;
+    [ObservableProperty] private string ffmpegDownloadStatus = "FFmpeg is resolved from settings, TDMAKER_HOME/tools, the app directory, or PATH.";
+    [ObservableProperty] private bool isFfmpegAvailable;
+    [ObservableProperty] private bool isDownloadingMediaInfo;
+    [ObservableProperty] private double mediaInfoDownloadProgress;
+    [ObservableProperty] private string mediaInfoDownloadStatus = "MediaInfo is resolved from settings, TDMAKER_HOME/tools, the app directory, or PATH.";
+    [ObservableProperty] private bool isMediaInfoAvailable;
 
     partial void OnSelectedAssetChanged(AssetSummaryViewModel? value)
     {
         SelectedAssetSummary = value?.DetailedSummaryText ?? string.Empty;
+    }
+
+    partial void OnDraftInputPathChanged(string value)
+    {
+        AddInputCommand.NotifyCanExecuteChanged();
+    }
+
+    partial void OnSelectedInputChanged(string? value)
+    {
+        RemoveSelectedInputCommand.NotifyCanExecuteChanged();
     }
 
     partial void OnSelectedProfileChanged(ProfileChoiceViewModel? value)
@@ -84,22 +120,70 @@ public partial class MainWindowViewModel : ViewModelBase
         RefreshCommands();
     }
 
+    partial void OnFfmpegPathChanged(string value)
+    {
+        RefreshToolStatusesPreview();
+    }
+
+    partial void OnMediaInfoPathChanged(string value)
+    {
+        RefreshToolStatusesPreview();
+    }
+
     [RelayCommand(CanExecute = nameof(CanAddInput))]
     private void AddInput()
     {
-        var candidate = DraftInputPath.Trim();
-        if (string.IsNullOrWhiteSpace(candidate))
+        var added = QueueInputs([DraftInputPath]);
+        if (added == 0)
         {
             return;
         }
 
-        if (!InputPaths.Contains(candidate, StringComparer.OrdinalIgnoreCase))
-        {
-            InputPaths.Add(candidate);
-        }
-
         DraftInputPath = string.Empty;
         StatusMessage = $"Queued {InputPaths.Count} input path(s).";
+    }
+
+    [RelayCommand(CanExecute = nameof(CanBrowsePaths))]
+    private async Task BrowseInputFilesAsync()
+    {
+        try
+        {
+            var paths = await _pathPickerService.PickInputFilesAsync(NullIfEmpty(DraftInputPath) ?? SelectedInput);
+            var added = QueueInputs(paths);
+            if (added > 0)
+            {
+                DraftInputPath = string.Empty;
+                StatusMessage = $"Queued {added} new input path(s).";
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = ex.Message;
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanBrowsePaths))]
+    private async Task BrowseInputDirectoryAsync()
+    {
+        try
+        {
+            var path = await _pathPickerService.PickInputDirectoryAsync(NullIfEmpty(DraftInputPath) ?? SelectedInput);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
+            var added = QueueInputs([path]);
+            if (added > 0)
+            {
+                DraftInputPath = string.Empty;
+                StatusMessage = $"Queued {path}.";
+            }
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = ex.Message;
+        }
     }
 
     [RelayCommand(CanExecute = nameof(CanRemoveSelectedInput))]
@@ -117,6 +201,122 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private async Task ReloadSettingsAsync() => await LoadSettingsAsync();
 
+    [RelayCommand(CanExecute = nameof(CanDownloadFfmpeg))]
+    private async Task DownloadFfmpegAsync()
+    {
+        if (_settings is null)
+        {
+            StatusMessage = "Settings are still loading.";
+            return;
+        }
+
+        try
+        {
+            IsDownloadingFfmpeg = true;
+            FfmpegDownloadProgress = 0;
+            FfmpegDownloadStatus = "Preparing managed FFmpeg download...";
+            StatusMessage = "Downloading managed FFmpeg...";
+            RefreshCommands();
+
+            var progress = new Progress<ToolInstallationProgress>(update =>
+            {
+                if (update.Kind != ToolKind.FFmpeg)
+                {
+                    return;
+                }
+
+                if (update.Percentage.HasValue)
+                {
+                    FfmpegDownloadProgress = Math.Clamp(update.Percentage.Value, 0, 100);
+                }
+
+                FfmpegDownloadStatus = update.Status;
+            });
+
+            var result = await _ffmpegInstaller.InstallLatestAsync(progress);
+            RefreshToolStatuses(_settings.Tools);
+
+            FfmpegDownloadStatus = result.Message;
+            if (result.Success)
+            {
+                FfmpegDownloadProgress = 100;
+                StatusMessage = "Managed FFmpeg installed.";
+            }
+            else
+            {
+                StatusMessage = result.Message;
+            }
+        }
+        catch (Exception ex)
+        {
+            FfmpegDownloadStatus = ex.Message;
+            StatusMessage = ex.Message;
+        }
+        finally
+        {
+            IsDownloadingFfmpeg = false;
+            RefreshCommands();
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanDownloadMediaInfo))]
+    private async Task DownloadMediaInfoAsync()
+    {
+        if (_settings is null)
+        {
+            StatusMessage = "Settings are still loading.";
+            return;
+        }
+
+        try
+        {
+            IsDownloadingMediaInfo = true;
+            MediaInfoDownloadProgress = 0;
+            MediaInfoDownloadStatus = "Preparing managed MediaInfo download...";
+            StatusMessage = "Downloading managed MediaInfo...";
+            RefreshCommands();
+
+            var progress = new Progress<ToolInstallationProgress>(update =>
+            {
+                if (update.Kind != ToolKind.MediaInfo)
+                {
+                    return;
+                }
+
+                if (update.Percentage.HasValue)
+                {
+                    MediaInfoDownloadProgress = Math.Clamp(update.Percentage.Value, 0, 100);
+                }
+
+                MediaInfoDownloadStatus = update.Status;
+            });
+
+            var result = await _mediaInfoInstaller.InstallLatestAsync(progress);
+            RefreshToolStatuses(_settings.Tools);
+
+            MediaInfoDownloadStatus = result.Message;
+            if (result.Success)
+            {
+                MediaInfoDownloadProgress = 100;
+                StatusMessage = "Managed MediaInfo installed.";
+            }
+            else
+            {
+                StatusMessage = result.Message;
+            }
+        }
+        catch (Exception ex)
+        {
+            MediaInfoDownloadStatus = ex.Message;
+            StatusMessage = ex.Message;
+        }
+        finally
+        {
+            IsDownloadingMediaInfo = false;
+            RefreshCommands();
+        }
+    }
+
     [RelayCommand]
     private async Task SaveSettingsAsync()
     {
@@ -133,6 +333,66 @@ public partial class MainWindowViewModel : ViewModelBase
         await _settingsStore.SaveAsync(_settings);
         RefreshToolStatuses(_settings.Tools);
         StatusMessage = "Settings saved.";
+    }
+
+    [RelayCommand(CanExecute = nameof(CanBrowsePaths))]
+    private async Task BrowseProfileOutputDirectoryAsync()
+    {
+        try
+        {
+            var path = await _pathPickerService.PickOutputDirectoryAsync(ProfileOutputDirectory);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
+            ProfileOutputDirectory = path;
+            StatusMessage = $"Output directory set to {path}.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = ex.Message;
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanBrowsePaths))]
+    private async Task BrowseFfmpegPathAsync()
+    {
+        try
+        {
+            var path = await _pathPickerService.PickToolPathAsync(ToolKind.FFmpeg, FfmpegPath);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
+            FfmpegPath = path;
+            StatusMessage = "FFmpeg path updated.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = ex.Message;
+        }
+    }
+
+    [RelayCommand(CanExecute = nameof(CanBrowsePaths))]
+    private async Task BrowseMediaInfoPathAsync()
+    {
+        try
+        {
+            var path = await _pathPickerService.PickToolPathAsync(ToolKind.MediaInfo, MediaInfoPath);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+
+            MediaInfoPath = path;
+            StatusMessage = "MediaInfo path updated.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = ex.Message;
+        }
     }
 
     [RelayCommand(CanExecute = nameof(CanInspect))]
@@ -215,8 +475,11 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     private bool CanAddInput() => !string.IsNullOrWhiteSpace(DraftInputPath);
+    private bool CanBrowsePaths() => !IsBusy && !IsDownloadingFfmpeg && !IsDownloadingMediaInfo;
     private bool CanRemoveSelectedInput() => SelectedInput is not null;
-    private bool CanInspect() => !IsBusy && InputPaths.Count > 0 && SelectedProfile is not null;
+    private bool CanInspect() => !IsBusy && !IsDownloadingFfmpeg && !IsDownloadingMediaInfo && InputPaths.Count > 0 && SelectedProfile is not null;
+    private bool CanDownloadFfmpeg() => !IsBusy && !IsDownloadingFfmpeg && !IsDownloadingMediaInfo && !IsFfmpegAvailable;
+    private bool CanDownloadMediaInfo() => !IsBusy && !IsDownloadingMediaInfo && !IsDownloadingFfmpeg && !IsMediaInfoAvailable;
 
     private async Task LoadSettingsAsync()
     {
@@ -289,15 +552,25 @@ public partial class MainWindowViewModel : ViewModelBase
     private void RefreshToolStatuses(ToolSettings tools)
     {
         ToolStatuses.Clear();
-        foreach (var tool in _toolLocator.ResolveAll(tools))
+        var resolvedTools = _toolLocator.ResolveAll(tools);
+
+        foreach (var tool in resolvedTools)
         {
             ToolStatuses.Add(new ToolStatusViewModel
             {
                 DisplayName = tool.DisplayName,
                 Status = tool.IsConfigured ? "Ready" : "Missing",
-                Path = tool.Path ?? "Install on PATH or configure an absolute path."
+                Path = tool.Path ?? GetMissingToolMessage(tool.Kind)
             });
         }
+
+        var ffmpeg = resolvedTools.First(x => x.Kind == ToolKind.FFmpeg);
+        IsFfmpegAvailable = ffmpeg.IsConfigured;
+        UpdateFfmpegDownloadState(ffmpeg);
+
+        var mediaInfo = resolvedTools.First(x => x.Kind == ToolKind.MediaInfo);
+        IsMediaInfoAvailable = mediaInfo.IsConfigured;
+        UpdateMediaInfoDownloadState(mediaInfo);
     }
 
     private ReleaseRequest? BuildRequest()
@@ -345,7 +618,14 @@ public partial class MainWindowViewModel : ViewModelBase
     private void RefreshCommands()
     {
         AddInputCommand.NotifyCanExecuteChanged();
+        BrowseInputFilesCommand.NotifyCanExecuteChanged();
+        BrowseInputDirectoryCommand.NotifyCanExecuteChanged();
+        BrowseProfileOutputDirectoryCommand.NotifyCanExecuteChanged();
+        BrowseFfmpegPathCommand.NotifyCanExecuteChanged();
+        BrowseMediaInfoPathCommand.NotifyCanExecuteChanged();
         RemoveSelectedInputCommand.NotifyCanExecuteChanged();
+        DownloadFfmpegCommand.NotifyCanExecuteChanged();
+        DownloadMediaInfoCommand.NotifyCanExecuteChanged();
         InspectCommand.NotifyCanExecuteChanged();
         RunWorkflowCommand.NotifyCanExecuteChanged();
     }
@@ -353,5 +633,113 @@ public partial class MainWindowViewModel : ViewModelBase
     private static string? NullIfEmpty(string? value)
     {
         return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
+    }
+
+    private void UpdateFfmpegDownloadState(ToolResolution ffmpeg)
+    {
+        if (IsDownloadingFfmpeg)
+        {
+            return;
+        }
+
+        if (ffmpeg.IsConfigured)
+        {
+            FfmpegDownloadProgress = 100;
+            FfmpegDownloadStatus = IsManagedToolPath(ffmpeg.Path)
+                ? $"Managed FFmpeg ready: {ffmpeg.Path}"
+                : $"FFmpeg already available: {ffmpeg.Path}";
+            return;
+        }
+
+        FfmpegDownloadProgress = 0;
+        FfmpegDownloadStatus = "FFmpeg not found. Download a managed build into TDMAKER_HOME/tools or configure a custom path.";
+    }
+
+    private void UpdateMediaInfoDownloadState(ToolResolution mediaInfo)
+    {
+        if (IsDownloadingMediaInfo)
+        {
+            return;
+        }
+
+        if (mediaInfo.IsConfigured)
+        {
+            MediaInfoDownloadProgress = 100;
+            MediaInfoDownloadStatus = IsManagedToolPath(mediaInfo.Path)
+                ? $"Managed MediaInfo ready: {mediaInfo.Path}"
+                : $"MediaInfo already available: {mediaInfo.Path}";
+            return;
+        }
+
+        MediaInfoDownloadProgress = 0;
+        MediaInfoDownloadStatus = "MediaInfo not found. Download a managed build into TDMAKER_HOME/tools or configure a custom path.";
+    }
+
+    private static string GetMissingToolMessage(ToolKind toolKind)
+    {
+        return toolKind switch
+        {
+            ToolKind.FFmpeg => "Install on PATH, configure an absolute path, or download a managed FFmpeg build.",
+            ToolKind.MediaInfo => "Install on PATH, configure an absolute path, or download a managed MediaInfo build.",
+            _ => "Install on PATH or configure an absolute path."
+        };
+    }
+
+    private int QueueInputs(IEnumerable<string> paths)
+    {
+        var added = 0;
+
+        foreach (var path in paths
+                     .Select(NullIfEmpty)
+                     .Where(path => path is not null)
+                     .Select(path => path!))
+        {
+            if (InputPaths.Contains(path, PathComparer))
+            {
+                continue;
+            }
+
+            InputPaths.Add(path);
+            added++;
+        }
+
+        if (SelectedInput is null)
+        {
+            SelectedInput = InputPaths.FirstOrDefault();
+        }
+
+        return added;
+    }
+
+    private void RefreshToolStatusesPreview()
+    {
+        if (_settings is null)
+        {
+            return;
+        }
+
+        RefreshToolStatuses(new ToolSettings
+        {
+            FFmpegPath = NullIfEmpty(FfmpegPath),
+            MediaInfoPath = NullIfEmpty(MediaInfoPath)
+        });
+    }
+
+    private bool IsManagedToolPath(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return false;
+        }
+
+        var managedToolsRoot = Path.GetFullPath(_platformPaths.ToolsDirectory);
+
+        if (!managedToolsRoot.EndsWith(Path.DirectorySeparatorChar))
+        {
+            managedToolsRoot += Path.DirectorySeparatorChar;
+        }
+
+        var fullPath = Path.GetFullPath(path);
+        return fullPath.StartsWith(managedToolsRoot, PathComparison);
     }
 }

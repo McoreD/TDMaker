@@ -2,6 +2,7 @@ using Avalonia;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using TDMaker.App.Services;
 using TDMaker.App.ViewModels;
 using TDMaker.Infrastructure.DependencyInjection;
 
@@ -35,6 +36,7 @@ internal static class Program
         builder.Logging.AddDebug();
         builder.Logging.AddSimpleConsole();
         builder.Services.AddTDMakerInfrastructure();
+        builder.Services.AddSingleton<IPathPickerService, AvaloniaPathPickerService>();
         builder.Services.AddSingleton<MainWindowViewModel>();
         return builder.Build();
     }

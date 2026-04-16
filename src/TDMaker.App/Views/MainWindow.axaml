@@ -97,9 +97,15 @@
                             <ScrollViewer>
                                 <StackPanel Spacing="16">
                                     <TextBlock Text="Inputs" Classes="section-title"/>
-                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                                        <TextBox Text="{Binding DraftInputPath, Mode=TwoWay}" PlaceholderText="Paste a media file or directory path"/>
-                                        <Button Grid.Column="1" Command="{Binding AddInputCommand}" Content="Add"/>
+                                    <Grid RowDefinitions="Auto,Auto" RowSpacing="10">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                            <TextBox Text="{Binding DraftInputPath, Mode=TwoWay}" PlaceholderText="Paste a media file or directory path"/>
+                                            <Button Grid.Column="1" Command="{Binding AddInputCommand}" Content="Add"/>
+                                        </Grid>
+                                        <Grid Grid.Row="1" ColumnDefinitions="*,*" ColumnSpacing="10">
+                                            <Button Command="{Binding BrowseInputFilesCommand}" Content="Browse Files"/>
+                                            <Button Grid.Column="1" Command="{Binding BrowseInputDirectoryCommand}" Content="Browse Folder"/>
+                                        </Grid>
                                     </Grid>
 
                                     <ListBox ItemsSource="{Binding InputPaths}"
@@ -110,7 +116,10 @@
                                     <TextBlock Text="Overrides" Classes="section-title"/>
                                     <TextBox Text="{Binding TitleOverride, Mode=TwoWay}" PlaceholderText="Optional title override"/>
                                     <TextBox Text="{Binding SourceOverride, Mode=TwoWay}" PlaceholderText="Optional source override"/>
-                                    <TextBox Text="{Binding ProfileOutputDirectory, Mode=TwoWay}" PlaceholderText="Optional profile output directory"/>
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                        <TextBox Text="{Binding ProfileOutputDirectory, Mode=TwoWay}" PlaceholderText="Optional profile output directory"/>
+                                        <Button Grid.Column="1" Command="{Binding BrowseProfileOutputDirectoryCommand}" Content="Browse"/>
+                                    </Grid>
 
                                     <TextBlock Text="Warnings" Classes="section-title"/>
                                     <ItemsControl ItemsSource="{Binding Warnings}">
@@ -213,8 +222,42 @@
                             <Border Grid.Column="0" Classes="panel">
                                 <StackPanel Spacing="12">
                                     <TextBlock Text="External Tools" Classes="section-title"/>
-                                    <TextBox Text="{Binding FfmpegPath, Mode=TwoWay}" PlaceholderText="FFmpeg path or leave blank to resolve from PATH"/>
-                                    <TextBox Text="{Binding MediaInfoPath, Mode=TwoWay}" PlaceholderText="MediaInfo path or leave blank to resolve from PATH"/>
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                        <TextBox Text="{Binding FfmpegPath, Mode=TwoWay}" PlaceholderText="FFmpeg path or leave blank to resolve from PATH"/>
+                                        <Button Grid.Column="1" Command="{Binding BrowseFfmpegPathCommand}" Content="Browse"/>
+                                    </Grid>
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                        <TextBox Text="{Binding MediaInfoPath, Mode=TwoWay}" PlaceholderText="MediaInfo path or leave blank to resolve from PATH"/>
+                                        <Button Grid.Column="1" Command="{Binding BrowseMediaInfoPathCommand}" Content="Browse"/>
+                                    </Grid>
+
+                                    <Border Classes="metric-card">
+                                        <StackPanel Spacing="8">
+                                            <TextBlock Text="Managed FFmpeg" Classes="value-title"/>
+                                            <TextBlock Text="{Binding FfmpegDownloadStatus}" TextWrapping="Wrap" Foreground="#B8C7DA"/>
+                                            <ProgressBar Minimum="0"
+                                                         Maximum="100"
+                                                         Value="{Binding FfmpegDownloadProgress}"
+                                                         IsVisible="{Binding IsDownloadingFfmpeg}"/>
+                                            <Button Command="{Binding DownloadFfmpegCommand}"
+                                                    Content="Download FFmpeg"
+                                                    HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Classes="metric-card">
+                                        <StackPanel Spacing="8">
+                                            <TextBlock Text="Managed MediaInfo" Classes="value-title"/>
+                                            <TextBlock Text="{Binding MediaInfoDownloadStatus}" TextWrapping="Wrap" Foreground="#B8C7DA"/>
+                                            <ProgressBar Minimum="0"
+                                                         Maximum="100"
+                                                         Value="{Binding MediaInfoDownloadProgress}"
+                                                         IsVisible="{Binding IsDownloadingMediaInfo}"/>
+                                            <Button Command="{Binding DownloadMediaInfoCommand}"
+                                                    Content="Download MediaInfo"
+                                                    HorizontalAlignment="Left"/>
+                                        </StackPanel>
+                                    </Border>
 
                                     <TextBlock Text="Profile Rendering" Classes="section-title" Margin="0,12,0,0"/>
                                     <ComboBox ItemsSource="{Binding Presets}" SelectedItem="{Binding PublishPreset}"/>

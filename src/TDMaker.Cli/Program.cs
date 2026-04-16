@@ -11,6 +11,7 @@ builder.Logging.AddSimpleConsole(options =>
     options.SingleLine = true;
     options.TimestampFormat = "HH:mm:ss ";
 });
+builder.Logging.AddFilter("System.Net.Http.HttpClient", LogLevel.Warning);
 builder.Services.AddTDMakerInfrastructure();
 builder.Services.AddSingleton<CliApplication>();
 
@@ -51,6 +52,8 @@ static async Task<int> ExecuteAsync(string[] args, CliApplication app)
     return command switch
     {
         "tools" => await app.ShowToolsAsync(),
+        "install-ffmpeg" => await app.InstallFfmpegAsync(),
+        "install-mediainfo" => await app.InstallMediaInfoAsync(),
         "inspect" => await ExecuteInspectAsync(parsed, app),
         "run" => await ExecuteRunAsync(parsed, app),
         _ => WriteUnknownCommand(command)
@@ -107,6 +110,8 @@ TDMaker CLI
 
 Usage:
   tdmaker tools
+  tdmaker install-ffmpeg
+  tdmaker install-mediainfo
   tdmaker inspect [options] <input> [<input>...]
   tdmaker run [options] <input> [<input>...]
 
